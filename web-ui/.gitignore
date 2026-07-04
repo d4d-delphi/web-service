@@ -44,5 +44,5 @@ next-env.d.ts
 data/
 
 # launch-case seed artifacts — 데이터는 supabase가 source of truth (커밋 안 함)
-/supabase/seed/launch_cases_seed.sql
+/supabase/seed/*_seed.sql
 /supabase/seed/data/
