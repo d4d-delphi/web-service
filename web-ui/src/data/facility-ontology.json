@@ -1,0 +1,892 @@
+[
+  {
+    "canonicalName": "Baegun",
+    "slug": "baegun",
+    "facilityType": "launch_site",
+    "region": "North Pyongan, North Korea",
+    "lat": 40.029678,
+    "lng": 125.227326,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "0d73a5d5-400b-5cdb-abe6-348c3e95af91",
+    "aliases": [
+      "Baegun"
+    ]
+  },
+  {
+    "canonicalName": "Chihari Missile Base",
+    "slug": "chihari-missile-base",
+    "facilityType": "launch_site",
+    "region": "Chiha-ri , Kangwon Province, (North Korea)",
+    "lat": 38.62333,
+    "lng": 126.6847,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "6de617b8-70e4-5cb0-a299-c416165a101e",
+    "aliases": [
+      "Chihari Missile Base"
+    ]
+  },
+  {
+    "canonicalName": "Chunghwa County",
+    "slug": "chunghwa-county",
+    "facilityType": "launch_site",
+    "region": "Chunghwa County, North Hwanghae",
+    "lat": 38.875,
+    "lng": 125.926,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "c1f09815-8168-5065-a034-07ab5d6df190",
+    "aliases": [
+      "Chunghwa County"
+    ]
+  },
+  {
+    "canonicalName": "Hodo Peninsula",
+    "slug": "hodo-peninsula",
+    "facilityType": "launch_site",
+    "region": "Kangwon Province, (North Korea)",
+    "lat": 39.40167,
+    "lng": 127.5369,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "3b3e7c9d-aa64-5ad1-abb3-befe371e78cd",
+    "aliases": [
+      "Hodo Peninsula"
+    ]
+  },
+  {
+    "canonicalName": "Hungnam",
+    "slug": "hungnam",
+    "facilityType": "launch_site",
+    "region": "Hamhung, South Hamgyong",
+    "lat": 39.811611,
+    "lng": 127.66375,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "c1045179-9189-55bc-9e72-718565b28994",
+    "aliases": [
+      "Hungnam"
+    ]
+  },
+  {
+    "canonicalName": "Hwangju",
+    "slug": "hwangju",
+    "facilityType": "launch_site",
+    "region": "Hwangju,  North Hwanghae province",
+    "lat": 38.686834,
+    "lng": 125.702005,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "c9ef5447-3621-5361-ac4c-62ccde9485c3",
+    "aliases": [
+      "Hwangju"
+    ]
+  },
+  {
+    "canonicalName": "Jangyon",
+    "slug": "jangyon",
+    "facilityType": "launch_site",
+    "region": "Jangyon, Jangyon County, South Hwanghae Province",
+    "lat": 38.275,
+    "lng": 125.071,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "34e0f04b-cba4-5c1f-acda-c5301e00ae7c",
+    "aliases": [
+      "Jangyon"
+    ]
+  },
+  {
+    "canonicalName": "Kaechon Air Base",
+    "slug": "kaechon-air-base",
+    "facilityType": "launch_site",
+    "region": "Kaechon, South Pyongan Province",
+    "lat": 39.752321,
+    "lng": 125.899905,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "ba3ba5bb-a4aa-5051-9b45-4a33e4979328",
+    "aliases": [
+      "Kaechon Air Base"
+    ]
+  },
+  {
+    "canonicalName": "Kaesong",
+    "slug": "kaesong",
+    "facilityType": "launch_site",
+    "region": "North Hwanghae Province",
+    "lat": 37.9382,
+    "lng": 126.5878,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "af8b0d6d-e4a6-54f1-b78f-298f90dd36ba",
+    "aliases": [
+      "Kaesong"
+    ]
+  },
+  {
+    "canonicalName": "Kittaeryong Missile Base",
+    "slug": "kittaeryong-missile-base",
+    "facilityType": "launch_site",
+    "region": "Kittae Pass, Kangwon Province, (North Korea)",
+    "lat": 38.99083,
+    "lng": 127.6236,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "4f2cd034-22a5-5bfe-b799-c9f1377cd888",
+    "aliases": [
+      "Kittaeryong Missile Base"
+    ]
+  },
+  {
+    "canonicalName": "Koksan",
+    "slug": "koksan",
+    "facilityType": "launch_site",
+    "region": "Koksan, North Hwanghae Province",
+    "lat": 38.78,
+    "lng": 126.67,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "7cca9914-2430-588d-b2ac-6f3c9bc884b6",
+    "aliases": [
+      "Koksan"
+    ]
+  },
+  {
+    "canonicalName": "Kusong Testing Ground",
+    "slug": "kusong-testing-ground",
+    "facilityType": "launch_site",
+    "region": "Kusong, North Pyongan",
+    "lat": 40.01325,
+    "lng": 125.22302,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "1f8486eb-6b3f-5568-8dc5-252b332a130d",
+    "aliases": [
+      "Kusong Testing Ground"
+    ]
+  },
+  {
+    "canonicalName": "Kwail Airbase",
+    "slug": "kwail-airbase",
+    "facilityType": "airbase",
+    "region": "Kwail, Kwail-gun, South Hwanghae",
+    "lat": 38.421522,
+    "lng": 125.024421,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "381ec8a9-8f77-5d65-9672-38492055ce17",
+    "aliases": [
+      "Kwail Airbase"
+    ]
+  },
+  {
+    "canonicalName": "Lake Taesong",
+    "slug": "lake-taesong",
+    "facilityType": "launch_site",
+    "region": "South Pyongan Province",
+    "lat": 38.907,
+    "lng": 125.44,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "d1384cce-ea0b-5fc9-b9d0-60142be99392",
+    "aliases": [
+      "Lake Taesong"
+    ]
+  },
+  {
+    "canonicalName": "Lake Yonpung",
+    "slug": "lake-yonpung",
+    "facilityType": "launch_site",
+    "region": "South Pyongan Province",
+    "lat": 39.618283,
+    "lng": 125.8035851,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "22cf8410-15d1-5842-8971-06f9ccb9b216",
+    "aliases": [
+      "Lake Yonpung"
+    ]
+  },
+  {
+    "canonicalName": "Masikryong",
+    "slug": "masikryong",
+    "facilityType": "launch_site",
+    "region": "Kangwon Province, (North Korea)",
+    "lat": 39.065962,
+    "lng": 127.250257,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "eaa729d4-855c-540b-97cf-48b53412052d",
+    "aliases": [
+      "Masikryong"
+    ]
+  },
+  {
+    "canonicalName": "Munchon",
+    "slug": "munchon",
+    "facilityType": "launch_site",
+    "region": "Munchon, Kangwong Province",
+    "lat": 39.2815,
+    "lng": 127.377,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "605a6470-a2a9-57d6-8edb-8fcd6ee714a1",
+    "aliases": [
+      "Munchon"
+    ]
+  },
+  {
+    "canonicalName": "Mupyong-ni Arms Plant",
+    "slug": "mupyong-ni-arms-plant",
+    "facilityType": "launch_site",
+    "region": "Mup'yong-ni, Chagang province",
+    "lat": 40.611208,
+    "lng": 126.425743,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "017d8e98-8f31-5b40-aa02-a0425ff18c2e",
+    "aliases": [
+      "Mupyong-ni Arms Plant"
+    ]
+  },
+  {
+    "canonicalName": "Nampo",
+    "slug": "nampo",
+    "facilityType": "launch_site",
+    "region": "South Pyongan Province",
+    "lat": 38.7523,
+    "lng": 125.3247,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "4e5c40a3-2138-54aa-8966-4295ab7cdd0e",
+    "aliases": [
+      "Nampo"
+    ]
+  },
+  {
+    "canonicalName": "North Kusong Testing Ground",
+    "slug": "north-kusong-testing-ground",
+    "facilityType": "launch_site",
+    "region": "Kusong, North Pyongan",
+    "lat": 40.0659,
+    "lng": 125.2099,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "f0ff9ac8-abf2-5457-9ff9-e96a915a50d4",
+    "aliases": [
+      "North Kusong Testing Ground"
+    ]
+  },
+  {
+    "canonicalName": "Overall",
+    "slug": "overall",
+    "facilityType": "launch_site",
+    "region": "",
+    "lat": null,
+    "lng": null,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "54c7f943-edac-55af-9e08-8de06457f687",
+    "aliases": [
+      "Overall"
+    ]
+  },
+  {
+    "canonicalName": "Panghyon",
+    "slug": "panghyon",
+    "facilityType": "launch_site",
+    "region": "Kusong, North Pyongan",
+    "lat": 39.872153,
+    "lng": 125.269192,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "3ce5ded9-dedb-5562-836c-1344b77cc766",
+    "aliases": [
+      "Panghyon"
+    ]
+  },
+  {
+    "canonicalName": "Panghyon Airbase",
+    "slug": "panghyon-airbase",
+    "facilityType": "airbase",
+    "region": "Kusong, North Pyongan",
+    "lat": 39.927472,
+    "lng": 125.207889,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "a8532af4-49ab-5e7d-8686-051ef6b2d0dd",
+    "aliases": [
+      "Panghyon Airbase"
+    ]
+  },
+  {
+    "canonicalName": "Pukchang Airfield",
+    "slug": "pukchang-airfield",
+    "facilityType": "launch_site",
+    "region": "South Pyongan Province",
+    "lat": 39.504417,
+    "lng": 125.964333,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "d11e99c7-8527-5432-8b28-fa04666e2581",
+    "aliases": [
+      "Pukchang Airfield"
+    ]
+  },
+  {
+    "canonicalName": "Pyongsong Field",
+    "slug": "pyongsong-field",
+    "facilityType": "launch_site",
+    "region": "Pyongsong, South Pyongan Province",
+    "lat": 39.282,
+    "lng": 125.869,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "5cc8c9db-942c-54b5-9add-6167a0c34920",
+    "aliases": [
+      "Pyongsong Field"
+    ]
+  },
+  {
+    "canonicalName": "Pyongyang International Airport",
+    "slug": "pyongyang-international-airport",
+    "facilityType": "airbase",
+    "region": "Pyongyang, North Korea",
+    "lat": 39.200159,
+    "lng": 125.673256,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "5c2fb12d-c18c-5fa5-8a3a-890648138edd",
+    "aliases": [
+      "Pyongyang International Airport",
+      "Sunam",
+      "순안",
+      "순안 비행장",
+      "평양 국제공항"
+    ]
+  },
+  {
+    "canonicalName": "Samsok",
+    "slug": "samsok",
+    "facilityType": "launch_site",
+    "region": "Samsok District, Pyongyang",
+    "lat": 39.1268,
+    "lng": 125.9579,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "ee727eb7-1db8-549a-93e0-4d726959956e",
+    "aliases": [
+      "Samsok"
+    ]
+  },
+  {
+    "canonicalName": "Samsok missile test site",
+    "slug": "samsok-missile-test-site",
+    "facilityType": "launch_site",
+    "region": "Samsok District, Pyongyang",
+    "lat": 39.112,
+    "lng": 125.998,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "7d8d14b3-73fb-5e89-b265-ac7324238472",
+    "aliases": [
+      "Samsok missile test site"
+    ]
+  },
+  {
+    "canonicalName": "Samsok missile test site #2",
+    "slug": "samsok-missile-test-site-2",
+    "facilityType": "launch_site",
+    "region": "Samsok District, Pyongyang",
+    "lat": 39.12655,
+    "lng": 125.96453,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "25f41c01-25ef-596f-8346-fc5ec1c40870",
+    "aliases": [
+      "Samsok missile test site #2"
+    ]
+  },
+  {
+    "canonicalName": "Samsok missile test site #3",
+    "slug": "samsok-missile-test-site-3",
+    "facilityType": "launch_site",
+    "region": "Samsok District, Pyongyang",
+    "lat": 39.105,
+    "lng": 126.006,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "ef0020ec-3a93-54c2-ada7-e9bf4f1d502a",
+    "aliases": [
+      "Samsok missile test site #3"
+    ]
+  },
+  {
+    "canonicalName": "Sangum-ri",
+    "slug": "sangum-ri",
+    "facilityType": "launch_site",
+    "region": "Anbyon County, Kangwon Province (North Korea)",
+    "lat": 39.141,
+    "lng": 127.616,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "6ef74340-880b-5ea2-b0d9-800902654cf2",
+    "aliases": [
+      "Sangum-ri"
+    ]
+  },
+  {
+    "canonicalName": "Sinpo Shipyard",
+    "slug": "sinpo-shipyard",
+    "facilityType": "naval_base",
+    "region": "South Hamgyong province",
+    "lat": 40.0368,
+    "lng": 128.1839,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "e787916c-d165-570d-97c9-0f6b509e9baf",
+    "aliases": [
+      "Sinpo",
+      "Sinpo Shipyard",
+      "고래 (Gorae, SLBM 테스트함)",
+      "신포 남조선소",
+      "신포 남조선소 잠수함 기지"
+    ]
+  },
+  {
+    "canonicalName": "Sohae Satellite Launching Station",
+    "slug": "sohae-satellite-launching-station",
+    "facilityType": "launch_site",
+    "region": "Cholsan County, North Pyongan Province",
+    "lat": 39.6596,
+    "lng": 124.7057,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "9aeb2eee-7c73-5bc3-9a80-6401ed054ed0",
+    "aliases": [
+      "Sohae Satellite Launching Station",
+      "Sohe",
+      "Tongchang-ri",
+      "동창리 남서 방면 방공지대",
+      "동창리 발사 궤적 / 필리핀·일본 항로",
+      "동창리 발사장",
+      "동창리 발사장 남측 능선 계측지",
+      "동창리 발사장 방향",
+      "동창리 발사장 일대",
+      "동창리 서해위성발사장 - 발사대",
+      "동창리 서해위성발사장 - 발사대 및 추진제 저장동",
+      "동창리 서해위성발사장 - 수평조립건물 지원구역",
+      "서해위성발사장"
+    ]
+  },
+  {
+    "canonicalName": "Sondok",
+    "slug": "sondok",
+    "facilityType": "launch_site",
+    "region": "Sondok, South Hamgyong Province",
+    "lat": 39.743,
+    "lng": 127.499,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "0e8b49da-870e-58cc-b345-c8da33ee7ab1",
+    "aliases": [
+      "Sondok"
+    ]
+  },
+  {
+    "canonicalName": "Sondok Airbase",
+    "slug": "sondok-airbase",
+    "facilityType": "airbase",
+    "region": "Sondok, South Hamgyong Province",
+    "lat": 39.7437,
+    "lng": 127.4732,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "64b9936f-ace1-56c3-a9c3-5ac8c5e1131f",
+    "aliases": [
+      "Sondok Airbase"
+    ]
+  },
+  {
+    "canonicalName": "Sukchon",
+    "slug": "sukchon",
+    "facilityType": "launch_site",
+    "region": "Sukchon, South Pyongan Province",
+    "lat": 39.42,
+    "lng": 125.63,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "bbf836b5-bf8a-5a30-a515-74c82f7128b2",
+    "aliases": [
+      "Sukchon"
+    ]
+  },
+  {
+    "canonicalName": "Sunan",
+    "slug": "sunan",
+    "facilityType": "launch_site",
+    "region": "Sunan District, Pyongyang",
+    "lat": 39.20299,
+    "lng": 125.70926,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "062e4fdc-3832-5122-be37-b47a6d05434d",
+    "aliases": [
+      "Sunan"
+    ]
+  },
+  {
+    "canonicalName": "Sunchon",
+    "slug": "sunchon",
+    "facilityType": "launch_site",
+    "region": "North Pyongan Province",
+    "lat": 39.4163,
+    "lng": 125.8907,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "d9de2e0d-1daf-5701-9242-21b1ea0dceb5",
+    "aliases": [
+      "Sunchon"
+    ]
+  },
+  {
+    "canonicalName": "Sunchon Airbase",
+    "slug": "sunchon-airbase",
+    "facilityType": "airbase",
+    "region": "South Pyongan Province",
+    "lat": 39.412594,
+    "lng": 125.89031,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "114e6163-0b40-5f80-ba10-fb256bb5749c",
+    "aliases": [
+      "Sunchon Airbase"
+    ]
+  },
+  {
+    "canonicalName": "Taechon Reservoir",
+    "slug": "taechon-reservoir",
+    "facilityType": "launch_site",
+    "region": "Taechon, North Pyongan Province",
+    "lat": 39.9857,
+    "lng": 125.5186,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "79a2598c-ea30-5e0f-9c97-a36d713e8b8d",
+    "aliases": [
+      "Taechon Reservoir"
+    ]
+  },
+  {
+    "canonicalName": "Tongchan",
+    "slug": "tongchan",
+    "facilityType": "launch_site",
+    "region": "Kangwon Province, (North Korea)",
+    "lat": 38.953797,
+    "lng": 127.891882,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "a6b790c4-276a-5ca5-b443-46ea6644d573",
+    "aliases": [
+      "Tongchan"
+    ]
+  },
+  {
+    "canonicalName": "Tonghae Satellite Launching Ground",
+    "slug": "tonghae-satellite-launching-ground",
+    "facilityType": "launch_site",
+    "region": "Hwadae County, North Hamgyong Province",
+    "lat": 40.8499966,
+    "lng": 129.666664,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "4f4fe4a9-abca-5241-a3a9-43692fd74f28",
+    "aliases": [
+      "Tonghae Satellite Launching Ground",
+      "동해 위성발사장",
+      "무단봉"
+    ]
+  },
+  {
+    "canonicalName": "Uiju",
+    "slug": "uiju",
+    "facilityType": "launch_site",
+    "region": "Uiju County, North Pyongan Province",
+    "lat": 40.025847,
+    "lng": 124.577936,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "bd126642-42d3-5c69-afe6-546de2bca8a2",
+    "aliases": [
+      "Uiju"
+    ]
+  },
+  {
+    "canonicalName": "Unknown",
+    "slug": "unknown",
+    "facilityType": "other",
+    "region": "Unknown",
+    "lat": null,
+    "lng": null,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "e8bd245d-cf6f-5484-ab9b-4953bd0231e2",
+    "aliases": [
+      "Unknown"
+    ]
+  },
+  {
+    "canonicalName": "West Sunan",
+    "slug": "west-sunan",
+    "facilityType": "launch_site",
+    "region": "Sunan District, Pyongyang",
+    "lat": 39.3942,
+    "lng": 125.6773,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "4bae52d7-51ca-5f8a-8e6f-1623ae0cd270",
+    "aliases": [
+      "West Sunan"
+    ]
+  },
+  {
+    "canonicalName": "Wonsan Kalma International Airport",
+    "slug": "wonsan-kalma-international-airport",
+    "facilityType": "airbase",
+    "region": "Kangwon Province, (North Korea)",
+    "lat": 39.1677,
+    "lng": 127.4817,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "d262433a-0e25-52fc-98f9-fbc5652d6fe0",
+    "aliases": [
+      "Wonsan Kalma International Airport"
+    ]
+  },
+  {
+    "canonicalName": "Yangdok",
+    "slug": "yangdok",
+    "facilityType": "launch_site",
+    "region": "Yangdok, South Pyongan Province",
+    "lat": 39.275721,
+    "lng": 126.804867,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "e235deb2-b258-586b-b3a6-3175db85c274",
+    "aliases": [
+      "Yangdok"
+    ]
+  },
+  {
+    "canonicalName": "Yonghung Bay",
+    "slug": "yonghung-bay",
+    "facilityType": "launch_site",
+    "region": "Kangwon Province, (North Korea)",
+    "lat": 39.26,
+    "lng": 127.58,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "e7c8b420-1dee-5d48-b7bc-798bb54f475c",
+    "aliases": [
+      "Yonghung Bay"
+    ]
+  },
+  {
+    "canonicalName": "Yonpo Airport",
+    "slug": "yonpo-airport",
+    "facilityType": "airbase",
+    "region": "Hamhung, South Hamgyong Province",
+    "lat": 39.78938,
+    "lng": 127.53993,
+    "fuelType": null,
+    "role": null,
+    "launchFacilityId": "0ac873fe-7e21-55ea-9ce2-0c5ed183eb3a",
+    "aliases": [
+      "Yonpo Airport"
+    ]
+  },
+  {
+    "canonicalName": "동창리 고체모터 시험장",
+    "slug": "sohae-solid",
+    "facilityType": "motor_test",
+    "region": "평안북도 동창리",
+    "lat": 39.63,
+    "lng": 124.72,
+    "fuelType": "solid",
+    "role": "신형 고체연료 모터 연소 시험장",
+    "launchFacilityId": null,
+    "aliases": [
+      "동창리 고체모터 시험장",
+      "동창리 모터 시험장"
+    ]
+  },
+  {
+    "canonicalName": "산음동 미사일 연구·생산단지",
+    "slug": "saneumdong",
+    "facilityType": "factory",
+    "region": "평양 산음동",
+    "lat": null,
+    "lng": null,
+    "fuelType": "common",
+    "role": "미사일 동체 대형 생산홀",
+    "launchFacilityId": null,
+    "aliases": [
+      "산음동 미사일 연구·생산단지",
+      "산음동 미사일 연구·생산단지 (평양 인근)"
+    ]
+  },
+  {
+    "canonicalName": "순천화학공장",
+    "slug": "suncheon-chem",
+    "facilityType": "chemical_plant",
+    "region": "평안남도 순천",
+    "lat": null,
+    "lng": null,
+    "fuelType": "liquid",
+    "role": "UDMH 분산 생산",
+    "launchFacilityId": null,
+    "aliases": [
+      "순천화학공장"
+    ]
+  },
+  {
+    "canonicalName": "은하화학공장 (만포)",
+    "slug": "manpo-galaxy",
+    "facilityType": "chemical_plant",
+    "region": "자강도 만포",
+    "lat": null,
+    "lng": null,
+    "fuelType": "liquid",
+    "role": "산화제·특수화학물질(액체연료 원료) 생산",
+    "launchFacilityId": null,
+    "aliases": [
+      "Manpo",
+      "만포 운하공장",
+      "은하화학공장 (만포)",
+      "은하화학공장 (자강도 만포)"
+    ]
+  },
+  {
+    "canonicalName": "잠진 기계공장/엔진시험장",
+    "slug": "chamjin",
+    "facilityType": "test_stand",
+    "region": "남포 인근",
+    "lat": 38.99,
+    "lng": 125.63,
+    "fuelType": "liquid",
+    "role": "대출력 액체엔진 지상 분출·수직 시험대",
+    "launchFacilityId": null,
+    "aliases": [
+      "Chamjin",
+      "잠진 기계공장 수직 엔진시험대",
+      "잠진 기계공장 엔진시험장 (남포 인근)",
+      "잠진 기계공장/엔진시험장",
+      "잠진 엔진시험장"
+    ]
+  },
+  {
+    "canonicalName": "청수화학공장",
+    "slug": "chongsu-chem",
+    "facilityType": "chemical_plant",
+    "region": "평안북도 청수",
+    "lat": null,
+    "lng": null,
+    "fuelType": "liquid",
+    "role": "UDMH 분산 생산",
+    "launchFacilityId": null,
+    "aliases": [
+      "청수화학공장"
+    ]
+  },
+  {
+    "canonicalName": "평성 1.18 기계공장",
+    "slug": "pyongseong-118",
+    "facilityType": "factory",
+    "region": "평안남도 평성",
+    "lat": null,
+    "lng": null,
+    "fuelType": "common",
+    "role": "대형 이동식 발사대(TEL) 차대·특수구조물 제작",
+    "launchFacilityId": null,
+    "aliases": [
+      "평성 1.18 기계공장"
+    ]
+  },
+  {
+    "canonicalName": "평양 룡성 지도부 전용역",
+    "slug": "ryongseong-station",
+    "facilityType": "vip",
+    "region": "평양 룡성",
+    "lat": null,
+    "lng": null,
+    "fuelType": "common",
+    "role": "김정은 전용열차 승강장 (발사 참관 VIP)",
+    "launchFacilityId": null,
+    "aliases": [
+      "평양 룡성 지도부 전용역"
+    ]
+  },
+  {
+    "canonicalName": "풍계리 핵실험장",
+    "slug": "punggyeri",
+    "facilityType": "nuclear_site",
+    "region": "함경북도 길주",
+    "lat": 41.29,
+    "lng": 129.07,
+    "fuelType": "common",
+    "role": "지하 핵실험 갱도 (남측/북측/서측)",
+    "launchFacilityId": null,
+    "aliases": [
+      "Punggye-ri",
+      "길주 핵실험장",
+      "풍계리 핵실험장",
+      "풍계리 핵실험장 - 남측 갱도/지휘소",
+      "풍계리 핵실험장 - 북측 갱도 근접",
+      "풍계리 핵실험장 - 북측/서측 갱도"
+    ]
+  },
+  {
+    "canonicalName": "함흥 2.8 비날론 연합기업소",
+    "slug": "hamhung-vinalon",
+    "facilityType": "chemical_plant",
+    "region": "함경남도 함흥",
+    "lat": null,
+    "lng": null,
+    "fuelType": "liquid",
+    "role": "UDMH 액체연료 배합·정밀화학원료 합성",
+    "launchFacilityId": null,
+    "aliases": [
+      "함흥 2.8 비날론 연합기업소"
+    ]
+  },
+  {
+    "canonicalName": "함흥 제11호 공장 (룡성기계)",
+    "slug": "hamhung-11",
+    "facilityType": "factory",
+    "region": "함경남도 함흥",
+    "lat": null,
+    "lng": null,
+    "fuelType": "solid",
+    "role": "고체연료 미사일(KN-23 계열) 동체 조립 라인",
+    "launchFacilityId": null,
+    "aliases": [
+      "함흥 제11호 공장 (룡성기계)"
+    ]
+  },
+  {
+    "canonicalName": "함흥 제17호 공장",
+    "slug": "hamhung-17",
+    "facilityType": "factory",
+    "region": "함경남도 함흥",
+    "lat": null,
+    "lng": null,
+    "fuelType": "solid",
+    "role": "고체연료 배합·충전·연소관 주조",
+    "launchFacilityId": null,
+    "aliases": [
+      "함흥 제17호 공장"
+    ]
+  }
+]

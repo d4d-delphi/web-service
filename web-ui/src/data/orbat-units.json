@@ -1,0 +1,895 @@
+[
+  {
+    "designation": "북창 비행장 (MiG-29 요격)",
+    "unitType": "air",
+    "branch": "air",
+    "hqLat": 39.71,
+    "hqLng": 126.32,
+    "strengthEst": "비행단급",
+    "readiness": "high",
+    "role": "MiG-29/MiG-23 평양 영공 방어 핵심",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": "제1비행사단",
+    "garrisonFacility": null,
+    "operatesMissile": null,
+    "aliases": [
+      "북창 비행장 (MiG-29 요격)"
+    ]
+  },
+  {
+    "designation": "순천 비행장 (Su-25 CAS)",
+    "unitType": "air",
+    "branch": "air",
+    "hqLat": 39.416,
+    "hqLng": 125.94,
+    "strengthEst": "비행단급",
+    "readiness": "medium",
+    "role": "Su-25 근접항공지원",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": "제1비행사단",
+    "garrisonFacility": "Sunchon Airbase",
+    "operatesMissile": null,
+    "aliases": [
+      "순천 비행장 (Su-25 CAS)"
+    ]
+  },
+  {
+    "designation": "원산(갈마) 비행장",
+    "unitType": "air",
+    "branch": "air",
+    "hqLat": 39.154,
+    "hqLng": 127.448,
+    "strengthEst": "비행단급",
+    "readiness": "medium",
+    "role": "지하활주로 기습출격 요충지",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": "제2비행사단",
+    "garrisonFacility": null,
+    "operatesMissile": null,
+    "aliases": [
+      "원산(갈마) 비행장"
+    ]
+  },
+  {
+    "designation": "제1비행사단",
+    "unitType": "air",
+    "branch": "air",
+    "hqLat": 39.692,
+    "hqLng": 125.907,
+    "strengthEst": "사단급",
+    "readiness": "medium",
+    "role": "서북 권역/평양 방어",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": "공군사령부",
+    "garrisonFacility": null,
+    "operatesMissile": null,
+    "aliases": [
+      "1st Air Division",
+      "제1비행사단"
+    ]
+  },
+  {
+    "designation": "제2비행사단",
+    "unitType": "air",
+    "branch": "air",
+    "hqLat": 39.96,
+    "hqLng": 127.7,
+    "strengthEst": "사단급",
+    "readiness": "medium",
+    "role": "동부 권역/동해안 방어",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": "공군사령부",
+    "garrisonFacility": null,
+    "operatesMissile": null,
+    "aliases": [
+      "2nd Air Division",
+      "제2비행사단"
+    ]
+  },
+  {
+    "designation": "제3비행사단",
+    "unitType": "air",
+    "branch": "air",
+    "hqLat": 38.37,
+    "hqLng": 125.76,
+    "strengthEst": "사단급",
+    "readiness": "high",
+    "role": "남부 권역/최전방 공세(수도권 타격)",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": "공군사령부",
+    "garrisonFacility": null,
+    "operatesMissile": null,
+    "aliases": [
+      "3rd Air Division",
+      "제3비행사단"
+    ]
+  },
+  {
+    "designation": "제8비행사단",
+    "unitType": "air",
+    "branch": "air",
+    "hqLat": 40.91,
+    "hqLng": 128.99,
+    "strengthEst": "사단급",
+    "readiness": "low",
+    "role": "북부 후방/교육훈련",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": "공군사령부",
+    "garrisonFacility": null,
+    "operatesMissile": null,
+    "aliases": [
+      "8th Air Division",
+      "제8비행사단"
+    ]
+  },
+  {
+    "designation": "태탄·곽산 비행장 (An-2/헬기)",
+    "unitType": "air",
+    "branch": "air",
+    "hqLat": 37.83,
+    "hqLng": 125.29,
+    "strengthEst": "비행단급",
+    "readiness": "medium",
+    "role": "An-2 침투/공격헬기 (서해 NLL)",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": "제3비행사단",
+    "garrisonFacility": null,
+    "operatesMissile": null,
+    "aliases": [
+      "태탄·곽산 비행장 (An-2/헬기)"
+    ]
+  },
+  {
+    "designation": "SA-2 방공여단 (강계)",
+    "unitType": "air_defense",
+    "branch": "air",
+    "hqLat": 40.968,
+    "hqLng": 126.584,
+    "strengthEst": "여단급",
+    "readiness": "low",
+    "role": "SA-2 (중국접경 산악, 미사일기지 대공우산)",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": "방공사령부",
+    "garrisonFacility": null,
+    "operatesMissile": null,
+    "aliases": [
+      "SA-2 방공여단 (강계)"
+    ]
+  },
+  {
+    "designation": "SA-2 방공여단 (북청)",
+    "unitType": "air_defense",
+    "branch": "air",
+    "hqLat": 39.421,
+    "hqLng": 127.62,
+    "strengthEst": "여단급",
+    "readiness": "medium",
+    "role": "SA-2 (동해안 함흥권)",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": "방공사령부",
+    "garrisonFacility": null,
+    "operatesMissile": null,
+    "aliases": [
+      "SA-2 방공여단 (북청)"
+    ]
+  },
+  {
+    "designation": "SA-2 방공여단 (세포)",
+    "unitType": "air_defense",
+    "branch": "air",
+    "hqLat": 38.735,
+    "hqLng": 127.357,
+    "strengthEst": "여단급",
+    "readiness": "medium",
+    "role": "SA-2 (중부전선 후방)",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": "방공사령부",
+    "garrisonFacility": null,
+    "operatesMissile": null,
+    "aliases": [
+      "SA-2 방공여단 (세포)"
+    ]
+  },
+  {
+    "designation": "SA-2 방공여단 (안악)",
+    "unitType": "air_defense",
+    "branch": "air",
+    "hqLat": 38.508,
+    "hqLng": 125.238,
+    "strengthEst": "여단급",
+    "readiness": "medium",
+    "role": "SA-2 (서해안 지원)",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": "방공사령부",
+    "garrisonFacility": null,
+    "operatesMissile": null,
+    "aliases": [
+      "SA-2 방공여단 (안악)"
+    ]
+  },
+  {
+    "designation": "SA-2 방공여단 (영변)",
+    "unitType": "air_defense",
+    "branch": "air",
+    "hqLat": 39.8,
+    "hqLng": 125.75,
+    "strengthEst": "여단급",
+    "readiness": "medium",
+    "role": "SA-2 (핵시설 방어)",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": "방공사령부",
+    "garrisonFacility": null,
+    "operatesMissile": null,
+    "aliases": [
+      "SA-2 방공여단 (영변)"
+    ]
+  },
+  {
+    "designation": "SA-2 방공여단 (평산·사리원)",
+    "unitType": "air_defense",
+    "branch": "air",
+    "hqLat": 38.507,
+    "hqLng": 125.755,
+    "strengthEst": "여단급",
+    "readiness": "medium",
+    "role": "SA-2 (서부전선 배후, 수도권 접근 차단)",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": "방공사령부",
+    "garrisonFacility": null,
+    "operatesMissile": null,
+    "aliases": [
+      "SA-2 방공여단 (평산·사리원)"
+    ]
+  },
+  {
+    "designation": "SA-2 방공여단 (평양·강서)",
+    "unitType": "air_defense",
+    "branch": "air",
+    "hqLat": 38.79,
+    "hqLng": 125.58,
+    "strengthEst": "여단급",
+    "readiness": "medium",
+    "role": "SA-2 중거리 방공(~50km, 수도권)",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": "방공사령부",
+    "garrisonFacility": null,
+    "operatesMissile": null,
+    "aliases": [
+      "SA-2 방공여단 (평양·강서)",
+      "SA-2/Guideline"
+    ]
+  },
+  {
+    "designation": "SA-5 방공대대 (영변)",
+    "unitType": "air_defense",
+    "branch": "air",
+    "hqLat": 39.8,
+    "hqLng": 125.75,
+    "strengthEst": "대대급",
+    "readiness": "medium",
+    "role": "SA-5 (핵시설 고고도 방어)",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": "방공사령부",
+    "garrisonFacility": null,
+    "operatesMissile": null,
+    "aliases": [
+      "SA-5 방공대대 (영변)"
+    ]
+  },
+  {
+    "designation": "SA-5 방공대대 (옹진 옹고덕)",
+    "unitType": "air_defense",
+    "branch": "air",
+    "hqLat": 37.877,
+    "hqLng": 125.423,
+    "strengthEst": "대대급",
+    "readiness": "high",
+    "role": "SA-5 장거리 방공(~250-300km, 서울·평택 사정권)",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": "방공사령부",
+    "garrisonFacility": null,
+    "operatesMissile": null,
+    "aliases": [
+      "SA-5 방공대대 (옹진 옹고덕)",
+      "SA-5/Gammon"
+    ]
+  },
+  {
+    "designation": "SA-5 방공대대 (원산 문천)",
+    "unitType": "air_defense",
+    "branch": "air",
+    "hqLat": 38.96,
+    "hqLng": 127.301,
+    "strengthEst": "대대급",
+    "readiness": "high",
+    "role": "SA-5 (동해안/동부전선, 지하격납 이동식)",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": "방공사령부",
+    "garrisonFacility": null,
+    "operatesMissile": null,
+    "aliases": [
+      "SA-5 방공대대 (원산 문천)"
+    ]
+  },
+  {
+    "designation": "SA-5 방공대대 (평양 외곽)",
+    "unitType": "air_defense",
+    "branch": "air",
+    "hqLat": 39.039,
+    "hqLng": 125.763,
+    "strengthEst": "대대급",
+    "readiness": "medium",
+    "role": "SA-5 (수도 고고도 요격)",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": "방공사령부",
+    "garrisonFacility": null,
+    "operatesMissile": null,
+    "aliases": [
+      "SA-5 방공대대 (평양 외곽)"
+    ]
+  },
+  {
+    "designation": "공군사령부",
+    "unitType": "command",
+    "branch": "air",
+    "hqLat": 39.039,
+    "hqLng": 125.763,
+    "strengthEst": "사령부급",
+    "readiness": "medium",
+    "role": "공군 작전 지휘(중화군)",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": null,
+    "garrisonFacility": null,
+    "operatesMissile": null,
+    "aliases": [
+      "Air Force Command",
+      "공군사령부"
+    ]
+  },
+  {
+    "designation": "방공사령부",
+    "unitType": "command",
+    "branch": "air",
+    "hqLat": 39.039,
+    "hqLng": 125.763,
+    "strengthEst": "사령부급",
+    "readiness": "medium",
+    "role": "방공작전 지휘(SAM/요격)",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": null,
+    "garrisonFacility": null,
+    "operatesMissile": null,
+    "aliases": [
+      "Air Defense Command",
+      "방공사령부"
+    ]
+  },
+  {
+    "designation": "방사포 여단 (중부전선)",
+    "unitType": "artillery",
+    "branch": "army",
+    "hqLat": 38.735,
+    "hqLng": 127.357,
+    "strengthEst": "여단급",
+    "readiness": "high",
+    "role": "대구경 방사포(300mm)",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": "제5군단",
+    "garrisonFacility": null,
+    "operatesMissile": null,
+    "aliases": [
+      "MLRS brigade",
+      "방사포 여단 (중부전선)"
+    ]
+  },
+  {
+    "designation": "장사정포 여단 (서부전선)",
+    "unitType": "artillery",
+    "branch": "army",
+    "hqLat": 38.36,
+    "hqLng": 126.32,
+    "strengthEst": "여단급",
+    "readiness": "high",
+    "role": "장사정포(서울 사정권)",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": "제2군단",
+    "garrisonFacility": null,
+    "operatesMissile": null,
+    "aliases": [
+      "Long-range artillery brigade",
+      "장사정포 여단 (서부전선)"
+    ]
+  },
+  {
+    "designation": "평양방어사령부",
+    "unitType": "command",
+    "branch": "army",
+    "hqLat": 39.039,
+    "hqLng": 125.763,
+    "strengthEst": "사령부급",
+    "readiness": "high",
+    "role": "수도 방어(91훈련소 계보)",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": null,
+    "garrisonFacility": null,
+    "operatesMissile": null,
+    "aliases": [
+      "Pyongyang Defense Command",
+      "평양방어사령부"
+    ]
+  },
+  {
+    "designation": "제108기계화군단",
+    "unitType": "corps",
+    "branch": "army",
+    "hqLat": 39.037,
+    "hqLng": 127.07,
+    "strengthEst": "군단급",
+    "readiness": "medium",
+    "role": "기계화 기동(동해안 축선 후방)",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": null,
+    "garrisonFacility": null,
+    "operatesMissile": null,
+    "aliases": [
+      "108th Mech Corps",
+      "제108기계화군단"
+    ]
+  },
+  {
+    "designation": "제12군단",
+    "unitType": "corps",
+    "branch": "army",
+    "hqLat": 41.251,
+    "hqLng": 128.179,
+    "strengthEst": "군단급",
+    "readiness": "low",
+    "role": "한·중 국경 산악 방어",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": null,
+    "garrisonFacility": null,
+    "operatesMissile": null,
+    "aliases": [
+      "XII Corps",
+      "제12군단"
+    ]
+  },
+  {
+    "designation": "제1군단",
+    "unitType": "corps",
+    "branch": "army",
+    "hqLat": 38.722,
+    "hqLng": 127.635,
+    "strengthEst": "군단급",
+    "readiness": "high",
+    "role": "동부전선(동해안/태백 산악)",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": null,
+    "garrisonFacility": null,
+    "operatesMissile": null,
+    "aliases": [
+      "I Corps",
+      "제1군단"
+    ]
+  },
+  {
+    "designation": "제2군단",
+    "unitType": "corps",
+    "branch": "army",
+    "hqLat": 38.374,
+    "hqLng": 126.394,
+    "strengthEst": "군단급",
+    "readiness": "high",
+    "role": "서남부 평야/서부전선 주공(수도권 겨냥)",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": null,
+    "garrisonFacility": null,
+    "operatesMissile": null,
+    "aliases": [
+      "II Corps",
+      "제2군단"
+    ]
+  },
+  {
+    "designation": "제3군단",
+    "unitType": "corps",
+    "branch": "army",
+    "hqLat": 38.735,
+    "hqLng": 125.404,
+    "strengthEst": "군단급",
+    "readiness": "medium",
+    "role": "평양 서남부 관문/해안 방어",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": null,
+    "garrisonFacility": null,
+    "operatesMissile": null,
+    "aliases": [
+      "III Corps",
+      "제3군단"
+    ]
+  },
+  {
+    "designation": "제425기계화군단",
+    "unitType": "corps",
+    "branch": "army",
+    "hqLat": 39.821,
+    "hqLng": 124.802,
+    "strengthEst": "군단급",
+    "readiness": "medium",
+    "role": "기계화 기동(평양 북방/서해안 종심)",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": null,
+    "garrisonFacility": null,
+    "operatesMissile": null,
+    "aliases": [
+      "425 대연합부대",
+      "425th Mech Corps",
+      "제425기계화군단"
+    ]
+  },
+  {
+    "designation": "제4군단",
+    "unitType": "corps",
+    "branch": "army",
+    "hqLat": 37.796,
+    "hqLng": 126.324,
+    "strengthEst": "군단급",
+    "readiness": "high",
+    "role": "서부전선/서해안(서해5도·연평부대 대치)",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": null,
+    "garrisonFacility": null,
+    "operatesMissile": null,
+    "aliases": [
+      "IV Corps",
+      "제4군단"
+    ]
+  },
+  {
+    "designation": "제5군단",
+    "unitType": "corps",
+    "branch": "army",
+    "hqLat": 38.735,
+    "hqLng": 127.357,
+    "strengthEst": "군단급",
+    "readiness": "high",
+    "role": "중부전선(철원·화천·평강)",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": null,
+    "garrisonFacility": null,
+    "operatesMissile": null,
+    "aliases": [
+      "V Corps",
+      "제5군단"
+    ]
+  },
+  {
+    "designation": "제7군단",
+    "unitType": "corps",
+    "branch": "army",
+    "hqLat": 39.918,
+    "hqLng": 127.537,
+    "strengthEst": "군단급",
+    "readiness": "medium",
+    "role": "동해안 종심 방어(청진·함흥 축)",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": null,
+    "garrisonFacility": null,
+    "operatesMissile": null,
+    "aliases": [
+      "VII Corps",
+      "제7군단"
+    ]
+  },
+  {
+    "designation": "제806기계화군단",
+    "unitType": "corps",
+    "branch": "army",
+    "hqLat": 39.072,
+    "hqLng": 127.305,
+    "strengthEst": "군단급",
+    "readiness": "medium",
+    "role": "기계화 기동(동부/중부 후방)",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": null,
+    "garrisonFacility": null,
+    "operatesMissile": null,
+    "aliases": [
+      "806th Mech Corps",
+      "제806기계화군단"
+    ]
+  },
+  {
+    "designation": "제815기계화군단",
+    "unitType": "corps",
+    "branch": "army",
+    "hqLat": 38.507,
+    "hqLng": 125.755,
+    "strengthEst": "군단급",
+    "readiness": "high",
+    "role": "기계화 기동(서부 후방)",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": null,
+    "garrisonFacility": null,
+    "operatesMissile": null,
+    "aliases": [
+      "815th Mech Corps",
+      "제815기계화군단"
+    ]
+  },
+  {
+    "designation": "제820기갑군단",
+    "unitType": "corps",
+    "branch": "army",
+    "hqLat": 38.51,
+    "hqLng": 126.81,
+    "strengthEst": "군단급",
+    "readiness": "high",
+    "role": "기갑 돌파/종심 타격(서부전선 배후, 최정예)",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": null,
+    "garrisonFacility": null,
+    "operatesMissile": null,
+    "aliases": [
+      "820th Armored Corps",
+      "제820기갑군단"
+    ]
+  },
+  {
+    "designation": "제8군단",
+    "unitType": "corps",
+    "branch": "army",
+    "hqLat": 39.856,
+    "hqLng": 124.687,
+    "strengthEst": "군단급",
+    "readiness": "low",
+    "role": "평양 북방 방어/중국 접경",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": null,
+    "garrisonFacility": null,
+    "operatesMissile": null,
+    "aliases": [
+      "VIII Corps",
+      "제8군단"
+    ]
+  },
+  {
+    "designation": "제9군단",
+    "unitType": "corps",
+    "branch": "army",
+    "hqLat": 41.783,
+    "hqLng": 129.683,
+    "strengthEst": "군단급",
+    "readiness": "low",
+    "role": "최북단 후방(러·중 접경)",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": null,
+    "garrisonFacility": null,
+    "operatesMissile": null,
+    "aliases": [
+      "IX Corps",
+      "제9군단"
+    ]
+  },
+  {
+    "designation": "해군사령부",
+    "unitType": "command",
+    "branch": "naval",
+    "hqLat": 39.039,
+    "hqLng": 125.763,
+    "strengthEst": "사령부급",
+    "readiness": "medium",
+    "role": "해군 작전 지휘",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": null,
+    "garrisonFacility": null,
+    "operatesMissile": null,
+    "aliases": [
+      "Naval Command",
+      "해군사령부"
+    ]
+  },
+  {
+    "designation": "동해함대",
+    "unitType": "naval",
+    "branch": "naval",
+    "hqLat": 39.154,
+    "hqLng": 127.448,
+    "strengthEst": "함대급",
+    "readiness": "medium",
+    "role": "동해 작전(정찰/잠수함)",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": "해군사령부",
+    "garrisonFacility": null,
+    "operatesMissile": null,
+    "aliases": [
+      "East Sea Fleet",
+      "동해함대"
+    ]
+  },
+  {
+    "designation": "서해함대",
+    "unitType": "naval",
+    "branch": "naval",
+    "hqLat": 38.735,
+    "hqLng": 125.404,
+    "strengthEst": "함대급",
+    "readiness": "medium",
+    "role": "서해 작전(연평도축)",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": "해군사령부",
+    "garrisonFacility": null,
+    "operatesMissile": null,
+    "aliases": [
+      "West Sea Fleet",
+      "서해함대"
+    ]
+  },
+  {
+    "designation": "잠수함사령부",
+    "unitType": "naval",
+    "branch": "naval",
+    "hqLat": 40.074,
+    "hqLng": 128.179,
+    "strengthEst": "사령부급",
+    "readiness": "medium",
+    "role": "SLBM 잠수함 운용",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": "해군사령부",
+    "garrisonFacility": "Sinpo Shipyard",
+    "operatesMissile": "pukguksong-1",
+    "aliases": [
+      "Submarine Command",
+      "고래(Gorae)基地",
+      "잠수함사령부"
+    ]
+  },
+  {
+    "designation": "특수작전군 사령부",
+    "unitType": "command",
+    "branch": "sf",
+    "hqLat": 39.039,
+    "hqLng": 125.763,
+    "strengthEst": "사령부급",
+    "readiness": "high",
+    "role": "특수작전 총지휘(폭풍군단)",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": null,
+    "garrisonFacility": null,
+    "operatesMissile": null,
+    "aliases": [
+      "11th Corps",
+      "Storm Corps",
+      "특수작전군 사령부",
+      "폭풍군단"
+    ]
+  },
+  {
+    "designation": "경호총국",
+    "unitType": "sf",
+    "branch": "sf",
+    "hqLat": 39.039,
+    "hqLng": 125.763,
+    "strengthEst": "총국급",
+    "readiness": "high",
+    "role": "수령부 경호/근위",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": null,
+    "garrisonFacility": null,
+    "operatesMissile": null,
+    "aliases": [
+      "Guard Command",
+      "경호총국"
+    ]
+  },
+  {
+    "designation": "정찰총국",
+    "unitType": "sf",
+    "branch": "sf",
+    "hqLat": 39.039,
+    "hqLng": 125.763,
+    "strengthEst": "총국급",
+    "readiness": "high",
+    "role": "대남 특수정찰/공작",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": "특수작전군 사령부",
+    "garrisonFacility": null,
+    "operatesMissile": null,
+    "aliases": [
+      "RGB",
+      "Reconnaissance General Bureau",
+      "정찰총국"
+    ]
+  },
+  {
+    "designation": "전략군 미사일총국",
+    "unitType": "command",
+    "branch": "strategic",
+    "hqLat": 39.039,
+    "hqLng": 125.763,
+    "strengthEst": "사령부급",
+    "readiness": "high",
+    "role": "전략 미사일 작전 지휘",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": null,
+    "garrisonFacility": null,
+    "operatesMissile": null,
+    "aliases": [
+      "Strategic Force",
+      "미사일총국",
+      "전략군 미사일총국"
+    ]
+  },
+  {
+    "designation": "전략군 미사일여단 (기타룡)",
+    "unitType": "missile",
+    "branch": "strategic",
+    "hqLat": 38.15,
+    "hqLng": 127.3,
+    "strengthEst": "여단급",
+    "readiness": "high",
+    "role": "고체 SRBM(KN-23계열) 운용",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": "전략군 미사일총국",
+    "garrisonFacility": "Kittaeryong Missile Base",
+    "operatesMissile": "hwasong-11a",
+    "aliases": [
+      "Kittaeryong missile brigade",
+      "전략군 미사일여단 (기타룡)"
+    ]
+  },
+  {
+    "designation": "전략군 미사일여단 (동창리)",
+    "unitType": "missile",
+    "branch": "strategic",
+    "hqLat": 39.66,
+    "hqLng": 124.71,
+    "strengthEst": "여단급",
+    "readiness": "high",
+    "role": "SLV/액체 ICBM 발사",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": "전략군 미사일총국",
+    "garrisonFacility": "Sohae Satellite Launching Station",
+    "operatesMissile": "unha-3",
+    "aliases": [
+      "Sohae missile brigade",
+      "전략군 미사일여단 (동창리)"
+    ]
+  },
+  {
+    "designation": "전략군 미사일여단 (동해)",
+    "unitType": "missile",
+    "branch": "strategic",
+    "hqLat": 40.85,
+    "hqLng": 129.67,
+    "strengthEst": "여단급",
+    "readiness": "medium",
+    "role": "액체 ICBM/SLV 발사",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": "전략군 미사일총국",
+    "garrisonFacility": "Tonghae Satellite Launching Ground",
+    "operatesMissile": "hwasong-15",
+    "aliases": [
+      "Tonghae missile brigade",
+      "전략군 미사일여단 (동해)"
+    ]
+  },
+  {
+    "designation": "전략군 미사일여단 (순안)",
+    "unitType": "missile",
+    "branch": "strategic",
+    "hqLat": 39.039,
+    "hqLng": 125.763,
+    "strengthEst": "여단급",
+    "readiness": "high",
+    "role": "액체/고체 ICBM 운용",
+    "sourceRef": "OSINT: GlobalSecurity/namu/국방백서",
+    "parentDesignation": "전략군 미사일총국",
+    "garrisonFacility": "Pyongyang International Airport",
+    "operatesMissile": "hwasong-17",
+    "aliases": [
+      "Sunam ICBM brigade",
+      "전략군 미사일여단 (순안)"
+    ]
+  }
+]

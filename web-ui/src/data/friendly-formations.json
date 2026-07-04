@@ -1,0 +1,373 @@
+[
+  {
+    "designation": "LAMD(한국형 아이언돔)",
+    "formationType": "air_defense_cmd",
+    "branch": "air",
+    "side": "rok",
+    "hqLat": 37.566,
+    "hqLng": 126.978,
+    "role": "수도권 장사정포 요격 (개발/배치)",
+    "operates": "LAMD",
+    "readiness": "medium",
+    "baseRegion": "서울",
+    "parentDesignation": "미사일방어사령부",
+    "aliases": [
+      "LAMD(한국형 아이언돔)"
+    ]
+  },
+  {
+    "designation": "미사일방어사령부",
+    "formationType": "air_defense_cmd",
+    "branch": "air",
+    "side": "rok",
+    "hqLat": 35.871,
+    "hqLng": 128.601,
+    "role": "KAMD 다층 요격 (PAC/천궁/L-SAM)",
+    "operates": "PAC-2/3, 천궁-II(M-SAM), L-SAM",
+    "readiness": "high",
+    "baseRegion": "대구",
+    "parentDesignation": null,
+    "aliases": [
+      "공군미사일방어사령부",
+      "공군방공유도탄사령부",
+      "미사일방어사령부"
+    ]
+  },
+  {
+    "designation": "제10전투비행단",
+    "formationType": "fighter_wing",
+    "branch": "air",
+    "side": "rok",
+    "hqLat": 37.263,
+    "hqLng": 127.028,
+    "role": "수도권 영공 방위",
+    "operates": "F-5E/F, F-4E",
+    "readiness": "medium",
+    "baseRegion": "수원",
+    "parentDesignation": null,
+    "aliases": [
+      "제10전투비행단"
+    ]
+  },
+  {
+    "designation": "제11전투비행단",
+    "formationType": "fighter_wing",
+    "branch": "air",
+    "side": "rok",
+    "hqLat": 35.871,
+    "hqLng": 128.601,
+    "role": "핵심 종심 타격",
+    "operates": "F-15K",
+    "readiness": "high",
+    "baseRegion": "대구",
+    "parentDesignation": null,
+    "aliases": [
+      "제11전투비행단"
+    ]
+  },
+  {
+    "designation": "제16전투비행단",
+    "formationType": "fighter_wing",
+    "branch": "air",
+    "side": "rok",
+    "hqLat": 36.659,
+    "hqLng": 128.459,
+    "role": "국산 전술기/조종사 양성",
+    "operates": "FA-50, TA-50",
+    "readiness": "medium",
+    "baseRegion": "예천",
+    "parentDesignation": null,
+    "aliases": [
+      "제16전투비행단"
+    ]
+  },
+  {
+    "designation": "제17전투비행단",
+    "formationType": "fighter_wing",
+    "branch": "air",
+    "side": "rok",
+    "hqLat": 36.642,
+    "hqLng": 127.49,
+    "role": "스텔스 킬체인 핵심",
+    "operates": "F-35A",
+    "readiness": "high",
+    "baseRegion": "청주",
+    "parentDesignation": null,
+    "aliases": [
+      "제17전투비행단"
+    ]
+  },
+  {
+    "designation": "제18전투비행단",
+    "formationType": "fighter_wing",
+    "branch": "air",
+    "side": "rok",
+    "hqLat": 37.752,
+    "hqLng": 128.876,
+    "role": "동해안/전방 영공 방위",
+    "operates": "F-5E/F",
+    "readiness": "medium",
+    "baseRegion": "강릉",
+    "parentDesignation": null,
+    "aliases": [
+      "제18전투비행단"
+    ]
+  },
+  {
+    "designation": "제19전투비행단",
+    "formationType": "fighter_wing",
+    "branch": "air",
+    "side": "rok",
+    "hqLat": 36.991,
+    "hqLng": 127.926,
+    "role": "중부권 타격/방어",
+    "operates": "KF-16",
+    "readiness": "high",
+    "baseRegion": "충주",
+    "parentDesignation": null,
+    "aliases": [
+      "제19전투비행단"
+    ]
+  },
+  {
+    "designation": "제1전투비행단",
+    "formationType": "fighter_wing",
+    "branch": "air",
+    "side": "rok",
+    "hqLat": 35.16,
+    "hqLng": 126.852,
+    "role": "고등비행교육/호남 영공",
+    "operates": "F-5E/F, T-50",
+    "readiness": "medium",
+    "baseRegion": "광주",
+    "parentDesignation": null,
+    "aliases": [
+      "제1전투비행단"
+    ]
+  },
+  {
+    "designation": "제20전투비행단",
+    "formationType": "fighter_wing",
+    "branch": "air",
+    "side": "rok",
+    "hqLat": 36.785,
+    "hqLng": 126.451,
+    "role": "서해안 방어/대북 억제",
+    "operates": "KF-16, F-16",
+    "readiness": "high",
+    "baseRegion": "서산",
+    "parentDesignation": null,
+    "aliases": [
+      "제20전투비행단"
+    ]
+  },
+  {
+    "designation": "제8전투비행단",
+    "formationType": "fighter_wing",
+    "branch": "air",
+    "side": "rok",
+    "hqLat": 37.491,
+    "hqLng": 127.905,
+    "role": "북방 전술조치선 대응",
+    "operates": "FA-50, KA-1",
+    "readiness": "high",
+    "baseRegion": "횡성",
+    "parentDesignation": null,
+    "aliases": [
+      "제8전투비행단"
+    ]
+  },
+  {
+    "designation": "제39정찰비행단",
+    "formationType": "recon_wing",
+    "branch": "air",
+    "side": "rok",
+    "hqLat": 36.642,
+    "hqLng": 127.49,
+    "role": "대북 SIGINT/IMINT 종심 감시 (한국형 3축 지원)",
+    "operates": "RQ-4K 글로벌호크, RC-800 백두/금강, RF-16, MUAV",
+    "readiness": "high",
+    "baseRegion": "청주",
+    "parentDesignation": null,
+    "aliases": [
+      "제39정찰비행단"
+    ]
+  },
+  {
+    "designation": "사드(THAAD) 기지",
+    "formationType": "sam_base",
+    "branch": "air",
+    "side": "combined",
+    "hqLat": 35.911,
+    "hqLng": 128.282,
+    "role": "한미 연합 고고도 요격 (사드)",
+    "operates": "THAAD",
+    "readiness": "high",
+    "baseRegion": "성주",
+    "parentDesignation": "미사일방어사령부",
+    "aliases": [
+      "사드(THAAD) 기지"
+    ]
+  },
+  {
+    "designation": "RC-12X 가드레일 기지 (주한미군)",
+    "formationType": "sigint",
+    "branch": "air",
+    "side": "usfk",
+    "hqLat": 36.992,
+    "hqLng": 127.112,
+    "role": "미 육군 SIGINT 정찰기 (MDL 전방 비행)",
+    "operates": "RC-12X Guardrail",
+    "readiness": "high",
+    "baseRegion": "평택",
+    "parentDesignation": null,
+    "aliases": [
+      "RC-12X 가드레일 기지 (주한미군)"
+    ]
+  },
+  {
+    "designation": "제1군단 (광개토)",
+    "formationType": "army_corps",
+    "branch": "army",
+    "side": "rok",
+    "hqLat": 37.658,
+    "hqLng": 126.836,
+    "role": "서부전선(수도권 북방) — 대북 제2군단 대치",
+    "operates": "지상 전력",
+    "readiness": "high",
+    "baseRegion": "고양",
+    "parentDesignation": null,
+    "aliases": [
+      "제1군단 (광개토)"
+    ]
+  },
+  {
+    "designation": "제3군단 (산악)",
+    "formationType": "army_corps",
+    "branch": "army",
+    "side": "rok",
+    "hqLat": 38.066,
+    "hqLng": 128.166,
+    "role": "동부전선(태백 산악/동해안) — 대북 제1군단 대치",
+    "operates": "지상 전력",
+    "readiness": "high",
+    "baseRegion": "인제",
+    "parentDesignation": null,
+    "aliases": [
+      "제3군단 (산악)"
+    ]
+  },
+  {
+    "designation": "제5군단 (승진)",
+    "formationType": "army_corps",
+    "branch": "army",
+    "side": "rok",
+    "hqLat": 37.894,
+    "hqLng": 127.2,
+    "role": "중부전선(철원평야) — 대북 제5군단 대치",
+    "operates": "지상 화력",
+    "readiness": "high",
+    "baseRegion": "포천",
+    "parentDesignation": null,
+    "aliases": [
+      "제5군단 (승진)"
+    ]
+  },
+  {
+    "designation": "미사일전략사령부",
+    "formationType": "missile_cmd",
+    "branch": "army",
+    "side": "rok",
+    "hqLat": 37.342,
+    "hqLng": 127.92,
+    "role": "한국형 3축 킬체인/KMPR 원점 타격 (현무)",
+    "operates": "현무-2/3/4/5",
+    "readiness": "high",
+    "baseRegion": "원주",
+    "parentDesignation": null,
+    "aliases": [
+      "미사일전략사령부",
+      "육군미사일사령부"
+    ]
+  },
+  {
+    "designation": "제7기동군단",
+    "formationType": "mobile_corps",
+    "branch": "army",
+    "side": "rok",
+    "hqLat": 37.738,
+    "hqLng": 127.047,
+    "role": "육군 유일 기동군단 — 종심 기동 타격",
+    "operates": "기갑/기계화",
+    "readiness": "high",
+    "baseRegion": "의정부",
+    "parentDesignation": null,
+    "aliases": [
+      "제7기동군단"
+    ]
+  },
+  {
+    "designation": "지상 SIGINT 기지 (동부 전방)",
+    "formationType": "sigint",
+    "branch": "army",
+    "side": "rok",
+    "hqLat": 38.207,
+    "hqLng": 128.591,
+    "role": "북한 1군단/동해 해군 무선 수집",
+    "operates": "SIGINT (고정식)",
+    "readiness": "high",
+    "baseRegion": "속초",
+    "parentDesignation": null,
+    "aliases": [
+      "지상 SIGINT 기지 (동부 전방)"
+    ]
+  },
+  {
+    "designation": "지상 SIGINT 기지 (수도권 전방)",
+    "formationType": "sigint",
+    "branch": "army",
+    "side": "rok",
+    "hqLat": 37.761,
+    "hqLng": 126.78,
+    "role": "777사령부 고정식 대북 감청 (평양-원산선)",
+    "operates": "SIGINT (고정식)",
+    "readiness": "high",
+    "baseRegion": "파주",
+    "parentDesignation": null,
+    "aliases": [
+      "지상 SIGINT 기지 (수도권 전방)"
+    ]
+  },
+  {
+    "designation": "잠수함사령부",
+    "formationType": "naval",
+    "branch": "naval",
+    "side": "rok",
+    "hqLat": 35.149,
+    "hqLng": 128.711,
+    "role": "수중 전력 (손원일급)",
+    "operates": "손원일급 잠수함",
+    "readiness": "medium",
+    "baseRegion": "진해",
+    "parentDesignation": null,
+    "aliases": [
+      "잠수함사령부"
+    ]
+  },
+  {
+    "designation": "해군작전사령부 (이지스 전력)",
+    "formationType": "naval",
+    "branch": "naval",
+    "side": "rok",
+    "hqLat": 35.103,
+    "hqLng": 129.04,
+    "role": "탄도미사일 텔레메트리 추적/해상 KAMD",
+    "operates": "세종대왕급/정조대왕급 이지스함",
+    "readiness": "high",
+    "baseRegion": "부산",
+    "parentDesignation": null,
+    "aliases": [
+      "해군작전사령부 (이지스 전력)"
+    ]
+  }
+]

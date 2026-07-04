@@ -1,0 +1,574 @@
+[
+  {
+    "canonicalName": "Chollima-1",
+    "slug": "chollima-1",
+    "weaponClass": "SLV",
+    "family": "Chollima",
+    "fuelType": "liquid",
+    "kn": null,
+    "rangeKm": null,
+    "aliases": [
+      "Chollima-1",
+      "SLV",
+      "chollima-1",
+      "천리마-1"
+    ]
+  },
+  {
+    "canonicalName": "ER Scud",
+    "slug": "er-scud",
+    "weaponClass": "MRBM",
+    "family": "Scud",
+    "fuelType": "liquid",
+    "kn": null,
+    "rangeKm": "1000.00",
+    "aliases": [
+      "ER Scud",
+      "MRBM",
+      "er-scud",
+      "스커드 Scud"
+    ]
+  },
+  {
+    "canonicalName": "Hwasong-11-Da-4.5",
+    "slug": "hwasong-11-da-45",
+    "weaponClass": "SRBM",
+    "family": "Hwasong",
+    "fuelType": "solid",
+    "kn": null,
+    "rangeKm": "600.00",
+    "aliases": [
+      "Hwasong-11-Da-4.5",
+      "SRBM",
+      "hwasong-11-da-45",
+      "화성-11-Da-4.5"
+    ]
+  },
+  {
+    "canonicalName": "Hwasong-11A",
+    "slug": "hwasong-11a",
+    "weaponClass": "SRBM",
+    "family": "Hwasong",
+    "fuelType": "solid",
+    "kn": "KN-23",
+    "rangeKm": "690.00",
+    "aliases": [
+      "Hwasong-11A",
+      "Hwasong-11A (KN-23)",
+      "KN-23",
+      "Kim's Iskander",
+      "SRBM",
+      "hwasong-11a",
+      "북한판 이스칸데르",
+      "화성-11A"
+    ]
+  },
+  {
+    "canonicalName": "Hwasong-11B",
+    "slug": "hwasong-11b",
+    "weaponClass": "SRBM",
+    "family": "Hwasong",
+    "fuelType": "solid",
+    "kn": "KN-24",
+    "rangeKm": "410.00",
+    "aliases": [
+      "Hwasong-11B",
+      "Hwasong-11B (KN-24)",
+      "KN-24",
+      "SRBM",
+      "hwasong-11b",
+      "북한판 ATACMS",
+      "화성-11B"
+    ]
+  },
+  {
+    "canonicalName": "Hwasong-11C",
+    "slug": "hwasong-11c",
+    "weaponClass": "SRBM",
+    "family": "Hwasong",
+    "fuelType": "solid",
+    "kn": "KN-30",
+    "rangeKm": null,
+    "aliases": [
+      "Hwasong-11C",
+      "Hwasong-11C (KN-30)",
+      "KN-30",
+      "SRBM",
+      "hwasong-11c",
+      "화성-11C"
+    ]
+  },
+  {
+    "canonicalName": "Hwasong-11D",
+    "slug": "hwasong-11d",
+    "weaponClass": "SRBM",
+    "family": "Hwasong",
+    "fuelType": "solid",
+    "kn": "KN-35",
+    "rangeKm": null,
+    "aliases": [
+      "Hwasong-11D",
+      "Hwasong-11D (KN-35)",
+      "KN-35",
+      "SRBM",
+      "hwasong-11d",
+      "화성-11D"
+    ]
+  },
+  {
+    "canonicalName": "Hwasong-11E",
+    "slug": "hwasong-11e",
+    "weaponClass": "MRBM",
+    "family": "Hwasong",
+    "fuelType": "liquid",
+    "kn": null,
+    "rangeKm": null,
+    "aliases": [
+      "Hwasong-11E",
+      "MRBM",
+      "hwasong-11e",
+      "화성-11E"
+    ]
+  },
+  {
+    "canonicalName": "Hwasong-11S",
+    "slug": "hwasong-11s",
+    "weaponClass": "SLBM",
+    "family": "Hwasong",
+    "fuelType": "solid",
+    "kn": "KN-33",
+    "rangeKm": "600.00",
+    "aliases": [
+      "Hwasong-11S",
+      "Hwasong-11S (KN-33)",
+      "KN-33",
+      "SLBM",
+      "hwasong-11s",
+      "화성-11S"
+    ]
+  },
+  {
+    "canonicalName": "Hwasong-12",
+    "slug": "hwasong-12",
+    "weaponClass": "IRBM",
+    "family": "Hwasong",
+    "fuelType": "liquid",
+    "kn": null,
+    "rangeKm": "3700.00",
+    "aliases": [
+      "Hwasong-12",
+      "IRBM",
+      "hwasong-12",
+      "화성-12"
+    ]
+  },
+  {
+    "canonicalName": "Hwasong-12A",
+    "slug": "hwasong-12a",
+    "weaponClass": "MRBM",
+    "family": "Hwasong",
+    "fuelType": "liquid",
+    "kn": null,
+    "rangeKm": "1000.00",
+    "aliases": [
+      "Hwasong-12A",
+      "MRBM",
+      "hwasong-12a",
+      "화성-12A"
+    ]
+  },
+  {
+    "canonicalName": "Hwasong-12B",
+    "slug": "hwasong-12b",
+    "weaponClass": "HGV",
+    "family": "Hwasong",
+    "fuelType": "solid",
+    "kn": null,
+    "rangeKm": "200.00",
+    "aliases": [
+      "HGV",
+      "Hwasong-12B",
+      "hwasong-12b",
+      "화성-12B"
+    ]
+  },
+  {
+    "canonicalName": "Hwasong-14",
+    "slug": "hwasong-14",
+    "weaponClass": "ICBM",
+    "family": "Hwasong",
+    "fuelType": "liquid",
+    "kn": null,
+    "rangeKm": "998.00",
+    "aliases": [
+      "Hwasong-14",
+      "ICBM",
+      "hwasong-14",
+      "화성-14"
+    ]
+  },
+  {
+    "canonicalName": "Hwasong-15",
+    "slug": "hwasong-15",
+    "weaponClass": "ICBM",
+    "family": "Hwasong",
+    "fuelType": "liquid",
+    "kn": null,
+    "rangeKm": "1090.00",
+    "aliases": [
+      "Hwasong-15",
+      "ICBM",
+      "hwasong-15",
+      "화성-15"
+    ]
+  },
+  {
+    "canonicalName": "Hwasong-16A",
+    "slug": "hwasong-16a",
+    "weaponClass": "IRBM",
+    "family": "Hwasong",
+    "fuelType": "liquid",
+    "kn": null,
+    "rangeKm": "1000.00",
+    "aliases": [
+      "Hwasong-16A",
+      "IRBM",
+      "hwasong-16a",
+      "화성-16A"
+    ]
+  },
+  {
+    "canonicalName": "Hwasong-16B",
+    "slug": "hwasong-16b",
+    "weaponClass": "IRBM",
+    "family": "Hwasong",
+    "fuelType": "solid",
+    "kn": null,
+    "rangeKm": "1000.00",
+    "aliases": [
+      "Hwasong-16B",
+      "IRBM",
+      "hwasong-16b",
+      "화성-16B"
+    ]
+  },
+  {
+    "canonicalName": "Hwasong-17",
+    "slug": "hwasong-17",
+    "weaponClass": "ICBM",
+    "family": "Hwasong",
+    "fuelType": "liquid",
+    "kn": null,
+    "rangeKm": "1000.00",
+    "aliases": [
+      "Hwasong-17",
+      "ICBM",
+      "hwasong-17",
+      "monster missile",
+      "괴물 미사일",
+      "화성-17"
+    ]
+  },
+  {
+    "canonicalName": "Hwasong-18",
+    "slug": "hwasong-18",
+    "weaponClass": "ICBM",
+    "family": "Hwasong",
+    "fuelType": "solid",
+    "kn": null,
+    "rangeKm": "1101.00",
+    "aliases": [
+      "Hwasong-18",
+      "ICBM",
+      "hwasong-18",
+      "고체연료 ICBM",
+      "화성-18"
+    ]
+  },
+  {
+    "canonicalName": "Hwasong-19",
+    "slug": "hwasong-19",
+    "weaponClass": "ICBM",
+    "family": "Hwasong",
+    "fuelType": "solid",
+    "kn": null,
+    "rangeKm": "1001.00",
+    "aliases": [
+      "Hwasong-19",
+      "ICBM",
+      "hwasong-19",
+      "화성-19"
+    ]
+  },
+  {
+    "canonicalName": "KN-02",
+    "slug": "kn-02",
+    "weaponClass": "SRBM",
+    "family": "KN",
+    "fuelType": "solid",
+    "kn": "KN-02",
+    "rangeKm": null,
+    "aliases": [
+      "KN-02",
+      "SRBM",
+      "kn-02"
+    ]
+  },
+  {
+    "canonicalName": "KN-25",
+    "slug": "kn-25",
+    "weaponClass": "SRBM",
+    "family": "KN",
+    "fuelType": "solid",
+    "kn": "KN-25",
+    "rangeKm": "400.00",
+    "aliases": [
+      "600mm 방사포",
+      "KN-25",
+      "SRBM",
+      "kn-25",
+      "초대형방사포"
+    ]
+  },
+  {
+    "canonicalName": "Musudan",
+    "slug": "musudan",
+    "weaponClass": "IRBM",
+    "family": "Musudan",
+    "fuelType": "liquid",
+    "kn": null,
+    "rangeKm": "400.00",
+    "aliases": [
+      "BM-25",
+      "IRBM",
+      "Musudan",
+      "Nodong-B",
+      "musudan",
+      "무수단"
+    ]
+  },
+  {
+    "canonicalName": "New IRBM 2022",
+    "slug": "new-irbm-2022",
+    "weaponClass": "IRBM",
+    "family": "IRBM(new)",
+    "fuelType": "unknown",
+    "kn": null,
+    "rangeKm": "4500.00",
+    "aliases": [
+      "IRBM",
+      "New IRBM 2022",
+      "new-irbm-2022"
+    ]
+  },
+  {
+    "canonicalName": "Nodong",
+    "slug": "nodong",
+    "weaponClass": "MRBM",
+    "family": "Nodong",
+    "fuelType": "liquid",
+    "kn": null,
+    "rangeKm": "1000.00",
+    "aliases": [
+      "MRBM",
+      "Nodong",
+      "Scud-D",
+      "nodong",
+      "노동"
+    ]
+  },
+  {
+    "canonicalName": "Pukguksong-1",
+    "slug": "pukguksong-1",
+    "weaponClass": "SLBM",
+    "family": "Pukguksong",
+    "fuelType": "solid",
+    "kn": null,
+    "rangeKm": "500.00",
+    "aliases": [
+      "Polaris-1",
+      "Pukguksong-1",
+      "SLBM",
+      "pukguksong-1",
+      "북극성-1"
+    ]
+  },
+  {
+    "canonicalName": "Pukguksong-2",
+    "slug": "pukguksong-2",
+    "weaponClass": "MRBM",
+    "family": "Pukguksong",
+    "fuelType": "solid",
+    "kn": null,
+    "rangeKm": "500.00",
+    "aliases": [
+      "MRBM",
+      "Pukguksong-2",
+      "pukguksong-2",
+      "북극성-2"
+    ]
+  },
+  {
+    "canonicalName": "Pukguksong-3",
+    "slug": "pukguksong-3",
+    "weaponClass": "SLBM",
+    "family": "Pukguksong",
+    "fuelType": "solid",
+    "kn": null,
+    "rangeKm": "450.00",
+    "aliases": [
+      "Pukguksong-3",
+      "SLBM",
+      "pukguksong-3",
+      "북극성-3"
+    ]
+  },
+  {
+    "canonicalName": "Rail-mobile KN-23",
+    "slug": "rail-mobile-kn-23",
+    "weaponClass": "SRBM",
+    "family": "KN",
+    "fuelType": "solid",
+    "kn": "KN-23",
+    "rangeKm": "800.00",
+    "aliases": [
+      "KN-23",
+      "Rail-mobile KN-23",
+      "SRBM",
+      "rail-mobile-kn-23"
+    ]
+  },
+  {
+    "canonicalName": "Scud-B",
+    "slug": "scud-b",
+    "weaponClass": "SRBM",
+    "family": "Scud",
+    "fuelType": "liquid",
+    "kn": null,
+    "rangeKm": "200.00",
+    "aliases": [
+      "SRBM",
+      "Scud-B",
+      "scud-b",
+      "스커드-B"
+    ]
+  },
+  {
+    "canonicalName": "Scud-B MaRV",
+    "slug": "scud-b-marv",
+    "weaponClass": "SRBM",
+    "family": "Scud",
+    "fuelType": "liquid",
+    "kn": null,
+    "rangeKm": "250.00",
+    "aliases": [
+      "SRBM",
+      "Scud-B MaRV",
+      "scud-b-marv",
+      "스커드-B MaRV"
+    ]
+  },
+  {
+    "canonicalName": "Scud-C",
+    "slug": "scud-c",
+    "weaponClass": "SRBM",
+    "family": "Scud",
+    "fuelType": "liquid",
+    "kn": null,
+    "rangeKm": "500.00",
+    "aliases": [
+      "SRBM",
+      "Scud-C",
+      "scud-c",
+      "스커드-C"
+    ]
+  },
+  {
+    "canonicalName": "Scud-C MaRV",
+    "slug": "scud-c-marv",
+    "weaponClass": "SRBM",
+    "family": "Scud",
+    "fuelType": "liquid",
+    "kn": null,
+    "rangeKm": "400.00",
+    "aliases": [
+      "SRBM",
+      "Scud-C MaRV",
+      "scud-c-marv",
+      "스커드-C MaRV"
+    ]
+  },
+  {
+    "canonicalName": "Silo-based KN-23",
+    "slug": "silo-based-kn-23",
+    "weaponClass": "SRBM",
+    "family": "KN",
+    "fuelType": "solid",
+    "kn": "KN-23",
+    "rangeKm": "800.00",
+    "aliases": [
+      "KN-23",
+      "SRBM",
+      "Silo-based KN-23",
+      "silo-based-kn-23"
+    ]
+  },
+  {
+    "canonicalName": "Taepodong-1",
+    "slug": "taepodong-1",
+    "weaponClass": "SLV",
+    "family": "Taepodong",
+    "fuelType": "liquid",
+    "kn": null,
+    "rangeKm": "1380.00",
+    "aliases": [
+      "SLV",
+      "Taepodong-1",
+      "taepodong-1",
+      "대포동-1"
+    ]
+  },
+  {
+    "canonicalName": "Unha",
+    "slug": "unha",
+    "weaponClass": "SLV",
+    "family": "Unha",
+    "fuelType": "liquid",
+    "kn": null,
+    "rangeKm": null,
+    "aliases": [
+      "SLV",
+      "Unha",
+      "unha",
+      "은하"
+    ]
+  },
+  {
+    "canonicalName": "Unha-3",
+    "slug": "unha-3",
+    "weaponClass": "SLV",
+    "family": "Unha",
+    "fuelType": "liquid",
+    "kn": null,
+    "rangeKm": null,
+    "aliases": [
+      "SLV",
+      "Unha-3",
+      "unha-3",
+      "은하-3"
+    ]
+  },
+  {
+    "canonicalName": "Unknown",
+    "slug": "unknown",
+    "weaponClass": "Unknown",
+    "family": "Unknown",
+    "fuelType": "unknown",
+    "kn": null,
+    "rangeKm": "900.00",
+    "aliases": [
+      "Unknown",
+      "unknown"
+    ]
+  }
+]

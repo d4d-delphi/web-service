@@ -1,0 +1,319 @@
+[
+  {
+    "canonicalName": "Bar Lock(감시, VHF/E-band)",
+    "slug": "bar-lock-surveillance",
+    "designation": "Bar Lock(P-35) 감시 레이더",
+    "emitterType": "SEARCH",
+    "band": "VHF",
+    "natoName": "Bar Lock",
+    "associatedSystem": "DPRK 방공 감시",
+    "platform": "지상(고정)",
+    "role": "공중 표적 감시/식별",
+    "frequencyParams": {
+      "role": "surveillance",
+      "scan": "mechanical"
+    },
+    "threatRelevance": "air_defense",
+    "description": "VHF/E-band 기계식 감시 레이더. DPRK 방공 감시망 구성 요소.",
+    "aliases": [
+      "Bar Lock",
+      "P-35",
+      "방공 감시레이더"
+    ]
+  },
+  {
+    "canonicalName": "Big Bird(탐색, SA-10/SA-20)",
+    "slug": "big-bird-s300",
+    "designation": "Big Bird 획득/탐색 레이더(S-300/SA-10/SA-20 계열)",
+    "emitterType": "EARLY_WARNING",
+    "band": "S-Band",
+    "natoName": "Big Bird",
+    "associatedSystem": "S-300/SA-10/SA-20(PMU/PMU2)",
+    "platform": "지상(차량)",
+    "role": "S-300 체계 장거리 획득/탐색",
+    "frequencyParams": {
+      "role": "volume_search",
+      "scan": "mechanical"
+    },
+    "threatRelevance": "air_defense",
+    "description": "S-300(PMU/PMU2) 계열 획득/탐색 레이더. DPRK가 S-300 계열 획득 시도 보도. 기계식 원형스캔 S-Band 감시.",
+    "aliases": [
+      "Big Bird",
+      "S-300 탐색 레이더",
+      "S-Band 감시",
+      "감시레이더",
+      "방공 감시레이더",
+      "방공 감시레이더 계열"
+    ]
+  },
+  {
+    "canonicalName": "Fan Song(사격통제, SA-2)",
+    "slug": "fan-song-sa2",
+    "designation": "Fan Song 사격통제 레이더(SA-2/S-75)",
+    "emitterType": "FIRE_CONTROL",
+    "band": "G-H",
+    "natoName": "Fan Song",
+    "associatedSystem": "SA-2(S-75 Dvina/Pegasus)",
+    "platform": "지상(차량)",
+    "role": "SA-2 지대공미사일 사격통제/유도",
+    "frequencyParams": {
+      "bands": [
+        "G",
+        "H"
+      ],
+      "role": "engage_guidance"
+    },
+    "threatRelevance": "air_defense",
+    "description": "SA-2(S-75) 체계 사격통제/유도 레이더. DPRK가 SA-2(국명 Pegasus)를 운용. 방공뿐 아니라 공격측 항로 위협 평가에 활용.",
+    "aliases": [
+      "Fan Song",
+      "S-75 radar",
+      "SA-2 레이더",
+      "사격통제",
+      "사격통제 레이더"
+    ]
+  },
+  {
+    "canonicalName": "Flap Lid(사격통제, S-300)",
+    "slug": "flap-lid-s300",
+    "designation": "Flap Lid 사격통제 레이더(S-300/SA-10)",
+    "emitterType": "FIRE_CONTROL",
+    "band": "X",
+    "natoName": "Flap Lid",
+    "associatedSystem": "S-300/SA-10",
+    "platform": "지상(차량)",
+    "role": "S-300 체계 표적 추적/유도(전자주사)",
+    "frequencyParams": {
+      "role": "engage_guidance",
+      "scan": "phased_array"
+    },
+    "threatRelevance": "air_defense",
+    "description": "S-300 체계 다기능 사격통제 레이더(전자주사). 획득(Big Bird)→추적/유도(Flap Lid) 체계연동.",
+    "aliases": [
+      "Flap Lid",
+      "S-300 사격통제",
+      "Tomb Stone"
+    ]
+  },
+  {
+    "canonicalName": "P-15/Spoon Rest(조기경보, VHF)",
+    "slug": "spoon-rest-vhf",
+    "designation": "Spoon Rest(P-15) VHF 조기경보 레이더",
+    "emitterType": "EARLY_WARNING",
+    "band": "VHF",
+    "natoName": "Spoon Rest",
+    "associatedSystem": "DPRK 방공 조기경보망",
+    "platform": "지상(고정/이동)",
+    "role": "장거리 조기경보(2차원)",
+    "frequencyParams": {
+      "role": "early_warning",
+      "scan": "mechanical"
+    },
+    "threatRelevance": "air_defense",
+    "description": "VHF 대역 장거리 조기경보 레이더. DPRK 방공망의 최전단 경보 자산. 저해상도이나 탐지거리 길다.",
+    "aliases": [
+      "P-15",
+      "Spoon Rest",
+      "VHF 조기경보",
+      "조기경보 레이더"
+    ]
+  },
+  {
+    "canonicalName": "Square Pair(사격통제, SA-5)",
+    "slug": "square-pair-sa5",
+    "designation": "Square Pair 사격통제 레이더(SA-5/S-200)",
+    "emitterType": "FIRE_CONTROL",
+    "band": "G-H",
+    "natoName": "Square Pair",
+    "associatedSystem": "SA-5(S-200 Angara/Vega)",
+    "platform": "지상(고정/반고정)",
+    "role": "SA-5 장거리 요격 유도",
+    "frequencyParams": {
+      "bands": [
+        "G",
+        "H"
+      ],
+      "role": "engage_guidance"
+    },
+    "threatRelevance": "air_defense",
+    "description": "SA-5(S-200) 장거리 지대공미사일 사격통제 레이더. 고고도 장거리 위협.",
+    "aliases": [
+      "S-200 radar",
+      "SA-5 레이더",
+      "Square Pair"
+    ]
+  },
+  {
+    "canonicalName": "Straight Flush(탐색/사격, SA-6)",
+    "slug": "straight-flush-sa6",
+    "designation": "Straight Flush 획득/사격통제 레이더(SA-6/2K12 Kub)",
+    "emitterType": "SEARCH_FIRE",
+    "band": "G-H",
+    "natoName": "Straight Flush",
+    "associatedSystem": "SA-6(2K12 Kub)",
+    "platform": "지상(차량)",
+    "role": "SA-6 표적 획득+사격통제(결합)",
+    "frequencyParams": {
+      "bands": [
+        "G",
+        "H"
+      ],
+      "role": "acquisition_fire_control"
+    },
+    "threatRelevance": "air_defense",
+    "description": "SA-6(2K12 Kub) 자행식 방공체계의 획득/사격통제 결합 레이더. DPRK 운용. 기계식 스캔.",
+    "aliases": [
+      "2K12 Kub radar",
+      "SA-6 레이더",
+      "Straight Flush",
+      "획득 레이더"
+    ]
+  },
+  {
+    "canonicalName": "Tin Shield(획득, SA-5)",
+    "slug": "tin-shield-sa5",
+    "designation": "Tin Shield 획득 레이더(SA-5 체계 획득)",
+    "emitterType": "SEARCH",
+    "band": "E-F",
+    "natoName": "Tin Shield",
+    "associatedSystem": "SA-5(S-200) 획득",
+    "platform": "지상(고정)",
+    "role": "SA-5 체계 장거리 표적 획득",
+    "frequencyParams": {
+      "bands": [
+        "E",
+        "F"
+      ],
+      "role": "early_acquisition"
+    },
+    "threatRelevance": "air_defense",
+    "description": "SA-5 체계 장거리 획득 레이더. Square Pair 사격통제로 표적 인계.",
+    "aliases": [
+      "SA-5 획득 레이더",
+      "Tin Shield"
+    ]
+  },
+  {
+    "canonicalName": "배경/산업 통신(VHF)",
+    "slug": "background-industrial-comms-vhf",
+    "designation": "정형 배경/산업시설 통신망(VHF, FM)",
+    "emitterType": "COMMS",
+    "band": "VHF",
+    "natoName": null,
+    "associatedSystem": "민수/산업 배경 통신",
+    "platform": "지상(고정)",
+    "role": "정형(루틴) 배경 통신",
+    "frequencyParams": {
+      "modulation": "FM",
+      "traffic_pattern": "nominal_elevated"
+    },
+    "threatRelevance": "background",
+    "description": "정형 배경 통신(산업시설/민수 통신망). routine 수준 신호로 발사 징후와 직접 연관 낮음 — negative evidence(정상 배경)로 활용 가능.",
+    "aliases": [
+      "background comms",
+      "배경 통신",
+      "산업시설 통신망",
+      "정형 배경 통신"
+    ]
+  },
+  {
+    "canonicalName": "야전 지휘통신망(UHF/VHF FM)",
+    "slug": "field-comms-uhf-vhf-fm",
+    "designation": "야전 전술 무전망(UHF/VHF, FM 변조)",
+    "emitterType": "COMMS",
+    "band": "UHF/VHF",
+    "natoName": null,
+    "associatedSystem": "야전/전술 지휘통신",
+    "platform": "지상(이동/야전)",
+    "role": "단속적 다중노드 지휘통신(교신 급증 지표)",
+    "frequencyParams": {
+      "modulation": "FM",
+      "traffic_pattern": "multi-node intermittent"
+    },
+    "threatRelevance": "comms",
+    "description": "야전 전술 무전망. 복수 송수신 노드 간 단속 교신 패턴. 교신 급증(surge)은 부대 이동/전개 지표.발사 직전 통신 증가 징후와 연계 가능.",
+    "aliases": [
+      "UHF 교신",
+      "UHF 급증",
+      "VHF 교신",
+      "VHF 급증",
+      "field comms",
+      "교신 급증",
+      "무전 급증",
+      "야전 교신",
+      "야전 무전망",
+      "전술 무전망"
+    ]
+  },
+  {
+    "canonicalName": "지휘/데이터링크(전술)",
+    "slug": "tactical-datalink",
+    "designation": "전술 데이터링크(지휘/체계연동)",
+    "emitterType": "DATALINK",
+    "band": "UHF",
+    "natoName": null,
+    "associatedSystem": "방공/지휘 체계연동",
+    "platform": "지상/공중",
+    "role": "방공 자산·지휘소 간 전술 데이터링크",
+    "frequencyParams": {
+      "role": "tactical_datalink"
+    },
+    "threatRelevance": "comms",
+    "description": "방공 체계(탐색→사격통제)·지휘소 간 전술 데이터링크. 체계연동/교전 준비 지표.",
+    "aliases": [
+      "datalink",
+      "데이터링크",
+      "전술 데이터링크"
+    ]
+  },
+  {
+    "canonicalName": "우주발사체 텔레메트리(S-Band PCM/FM)",
+    "slug": "slv-telemetry-sband-pcmfm",
+    "designation": "SLV/LV 텔레메트리 송신기(S-Band, PCM/FM)",
+    "emitterType": "TELEMETRY",
+    "band": "S-Band",
+    "natoName": null,
+    "associatedSystem": "우주발사체/장거리 로켓(은하/화성-SLV)",
+    "platform": "지상(발사대→추적국)",
+    "role": "발사체 비행 원격측정 텔레메트리 하향링크",
+    "frequencyParams": {
+      "bandwidth_khz": 1500,
+      "carrier_mhz": 2280,
+      "modulation": "PCM/FM",
+      "pattern": "continuous_stream"
+    },
+    "threatRelevance": "launch_indicator",
+    "description": "발사체 비행중 실시간 상태(속도·자세·계기판) 송출 텔레메트리. PCM/FM 변조·S-Band 협대역 연속 방출이 부스트/비행 단계의 강력한 발사 징후. 동창리 SLV 발사 감시에서 핵심 SIGINT 지표.",
+    "aliases": [
+      "PCM/FM",
+      "SLV telemetry",
+      "telemetry",
+      "텔레메트리",
+      "텔레메트리 송신",
+      "텔레메트리 송신 계열"
+    ]
+  },
+  {
+    "canonicalName": "미식별 추적/감시 방출원",
+    "slug": "unidentified-tracking-emitter",
+    "designation": "미식별(Unidentified) 추적/감시 계열 방출원",
+    "emitterType": "UNKNOWN",
+    "band": "S-Band",
+    "natoName": null,
+    "associatedSystem": "미상(추적/감시 추정)",
+    "platform": "지상(추정)",
+    "role": "미식별 방출원(추적/감시 가능성)",
+    "frequencyParams": {
+      "role": "unidentified",
+      "scan": "unknown"
+    },
+    "threatRelevance": "unknown",
+    "description": "SIGINT에서 방출원 미식별(\"미상\")인 케이스의 정규 placeholder. 신호 파라미터(PRI/PW/Scan) 누적 시 구체 emitter 로 재해석 필요. 단일 소스 신뢰도 낮음 — 교차검증(IMINT/UAV) 권고.",
+    "aliases": [
+      "Unidentified Tracking Radar",
+      "unidentified emitter",
+      "미상",
+      "방출원 미식별"
+    ]
+  }
+]

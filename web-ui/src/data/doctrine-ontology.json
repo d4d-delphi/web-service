@@ -1,0 +1,338 @@
+{
+  "watchconLevels": [
+    {
+      "level": 5,
+      "name": "단순경계",
+      "englishName": "Simple Alert",
+      "meaning": "평시 기본 경계태세. 특이 징후 없음.",
+      "activationCondition": "발사 가설 사후확률 < 25% (illustrative)",
+      "recommendedPosture": "정례 감시 유지. 정문 감시체계 정상 가동."
+    },
+    {
+      "level": 4,
+      "name": "경계",
+      "englishName": "Watch",
+      "meaning": "징후 단계. 부분적 이상 활동 탐지, 발사 가능성 낮음.",
+      "activationCondition": "발사 가설 사후확률 25-50% 또는 엔진시험/연료활동 단독 탐지",
+      "recommendedPosture": "KAMD 감시자산(피스아이/그린파인) 가동률 상향. 정보수집 강화."
+    },
+    {
+      "level": 3,
+      "name": "비상",
+      "englishName": "Emergency",
+      "meaning": "발사 준비 징후 누적. 발사 가능성 상당.",
+      "activationCondition": "발사 가설 사후확률 50-70% 또는 발사대 TEL 전개 포착",
+      "recommendedPosture": "LAMD 요격자산(M-SAM/L-SAM) 전개 완료. KMPR 타격자산 대기."
+    },
+    {
+      "level": 2,
+      "name": "심각",
+      "englishName": "Severe",
+      "meaning": "발사 임박 또는 발사 직후. 고도 위협.",
+      "activationCondition": "발사 가설 사후확률 >= 70% 또는 부스트 단계 탐지",
+      "recommendedPosture": "전 축 대응 태세. NSC 안보상황회의 소집. 요격/타격 결심 대기."
+    },
+    {
+      "level": 1,
+      "name": "전시",
+      "englishName": "War",
+      "meaning": "적 공격이 개시되었거나 전시 상황. (데모에서는 자동 발동 제외)",
+      "activationCondition": "실제 타격 발생 (데모 범위 밖)",
+      "recommendedPosture": "전시작업권 전환. 전면 대응. (본 데모에서는 stub)"
+    }
+  ],
+  "killchainPhases": [
+    {
+      "phase": "detect",
+      "koreanName": "탐지",
+      "ordinal": 1,
+      "entryCondition": "IMINT/SIGINT 등 첫 징후 포착 (관측 계층 진입).",
+      "exitCondition": "탐지된 신호가 유의미한 위협으로 분류될 때까지.",
+      "description": "위성영상·SIGINT·레이더로 적 발사체 징후를 최초 포착. KAMD 감시자산 가동."
+    },
+    {
+      "phase": "assess",
+      "koreanName": "판단",
+      "ordinal": 2,
+      "entryCondition": "관측 정형화 + 베이지안 추론으로 사후확률 산출 개시.",
+      "exitCondition": "위협 확률이 결심 임계(illustrative 65%)에 도달하기 전.",
+      "description": "추론 엔진이 복수 가설의 사후확률을 갱신하고 정규 미사일/시설 온톨로지로 징후를 해석."
+    },
+    {
+      "phase": "decide",
+      "koreanName": "결심",
+      "ordinal": 3,
+      "entryCondition": "최유력 발사 가설 사후확률 >= 결심 임계(65%, illustrative).",
+      "exitCondition": "아군 대응 옵션 결심 및 권한 보고 완료.",
+      "description": "C2 체계에서 watchcon 상향, ROE 단계 결정, 축별(KAMD/KMPR/LAMD) 대응 결심."
+    },
+    {
+      "phase": "act",
+      "koreanName": "실행",
+      "ordinal": 4,
+      "entryCondition": "아군 대응 개시(요격/타격/축출) 또는 부스트 단계 확정 탐지.",
+      "exitCondition": "위협 종식 또는 상황 종료 선언.",
+      "description": "LAMD 요격 + KMPR 타격 + KAMD 추적의 종합 대응 실행. 전 과정 BDA 피드백."
+    }
+  ],
+  "responseOptions": [
+    {
+      "optionId": "kamd-peaceseye",
+      "pillar": "kamd",
+      "pillarName": "한국형 미사일방어(KAMD) - 탐지",
+      "asset": "피스아이(E-737) 조기경보기",
+      "triggerPhase": "detect",
+      "authorityThreshold": "작전사령관 (illustrative)",
+      "priority": 1,
+      "description": "공중 조기경보로 부스트 단계 발사체 추적. 서해 감시 비행 기지 준비."
+    },
+    {
+      "optionId": "kmpr-hyunmoo",
+      "pillar": "kmpr",
+      "pillarName": "대량응징보복(KMPR) - 타격",
+      "asset": "현무 탄도미사일(Hyunmoo)",
+      "triggerPhase": "act",
+      "authorityThreshold": "합참의장 승인 (illustrative)",
+      "priority": 1,
+      "description": "지대지 탄도미사일로 적 발사지점/지휘소 타격. 현무-4 사거리 ~800km(공개보도 수치)."
+    },
+    {
+      "optionId": "lamd-msam",
+      "pillar": "lamd",
+      "pillarName": "저고도방어(LAMD) - 요격",
+      "asset": "철매-2(M-SAM Cheolmae)",
+      "triggerPhase": "decide",
+      "authorityThreshold": "미사일방어사령관 (illustrative)",
+      "priority": 1,
+      "description": "중고도 요격체계. 탄도미사일 종말단계 요격. 사거리 ~40km(공개보도 수치)."
+    },
+    {
+      "optionId": "kamd-greenpine",
+      "pillar": "kamd",
+      "pillarName": "한국형 미사일방어(KAMD) - 탐지",
+      "asset": "그린파인(Green Pine) 레이더",
+      "triggerPhase": "detect",
+      "authorityThreshold": "작전사령관 (illustrative)",
+      "priority": 2,
+      "description": "지상 기반 탄도미사일 추적 레이더. 탐지거리 ~500km(공개보도 수치)."
+    },
+    {
+      "optionId": "kmpr-f35",
+      "pillar": "kmpr",
+      "pillarName": "대량응징보복(KMPR) - 타격",
+      "asset": "F-35A 스텔스 전투기",
+      "triggerPhase": "act",
+      "authorityThreshold": "합참의장 승인 (illustrative)",
+      "priority": 2,
+      "description": "스텔스 침투 타격. 적 핵·미사일 시설 정밀타격."
+    },
+    {
+      "optionId": "lamd-lsam",
+      "pillar": "lamd",
+      "pillarName": "저고도방어(LAMD) - 요격",
+      "asset": "L-SAM 장거리 지대공미사일",
+      "triggerPhase": "decide",
+      "authorityThreshold": "미사일방어사령관 (illustrative)",
+      "priority": 2,
+      "description": "장거리 고고도 요격. 사거리 ~150km(개발중, 공개보도 수치)."
+    },
+    {
+      "optionId": "kamd-args",
+      "pillar": "kamd",
+      "pillarName": "한국형 미사일방어(KAMD) - 탐지",
+      "asset": "이지구축함 ARGS(Sejong the Great-class)",
+      "triggerPhase": "detect",
+      "authorityThreshold": "작전사령관 (illustrative)",
+      "priority": 3,
+      "description": "함정 SPY-1 레이더로 동해상 발사체 탐지/추적."
+    },
+    {
+      "optionId": "kmpr-slbm",
+      "pillar": "kmpr",
+      "pillarName": "대량응징보복(KMPR) - 타격",
+      "asset": "도산안창호급 SLBM",
+      "triggerPhase": "act",
+      "authorityThreshold": "대통령 승인 (illustrative)",
+      "priority": 3,
+      "description": "잠수함 발사 탄도미사일로 보복타격. 2격 전력 보존."
+    },
+    {
+      "optionId": "lamd-pac3",
+      "pillar": "lamd",
+      "pillarName": "저고도방어(LAMD) - 요격",
+      "asset": "PAC-3 패트리어트",
+      "triggerPhase": "act",
+      "authorityThreshold": "방공포병여단장 (illustrative)",
+      "priority": 3,
+      "description": "저고도 최종 요격. 수도권/주요시설 방어."
+    }
+  ],
+  "c2Authority": [
+    {
+      "tier": 1,
+      "authority": "국무회의 / 대통령",
+      "role": "최고 통수권자(국군통수권). 무력사용 최종 승인.",
+      "decisionThreshold": "전시(watchcon 1), KMPR 전면 타격, 선제타격 승인",
+      "reportingChain": "NSC 안보상황회의 소집 (illustrative: 즉시 소집)"
+    },
+    {
+      "tier": 2,
+      "authority": "합동참모의장",
+      "role": "군사 작전 총괄지휘. 교전규칙(ROE) 해석/적용.",
+      "decisionThreshold": "심각(watchcon 2) 상향 결심, KMPR 제한타격 승인",
+      "reportingChain": "상황보고: watchcon 1-2 = 즉시, 3 = 1시간, 4-5 = 일일 (illustrative)"
+    },
+    {
+      "tier": 3,
+      "authority": "작전사령관(지작/공작/해작)",
+      "role": "전구 작전 지휘. KAMD/LAMD 축 작전 통제.",
+      "decisionThreshold": "비상(watchcon 3) 발령, 요격자산 전개, 감시자산 가동",
+      "reportingChain": "상황보고: watchcon 2 이하 = 즉시, 3 = 1시간 (illustrative)"
+    },
+    {
+      "tier": 4,
+      "authority": "군사령관 / 기능사(미사일방어사·방공관제사)",
+      "role": "축별 전술 지휘. 자산 가동/요격 집행.",
+      "decisionThreshold": "경계(watchcon 4) 자산 대기, 감시 강화",
+      "reportingChain": "상황보고: 실시간 전숫자료 전송 (illustrative)"
+    }
+  ],
+  "roeCategories": [
+    {
+      "categoryId": "roe-fullretaliation",
+      "name": "전면대응(KMPR)",
+      "allowedActions": "대량응징보복 전면 타격, 전시작업권 행사",
+      "activationWatchcon": 1,
+      "description": "전시 상황. 대통령 승인 하 KMPR 전면 발동."
+    },
+    {
+      "categoryId": "roe-limitedstrike",
+      "name": "제한타격",
+      "allowedActions": "격침지역/발사지점 정밀타격 (보복)",
+      "activationWatchcon": 2,
+      "description": "심각 단계. 합참의장 승인 하 적 발사거점 타격."
+    },
+    {
+      "categoryId": "roe-selfdefense",
+      "name": "자위권 발동",
+      "allowedActions": "요격(자위적 방위), 적 발사체 추적·격추",
+      "activationWatchcon": 3,
+      "description": "적 공격 임박/진행 시 자위적 요격 허용."
+    },
+    {
+      "categoryId": "roe-readiness",
+      "name": "경계·대기",
+      "allowedActions": "요격자산 전개, 타격자산 대기, 감시 강화",
+      "activationWatchcon": 4,
+      "description": "징후 단계. 무력사용 금지. 자산 전개와 태세전환 허용."
+    },
+    {
+      "categoryId": "roe-surveillance",
+      "name": "정찰·감시",
+      "allowedActions": "위성/ISR/SIGINT 감시, 조기경보기 감시비행, 보고",
+      "activationWatchcon": 5,
+      "description": "평시 기본. 무력사용 금지. 정보수집과 보고만 허용."
+    }
+  ],
+  "friendlyAssets": [
+    {
+      "canonicalName": "그린파인 레이더",
+      "slug": "green-pine-radar",
+      "pillar": "isr",
+      "assetType": "sensor",
+      "rangeKm": null,
+      "detectionRangeKm": 500.0,
+      "readiness": "ready",
+      "currentWatchcon": 5,
+      "description": "지상 탄도미사일 추적 레이더(공개보도 수치)."
+    },
+    {
+      "canonicalName": "피스아이(E-737)",
+      "slug": "peace-eye-e737",
+      "pillar": "isr",
+      "assetType": "sensor",
+      "rangeKm": null,
+      "detectionRangeKm": 800.0,
+      "readiness": "ready",
+      "currentWatchcon": 5,
+      "description": "공중 조기경보기. 부스트 단계 발사체 원거리 탐지."
+    },
+    {
+      "canonicalName": "이지구축함(세종대왕급)",
+      "slug": "sejong-the-great-aegis",
+      "pillar": "kamd",
+      "assetType": "sensor",
+      "rangeKm": null,
+      "detectionRangeKm": 500.0,
+      "readiness": "ready",
+      "currentWatchcon": 5,
+      "description": "함정 SPY-1 레이더 탐지/추적(공개보도 수치)."
+    },
+    {
+      "canonicalName": "F-35A",
+      "slug": "f-35a",
+      "pillar": "kmpr",
+      "assetType": "fighter",
+      "rangeKm": 1100.0,
+      "detectionRangeKm": null,
+      "readiness": "ready",
+      "currentWatchcon": 5,
+      "description": "스텔스 전투기. 정밀타격 자산(작전반경 공개보도 수치)."
+    },
+    {
+      "canonicalName": "현무-2B",
+      "slug": "hyunmoo-2b",
+      "pillar": "kmpr",
+      "assetType": "strike",
+      "rangeKm": 500.0,
+      "detectionRangeKm": null,
+      "readiness": "ready",
+      "currentWatchcon": 5,
+      "description": "지대지 탄도미사일(공개보도 수치)."
+    },
+    {
+      "canonicalName": "현무-4",
+      "slug": "hyunmoo-4",
+      "pillar": "kmpr",
+      "assetType": "strike",
+      "rangeKm": 800.0,
+      "detectionRangeKm": null,
+      "readiness": "ready",
+      "currentWatchcon": 5,
+      "description": "지대지 탄도미사일(공개보도 수치). KMPR 핵심 자산."
+    },
+    {
+      "canonicalName": "L-SAM",
+      "slug": "l-sam",
+      "pillar": "lamd",
+      "assetType": "interceptor",
+      "rangeKm": 150.0,
+      "detectionRangeKm": null,
+      "readiness": "standby",
+      "currentWatchcon": 5,
+      "description": "장거리 고고도 요격체계(개발중, 공개보도 수치)."
+    },
+    {
+      "canonicalName": "PAC-3",
+      "slug": "pac-3",
+      "pillar": "lamd",
+      "assetType": "interceptor",
+      "rangeKm": 20.0,
+      "detectionRangeKm": null,
+      "readiness": "ready",
+      "currentWatchcon": 5,
+      "description": "저고도 최종 요격(공개보도 수치)."
+    },
+    {
+      "canonicalName": "철매-2(M-SAM)",
+      "slug": "m-sam-cheolmae",
+      "pillar": "lamd",
+      "assetType": "interceptor",
+      "rangeKm": 40.0,
+      "detectionRangeKm": null,
+      "readiness": "ready",
+      "currentWatchcon": 5,
+      "description": "중고도 요격체계(공개보도 수치)."
+    }
+  ]
+}
