@@ -127,9 +127,16 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets }: Ce
   useEffect(() => {
     if (!containerRef.current || viewerRef.current) return;
 
+    // React StrictMode (dev) mounts twice and the init is async — without this
+    // guard two viewers race onto one container and entities attach to the
+    // stale/destroyed one, so nothing paints. `cancelled` ensures exactly one
+    // live viewer, and that `loaded` flips only once that viewer exists.
+    let cancelled = false;
+
     const initCesium = async () => {
       try {
         const Cesium = await loadCesiumScript();
+        if (cancelled || viewerRef.current) return;
         cesiumRef.current = Cesium;
 
         Cesium.Ion.defaultAccessToken = '';
@@ -165,6 +172,11 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets }: Ce
           sceneMode: Cesium.SceneMode.SCENE2D,
         });
 
+        // Render at the device pixel ratio — Cesium defaults to CSS pixels,
+        // which looks soft/low-res on retina/hi-DPI displays.
+        viewer.useBrowserRecommendedResolution = false;
+        viewer.resolutionScale = Math.min(window.devicePixelRatio || 1, 2);
+
         // Dark theme
         viewer.scene.backgroundColor = Cesium.Color.fromCssColorString('#0a0e1a');
         viewer.scene.globe.enableLighting = false;
@@ -184,6 +196,10 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets }: Ce
           },
         });
 
+        if (cancelled) {
+          viewer.destroy();
+          return;
+        }
         viewerRef.current = viewer;
         setLoaded(true);
       } catch (err: any) {
@@ -195,6 +211,7 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets }: Ce
     initCesium();
 
     return () => {
+      cancelled = true;
       if (viewerRef.current && !viewerRef.current.isDestroyed()) {
         viewerRef.current.destroy();
         viewerRef.current = null;
@@ -229,14 +246,16 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets }: Ce
         },
         label: {
           text: threat.name,
-          font: '11px sans-serif',
-          scale: 0.5,
+          font: 'bold 13px sans-serif',
           fillColor: Cesium.Color.WHITE,
           outlineColor: Cesium.Color.BLACK,
           outlineWidth: 2,
           style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+          showBackground: true,
+          backgroundColor: Cesium.Color.fromCssColorString('#0a0e1a').withAlpha(0.72),
+          backgroundPadding: new Cesium.Cartesian2(6, 4),
           verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-          pixelOffset: new Cesium.Cartesian2(0, -15),
+          pixelOffset: new Cesium.Cartesian2(0, -14),
         },
       });
 
@@ -270,14 +289,16 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets }: Ce
         },
         label: {
           text: friendly.name,
-          font: '11px sans-serif',
-          scale: 0.5,
+          font: 'bold 13px sans-serif',
           fillColor: Cesium.Color.CYAN,
           outlineColor: Cesium.Color.BLACK,
           outlineWidth: 2,
           style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+          showBackground: true,
+          backgroundColor: Cesium.Color.fromCssColorString('#0a0e1a').withAlpha(0.72),
+          backgroundPadding: new Cesium.Cartesian2(6, 4),
           verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-          pixelOffset: new Cesium.Cartesian2(0, -15),
+          pixelOffset: new Cesium.Cartesian2(0, -14),
         },
       });
     });
@@ -345,18 +366,88 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets }: Ce
       },
       label: {
         text: `▶ ${active.title}`,
-        font: 'bold 12px sans-serif',
-        scale: 0.6,
+        font: 'bold 13px sans-serif',
         fillColor: Cesium.Color.fromCssColorString('#fde68a'),
         outlineColor: Cesium.Color.BLACK,
         outlineWidth: 3,
         style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+        showBackground: true,
+        backgroundColor: Cesium.Color.fromCssColorString('#3a2a06').withAlpha(0.85),
+        backgroundPadding: new Cesium.Cartesian2(7, 4),
         verticalOrigin: Cesium.VerticalOrigin.TOP,
-        pixelOffset: new Cesium.Cartesian2(0, 16),
+        pixelOffset: new Cesium.Cartesian2(0, 14),
       },
     });
     lastPulseKeyRef.current = active.id;
   }, [scenario, currentTime, loaded]);
+
+  // Screen-space label declutter — Cesium doesn't declutter entity labels, so
+  // project each marker to screen coords and hide any label whose box collides
+  // with a higher-priority one already placed. Marker icons always stay shown;
+  // labels reappear as the camera zooms into a region.
+  useEffect(() => {
+    if (!viewerRef.current || !scenario || !loaded || !cesiumRef.current) return;
+
+    const Cesium = cesiumRef.current;
+    const viewer = viewerRef.current;
+    const scene = viewer.scene;
+
+    const threatIds = new Set(scenario.threats.map((t) => t.id));
+    const friendlyIds = new Set(scenario.friendlies.map((f) => f.id));
+    const priority = (id: string) =>
+      id === 'active-event-pulse' ? 0 : threatIds.has(id) ? 1 : friendlyIds.has(id) ? 2 : 3;
+
+    const toWindow =
+      Cesium.SceneTransforms.worldToWindowCoordinates ||
+      Cesium.SceneTransforms.wgs84ToWindowCoordinates;
+
+    let last = 0;
+    const declutter = () => {
+      const now = performance.now();
+      if (now - last < 120) return; // throttle
+      last = now;
+
+      const time = Cesium.JulianDate.now();
+      const items: any[] = [];
+      for (const e of viewer.entities.values) {
+        if (!e.label || !e.position) continue;
+        const world = e.position.getValue(time);
+        if (!world) continue;
+        const win = toWindow(scene, world);
+        if (!win) continue;
+        const rawText = e.label.text;
+        const text = rawText && rawText.getValue ? rawText.getValue(time) : rawText;
+        items.push({ e, win, text: String(text || ''), pri: priority(e.id) });
+      }
+      items.sort((a, b) => a.pri - b.pri);
+
+      const placed: { l: number; r: number; t: number; b: number }[] = [];
+      const cw = scene.canvas.clientWidth;
+      const ch = scene.canvas.clientHeight;
+      for (const it of items) {
+        const w = Math.max(26, it.text.length * 9.2 + 14);
+        const h = 20;
+        const anchorY = it.win.y - 14; // label sits above the marker point
+        const box = { l: it.win.x - w / 2, r: it.win.x + w / 2, t: anchorY - h, b: anchorY };
+        const off = it.win.x < 0 || it.win.y < 0 || it.win.x > cw || it.win.y > ch;
+        let collide = false;
+        if (!off) {
+          for (const p of placed) {
+            if (box.l < p.r && box.r > p.l && box.t < p.b && box.b > p.t) {
+              collide = true;
+              break;
+            }
+          }
+        }
+        const show = !off && !collide;
+        if (it.e.label.show !== show) it.e.label.show = show;
+        if (show) placed.push(box);
+      }
+    };
+
+    const remove = scene.postRender.addEventListener(declutter);
+    return () => remove();
+  }, [scenario, loaded]);
 
   // Camera fly on phase change
   useEffect(() => {
