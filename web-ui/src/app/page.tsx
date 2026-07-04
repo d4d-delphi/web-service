@@ -179,7 +179,7 @@ export default function Home() {
   };
 
   return (
-    <div className="h-screen w-screen flex flex-col">
+    <div className="h-screen w-screen flex flex-col bg-[#0a0e1a]">
       {/* 이벤트 발생 알림 모달 (3초 후 자동 종료). key로 이벤트마다 재진입 애니메이션 */}
       <EventModal key={modalEvent?.id} event={modalEvent} onClose={() => setModalEvent(null)} />
 
