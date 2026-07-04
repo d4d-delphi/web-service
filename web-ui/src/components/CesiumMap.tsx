@@ -188,6 +188,7 @@ function addLabelEntity(
   fill: string,
   bg: string,
   below = false,
+  show = false,
 ) {
   const { image, width } = labelCanvas(text, fill, bg);
   viewer.entities.add({
@@ -197,6 +198,7 @@ function addLabelEntity(
     billboard: {
       image,
       scale: 1 / LABEL_RES,
+      show,
       verticalOrigin: below ? Cesium.VerticalOrigin.TOP : Cesium.VerticalOrigin.BOTTOM,
       pixelOffset: new Cesium.Cartesian2(0, below ? 14 : -14),
       disableDepthTestDistance: Number.POSITIVE_INFINITY,
@@ -385,6 +387,32 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets, cust
         }
         viewerRef.current = viewer;
         setLoaded(true);
+
+        // 라벨 hover 토글: 기본 숨김, 마우스 오버한 엔티티의 -label 만 노출.
+        const hoverHandler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+        let lastLabelId: string | null = null;
+        hoverHandler.setInputAction((movement: any) => {
+          const picked = viewer.scene.pick(movement.endPosition);
+          let baseId: string | null = null;
+          if (Cesium.defined(picked) && picked.id) {
+            const eid = typeof picked.id === 'object' ? picked.id.id : picked.id;
+            if (eid && !eid.endsWith('-label') && !eid.endsWith('-radius') && viewer.entities.getById(`${eid}-label`)) {
+              baseId = eid;
+            }
+          }
+          const labelId = baseId ? `${baseId}-label` : null;
+          if (labelId !== lastLabelId) {
+            if (lastLabelId) {
+              const e = viewer.entities.getById(lastLabelId);
+              if (e && e.billboard) e.billboard.show = false;
+            }
+            if (labelId) {
+              const e = viewer.entities.getById(labelId);
+              if (e && e.billboard) e.billboard.show = true;
+            }
+            lastLabelId = labelId;
+          }
+        }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
       } catch (err: any) {
         console.error('Cesium init error:', err);
         setError(err.message || 'Failed to load map');
@@ -503,11 +531,15 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets, cust
           const id = `orbat-${slug}`;
           if (viewer.entities.getById(id)) return;
           const pos = Cesium.Cartesian3.fromDegrees(u.hqLng as number, u.hqLat as number, 0);
+          // SA-2/SA-5(air_defense)만 채색(빨강), 나머지 적 부대는 무채색(회색)으로 통일.
+          const isSam = u.unitType === 'air_defense';
+          const fill = isSam ? '#7f1d1d' : '#6b7280';
+          const outline = isSam ? '#450a0a' : '#374151';
           viewer.entities.add({
             id,
             position: pos,
             billboard: {
-              image: markerCanvas(ORBAT_SYMBOL[u.unitType] || 'circle', '#7f1d1d', '#450a0a'),
+              image: markerCanvas(ORBAT_SYMBOL[u.unitType] || 'circle', fill, outline),
               scale: 0.9,
               verticalOrigin: Cesium.VerticalOrigin.CENTER,
             },
