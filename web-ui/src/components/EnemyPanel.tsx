@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
 import { TimelineEvent, ScenarioPhase, InferenceResult } from '@/types';
 
 interface EnemyPanelProps {
@@ -35,70 +34,112 @@ function phaseProb(description: string): number | null {
   return m ? parseInt(m[1], 10) : null;
 }
 
-export default function EnemyPanel({ events, currentTime, inferenceResult, scenarios = [] }: EnemyPanelProps) {
-  const visibleEvents = events.filter((e) => e.timestamp <= currentTime).slice().reverse();
+const PEACETIME_REPORTS: { category: string; color: string; dot: string; time: string; report: string }[] = [
+  {
+    category: '핵·WMD',
+    color: 'text-red-400',
+    dot: 'bg-red-500',
+    time: '06:30',
+    report: '영변 5MW 원자로 냉각수 배출 주기 정상 범위 유지, 이상 징후 없음',
+  },
+  {
+    category: '미사일',
+    color: 'text-orange-400',
+    dot: 'bg-orange-500',
+    time: '09:15',
+    report: '동창리 서해위성발사장 연료 저장시설 주변 차량 3대 식별, 평시 수준',
+  },
+  {
+    category: '지상군',
+    color: 'text-yellow-400',
+    dot: 'bg-yellow-500',
+    time: '11:40',
+    report: '비무장지대 인근 포병 부대 정기 기동훈련 식별, 규모 및 패턴 이상 없음',
+  },
+  {
+    category: '해군',
+    color: 'text-blue-400',
+    dot: 'bg-blue-500',
+    time: '14:22',
+    report: '남포항 잠수함 기지 잠수함 2척 정박 확인, 출항 징후 없음',
+  },
+  {
+    category: '공군',
+    color: 'text-cyan-400',
+    dot: 'bg-cyan-500',
+    time: '16:05',
+    report: '순천 비행장 MiG-29 편대 이착륙 훈련 식별, 주 1회 정기훈련 범위 내',
+  },
+  {
+    category: '사회·경제',
+    color: 'text-gray-400',
+    dot: 'bg-gray-500',
+    time: '19:48',
+    report: '평양 시내 식량 배급 일정 정상 운영, 주민 동요 징후 없음',
+  },
+];
 
+export default function EnemyPanel({ events, currentTime, inferenceResult, scenarios = [] }: EnemyPanelProps) {
   // 30% 이상인 시나리오들 필터링 및 확률 높은 순 정렬
   const confirmedHypotheses = (inferenceResult?.hypotheses || [])
     .filter(h => h.posterior >= 0.3)
     .sort((a, b) => b.posterior - a.posterior);
 
+  const isScenarioActive = confirmedHypotheses.length > 0;
+
   return (
     <div className="h-full flex flex-col layer-1 border-r border-gray-800/50">
-      
-      {/* 상단: 식별된 위협 시나리오들 */}
-      {confirmedHypotheses.length > 0 && (
-        <div className="shrink-0 flex flex-col border-b border-gray-800 bg-gray-900/80 max-h-[60%] overflow-y-auto">
-          <div className="p-2 flex flex-col gap-2">
+
+      {isScenarioActive ? (
+        /* 시나리오 진행 뷰: 식별된 위협 시나리오 블록만 표시 */
+        <div className="flex-1 flex flex-col min-h-0">
+          <div className="p-3 border-b border-gray-800 bg-gray-900/40 shrink-0">
+            <h2 className="text-sm font-bold text-amber-400 flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+              위협 시나리오 분석
+            </h2>
+          </div>
+          <div className="flex-1 overflow-y-auto p-2">
             {confirmedHypotheses.map(h => {
               const scenario = scenarios.find(s => s.id === h.id);
               return (
-                <ScenarioBlock 
-                  key={h.id} 
-                  hypothesisId={h.id} 
-                  posterior={h.posterior} 
-                  scenario={scenario} 
-                  events={events} 
-                  currentTime={currentTime} 
+                <ScenarioBlock
+                  key={h.id}
+                  hypothesisId={h.id}
+                  posterior={h.posterior}
+                  scenario={scenario}
+                  events={events}
+                  currentTime={currentTime}
                 />
               );
             })}
           </div>
         </div>
-      )}
-
-      {/* 하단: 특이 동향 감시 피드 (항상 표시) */}
-      <div className="flex-1 flex flex-col min-h-0">
-        <div className="p-3 border-b border-gray-800 bg-gray-900/40 shrink-0">
-          <h2 className="text-sm font-bold text-gray-300 flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
-            특이 동향 감시
-          </h2>
-        </div>
-
-        <div className="flex-1 px-3 py-3 overflow-y-auto">
-          {visibleEvents.length === 0 ? (
-            <p className="text-xs text-gray-600 text-center mt-4">새로운 특이동향 없음</p>
-          ) : (
-            <div className="flex flex-col gap-2">
-              {visibleEvents.map((e) => (
-                <div key={e.id} className="flex items-start gap-2 p-2 rounded bg-gray-800/30 border border-gray-700/50 animate-fade-in">
-                  <SourceBadge actionClass={e.actionClass} />
-                  <div className="min-w-0 flex-1">
-                    <p className="text-xs font-bold text-gray-300 leading-tight">
-                      {e.title}
-                    </p>
-                    <p className="text-[11px] text-gray-400 mt-1 leading-snug break-keep">
-                      {e.description}
-                    </p>
-                    <p className="text-[10px] text-gray-600 font-mono mt-1">{e.time}</p>
+      ) : (
+        /* 평시 뷰: 6개 분야별 최근 보고 */
+        <div className="flex-1 flex flex-col min-h-0">
+          <div className="p-3 border-b border-gray-800 bg-gray-900/40 shrink-0">
+            <h2 className="text-sm font-bold text-gray-300 flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-green-500"></span>
+              분야별 동향 (24H)
+            </h2>
+          </div>
+          <div className="flex-1 overflow-y-auto px-2 py-2 flex flex-col gap-1.5">
+            {PEACETIME_REPORTS.map((item) => (
+              <div key={item.category} className="p-2.5 rounded border border-gray-800 bg-gray-900/40">
+                <div className="flex items-center justify-between mb-1">
+                  <div className="flex items-center gap-1.5">
+                    <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${item.dot}`} />
+                    <span className={`text-[11px] font-bold ${item.color}`}>{item.category}</span>
                   </div>
+                  <span className="text-[10px] text-gray-600 font-mono">{item.time}</span>
                 </div>
-              ))}
-            </div>
-          )}
+                <p className="text-[11px] text-gray-400 leading-snug break-keep">{item.report}</p>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
     </div>
   );
@@ -284,25 +325,3 @@ function gaugeBar(pct: number) {
   return 'bg-gray-500';
 }
 
-function SourceBadge({ actionClass }: { actionClass?: string }) {
-  if (!actionClass) {
-    return <span className="shrink-0 w-1.5 h-1.5 mt-1 rounded-full bg-gray-600" />;
-  }
-  const styles: Record<string, string> = {
-    IMINT: 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30',
-    SIGINT: 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30',
-    MASINT: 'bg-orange-500/20 text-orange-400 border-orange-500/30',
-    UAV: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
-    OSINT: 'bg-teal-500/20 text-teal-400 border-teal-500/30',
-    HUMINT: 'bg-amber-500/20 text-amber-400 border-amber-500/30',
-  };
-  return (
-    <span
-      className={`shrink-0 text-[10px] px-1 py-0.5 rounded border font-mono ${
-        styles[actionClass] || 'bg-gray-500/20 text-gray-400 border-gray-500/30'
-      }`}
-    >
-      {actionClass}
-    </span>
-  );
-}
