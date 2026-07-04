@@ -315,6 +315,35 @@ export default function ServerPage() {
   const sliderIdx = drillIdx >= 0 ? Math.min(drillIdx, series.length - 1) : Math.max(0, series.length - 1);
   const sliderRow = series[sliderIdx];
 
+  // 영향 그래프 coarse scrubbing: 10 evenly-spaced checkpoints (incl. both ends) that the
+  // ◀/▶ stepper walks through, so ~10 ▶ presses sweep the whole trend.
+  const STEPS = 10;
+  const stepIdxs = useMemo(() => {
+    const n = series.length;
+    if (n <= 1) return [0];
+    return Array.from({ length: STEPS }, (_, k) => Math.round((k * (n - 1)) / (STEPS - 1)));
+  }, [series.length]);
+  const curStep = useMemo(() => {
+    let best = 0;
+    let bd = Infinity;
+    stepIdxs.forEach((ix, k) => {
+      const d = Math.abs(ix - sliderIdx);
+      if (d < bd) {
+        bd = d;
+        best = k;
+      }
+    });
+    return best;
+  }, [stepIdxs, sliderIdx]);
+  const goStep = useCallback(
+    (k: number) => {
+      const m = stepIdxs.length;
+      if (!m) return;
+      drillInto(stepIdxs[((k % m) + m) % m], true); // wrap both directions
+    },
+    [stepIdxs, drillInto],
+  );
+
   // Arrow / Home / End / PageUp-Down scrub the timeline from anywhere on the page. When the
   // range input itself is focused the browser already steps it, so we skip inputs to avoid
   // double-stepping (and to not hijack arrows while typing the base URL).
@@ -489,25 +518,52 @@ export default function ServerPage() {
           {/* Timestamp scrubber — drag to query /inference at any snapshot ---- */}
           {series.length > 0 && sliderRow && (
             <div className="px-5 pb-1.5">
-              <div className="flex items-center gap-3">
-                <span className="text-[11px] text-gray-500 shrink-0">시점 스크럽</span>
-                <input
-                  type="range"
-                  min={0}
-                  max={series.length - 1}
-                  value={sliderIdx}
-                  onChange={(e) => drillInto(+e.target.value)}
-                  className="flex-1 h-1 accent-[var(--friendly)] cursor-pointer"
-                  aria-label="타임스탬프 스크럽"
-                />
-                <span className="shrink-0 w-[150px] text-right font-mono text-[11px] text-gray-300">
-                  {sliderRow.timestamp.slice(0, 10)} {sliderRow.timestamp.slice(11, 16)}
-                  {sliderRow.is_signal ? <span className="text-amber-400"> ●</span> : null}
-                </span>
-                <span className="shrink-0 w-[52px] text-right text-[10px] text-gray-600">
-                  {sliderIdx + 1}/{series.length}
-                </span>
-              </div>
+              {view === 'graph' ? (
+                // Coarse 10-step scrubber for the influence graph + a ◀/▶ stepper.
+                <div className="flex items-center gap-3">
+                  <span className="text-[11px] text-gray-500 shrink-0">10단계 스텝</span>
+                  <div className="flex items-center gap-1 shrink-0">
+                    <StepButton label="◀" title="이전 단계" onClick={() => goStep(curStep - 1)} />
+                    <StepButton label="▶" title="다음 단계" onClick={() => goStep(curStep + 1)} />
+                  </div>
+                  <input
+                    type="range"
+                    min={0}
+                    max={STEPS - 1}
+                    value={curStep}
+                    onChange={(e) => goStep(+e.target.value)}
+                    className="flex-1 h-1 accent-[var(--friendly)] cursor-pointer"
+                    aria-label="10단계 시점 스텝"
+                  />
+                  <span className="shrink-0 w-[150px] text-right font-mono text-[11px] text-gray-300">
+                    {sliderRow.timestamp.slice(0, 10)} {sliderRow.timestamp.slice(11, 16)}
+                    {sliderRow.is_signal ? <span className="text-amber-400"> ●</span> : null}
+                  </span>
+                  <span className="shrink-0 w-[52px] text-right text-[10px] text-gray-600">
+                    {curStep + 1}/{STEPS}
+                  </span>
+                </div>
+              ) : (
+                <div className="flex items-center gap-3">
+                  <span className="text-[11px] text-gray-500 shrink-0">시점 스크럽</span>
+                  <input
+                    type="range"
+                    min={0}
+                    max={series.length - 1}
+                    value={sliderIdx}
+                    onChange={(e) => drillInto(+e.target.value)}
+                    className="flex-1 h-1 accent-[var(--friendly)] cursor-pointer"
+                    aria-label="타임스탬프 스크럽"
+                  />
+                  <span className="shrink-0 w-[150px] text-right font-mono text-[11px] text-gray-300">
+                    {sliderRow.timestamp.slice(0, 10)} {sliderRow.timestamp.slice(11, 16)}
+                    {sliderRow.is_signal ? <span className="text-amber-400"> ●</span> : null}
+                  </span>
+                  <span className="shrink-0 w-[52px] text-right text-[10px] text-gray-600">
+                    {sliderIdx + 1}/{series.length}
+                  </span>
+                </div>
+              )}
             </div>
           )}
 
@@ -1428,6 +1484,18 @@ function InfluenceGraph({ graph, at }: { graph: GraphData; at: string | null }) 
         <span className="ml-auto font-mono text-gray-600">{at ? `${at.slice(0, 10)} ${at.slice(11, 16)}` : ''}</span>
       </div>
     </div>
+  );
+}
+
+function StepButton({ label, title, onClick }: { label: string; title: string; onClick: () => void }) {
+  return (
+    <button
+      onClick={onClick}
+      title={title}
+      className="w-6 h-6 flex items-center justify-center rounded border border-gray-700 text-[11px] text-gray-300 hover:border-[var(--friendly)] hover:text-white transition-colors"
+    >
+      {label}
+    </button>
   );
 }
 
