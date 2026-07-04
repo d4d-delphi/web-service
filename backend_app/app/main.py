@@ -42,7 +42,8 @@ def inference(
     campaign_id: str = Query(..., description="e.g. unha3"),
     at: str = Query(..., description="ISO datetime; returns latest snapshot at/before this time"),
     top_n: int = Query(8, ge=1, le=100),
-    include_source: bool = Query(True),
+    include_source: bool = Query(True, description="attach the raw observation row"),
+    include_abox: bool = Query(True, description="attach the ontology (A-Box) observed objects/signals/activities"),
 ):
     if not store.has_campaign(campaign_id):
         raise HTTPException(404, f"unknown campaign_id '{campaign_id}'")
@@ -50,7 +51,7 @@ def inference(
         datetime.fromisoformat(at)
     except ValueError:
         raise HTTPException(422, f"invalid 'at' datetime: {at}")
-    r = store.inference(campaign_id, at, top_n=top_n, include_source=include_source)
+    r = store.inference(campaign_id, at, top_n=top_n, include_source=include_source, include_abox=include_abox)
     if r is None:
         raise HTTPException(404, f"no snapshot at/before {at} for '{campaign_id}'")
     return r

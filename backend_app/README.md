@@ -60,15 +60,16 @@ scripts/serve.sh 0.0.0.0 8000          # → http://…:8000  (Swagger at /docs)
 | method | path | purpose |
 |---|---|---|
 | GET | `/campaigns` | campaign list + counts + time ranges |
-| GET | `/inference` | ★ one timestamp → probabilities + per-obs contributions (+ source) |
+| GET | `/inference` | ★ one timestamp → probabilities + per-obs contributions (+ ontology + source) |
 | GET | `/inference/series` | snapshot sequence for probability curves |
 | GET | `/observations/{obs_id}` | raw observation row (evidence drilldown) |
 | GET | `/health`, POST `/admin/reload` | ops |
 
-`/inference?campaign_id=unha3&at=<ISO>&top_n=8&include_source=true` returns `hypotheses`, `p_launch`,
-`hypothesis_contributions` (static-axis deciban per obs, sign per hypothesis) and `launch_contributions`
-(stage residual = `db · decay_per_day^(Δdays)` discounted to the query time). Contributions are attributed
-to `obs_id` and joined to the source row. Responses are UTF-8 (`ensure_ascii=false`).
+`/inference?campaign_id=unha3&at=<ISO>&top_n=8&include_abox=true&include_source=true` returns `hypotheses`,
+`p_launch`, `hypothesis_contributions` (static-axis deciban per obs, sign per hypothesis) and
+`launch_contributions` (stage residual = `db · decay_per_day^(Δdays)` discounted to the query time). Each
+contribution is attributed to `obs_id` and joined to **both** its ontology classification (`abox` — the
+observed types that produced the deciban) and its raw `source` row. Responses are UTF-8 (`ensure_ascii=false`).
 
 ## Calling the API — examples
 
@@ -81,12 +82,12 @@ BASE=http://127.0.0.1:8000/api/v1
 # campaign list
 curl -s "$BASE/campaigns"
 
-# ★ inference at a timestamp — probabilities + reverse-attributed contributions + source
+# ★ inference at a timestamp — probabilities + reverse-attributed contributions (ontology + source)
 curl -s -G "$BASE/inference" \
   --data-urlencode "campaign_id=unha3" \
   --data-urlencode "at=2026-07-15T00:46:00+00:00" \
   --data-urlencode "top_n=6"
-# add --data-urlencode "include_source=false" for obs_id + db only (lighter)
+# lighter payloads: add --data-urlencode "include_source=false" and/or "include_abox=false"
 
 # probability curve (what the /ui graph fetches) — pick the fields you plot
 curl -s -G "$BASE/inference/series" \
@@ -136,7 +137,8 @@ The full belief state at `at` plus **why** (reverse-attribution to source observ
     "액체·장거리": [
       { "obs_id": "101845d7-…",
         "contribution_db": 10.8,               // deciban this obs adds to THIS hypothesis
-        "source": { …see below… } }            // (sign flips across the 4 labels: +for 액체, −for 고체)
+        "abox":   { …ontology, see below… },   // the observed types that PRODUCED this deciban
+        "source": { …raw row, see below… } }   // (sign flips across the 4 labels: +for 액체, −for 고체)
     ],
     "고체·장거리": [ … ], "액체·단거리": [ … ], "고체·단거리": [ … ]
   },
@@ -145,7 +147,8 @@ The full belief state at `at` plus **why** (reverse-attribution to source observ
     { "obs_id": "24f455dd-…",
       "residual_db": 27.0,                     // stage evidence discounted by decay to `timestamp`
       "stages": ["s2_pad","s3_imminent"],      // which stage integrator(s) this obs fed
-      "source": { …see below… } }
+      "abox":   { …ontology, see below… },
+      "source": { …raw row, see below… } }
   ]
 }
 ```
@@ -157,8 +160,25 @@ Field meaning:
 | `hypothesis_contributions[label]` | observations ranked by their deciban push toward `label` (static axes, **no decay** → permanent). Sorted desc, `top_n` each |
 | `launch_contributions` | observations ranked by **residual** deciban still alive in the stages: `db · decay_per_day^(Δdays)`, Δ = snapshot−obs. A telemetry hit yesterday counts more than a comms surge last month |
 | `stages` | which leaky stages the obs contributed to (`s1_early`/`s2_pad`/`s3_imminent`) |
+| `abox` | **ontology objects the deciban came from** (the Stage-1 classification of this obs). See below — omit with `include_abox=false` |
+| `source` | raw observation row, `obs_id`-joined. Omit with `include_source=false` |
 
-`source` object (raw observation, `obs_id`-joined; omit with `include_source=false`):
+Each contribution carries two joined views of the same `obs_id`:
+
+**`abox`** — the ontology (A-Box) classification, i.e. the observed types that the engine keyed the
+deciban on. This is *why* the number exists: `PropellantVehicle` → the +10.8 dB liquid-fuel push;
+`TelemetryEmission`+`SignalActivation` → the +27 dB imminence push.
+```json
+{"observed_objects":[{"type":"PropellantVehicle","count":1,"spuq":0.105},
+                     {"type":"EngineTestStand","count":1,"spuq":0.105}],
+ "observed_signals":[],
+ "observed_activities":[{"type":"PersonnelActivity","spuq":0.105}],
+ "novelty":[{"kind":"note","raw":"미상 케이블 다수"}]}
+```
+(`spuq` = per-observation uncertainty from Stage 1; facility types like `EngineTestStand` are presence-only
+and emit no deciban, but are still shown for context. `novelty` = observed but outside the controlled vocabulary.)
+
+**`source`** — the raw observation row:
 ```json
 {"obs_id":"…","collected_at":"…","asset_type":"SATELLITE_IMINT",
  "location_name":"잠진 기계공장 엔진시험장 (남포 인근)",
