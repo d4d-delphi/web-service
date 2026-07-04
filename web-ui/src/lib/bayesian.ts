@@ -1,4 +1,4 @@
-import { ActionClass, Hypothesis, HypothesisNode, InferenceResult } from '@/types';
+import { ActionClass, Hypothesis, HypothesisNode, InferenceResult, EvidenceContribution } from '@/types';
 
 /**
  * 베이지안 추론 엔진
@@ -78,6 +78,7 @@ export function runInference(
       overallConfidence: 0,
       updatedAt: new Date().toISOString(),
       evidenceCount: 0,
+      evidenceContributions: [],
     };
   }
 
@@ -130,13 +131,47 @@ export function runInference(
     ? topHypothesis.posterior * (1 - topHypothesis.uncertainty)
     : 0;
 
+  // 최유력 가설에 대한 각 증거의 기여도 계산
+  // logOdds_i = w_i × ( log L_i(H*) − log(전체 가설 평균 우도) )
+  // → 양수면 해당 증거가 H*를 다른 가설 대비 지지함
+  const evidenceContributions = computeContributions(actions, hypotheses, topHypothesis);
+
   return {
     hypotheses: posteriors,
     topHypothesis,
     overallConfidence,
     updatedAt: new Date().toISOString(),
     evidenceCount: actions.length,
+    evidenceContributions,
   };
+}
+
+// 최유력 가설(H*)에 대한 개별 증거의 판별 기여도 산출
+function computeContributions(
+  actions: ActionClass[],
+  hypotheses: Hypothesis[],
+  topHypothesis: HypothesisNode | null
+): EvidenceContribution[] {
+  if (!topHypothesis) return [];
+  const topH = hypotheses.find((h) => h.id === topHypothesis.id);
+  if (!topH) return [];
+
+  const raw = actions.map((action) => {
+    const likelihood = getLikelihood(action, topH);
+    const weight = confidenceWeight(action.confidence);
+    // 전체 가설에 대한 평균 우도 (baseline)
+    const avgLikelihood =
+      hypotheses.reduce((sum, h) => sum + getLikelihood(action, h), 0) / hypotheses.length;
+    const logOdds = weight * (Math.log(likelihood) - Math.log(avgLikelihood));
+    return { actionId: action.id, likelihood, weight, logOdds };
+  });
+
+  // 양의 기여분만 정규화하여 상대적 비중(%) 산출
+  const totalPositive = raw.reduce((sum, r) => sum + Math.max(0, r.logOdds), 0);
+  return raw.map((r) => ({
+    ...r,
+    contribution: totalPositive > 0 ? Math.max(0, r.logOdds) / totalPositive : 0,
+  }));
 }
 
 // 불확실성 계산: 증거의 SPUQ 불확실성 종합
