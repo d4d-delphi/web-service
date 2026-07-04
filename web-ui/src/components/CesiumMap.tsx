@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { Scenario, ThreatAsset, FriendlyAsset, LaunchConfig } from '@/types';
+import { Scenario, ThreatAsset, FriendlyAsset, LaunchConfig, MilitaryUnit } from '@/types';
 import { trackAt, flownPath, fullPath, launchBearingDeg } from '@/lib/custody';
 
 interface CesiumMapProps {
@@ -27,6 +27,11 @@ const FRIENDLY_SYMBOL: Record<string, string> = {
   SHIP: 'ship',
   COMMAND: 'star',
   UAV: 'chevron',
+};
+const ORBAT_SYMBOL: Record<string, string> = {
+  corps: 'star', division: 'square', brigade: 'square', regiment: 'square',
+  battalion: 'circle', missile: 'triangle', air_defense: 'diamond', air: 'chevron',
+  naval: 'ship', sf: 'circle', artillery: 'square', command: 'star', other: 'circle',
 };
 
 // Draw a small military-style marker glyph onto a canvas for use as a
@@ -254,6 +259,20 @@ function loadCesiumScript(): Promise<any> {
   });
 }
 
+// 적 ORBAT(전투서열) 부대 로드 — /api/orbat(서버 fs 미러)에서 1회 fetch 후 모듈 캐시.
+let orbatUnitsCache: MilitaryUnit[] | null = null;
+async function loadOrbatUnits(): Promise<MilitaryUnit[]> {
+  if (orbatUnitsCache) return orbatUnitsCache;
+  try {
+    const r = await fetch('/api/orbat');
+    if (!r.ok) return [];
+    orbatUnitsCache = ((await r.json()) as { units: MilitaryUnit[] }).units ?? [];
+  } catch {
+    orbatUnitsCache = [];
+  }
+  return orbatUnitsCache;
+}
+
 export default function CesiumMap({ scenario, currentTime, destroyedAssets, custody }: CesiumMapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const viewerRef = useRef<any>(null);
@@ -454,6 +473,28 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets, cust
         '#22d3ee',
         'rgba(10,14,26,0.72)',
       );
+    });
+
+    // 적 ORBAT(전투서열) 부대 마커 — 적 오더 오브 배틀 상시 표시 (전장 중심 사고)
+    loadOrbatUnits().then((units) => {
+      units
+        .filter((u) => u.hqLat != null && u.hqLng != null)
+        .forEach((u) => {
+          const slug = (u.designation || 'unit').replace(/\s+/g, '-');
+          const id = `orbat-${slug}`;
+          if (viewer.entities.getById(id)) return;
+          const pos = Cesium.Cartesian3.fromDegrees(u.hqLng as number, u.hqLat as number, 0);
+          viewer.entities.add({
+            id,
+            position: pos,
+            billboard: {
+              image: markerCanvas(ORBAT_SYMBOL[u.unitType] || 'circle', '#dc2626', '#7f1d1d'),
+              scale: 0.9,
+              verticalOrigin: Cesium.VerticalOrigin.CENTER,
+            },
+          });
+          addLabelEntity(Cesium, viewer, id, pos, u.designation, '#fecaca', 'rgba(10,14,26,0.72)');
+        });
     });
 
     // Observation markers (amber dots)
