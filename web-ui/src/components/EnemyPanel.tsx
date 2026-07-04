@@ -149,18 +149,12 @@ export default function EnemyPanel({ events, currentTime, inferenceResult, scena
 function ScenarioBlock({ hypothesisId, posterior, scenario, events, currentTime }: any) {
   const probPct = Math.round(posterior * 100);
 
-  if (!scenario) {
-    return (
-      <div className="rounded border border-gray-700 bg-gray-800/30 overflow-hidden mb-2">
-        <div className="p-3 flex items-center justify-between">
-           <span className="text-[12px] font-bold text-gray-400">{hypothesisId}</span>
-           <span className="text-[10px] text-gray-500 font-mono">{probPct}%</span>
-        </div>
-      </div>
-    );
-  }
+  // Hooks must run unconditionally, before any early return, to satisfy
+  // React's rules-of-hooks. Guard the derived data against a null scenario.
+  const activeRowRef = useRef<HTMLDivElement | null>(null);
+  const activeStageIdRef = useRef<number | null>(null);
 
-  const stages = scenario.phases.map((phase: any) => {
+  const stages = (scenario?.phases ?? []).map((phase: any) => {
     const inWindow = events.filter((e: any) => e.timestamp >= phase.startTime && e.timestamp < phase.endTime);
     const collected = inWindow.filter((e: any) => e.timestamp <= currentTime);
     const isLaunch = inWindow.some((e: any) => e.type === 'launch' || e.type === 'strike');
@@ -180,12 +174,8 @@ function ScenarioBlock({ hypothesisId, posterior, scenario, events, currentTime 
     };
   });
 
-  const launchReached = stages.some((s: any) => s.isLaunch && s.reached);
-
   // 시나리오 전환/Phase 진행 시 현재 Phase를 중심으로 타임라인을 펼친다.
   // 활성 Phase가 바뀔 때만 가장 가까운 방향으로 스크롤(사용자 수동 스크롤 최소 간섭).
-  const activeRowRef = useRef<HTMLDivElement | null>(null);
-  const activeStageIdRef = useRef<number | null>(null);
   useEffect(() => {
     const active = stages.find((s: any) => s.active);
     if (active && active.phase.id !== activeStageIdRef.current) {
@@ -193,6 +183,19 @@ function ScenarioBlock({ hypothesisId, posterior, scenario, events, currentTime 
       activeRowRef.current?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
     }
   }, [stages]);
+
+  if (!scenario) {
+    return (
+      <div className="rounded border border-gray-700 bg-gray-800/30 overflow-hidden mb-2">
+        <div className="p-3 flex items-center justify-between">
+           <span className="text-[12px] font-bold text-gray-400">{hypothesisId}</span>
+           <span className="text-[10px] text-gray-500 font-mono">{probPct}%</span>
+        </div>
+      </div>
+    );
+  }
+
+  const launchReached = stages.some((s: any) => s.isLaunch && s.reached);
 
   const gaugeText = (pct: number) => {
     if (pct >= 90) return 'text-red-500';
