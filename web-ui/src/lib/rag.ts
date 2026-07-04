@@ -41,11 +41,58 @@ function loadLaunchCases(): LaunchCase[] {
   }
 }
 
+// 의미론적 검색(pgvector) — OPENAI_API_KEY + Supabase 키가 있고 launch_cases.embedding 이
+// 백필된 경우에만 동작. 하나라도 없으면 null → 키워드 union 으로 폴백.
+// openai 팩키지는 동적 require 로, 미설치/미설정 시 조용히 스킵.
+function tryRequire(mod: string): any {
+  try { return (require as any)(mod); } catch { return null; }
+}
+
+async function vectorSearch(indicators: string[], topK: number): Promise<AnyCase[] | null> {
+  const openaiKey = process.env.OPENAI_API_KEY;
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!openaiKey || !supabaseUrl || !supabaseKey) return null;
+  const OpenAI = tryRequire('openai')?.OpenAI;
+  if (!OpenAI) return null;
+  try {
+    const client = new OpenAI({ apiKey: openaiKey });
+    const emb = await client.embeddings.create({
+      model: 'text-embedding-3-small', input: indicators.join(' '),
+    });
+    const resp = await fetch(`${supabaseUrl}/rest/v1/rpc/match_launch_cases`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        apikey: supabaseKey, Authorization: `Bearer ${supabaseKey}`,
+      },
+      body: JSON.stringify({ query_embedding: emb.data[0].embedding, match_count: topK }),
+    });
+    if (!resp.ok) return null;
+    const rows = (await resp.json()) as any[];
+    if (!Array.isArray(rows) || rows.length === 0) return null;
+    return rows.map((r) => ({
+      id: `lc-${r.case_no}`, caseNo: r.case_no as number, date: r.launch_date as string,
+      title: `${r.missile_name} (${r.weapon_class}) 발사`,
+      missileType: `${r.weapon_class} (${r.missile_name})`,
+      outcome: r.outcome as string, indicators: (r.indicators ?? []) as string[],
+      description: (r.description ?? '') as string, similarity: r.similarity as number,
+    })) as LaunchCase[];
+  } catch (error) {
+    console.error('vector search failed, keyword fallback:', error);
+    return null;
+  }
+}
+
 export async function searchSimilarCases(
   currentIndicators: string[],
   topK: number = 3
 ): Promise<AnyCase[]> {
-  // Try Supabase vector search first, fallback to local
+  // 1) 의미론적 검색(pgvector) — 키/임베딩 있을 때 우선
+  const vec = await vectorSearch(currentIndicators, topK);
+  if (vec && vec.length) return vec;
+
+  // 2) 키워드 union 폴백 (historical-cases-full + launch-cases 미러)
   try {
     const all: AnyCase[] = [
       ...(historicalCases as HistoricalCase[]),
