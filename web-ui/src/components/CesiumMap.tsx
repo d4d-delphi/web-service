@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { Scenario, ThreatAsset, FriendlyAsset, LaunchConfig, MilitaryUnit } from '@/types';
+import { Scenario, ThreatAsset, FriendlyAsset, LaunchConfig, MilitaryUnit, FriendlyFormation } from '@/types';
 import { trackAt, flownPath, fullPath, launchBearingDeg } from '@/lib/custody';
 
 interface CesiumMapProps {
@@ -32,6 +32,11 @@ const ORBAT_SYMBOL: Record<string, string> = {
   corps: 'star', division: 'square', brigade: 'square', regiment: 'square',
   battalion: 'circle', missile: 'triangle', air_defense: 'diamond', air: 'chevron',
   naval: 'ship', sf: 'circle', artillery: 'square', command: 'star', other: 'circle',
+};
+const FORMATION_SYMBOL: Record<string, string> = {
+  fighter_wing: 'chevron', recon_wing: 'circle', army_corps: 'star', mobile_corps: 'star',
+  missile_cmd: 'triangle', air_defense_cmd: 'diamond', sam_base: 'diamond', sigint: 'circle',
+  naval: 'ship', command: 'star', other: 'circle',
 };
 
 // Draw a small military-style marker glyph onto a canvas for use as a
@@ -273,6 +278,20 @@ async function loadOrbatUnits(): Promise<MilitaryUnit[]> {
   return orbatUnitsCache;
 }
 
+// 아군(ROK/USFK) 전투서열 부대 로드 — /api/blue-formations(서버 fs 미러)에서 1회 fetch 후 캐시.
+let friendlyFormationsCache: FriendlyFormation[] | null = null;
+async function loadFriendlyFormations(): Promise<FriendlyFormation[]> {
+  if (friendlyFormationsCache) return friendlyFormationsCache;
+  try {
+    const r = await fetch('/api/blue-formations');
+    if (!r.ok) return [];
+    friendlyFormationsCache = ((await r.json()) as { units: FriendlyFormation[] }).units ?? [];
+  } catch {
+    friendlyFormationsCache = [];
+  }
+  return friendlyFormationsCache;
+}
+
 export default function CesiumMap({ scenario, currentTime, destroyedAssets, custody }: CesiumMapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const viewerRef = useRef<any>(null);
@@ -494,6 +513,29 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets, cust
             },
           });
           addLabelEntity(Cesium, viewer, id, pos, u.designation, '#fecaca', 'rgba(10,14,26,0.72)');
+        });
+    });
+
+    // 아군(ROK/USFK) 전투서열 부대 마커 — 청색(공수 양면). 정밀 좌표 비공개 → 행정구역 수준.
+    loadFriendlyFormations().then((units) => {
+      units
+        .filter((u) => u.hqLat != null && u.hqLng != null)
+        .forEach((u) => {
+          const slug = (u.designation || 'f-unit').replace(/\s+/g, '-');
+          const id = `blue-${slug}`;
+          if (viewer.entities.getById(id)) return;
+          const pos = Cesium.Cartesian3.fromDegrees(u.hqLng as number, u.hqLat as number, 0);
+          const outline = u.side === 'usfk' ? '#1e3a8a' : '#1d4ed8';
+          viewer.entities.add({
+            id,
+            position: pos,
+            billboard: {
+              image: markerCanvas(FORMATION_SYMBOL[u.formationType] || 'circle', '#3b82f6', outline),
+              scale: 0.9,
+              verticalOrigin: Cesium.VerticalOrigin.CENTER,
+            },
+          });
+          addLabelEntity(Cesium, viewer, id, pos, u.designation, '#bfdbfe', 'rgba(10,14,26,0.72)');
         });
     });
 

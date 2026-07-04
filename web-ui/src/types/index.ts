@@ -587,3 +587,19 @@ export interface BlueContext {
   resolvedUnits: FriendlyUnit[];
   note: string; // illustrative disclaimer
 }
+
+// Layer 2+ 아군(ROK/USFK) 전투서열 정규 부대. supabase friendly_formations 가 source of truth,
+// friendly-formations.json 미러(export_friendly_formations_mirror.py)를 서버 fs 로 읽는다.
+export interface FriendlyFormation {
+  designation: string;
+  formationType: string;   // fighter_wing/recon_wing/army_corps/mobile_corps/missile_cmd/air_defense_cmd/sam_base/sigint/naval/command
+  branch: string;          // air/army/naval/strategic/sf
+  side: 'rok' | 'usfk' | 'combined';
+  hqLat?: number | null;
+  hqLng?: number | null;
+  role?: string | null;
+  operates?: string | null;
+  readiness?: string | null;
+  baseRegion?: string | null;
+  aliases?: string[];
+}
