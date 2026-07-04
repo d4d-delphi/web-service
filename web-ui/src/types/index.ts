@@ -375,3 +375,77 @@ export interface MilitaryUnit {
   sourceRef?: string | null;
   aliases?: string[];
 }
+
+// ============================================
+// 아군 교리 연동 (Track B) — Layer 2+
+// 공개 교리 개념(WATCHCON/KAMD 킬체인/3축 대응/C2/ROE) 기반 매핑.
+// 실 운용 수치·체계연동은 illustrative stub.
+// 미러: src/data/doctrine-ontology.json (export_doctrine_mirror.py 가 원격 Supabase에서 내보냄).
+// ============================================
+
+export interface DoctrineWatchcon {
+  level: number;              // 1(전시) ~ 5(단순경계)
+  name: string;               // 단순경계/경계/비상/심각/전시
+  englishName: string | null; // Simple Alert / Watch / Emergency / Severe / War
+  meaning: string;
+  recommendedPosture: string | null;
+  reason: string;             // 데모용 휴리스틱 근거
+}
+
+export interface DoctrineKillchainPhase {
+  phase: string;              // detect/assess/decide/act
+  koreanName: string;         // 탐지/판단/결심/실행
+  ordinal: number;
+  entryCondition: string | null;
+  description: string | null;
+  reason: string;
+}
+
+export interface DoctrineResponseOption {
+  optionId: string;
+  pillar: 'kamd' | 'kmpr' | 'lamd'; // 한국형미사일방어(탐지) / 대량응징보복(타격) / 저고도방어(요격)
+  pillarName: string;
+  asset: string;
+  triggerPhase: string | null;
+  authorityThreshold: string | null;
+  priority: number | null;
+  description: string | null;
+}
+
+export interface DoctrineC2Authority {
+  tier: number;
+  authority: string;
+  role: string | null;
+  decisionThreshold: string | null;
+  reportingChain: string | null;
+  isActive: boolean;          // 현재 watchcon에 결재권한인지
+}
+
+export interface DoctrineRoeCategory {
+  categoryId: string;
+  name: string;
+  allowedActions: string | null;
+  activationWatchcon: number | null;
+  description: string | null;
+}
+
+export interface DoctrineFriendlyAsset {
+  canonicalName: string;
+  pillar: string | null;
+  assetType: string | null;
+  rangeKm: number | null;
+  detectionRangeKm: number | null;
+  readiness: string | null;
+  description: string | null;
+}
+
+// api/brief 응답에 포함되는 교리 컨텍스트
+export interface DoctrineContext {
+  watchcon: DoctrineWatchcon;
+  killchainPhase: DoctrineKillchainPhase;
+  responseOptions: DoctrineResponseOption[];
+  c2Authority: DoctrineC2Authority[];
+  roeCategory: DoctrineRoeCategory | null;
+  readyAssets: DoctrineFriendlyAsset[];
+  note: string;               // illustrative disclaimer
+}
