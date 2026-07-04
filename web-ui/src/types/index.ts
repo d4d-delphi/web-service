@@ -504,7 +504,7 @@ export interface UseCase {
 export interface CopilotResolvedEntity {
   canonicalName: string;
   matchedAlias: string;
-  [key: string]: unknown;   // kn/weaponClass/rangeKm/facilityType/lat/lng 등 가변 메타
+  [key: string]: unknown;   // kn/weaponClass/rangeKm/facilityType/lat/lng/emitterType/band 등 가변 메타
 }
 
 export interface CopilotContextResponse {
@@ -513,7 +513,9 @@ export interface CopilotContextResponse {
   resolvedEntities: {
     facilities: CopilotResolvedEntity[];   // resolveFacility 결과(정규 시설)
     missiles: CopilotResolvedEntity[];     // resolveMissile 결과(정규 미사일)
+    emitters: CopilotResolvedEntity[];     // resolveEmitter 결과(정규 방출원) — D3 SIGINT gap 해소
   };
+  sigintInterpretation: SigintEmitterInterpretation | null; // SIGINT 교차검증 유스케이스 한정
   similarCases: HistoricalCase[];          // RAG 매칭 과거사례
   readyAssets: DoctrineFriendlyAsset[];    // 아군 가용 자산(교리 미러)
   doctrineContext: DoctrineContext | null; // 대표 시나리오 사후확률 기반 교리 매핑
@@ -602,4 +604,57 @@ export interface FriendlyFormation {
   readiness?: string | null;
   baseRegion?: string | null;
   aliases?: string[];
+}
+
+// ============================================
+// ============================================
+// 방출원(EMitter) 온톨로지 — Layer 2+ (Session 3, D3 — SIGINT gap 해소)
+// SIGINT observation 의 generic emitter_guess("방공 감시레이더 계열"/"텔레메트리 송신 계열"/
+// "미상") 을 정규 엔티티(레이더/통신/텔레메트리)로 해석. canonical+alias 패턴 계승.
+// 원천: src/data/emitter-ontology.json (export_emitter_mirror.py, gitignore).
+// 공개 OSINT(GlobalSecurity/CSIS)만 — 제원은 illustrative stub.
+// ============================================
+
+export type EmitterType =
+  | 'SEARCH'          // 탐색/획득
+  | 'FIRE_CONTROL'    // 사격통제/유도
+  | 'SEARCH_FIRE'     // 획득+사격통제 결합
+  | 'EARLY_WARNING'   // 조기경보
+  | 'COMMS'           // 통신
+  | 'TELEMETRY'       // 텔레메트리(발사체)
+  | 'DATALINK'        // 전술 데이터링크
+  | 'NAVIGATION'
+  | 'UNKNOWN';
+
+export type EmitterThreatRelevance =
+  | 'launch_indicator'  // 발사 징후(텔레메트리/추적)
+  | 'air_defense'       // 방공(레이더)
+  | 'comms'             // 통신(야전망)
+  | 'background'        // 배경(루틴)
+  | 'neutral'
+  | 'unknown';
+
+export interface EmitterEntity {
+  canonicalName: string;
+  slug: string;
+  designation: string;
+  emitterType: EmitterType;
+  band: string | null;
+  natoName: string | null;
+  associatedSystem: string | null;
+  platform: string | null;
+  role: string | null;
+  frequencyParams: Record<string, unknown> | null;
+  threatRelevance: EmitterThreatRelevance | null;
+  description: string | null;
+  aliases: string[];
+  matchedAlias: string;
+}
+
+// SIGINT observation asset_detail 해석 결과 (lib/emitter.ts interpretSigintEmitter)
+export interface SigintEmitterInterpretation {
+  emitters: EmitterEntity[];
+  signalHint: string;
+  implication: 'launch_indicator' | 'air_defense' | 'comms' | 'background' | 'unknown';
+  unidentified: boolean;
 }

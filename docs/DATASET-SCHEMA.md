@@ -1169,3 +1169,63 @@ python3 supabase/seed/fix_coords.py          # 멱등 UPDATE (이미 수정 시 
 ```
 
 의존: `pip install mgrs packaging`. 생성 `fix_coords_seed.sql`/`*_seed.sql`·`data/`는 gitignore.
+
+---
+
+## 부록 D3: 방출원(EMitter) 온톨로지 — SIGINT gap 해소 (Session 3 / D3)
+
+### 배경
+SIGINT observation(`asset_type='SIGINT'`, 293행)은 `asset_detail.emitter_guess` 로
+"방공 감시레이더 계열" / "텔레메트리 송신 계열" / "야전 무전망" / "산업시설 통신망" /
+"정형 배경 통신" / "미상" 같은 generic 묘사를 가진다. 이를 정규 엔티티(레이더/통신/
+텔레메트리)로 해석할 온톨로지가 없어, SIGINT 징후가 방공·발사 해석으로 직결되지 못했다.
+본 부록은 이 gap을 메우는 **emitter 온톨로지**(`emitters` + `emitter_aliases`)를 정의한다.
+
+### 스키마 (`20260705030000_emitter_ontology_schema.sql`)
+- `emitters` — 정규 방출원 canonical 엔티티.
+  - `emitter_type`: `SEARCH` / `FIRE_CONTROL` / `SEARCH_FIRE` / `EARLY_WARNING` / `COMMS` /
+    `TELEMETRY` / `DATALINK` / `NAVIGATION` / `UNKNOWN`
+  - `threat_relevance`: `launch_indicator`(발사징후) / `air_defense`(방공) / `comms` /
+    `background` / `neutral` / `unknown` — 징후 가중치/정렬에 사용.
+  - `band`, `frequency_params`(jsonb: PRI/PW/Scan/Modulation, 공개범위), `associated_system`
+    (텍스트 — ORBAT FK 회피), `nato_name`, `platform`, `role`.
+- `emitter_aliases` — NATO명/한글/영문/slug/`signal_pattern` 묘사 통합.
+  - `alias_type=signal_pattern`: observation 의 generic `emitter_guess`("방공 감시레이더 계열"
+    등) → 정규 emitter 매칭 다리. 1:N 가능(한 묘사가 여러 emitter 후보에 매칭).
+
+### 시드 (13 emitters / 57 aliases, 공개 OSINT)
+원천: GlobalSecurity / CSIS / 공개 OSINT. 제원은 illustrative stub.
+| 정규 emitter | type | relevance | 비고 |
+|---|---|---|---|
+| 우주발사체 텔레메트리(S-Band PCM/FM) | TELEMETRY | launch_indicator | 동창리 SLV 발사 핵심 지표 |
+| Fan Song(사격통제, SA-2) | FIRE_CONTROL | air_defense | SA-2(S-75/Pegasus) |
+| Straight Flush(탐색/사격, SA-6) | SEARCH_FIRE | air_defense | SA-6(2K12 Kub) |
+| Square Pair / Tin Shield(SA-5) | FIRE_CONTROL/SEARCH | air_defense | SA-5(S-200) |
+| Big Bird / Flap Lid(S-300) | EARLY_WARNING/FIRE_CONTROL | air_defense | S-300/SA-10/SA-20 |
+| Spoon Rest / Bar Lock(VHF) | EARLY_WARNING/SEARCH | air_defense | 조기경보/감시망 |
+| 미식별 추적/감시 방출원 | UNKNOWN | unknown | "미상" placeholder (교차검증 권고) |
+| 야전 지휘통신망(UHF/VHF FM) | COMMS | comms | 교신 급증 = 부대 전개 지표 |
+| 배경/산업 통신(VHF) | COMMS | background | negative evidence(루틴) |
+| 지휘/데이터링크(전술) | DATALINK | comms | 체계연동 지표 |
+
+### 연동
+- `lib/emitter.ts`:
+  - `resolveEmitter(text)` — 자유텍스트 → 정규 emitter (alias 매칭, relevance 우선정렬).
+  - `interpretSigintEmitter(asset_detail)` — SIGINT observation 의 `band`+`signal_params`+
+    `emitter_guess` → 정규 emitter 해석(신호특성 휴리스틱). `unidentified=true`면 교차검증 권고.
+  - `formatEmittersForPrompt()` — LLM 프롬프트용 직렬화.
+- `/api/copilot` POST: `resolvedEntities.emitters` + `sigintInterpretation` 추가. SIGINT/교차검증
+  유스케이스(`actionClass=SIGINT` 또는 카테고리=`교차검증`)는 시나리오별 대표 `asset_detail`을
+  합성해 emitter 해석을 프롬프트에 주입.
+- `/api/ontology` POST: `emitters` + 옵션 `sigintDetail` → `sigintInterpretation` 반환.
+- 미러: `src/data/emitter-ontology.json` (`export_emitter_mirror.py`, gitignore) → 서버 fs 읽기.
+
+### 재현
+```
+cd web-ui
+npx supabase db query --linked -f supabase/migrations/20260705030000_emitter_ontology_schema.sql
+python3 supabase/seed/build_emitter_seed.py        # emitters+aliases 적재(멱등)
+python3 supabase/seed/export_emitter_mirror.py     # → src/data/emitter-ontology.json
+```
+검증: `npx tsc --noEmit` (exit 0). 생성 `emitter_seed.sql`·`data/`는 gitignore.
+

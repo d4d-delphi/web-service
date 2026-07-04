@@ -1,11 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { resolveFacility, resolveMissile } from '@/lib/ontology';
+import {
+  resolveEmitter,
+  formatEmittersForPrompt,
+  interpretSigintEmitter,
+  SigintAssetDetail,
+  SigintEmitterInterpretation,
+} from '@/lib/emitter';
 import { searchSimilarCases } from '@/lib/rag';
 import { mapDoctrineContext, formatDoctrineForPrompt } from '@/lib/doctrine';
 import { generateBriefing } from '@/lib/claude';
 import {
   UseCase,
   UseCaseCategory,
+  ActionClassType,
   CopilotContextResponse,
   HistoricalCase,
 } from '@/types';
@@ -15,8 +23,9 @@ import useCasesData from '@/data/use-cases.json';
 // 지휘관 AI 코파일럿 Use Case API (Session 3)
 // GET  : 유스케이스 목록(필터: category/difficulty/scenario)
 // POST : { id } → 해당 유스케이스의 "지휘관 질의 → AI 답변" 컨텍스트 조립.
-//        온톨로지 정규엔티티 해석 + RAG 과거사례 + 교리 매핑 + 아군 가용자산 +
-//        프롬프트 템플릿. Claude API 키 불필요(폴백: 컨텍스트/템플릿만 반환).
+//        온톨로지 정규엔티티 해석(시설·미사일·방출원) + RAG 과거사례 + 교리 매핑 +
+//        아군 가용자산 + SIGINT 방출원 해석(교차검증) + 프롬프트 템플릿.
+//        Claude API 키 불필요(폴백: 컨텍스트/템플릿만 반환).
 // ============================================================
 
 const ALL_USE_CASES = useCasesData as unknown as UseCase[];
@@ -106,6 +115,36 @@ export async function POST(request: NextRequest) {
       rangeKm: m.rangeKm ?? null,
     }));
 
+    // === 1b. 방출원(emitter) 온톨로지 해석 — SIGINT gap 해소 ===
+    // SIGINT/교차검증/방공 징의가 emitter 해석으로 강화된다. 자유텍스트에서 alias 매칭.
+    const resolvedEmitters = resolveEmitter(resolutionText);
+    const emitters = resolvedEmitters.map((e) => ({
+      canonicalName: e.canonicalName,
+      matchedAlias: e.matchedAlias,
+      emitterType: e.emitterType,
+      band: e.band ?? null,
+      threatRelevance: e.threatRelevance ?? null,
+      associatedSystem: e.associatedSystem ?? null,
+    }));
+
+    // SIGINT 교차검증 유스케이스(actionClass=SIGINT 또는 카테고리=교차검증)에서는
+    // 대표 SIGINT observation asset_detail 을 합성해 emitter 로 해석(신호특성 휴리스틱 시연).
+    const actionClasses = rd.actionClass
+      ? (Array.isArray(rd.actionClass) ? rd.actionClass : [rd.actionClass])
+      : [];
+    const isSigintUseCase =
+      actionClasses.includes('SIGINT') || useCase.category === '교차검증';
+    const sigintDetail = isSigintUseCase
+      ? representativeSigintDetail(useCase.scenario)
+      : null;
+    const sigintInterpretation = sigintDetail
+      ? interpretSigintEmitter(sigintDetail)
+      : null;
+    const emitterText = formatEmittersForPrompt({
+      emitters: resolvedEmitters,
+      interpretation: sigintInterpretation,
+    });
+
     // === 2. RAG 과거사례 검색 ===
     const indicators = rd.ragIndicators ?? extractKeywords(useCase);
     const similarCases = await searchSimilarCases(indicators);
@@ -126,6 +165,10 @@ export async function POST(request: NextRequest) {
     const prompt = buildPrompt(useCase, {
       facilities: facilities.map((f) => f.canonicalName),
       missiles: missiles.map((m) => `${m.canonicalName}${m.kn ? `(${m.kn})` : ''}`),
+      emitters: emitters.map((e) =>
+        `${e.canonicalName}${e.band ? ` [${e.band}]` : ''}${e.threatRelevance ? `/${e.threatRelevance}` : ''}`),
+      emitterText,
+      sigintInterpretation,
       similarCases,
       doctrineText,
       posterior,
@@ -154,7 +197,8 @@ export async function POST(request: NextRequest) {
     const response = {
       useCase,
       query: useCase.question,
-      resolvedEntities: { facilities, missiles },
+      resolvedEntities: { facilities, missiles, emitters },
+      sigintInterpretation,
       similarCases: (similarCases as HistoricalCase[]).slice(0, 8),
       readyAssets: doctrineContext?.readyAssets ?? [],
       doctrineContext,
@@ -202,6 +246,9 @@ function buildPrompt(
   ctx: {
     facilities: string[];
     missiles: string[];
+    emitters?: string[];
+    emitterText?: string;
+    sigintInterpretation?: SigintEmitterInterpretation | null;
     similarCases: HistoricalCase[];
     doctrineText: string;
     posterior: number;
@@ -227,6 +274,10 @@ ${useCase.expectedReasoning}
 ## 정규 엔티티(온톨로지 매핑 결과)
 - 시설: ${ctx.facilities.join(', ') || '(탐지 안 됨)'}
 - 미사일 체계: ${ctx.missiles.join(', ') || '(탐지 안 됨)'}
+- 방출원(EMitter/SIGINT): ${ctx.emitters?.join(', ') || '(탐지 안 됨)'}
+
+## SIGINT 방출원 해석(신호특성 → 정규 emitter)
+${ctx.emitterText || '(SIGINT 유스케이스에 한해 제공)'}
 
 ## 과거 유사 사례(RAG)
 ${caseLines || '(매칭 사례 없음)'}
@@ -240,4 +291,42 @@ ${ctx.doctrineText || '(교리 미러 부재)'}
 3. 불확실성·negative evidence
 4. 즉시 권고 조치 (3개 이내)
 JSON: { "answer": "...", "reasoning": "...", "uncertainties": "...", "recommendations": ["..."] }`;
+}
+
+// --- 헬퍼: SIGINT 교차검증 유스케이스용 대표 asset_detail 합성 ---
+// observation(Layer1) asset_detail 의 generic 묘사를 재현 — interpretSigintEmitter 로
+// 정규 emitter 해석을 시연(데모). 시나리오별 징후 프로파일 반영.
+function representativeSigintDetail(scenario: UseCase['scenario']): SigintAssetDetail {
+  if (scenario === 'A') {
+    // 동창리 SLV: 발사체 텔레메트리(S-Band PCM/FM) + 방공 감시레이더 혼합.
+    // 가장 강력한 발사 징후(continuous_stream 텔레메트리).
+    return {
+      emitter_guess: '텔레메트리 송신 계열',
+      frequency_band: 'S-Band',
+      signal_strength: 'High',
+      ew_status: 'Normal',
+      is_raw: false,
+      signal_params: { modulation: 'PCM/FM', bandwidth_khz: 1500, pattern: 'continuous_stream' },
+    };
+  }
+  if (scenario === 'B') {
+    // 고체 SRBM 알섬: 야전 전술 무전망 교신 급증(부대 전개 지표) + 미식별 방출원.
+    return {
+      emitter_guess: '야전 무전망',
+      frequency_band: 'UHF',
+      signal_strength: 'Moderate',
+      ew_status: 'Normal',
+      is_raw: false,
+      signal_params: { modulation: 'FM', traffic_level: 'surge', node_pattern: 'multi-node intermittent' },
+    };
+  }
+  // general: 미식별 추적 방출원 — 교차검증 권고 케이스.
+  return {
+    emitter_guess: '미상',
+    frequency_band: 'S-Band',
+    signal_strength: 'Moderate',
+    ew_status: 'Normal',
+    is_raw: false,
+    signal_params: { PRI: 2200, PW: 3, Scan: 'Circular' },
+  };
 }
