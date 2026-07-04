@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateBriefing } from '@/lib/claude';
 import { searchSimilarCases, formatCasesForPrompt } from '@/lib/rag';
+import { resolveFacility, resolveMissile, formatEntitiesForPrompt } from '@/lib/ontology';
 import { runInference } from '@/lib/bayesian';
 import { structureReport } from '@/lib/spuq';
 import { TimelineEvent, ThreatAsset, ActionClass, Hypothesis } from '@/types';
@@ -35,6 +36,17 @@ export async function POST(request: NextRequest) {
     const similarCases = await searchSimilarCases(indicators);
     const historicalContext = formatCasesForPrompt(similarCases);
 
+    // === 온톨로지: 징후 텍스트에서 정규 엔티티(시설·미사일 체계) 해석 ===
+    const observationText = visibleEvents
+      .map((e) => `${e.title}: ${e.description ?? ''}`)
+      .join('\n');
+    const resolvedFacilities = resolveFacility(observationText);
+    const resolvedMissiles = resolveMissile(observationText);
+    const entityContext = formatEntitiesForPrompt({
+      facilities: resolvedFacilities,
+      missiles: resolvedMissiles,
+    });
+
     // === 보고 계층: 대형 LLM으로 종합 보고서 생성 ===
     const currentSituation = `
 시나리오: ${scenarioId === 'scenario-a' ? '우주발사체(정찰위성) 발사 징후 — 동창리 [Rule#1]' : '고체연료 단거리(SRBM) 발사 징후 — 알섬 표적 [Rule#4]'}
@@ -48,6 +60,9 @@ export async function POST(request: NextRequest) {
 상위 가설:
 ${inferenceResult.hypotheses.slice(0, 3).map((h) => `- ${h.name}: ${(h.posterior * 100).toFixed(1)}%`).join('\n')}
 증거 수: ${inferenceResult.evidenceCount}
+
+[온톨로지 정규 엔티티 해석]
+${entityContext || '(탐지된 정규 시설/미사일 체계 없음)'}
 `;
 
     // Try Claude API, then phase snapshot fallback, then inference-based fallback
@@ -74,6 +89,10 @@ ${inferenceResult.hypotheses.slice(0, 3).map((h) => `- ${h.name}: ${(h.posterior
       recommendations: parsed?.recommendations || fallback?.recommendations || ['추론 엔진 결과 기반 자동 생성'],
       historicalCases: similarCases,
       inferenceResult,
+      resolvedEntities: {
+        facilities: resolvedFacilities.map((f) => ({ canonicalName: f.canonicalName, facilityType: f.facilityType, matchedAlias: f.matchedAlias, lat: f.lat, lng: f.lng })),
+        missiles: resolvedMissiles.map((m) => ({ canonicalName: m.canonicalName, kn: m.kn, weaponClass: m.weaponClass, matchedAlias: m.matchedAlias, rangeKm: m.rangeKm })),
+      },
     };
 
     return NextResponse.json(result);
