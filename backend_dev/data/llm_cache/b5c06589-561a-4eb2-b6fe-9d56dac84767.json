@@ -1,0 +1,1 @@
+{"obs_id": "b5c06589-561a-4eb2-b6fe-9d56dac84767", "llm": {"observed_objects": [{"type": "SupportVehicle", "count": 1}], "observed_signals": [], "observed_activities": ["ObjectMovement"], "novelty": ["이동식 레이더 형태 장비(mobile radar)", "소형 건물(building)"]}}

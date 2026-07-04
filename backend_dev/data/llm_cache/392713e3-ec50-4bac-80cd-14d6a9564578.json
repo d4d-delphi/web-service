@@ -1,0 +1,1 @@
+{"obs_id": "392713e3-ec50-4bac-80cd-14d6a9564578", "llm": {"observed_objects": [], "observed_signals": ["CommsEmission"], "observed_activities": ["CommunicationSurge"], "novelty": ["복수 송수신 노드 간 단속 교신 패턴"]}}

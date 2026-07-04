@@ -1,0 +1,1 @@
+{"obs_id": "7c3d246a-cdce-4a2e-939c-baa0b4f8e6a4", "collected_at": "2026-04-21T04:10:00+00:00", "polarity": "PRESENT", "reliability_grade": 3, "collection_asset": {"type": "SatelliteIMINT", "platform": "DigitalGlobe"}, "location": {"named": "동창리 서해위성발사장 - 발사대", "mgrs": "51S XD 46261 91410"}, "observed_objects": [], "observed_signals": [], "observed_activities": [], "novelty": []}

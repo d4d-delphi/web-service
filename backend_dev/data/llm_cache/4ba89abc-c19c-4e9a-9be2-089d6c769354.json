@@ -1,0 +1,1 @@
+{"obs_id": "4ba89abc-c19c-4e9a-9be2-089d6c769354", "llm": {"observed_objects": [{"type": "SupportVehicle", "count": 5}, {"type": "Airfield", "count": 2}], "observed_signals": [], "observed_activities": ["VehicleMassing"], "novelty": []}}

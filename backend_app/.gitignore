@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+cache/*
+!cache/.gitkeep
+_topids.txt

@@ -1,0 +1,1 @@
+{"obs_id": "24f455dd-ac68-4c4d-8d08-4f91475ff2dc", "llm": {"observed_objects": [], "observed_signals": ["TelemetryEmission"], "observed_activities": ["SignalActivation"], "novelty": ["협대역 하향 연속 데이터 스트림 패턴"]}}

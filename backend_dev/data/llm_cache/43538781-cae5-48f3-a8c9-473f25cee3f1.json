@@ -1,0 +1,1 @@
+{"obs_id": "43538781-cae5-48f3-a8c9-473f25cee3f1", "llm": {"observed_objects": [{"type": "SupportVehicle", "count": 5}], "observed_signals": [], "observed_activities": ["PersonnelActivity", "VehicleMassing"], "novelty": ["고온 열원 1개소(thermal signature)", "동창리 발사대 갠트리 위치"]}}

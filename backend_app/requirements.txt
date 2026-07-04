@@ -1,0 +1,11 @@
+# --- API server (GPU-less serving) ---
+fastapi>=0.110
+uvicorn[standard]>=0.27
+pyyaml>=6.0
+rdflib>=7.0
+requests>=2.31
+
+# --- recache FULL mode only (Stage-1 LLM, needs GPU) — not required to serve ---
+# torch==2.9.1+cu130
+# transformers>=5.12
+# flash-linear-attention>=0.5

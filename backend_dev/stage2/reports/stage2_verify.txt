@@ -1,0 +1,33 @@
+==================================================================
+DELPHI Stage 2 — inference acceptance (anchor: unha3)
+==================================================================
+
+[1] snapshot count / seq      : PASS  (snapshots=563 == routed unha3 obs=563, seq 1..N monotonic-unique=True)
+[2] final P(H) argmax          : PASS  (argmax='액체·장거리' P=0.921 (expect 액체·장거리 ~0.85-0.92))
+[3] launch curve shape         : PASS  (quiet-max=0.028(<0.05), 4/18 surge P(launch)=0.026(<0.10), launch-window-max=0.998(>0.95))
+[4] fuel/range persistence     : PASS  (P(액체)=0.923(~0.90), P(장거리)=0.998(>0.95))
+[5] stage discrimination(4/18) : PASS  (4/18 s2_pad=0.775, s3_imminent=0.031 (want s2>0.7 or s3<0.05))
+[6] determinism                : PASS  (two replays identical=True)
+[7] config swappability        : PASS  (added stage s4_test via config only -> present in snapshot=True)
+
+--- unha3 signal-bearing snapshots (trace) ---
+date        P(launch) P(act)  s1   s2   s3   argmaxH        items
+2026-03-17  0.03     0.92   0.91 0.14 0.03   액체·장거리       0.84  PropellantVehicle,SupportVehicle,PersonnelActivity,ObjectMovement
+2026-03-24  0.01     0.41   0.37 0.02 0.03   액체·장거리       0.72  StructureWork
+2026-04-16  0.02     0.56   0.48 0.13 0.03   액체·장거리       0.72  SupportVehicle,VehicleMassing
+2026-04-18  0.03     0.86   0.36 0.77 0.03   액체·장거리       0.72  CommsEmission,CommunicationSurge
+2026-07-08  0.02     0.78   0.74 0.14 0.03   액체·장거리       0.72  SupportVehicle,PersonnelActivity,ObjectMovement
+2026-07-08  0.58     0.94   0.73 0.14 0.76   액체·장거리       0.86  AreaClosure
+2026-07-09  0.68     0.99   0.96 0.14 0.70   액체·장거리       0.86  Trailer,ObjectMovement
+2026-07-13  0.41     0.99   0.98 0.14 0.41   액체·장거리       0.86  RailCar,SupportVehicle,VehicleMassing
+2026-07-13  0.38     1.00   0.97 0.96 0.38   액체·장거리       0.90  RadarEmission,SignalActivation
+2026-07-13  0.36     1.00   0.96 1.00 0.36   액체·장거리       0.91  SecurityVehicle,StructureWork
+2026-07-13  0.36     1.00   0.99 1.00 0.36   액체·장거리       0.91  SupportVehicle,ObjectMovement
+2026-07-14  0.32     1.00   0.98 1.00 0.32   액체·장거리       0.91  CommsEmission,CommunicationSurge
+2026-07-15  0.31     1.00   1.00 1.00 0.31   액체·장거리       0.91  SupportVehicle,PersonnelActivity,VehicleMassing
+2026-07-15  0.95     1.00   1.00 1.00 0.95   액체·장거리       0.92  TelemetryEmission,SignalActivation
+2026-07-15  1.00     1.00   1.00 1.00 1.00   액체·장거리       0.92  TelemetryEmission,SignalActivation
+
+==================================================================
+SUMMARY: ALL 7 PASS
+==================================================================

@@ -1,0 +1,1 @@
+{"obs_id": "2fe93257-52c2-4cbe-845e-d50fb3b212bf", "llm": {"observed_objects": [{"type": "SupportVehicle", "count": 3}], "observed_signals": [], "observed_activities": ["PersonnelActivity", "ObjectMovement"], "novelty": ["저장동(building)"]}}

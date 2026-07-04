@@ -1,0 +1,89 @@
+@prefix dlp:  <https://delphi.kr/onto#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+dlp: a owl:Ontology ;
+    rdfs:label "DELPHI observation ontology"@en ;
+    owl:versionInfo "0.2" ;
+    rdfs:comment "관측가능 실재 + 관측 사실만. 상태·가설·증거·파라미터는 추론엔진 레이어(온톨로지 밖)."@ko .
+
+########## 상위 구조 ##########
+dlp:Entity a owl:Class .
+dlp:Continuant        rdfs:subClassOf dlp:Entity .
+dlp:Occurrent         rdfs:subClassOf dlp:Entity .
+dlp:SpatialRegion     rdfs:subClassOf dlp:Entity .
+dlp:InformationArtifact rdfs:subClassOf dlp:Entity .
+
+dlp:Facility          rdfs:subClassOf dlp:Continuant .
+dlp:MobileObject      rdfs:subClassOf dlp:Continuant .
+dlp:Activity          rdfs:subClassOf dlp:Occurrent .
+dlp:Emission          rdfs:subClassOf dlp:Occurrent .
+dlp:Observation       rdfs:subClassOf dlp:InformationArtifact .
+dlp:CollectionAsset   rdfs:subClassOf dlp:InformationArtifact .
+dlp:MGRSCell          rdfs:subClassOf dlp:SpatialRegion .
+dlp:NamedLocation     rdfs:subClassOf dlp:SpatialRegion .
+
+########## Facility 하위 ##########
+dlp:LaunchPad         rdfs:subClassOf dlp:Facility ; rdfs:label "발사대"@ko .
+dlp:EngineTestStand   rdfs:subClassOf dlp:Facility ; rdfs:label "엔진시험대"@ko .
+dlp:ProductionComplex rdfs:subClassOf dlp:Facility ; rdfs:label "생산단지"@ko .
+dlp:SubmarineBase     rdfs:subClassOf dlp:Facility ; rdfs:label "잠수함기지"@ko .
+dlp:NuclearTestSite   rdfs:subClassOf dlp:Facility ; rdfs:label "핵실험장"@ko .
+dlp:Airfield          rdfs:subClassOf dlp:Facility ; rdfs:label "비행장"@ko .
+dlp:GantryTower       rdfs:subClassOf dlp:Facility ; rdfs:label "갠트리타워"@ko .
+
+########## MobileObject 하위 ##########
+dlp:Transporter       rdfs:subClassOf dlp:MobileObject ; rdfs:label "운반대"@ko .
+dlp:TEL               rdfs:subClassOf dlp:Transporter ; rdfs:label "이동식발사대"@ko .
+dlp:Trailer           rdfs:subClassOf dlp:MobileObject ; rdfs:label "트레일러"@ko .
+dlp:RailCar           rdfs:subClassOf dlp:MobileObject ; rdfs:label "특수열차"@ko .
+dlp:PropellantVehicle rdfs:subClassOf dlp:MobileObject ; rdfs:label "추진제차량"@ko .
+dlp:OxidizerVehicle   rdfs:subClassOf dlp:MobileObject ; rdfs:label "산화제차량"@ko .
+dlp:SecurityVehicle   rdfs:subClassOf dlp:MobileObject ; rdfs:label "보안차량"@ko .
+dlp:SupportVehicle    rdfs:subClassOf dlp:MobileObject ; rdfs:label "지원차량"@ko .
+
+########## Activity 하위 (중립) ##########
+dlp:VehicleMassing    rdfs:subClassOf dlp:Activity ; rdfs:label "차량집결"@ko .
+dlp:ObjectMovement    rdfs:subClassOf dlp:Activity ; rdfs:label "물체이동"@ko .
+dlp:StructureWork     rdfs:subClassOf dlp:Activity ; rdfs:label "구조물작업"@ko .
+dlp:CommunicationSurge rdfs:subClassOf dlp:Activity ; rdfs:label "통신급증"@ko .
+dlp:AreaClosure       rdfs:subClassOf dlp:Activity ; rdfs:label "구역폐쇄"@ko .
+dlp:PersonnelActivity rdfs:subClassOf dlp:Activity ; rdfs:label "인원활동"@ko .
+dlp:SignalActivation  rdfs:subClassOf dlp:Activity ; rdfs:label "신호활성화"@ko .
+
+########## Emission 하위 ##########
+dlp:CommsEmission     rdfs:subClassOf dlp:Emission ; rdfs:label "통신방출"@ko .
+dlp:RadarEmission     rdfs:subClassOf dlp:Emission ; rdfs:label "레이더방출"@ko .
+dlp:TelemetryEmission rdfs:subClassOf dlp:Emission ; rdfs:label "원격측정방출"@ko .
+
+########## CollectionAsset 하위 ##########
+dlp:SatelliteIMINT    rdfs:subClassOf dlp:CollectionAsset ; rdfs:label "위성영상"@ko .
+dlp:AerialIMINT       rdfs:subClassOf dlp:CollectionAsset ; rdfs:label "항공영상"@ko .
+dlp:SigintCollector   rdfs:subClassOf dlp:CollectionAsset ; rdfs:label "신호수집"@ko .
+dlp:UAVSensor         rdfs:subClassOf dlp:CollectionAsset ; rdfs:label "무인기센서"@ko .
+dlp:OsintSource       rdfs:subClassOf dlp:CollectionAsset ; rdfs:label "공개출처"@ko .
+
+########## Disjointness ##########
+[] a owl:AllDisjointClasses ;
+   owl:members ( dlp:Facility dlp:MobileObject dlp:Emission dlp:Activity ) .
+
+########## 객체 속성 ##########
+dlp:atLocation      a owl:ObjectProperty ; rdfs:domain dlp:Observation ; rdfs:range dlp:SpatialRegion .
+dlp:observedObject  a owl:ObjectProperty ; rdfs:domain dlp:Observation .
+dlp:observedSignal  a owl:ObjectProperty ; rdfs:domain dlp:Observation ; rdfs:range dlp:Emission .
+dlp:observedActivity a owl:ObjectProperty ; rdfs:domain dlp:Observation ; rdfs:range dlp:Activity .
+dlp:collectedBy     a owl:ObjectProperty ; rdfs:domain dlp:Observation ; rdfs:range dlp:CollectionAsset .
+dlp:locatedAt       a owl:ObjectProperty ; rdfs:domain dlp:Facility ; rdfs:range dlp:NamedLocation .
+dlp:withinCell      a owl:ObjectProperty ; rdfs:domain dlp:NamedLocation ; rdfs:range dlp:MGRSCell .
+
+########## 데이터 속성 ##########
+dlp:derivedFrom     a owl:DatatypeProperty ; rdfs:domain dlp:Observation ; rdfs:range xsd:string .
+dlp:collectedAt     a owl:DatatypeProperty ; rdfs:domain dlp:Observation ; rdfs:range xsd:dateTime .
+dlp:polarity        a owl:DatatypeProperty ; rdfs:domain dlp:Observation ; rdfs:range xsd:string .
+dlp:reliabilityGrade a owl:DatatypeProperty ; rdfs:domain dlp:Observation ; rdfs:range xsd:integer .
+dlp:spuqUncertainty a owl:DatatypeProperty ; rdfs:range xsd:double .
+dlp:count           a owl:DatatypeProperty ; rdfs:range xsd:integer .
+dlp:mgrs            a owl:DatatypeProperty ; rdfs:domain dlp:MGRSCell ; rdfs:range xsd:string .
+dlp:platform        a owl:DatatypeProperty ; rdfs:domain dlp:CollectionAsset ; rdfs:range xsd:string .

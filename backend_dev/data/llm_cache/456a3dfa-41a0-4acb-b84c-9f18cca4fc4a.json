@@ -1,0 +1,1 @@
+{"obs_id": "456a3dfa-41a0-4acb-b84c-9f18cca4fc4a", "llm": {"observed_objects": [{"type": "SupportVehicle", "count": 2}], "observed_signals": [], "observed_activities": ["PersonnelActivity"], "novelty": ["백색 차량(white vehicle)", "압축기 건물", "공학운영 건물", "계측 장비함 형태 구조물", "북측 갱도(tunnel portal)"]}}

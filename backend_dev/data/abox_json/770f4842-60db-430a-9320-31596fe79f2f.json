@@ -1,0 +1,1 @@
+{"obs_id": "770f4842-60db-430a-9320-31596fe79f2f", "collected_at": "2026-06-15T00:20:00+00:00", "polarity": "PRESENT", "reliability_grade": 4, "collection_asset": {"type": "SatelliteIMINT", "platform": "Planet Labs"}, "location": {"named": "신포 남조선소 잠수함 기지", "mgrs": "52S DG 4700 4500"}, "observed_objects": [], "observed_signals": [], "observed_activities": [], "novelty": []}

@@ -1,0 +1,1 @@
+{"obs_id": "acbe0581-6773-4d07-984d-eec1c2b11648", "collected_at": "2026-06-14T00:00:00+00:00", "polarity": "PRESENT", "reliability_grade": 3, "collection_asset": {"type": "SatelliteIMINT", "platform": "Planet Labs"}, "location": {"named": "풍계리 핵실험장", "mgrs": "52S EH 1350 5600"}, "observed_objects": [], "observed_signals": [], "observed_activities": [], "novelty": []}

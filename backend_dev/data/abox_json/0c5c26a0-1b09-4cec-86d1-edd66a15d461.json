@@ -1,0 +1,1 @@
+{"obs_id": "0c5c26a0-1b09-4cec-86d1-edd66a15d461", "collected_at": "2026-05-13T06:00:00+00:00", "polarity": "PRESENT", "reliability_grade": 3, "collection_asset": {"type": "SigintCollector", "platform": "777사령부 수집체계"}, "location": {"named": "동창리 발사장 일대", "mgrs": null}, "observed_objects": [], "observed_signals": [], "observed_activities": [], "novelty": []}

@@ -1,0 +1,1 @@
+{"obs_id": "d8a82a88-5a84-4810-839a-84a3d6775d1f", "collected_at": "2026-04-22T13:20:00+00:00", "polarity": "PRESENT", "reliability_grade": 2, "collection_asset": {"type": "SigintCollector", "platform": "공군 지상 ES체계"}, "location": {"named": "동창리 남서 방면 방공지대", "mgrs": null}, "observed_objects": [], "observed_signals": [], "observed_activities": [], "novelty": []}

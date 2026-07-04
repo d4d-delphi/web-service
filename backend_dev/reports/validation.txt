@@ -1,0 +1,19 @@
+====================================================================
+DELPHI Stage 1 — A-Box acceptance report
+====================================================================
+
+[1] valid Turtle parse        : PASS  (parse OK, 5,698 triples)
+[2] 712 obs + uniform records : PASS  (TTL Observations=712, derivedFrom unique-cover=True, per-obs records=712/712 full-schema=True)
+[3] no undefined/intent vocab : PASS  (undefined=0, banned-vocab=none)
+      classes used: ['Airfield', 'AreaClosure', 'CommsEmission', 'CommunicationSurge', 'EngineTestStand', 'GantryTower', 'MGRSCell', 'NamedLocation', 'ObjectMovement', 'Observation', 'OsintSource', 'PersonnelActivity', 'ProductionComplex', 'PropellantVehicle', 'RadarEmission', 'RailCar', 'SatelliteIMINT', 'SecurityVehicle', 'SigintCollector', 'SignalActivation', 'StructureWork', 'SupportVehicle', 'TelemetryEmission', 'Trailer', 'UAVSensor', 'VehicleMassing']
+[4] observed types in vocab   : PASS  (violations 0)
+[5] routing integrity         : PASS  (baseline activity/signal leak=0, unusual content-lost=0, baseline-with-standing-facility=113)
+[6] polarity=ABSENT preserved : PASS  (source ABSENT 1 -> preserved 1)
+[7] novelty report            : REPORT  (novelty 92 {'object': 44, 'note': 48})
+      top unmapped observed objects: {'boat_basin': 25, 'tunnel_portal': 17, 'control_building': 1, 'support_building': 1}
+
+  LLM parse failures quarantined: 0
+
+====================================================================
+SUMMARY: hard checks (1-6) ALL PASS | 7=novelty
+====================================================================

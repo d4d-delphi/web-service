@@ -1,0 +1,1 @@
+{"obs_id": "5ee8b5f2-fd0e-4046-9636-b1c3fad08017", "collected_at": "2026-03-15T02:00:00+00:00", "polarity": "PRESENT", "reliability_grade": 3, "collection_asset": {"type": "SatelliteIMINT", "platform": "Planet Labs"}, "location": {"named": "순안 비행장", "mgrs": "51S YD 4500 3200"}, "observed_objects": [], "observed_signals": [], "observed_activities": [], "novelty": []}

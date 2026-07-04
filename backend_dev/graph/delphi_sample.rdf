@@ -1,0 +1,959 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF
+   xmlns:dlp="https://delphi.kr/onto#"
+   xmlns:owl="http://www.w3.org/2002/07/owl#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+>
+  <rdf:Description rdf:about="https://delphi.kr/abox/obs_24f455dd-ac68-4c4d-8d08-4f91475ff2dc">
+    <rdf:type rdf:resource="https://delphi.kr/onto#Observation"/>
+    <dlp:atLocation rdf:resource="https://delphi.kr/abox/loc_2dbb59ca59"/>
+    <dlp:collectedAt rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-15T00:45:00+00:00</dlp:collectedAt>
+    <dlp:collectedBy rdf:resource="https://delphi.kr/abox/asset_fcc9716b29"/>
+    <dlp:derivedFrom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">24f455dd-ac68-4c4d-8d08-4f91475ff2dc</dlp:derivedFrom>
+    <dlp:observedActivity rdf:resource="https://delphi.kr/abox/24f455dd-ac68-4c4d-8d08-4f91475ff2dc_oa0"/>
+    <dlp:observedSignal rdf:resource="https://delphi.kr/abox/24f455dd-ac68-4c4d-8d08-4f91475ff2dc_os0"/>
+    <dlp:polarity rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PRESENT</dlp:polarity>
+    <dlp:reliabilityGrade rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</dlp:reliabilityGrade>
+    <rdfs:label>OBS · SIGINT · 동창리 발사장 방향 · 2026-07-15</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/bbc668db-2aee-4d9f-af40-567f510d815b_oa0">
+    <rdf:type rdf:resource="https://delphi.kr/onto#CommunicationSurge"/>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.2</dlp:spuqUncertainty>
+    <rdfs:label>CommunicationSurge</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/obs_e9034a2a-f224-4db6-8369-db8008373c14">
+    <rdf:type rdf:resource="https://delphi.kr/onto#Observation"/>
+    <dlp:atLocation rdf:resource="https://delphi.kr/abox/loc_32eddf0675"/>
+    <dlp:collectedAt rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-13T23:00:00+00:00</dlp:collectedAt>
+    <dlp:collectedBy rdf:resource="https://delphi.kr/abox/asset_7a5e2365c6"/>
+    <dlp:derivedFrom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">e9034a2a-f224-4db6-8369-db8008373c14</dlp:derivedFrom>
+    <dlp:observedActivity rdf:resource="https://delphi.kr/abox/e9034a2a-f224-4db6-8369-db8008373c14_oa0"/>
+    <dlp:observedObject rdf:resource="https://delphi.kr/abox/e9034a2a-f224-4db6-8369-db8008373c14_oo0"/>
+    <dlp:observedObject rdf:resource="https://delphi.kr/abox/e9034a2a-f224-4db6-8369-db8008373c14_oo1"/>
+    <dlp:polarity rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PRESENT</dlp:polarity>
+    <dlp:reliabilityGrade rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</dlp:reliabilityGrade>
+    <rdfs:label>OBS · SATELLITE_IMINT · 동창리 서해위성발사장 - 발사대 · 2026-07-13</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/obs_ac16d567-c55c-4e04-b347-0bbac9988433">
+    <rdf:type rdf:resource="https://delphi.kr/onto#Observation"/>
+    <dlp:atLocation rdf:resource="https://delphi.kr/abox/loc_7e197d5e01"/>
+    <dlp:collectedAt rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-13T02:30:00+00:00</dlp:collectedAt>
+    <dlp:collectedBy rdf:resource="https://delphi.kr/abox/asset_d4def846a6"/>
+    <dlp:derivedFrom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ac16d567-c55c-4e04-b347-0bbac9988433</dlp:derivedFrom>
+    <dlp:observedActivity rdf:resource="https://delphi.kr/abox/ac16d567-c55c-4e04-b347-0bbac9988433_oa0"/>
+    <dlp:observedObject rdf:resource="https://delphi.kr/abox/ac16d567-c55c-4e04-b347-0bbac9988433_oo0"/>
+    <dlp:observedObject rdf:resource="https://delphi.kr/abox/ac16d567-c55c-4e04-b347-0bbac9988433_oo1"/>
+    <dlp:polarity rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PRESENT</dlp:polarity>
+    <dlp:reliabilityGrade rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</dlp:reliabilityGrade>
+    <rdfs:label>OBS · SATELLITE_IMINT · 평양 룡성 지도부 전용역 · 2026-07-13</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/obs_4cbbfc2c-cc59-4ae2-b7ed-89c821570353">
+    <rdf:type rdf:resource="https://delphi.kr/onto#Observation"/>
+    <dlp:atLocation rdf:resource="https://delphi.kr/abox/loc_4e8040b444"/>
+    <dlp:collectedAt rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-16T02:30:00+00:00</dlp:collectedAt>
+    <dlp:collectedBy rdf:resource="https://delphi.kr/abox/asset_e92126abbc"/>
+    <dlp:derivedFrom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">4cbbfc2c-cc59-4ae2-b7ed-89c821570353</dlp:derivedFrom>
+    <dlp:observedActivity rdf:resource="https://delphi.kr/abox/4cbbfc2c-cc59-4ae2-b7ed-89c821570353_oa0"/>
+    <dlp:observedObject rdf:resource="https://delphi.kr/abox/4cbbfc2c-cc59-4ae2-b7ed-89c821570353_oo0"/>
+    <dlp:polarity rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PRESENT</dlp:polarity>
+    <dlp:reliabilityGrade rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</dlp:reliabilityGrade>
+    <rdfs:label>OBS · SATELLITE_IMINT · 산음동 미사일 연구·생산단지 (평양 인근) · 2026-04-16</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/obs_101845d7-0ebd-4d59-8773-14d961f3baad">
+    <rdf:type rdf:resource="https://delphi.kr/onto#Observation"/>
+    <dlp:atLocation rdf:resource="https://delphi.kr/abox/loc_f0702d353b"/>
+    <dlp:collectedAt rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-03-17T02:30:00+00:00</dlp:collectedAt>
+    <dlp:collectedBy rdf:resource="https://delphi.kr/abox/asset_a16ab64f70"/>
+    <dlp:derivedFrom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">101845d7-0ebd-4d59-8773-14d961f3baad</dlp:derivedFrom>
+    <dlp:observedActivity rdf:resource="https://delphi.kr/abox/101845d7-0ebd-4d59-8773-14d961f3baad_oa0"/>
+    <dlp:observedActivity rdf:resource="https://delphi.kr/abox/101845d7-0ebd-4d59-8773-14d961f3baad_oa1"/>
+    <dlp:observedObject rdf:resource="https://delphi.kr/abox/101845d7-0ebd-4d59-8773-14d961f3baad_oo0"/>
+    <dlp:observedObject rdf:resource="https://delphi.kr/abox/101845d7-0ebd-4d59-8773-14d961f3baad_oo1"/>
+    <dlp:observedObject rdf:resource="https://delphi.kr/abox/101845d7-0ebd-4d59-8773-14d961f3baad_oo2"/>
+    <dlp:polarity rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PRESENT</dlp:polarity>
+    <dlp:reliabilityGrade rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</dlp:reliabilityGrade>
+    <rdfs:label>OBS · SATELLITE_IMINT · 잠진 기계공장 엔진시험장 (남포 인근) · 2026-03-17</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/cell_a07e456304">
+    <rdf:type rdf:resource="https://delphi.kr/onto#MGRSCell"/>
+    <dlp:mgrs rdf:datatype="http://www.w3.org/2001/XMLSchema#string">52S EH 1400 5550</dlp:mgrs>
+    <rdfs:label>MGRS · 52S EH 1400 5550</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#count">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/obs_8a2d4e98-7abd-4a14-b366-47fb3dbc6fc6">
+    <rdf:type rdf:resource="https://delphi.kr/onto#Observation"/>
+    <dlp:atLocation rdf:resource="https://delphi.kr/abox/loc_f5e71a77d4"/>
+    <dlp:collectedAt rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-15T01:30:00+00:00</dlp:collectedAt>
+    <dlp:collectedBy rdf:resource="https://delphi.kr/abox/asset_3c24a0123f"/>
+    <dlp:derivedFrom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">8a2d4e98-7abd-4a14-b366-47fb3dbc6fc6</dlp:derivedFrom>
+    <dlp:observedActivity rdf:resource="https://delphi.kr/abox/8a2d4e98-7abd-4a14-b366-47fb3dbc6fc6_oa0"/>
+    <dlp:observedObject rdf:resource="https://delphi.kr/abox/8a2d4e98-7abd-4a14-b366-47fb3dbc6fc6_oo0"/>
+    <dlp:polarity rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PRESENT</dlp:polarity>
+    <dlp:reliabilityGrade rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</dlp:reliabilityGrade>
+    <rdfs:label>OBS · SATELLITE_IMINT · 풍계리 핵실험장 - 남측 갱도/지휘소 · 2026-07-15</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/4ba89abc-c19c-4e9a-9be2-089d6c769354_oo1">
+    <rdf:type rdf:resource="https://delphi.kr/onto#Airfield"/>
+    <dlp:count rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</dlp:count>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.2</dlp:spuqUncertainty>
+    <rdfs:label>Airfield ×2</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/obs_56e8d871-e65d-4d68-9585-7d9fd20e0362">
+    <rdf:type rdf:resource="https://delphi.kr/onto#Observation"/>
+    <dlp:atLocation rdf:resource="https://delphi.kr/abox/loc_4c15baffe9"/>
+    <dlp:collectedAt rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-08T09:00:00+00:00</dlp:collectedAt>
+    <dlp:collectedBy rdf:resource="https://delphi.kr/abox/asset_bef7f5aaab"/>
+    <dlp:derivedFrom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">56e8d871-e65d-4d68-9585-7d9fd20e0362</dlp:derivedFrom>
+    <dlp:observedActivity rdf:resource="https://delphi.kr/abox/56e8d871-e65d-4d68-9585-7d9fd20e0362_oa0"/>
+    <dlp:polarity rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PRESENT</dlp:polarity>
+    <dlp:reliabilityGrade rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">5</dlp:reliabilityGrade>
+    <rdfs:label>OBS · OSINT · 동창리 발사 궤적 / 필리핀·일본 항로 · 2026-07-08</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#Activity">
+    <rdfs:subClassOf rdf:resource="https://delphi.kr/onto#Occurrent"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/loc_592debb93a">
+    <rdf:type rdf:resource="https://delphi.kr/onto#NamedLocation"/>
+    <rdfs:label>순안 비행장</rdfs:label>
+    <dlp:withinCell rdf:resource="https://delphi.kr/abox/cell_ec80459a75"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/obs_bbc668db-2aee-4d9f-af40-567f510d815b">
+    <rdf:type rdf:resource="https://delphi.kr/onto#Observation"/>
+    <dlp:atLocation rdf:resource="https://delphi.kr/abox/loc_e7e6011f30"/>
+    <dlp:collectedAt rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-04-18T05:00:00+00:00</dlp:collectedAt>
+    <dlp:collectedBy rdf:resource="https://delphi.kr/abox/asset_843201f4ae"/>
+    <dlp:derivedFrom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">bbc668db-2aee-4d9f-af40-567f510d815b</dlp:derivedFrom>
+    <dlp:observedActivity rdf:resource="https://delphi.kr/abox/bbc668db-2aee-4d9f-af40-567f510d815b_oa0"/>
+    <dlp:observedSignal rdf:resource="https://delphi.kr/abox/bbc668db-2aee-4d9f-af40-567f510d815b_os0"/>
+    <dlp:polarity rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PRESENT</dlp:polarity>
+    <dlp:reliabilityGrade rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</dlp:reliabilityGrade>
+    <rdfs:label>OBS · SIGINT · 은하화학공장 (자강도 만포) · 2026-04-18</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/456a3dfa-41a0-4acb-b84c-9f18cca4fc4a_oo0">
+    <rdf:type rdf:resource="https://delphi.kr/onto#SupportVehicle"/>
+    <dlp:count rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</dlp:count>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.1</dlp:spuqUncertainty>
+    <rdfs:label>SupportVehicle ×2</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#RadarEmission">
+    <rdfs:subClassOf rdf:resource="https://delphi.kr/onto#Emission"/>
+    <rdfs:label xml:lang="ko">레이더방출</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/obs_4ba89abc-c19c-4e9a-9be2-089d6c769354">
+    <rdf:type rdf:resource="https://delphi.kr/onto#Observation"/>
+    <dlp:atLocation rdf:resource="https://delphi.kr/abox/loc_592debb93a"/>
+    <dlp:collectedAt rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-13T01:00:00+00:00</dlp:collectedAt>
+    <dlp:collectedBy rdf:resource="https://delphi.kr/abox/asset_c74b081d17"/>
+    <dlp:derivedFrom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">4ba89abc-c19c-4e9a-9be2-089d6c769354</dlp:derivedFrom>
+    <dlp:observedActivity rdf:resource="https://delphi.kr/abox/4ba89abc-c19c-4e9a-9be2-089d6c769354_oa0"/>
+    <dlp:observedObject rdf:resource="https://delphi.kr/abox/4ba89abc-c19c-4e9a-9be2-089d6c769354_oo0"/>
+    <dlp:observedObject rdf:resource="https://delphi.kr/abox/4ba89abc-c19c-4e9a-9be2-089d6c769354_oo1"/>
+    <dlp:polarity rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PRESENT</dlp:polarity>
+    <dlp:reliabilityGrade rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</dlp:reliabilityGrade>
+    <rdfs:label>OBS · SATELLITE_IMINT · 순안 비행장 · 2026-07-13</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/asset_fa5d04035f">
+    <rdf:type rdf:resource="https://delphi.kr/onto#UAVSensor"/>
+    <dlp:platform rdf:datatype="http://www.w3.org/2001/XMLSchema#string">RQ-4 Global Hawk</dlp:platform>
+    <rdfs:label>UAVSensor · RQ-4 Global Hawk</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/2fe93257-52c2-4cbe-845e-d50fb3b212bf_oo0">
+    <rdf:type rdf:resource="https://delphi.kr/onto#SupportVehicle"/>
+    <dlp:count rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</dlp:count>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.105</dlp:spuqUncertainty>
+    <rdfs:label>SupportVehicle ×3</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/asset_a16ab64f70">
+    <rdf:type rdf:resource="https://delphi.kr/onto#SatelliteIMINT"/>
+    <dlp:platform rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Pleiades (CNES/Airbus DS)</dlp:platform>
+    <rdfs:label>SatelliteIMINT · Pleiades (CNES/Airbus DS)</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/43538781-cae5-48f3-a8c9-473f25cee3f1_oa1">
+    <rdf:type rdf:resource="https://delphi.kr/onto#VehicleMassing"/>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.1</dlp:spuqUncertainty>
+    <rdfs:label>VehicleMassing</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#OsintSource">
+    <rdfs:subClassOf rdf:resource="https://delphi.kr/onto#CollectionAsset"/>
+    <rdfs:label xml:lang="ko">공개출처</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="ne01c96e6423e42058ddf5344b96b12cab4">
+    <rdf:first rdf:resource="https://delphi.kr/onto#Emission"/>
+    <rdf:rest rdf:nodeID="ne01c96e6423e42058ddf5344b96b12cab5"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/cell_b2b53b7aa9">
+    <rdf:type rdf:resource="https://delphi.kr/onto#MGRSCell"/>
+    <dlp:mgrs rdf:datatype="http://www.w3.org/2001/XMLSchema#string">51S XD 46261 91410</dlp:mgrs>
+    <rdfs:label>MGRS · 51S XD 46261 91410</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Ontology"/>
+    <rdfs:label xml:lang="en">DELPHI observation ontology</rdfs:label>
+    <owl:versionInfo>0.2</owl:versionInfo>
+    <rdfs:comment xml:lang="ko">관측가능 실재 + 관측 사실만. 상태·가설·증거·파라미터는 추론엔진 레이어(온톨로지 밖).</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/obs_456a3dfa-41a0-4acb-b84c-9f18cca4fc4a">
+    <rdf:type rdf:resource="https://delphi.kr/onto#Observation"/>
+    <dlp:atLocation rdf:resource="https://delphi.kr/abox/loc_e3ba6f61ab"/>
+    <dlp:collectedAt rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-14T22:00:00+00:00</dlp:collectedAt>
+    <dlp:collectedBy rdf:resource="https://delphi.kr/abox/asset_e92126abbc"/>
+    <dlp:derivedFrom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">456a3dfa-41a0-4acb-b84c-9f18cca4fc4a</dlp:derivedFrom>
+    <dlp:observedActivity rdf:resource="https://delphi.kr/abox/456a3dfa-41a0-4acb-b84c-9f18cca4fc4a_oa0"/>
+    <dlp:observedObject rdf:resource="https://delphi.kr/abox/456a3dfa-41a0-4acb-b84c-9f18cca4fc4a_oo0"/>
+    <dlp:polarity rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PRESENT</dlp:polarity>
+    <dlp:reliabilityGrade rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</dlp:reliabilityGrade>
+    <rdfs:label>OBS · SATELLITE_IMINT · 풍계리 핵실험장 - 북측 갱도 근접 · 2026-07-14</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/obs_43538781-cae5-48f3-a8c9-473f25cee3f1">
+    <rdf:type rdf:resource="https://delphi.kr/onto#Observation"/>
+    <dlp:atLocation rdf:resource="https://delphi.kr/abox/loc_32eddf0675"/>
+    <dlp:collectedAt rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-15T00:30:00+00:00</dlp:collectedAt>
+    <dlp:collectedBy rdf:resource="https://delphi.kr/abox/asset_fa5d04035f"/>
+    <dlp:derivedFrom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">43538781-cae5-48f3-a8c9-473f25cee3f1</dlp:derivedFrom>
+    <dlp:observedActivity rdf:resource="https://delphi.kr/abox/43538781-cae5-48f3-a8c9-473f25cee3f1_oa0"/>
+    <dlp:observedActivity rdf:resource="https://delphi.kr/abox/43538781-cae5-48f3-a8c9-473f25cee3f1_oa1"/>
+    <dlp:observedObject rdf:resource="https://delphi.kr/abox/43538781-cae5-48f3-a8c9-473f25cee3f1_oo0"/>
+    <dlp:polarity rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PRESENT</dlp:polarity>
+    <dlp:reliabilityGrade rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</dlp:reliabilityGrade>
+    <rdfs:label>OBS · UAV_FLIR · 동창리 서해위성발사장 - 발사대 · 2026-07-15</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/101845d7-0ebd-4d59-8773-14d961f3baad_oo2">
+    <rdf:type rdf:resource="https://delphi.kr/onto#SupportVehicle"/>
+    <dlp:count rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</dlp:count>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.105</dlp:spuqUncertainty>
+    <rdfs:label>SupportVehicle ×2</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#withinCell">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://delphi.kr/onto#NamedLocation"/>
+    <rdfs:range rdf:resource="https://delphi.kr/onto#MGRSCell"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#VehicleMassing">
+    <rdfs:subClassOf rdf:resource="https://delphi.kr/onto#Activity"/>
+    <rdfs:label xml:lang="ko">차량집결</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/obs_08b54f8b-dc8d-4972-a43d-31f7b6980669">
+    <rdf:type rdf:resource="https://delphi.kr/onto#Observation"/>
+    <dlp:atLocation rdf:resource="https://delphi.kr/abox/loc_5bdaea7a68"/>
+    <dlp:collectedAt rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-03-20T01:30:00+00:00</dlp:collectedAt>
+    <dlp:collectedBy rdf:resource="https://delphi.kr/abox/asset_e92126abbc"/>
+    <dlp:derivedFrom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">08b54f8b-dc8d-4972-a43d-31f7b6980669</dlp:derivedFrom>
+    <dlp:observedActivity rdf:resource="https://delphi.kr/abox/08b54f8b-dc8d-4972-a43d-31f7b6980669_oa0"/>
+    <dlp:observedActivity rdf:resource="https://delphi.kr/abox/08b54f8b-dc8d-4972-a43d-31f7b6980669_oa1"/>
+    <dlp:observedObject rdf:resource="https://delphi.kr/abox/08b54f8b-dc8d-4972-a43d-31f7b6980669_oo0"/>
+    <dlp:observedObject rdf:resource="https://delphi.kr/abox/08b54f8b-dc8d-4972-a43d-31f7b6980669_oo1"/>
+    <dlp:polarity rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PRESENT</dlp:polarity>
+    <dlp:reliabilityGrade rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</dlp:reliabilityGrade>
+    <rdfs:label>OBS · SATELLITE_IMINT · 신포 남조선소 잠수함 기지 · 2026-03-20</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/obs_9fb15b18-340f-42d9-8e19-76de160ba00e">
+    <rdf:type rdf:resource="https://delphi.kr/onto#Observation"/>
+    <dlp:atLocation rdf:resource="https://delphi.kr/abox/loc_5e36d2eeca"/>
+    <dlp:collectedAt rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-03-24T02:30:00+00:00</dlp:collectedAt>
+    <dlp:collectedBy rdf:resource="https://delphi.kr/abox/asset_e92126abbc"/>
+    <dlp:derivedFrom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">9fb15b18-340f-42d9-8e19-76de160ba00e</dlp:derivedFrom>
+    <dlp:observedActivity rdf:resource="https://delphi.kr/abox/9fb15b18-340f-42d9-8e19-76de160ba00e_oa0"/>
+    <dlp:observedObject rdf:resource="https://delphi.kr/abox/9fb15b18-340f-42d9-8e19-76de160ba00e_oo0"/>
+    <dlp:polarity rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ABSENT</dlp:polarity>
+    <dlp:reliabilityGrade rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</dlp:reliabilityGrade>
+    <rdfs:label>[ABSENT] OBS · SATELLITE_IMINT · 잠진 기계공장 수직 엔진시험대 · 2026-03-24</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/obs_e391d971-d8d2-4be6-a5e5-5d6870c6c02a">
+    <rdf:type rdf:resource="https://delphi.kr/onto#Observation"/>
+    <dlp:atLocation rdf:resource="https://delphi.kr/abox/loc_98567c91be"/>
+    <dlp:collectedAt rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-13T14:00:00+00:00</dlp:collectedAt>
+    <dlp:collectedBy rdf:resource="https://delphi.kr/abox/asset_fcc9716b29"/>
+    <dlp:derivedFrom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">e391d971-d8d2-4be6-a5e5-5d6870c6c02a</dlp:derivedFrom>
+    <dlp:observedActivity rdf:resource="https://delphi.kr/abox/e391d971-d8d2-4be6-a5e5-5d6870c6c02a_oa0"/>
+    <dlp:observedSignal rdf:resource="https://delphi.kr/abox/e391d971-d8d2-4be6-a5e5-5d6870c6c02a_os0"/>
+    <dlp:polarity rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PRESENT</dlp:polarity>
+    <dlp:reliabilityGrade rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</dlp:reliabilityGrade>
+    <rdfs:label>OBS · SIGINT · 동창리 남서 방면 방공지대 · 2026-07-13</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/e391d971-d8d2-4be6-a5e5-5d6870c6c02a_oa0">
+    <rdf:type rdf:resource="https://delphi.kr/onto#SignalActivation"/>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.1</dlp:spuqUncertainty>
+    <rdfs:label>SignalActivation</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/obs_afe10aed-9417-4390-8d18-846ce0d4431f">
+    <rdf:type rdf:resource="https://delphi.kr/onto#Observation"/>
+    <dlp:atLocation rdf:resource="https://delphi.kr/abox/loc_2dbb59ca59"/>
+    <dlp:collectedAt rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-15T00:46:00+00:00</dlp:collectedAt>
+    <dlp:collectedBy rdf:resource="https://delphi.kr/abox/asset_816a149beb"/>
+    <dlp:derivedFrom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">afe10aed-9417-4390-8d18-846ce0d4431f</dlp:derivedFrom>
+    <dlp:observedActivity rdf:resource="https://delphi.kr/abox/afe10aed-9417-4390-8d18-846ce0d4431f_oa0"/>
+    <dlp:observedSignal rdf:resource="https://delphi.kr/abox/afe10aed-9417-4390-8d18-846ce0d4431f_os0"/>
+    <dlp:polarity rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PRESENT</dlp:polarity>
+    <dlp:reliabilityGrade rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</dlp:reliabilityGrade>
+    <rdfs:label>OBS · SIGINT · 동창리 발사장 방향 · 2026-07-15</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/asset_843201f4ae">
+    <rdf:type rdf:resource="https://delphi.kr/onto#SigintCollector"/>
+    <dlp:platform rdf:datatype="http://www.w3.org/2001/XMLSchema#string">777사령부 수집체계</dlp:platform>
+    <rdfs:label>SigintCollector · 777사령부 수집체계</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/43538781-cae5-48f3-a8c9-473f25cee3f1_oo0">
+    <rdf:type rdf:resource="https://delphi.kr/onto#SupportVehicle"/>
+    <dlp:count rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">5</dlp:count>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.1</dlp:spuqUncertainty>
+    <rdfs:label>SupportVehicle ×5</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/loc_f5628bc0bb">
+    <rdf:type rdf:resource="https://delphi.kr/onto#NamedLocation"/>
+    <rdfs:label>풍계리 핵실험장 - 북측/서측 갱도</rdfs:label>
+    <dlp:withinCell rdf:resource="https://delphi.kr/abox/cell_e9554502a9"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/afe10aed-9417-4390-8d18-846ce0d4431f_os0">
+    <rdf:type rdf:resource="https://delphi.kr/onto#TelemetryEmission"/>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.2</dlp:spuqUncertainty>
+    <rdfs:label>TelemetryEmission</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="ne01c96e6423e42058ddf5344b96b12cab2">
+    <rdf:first rdf:resource="https://delphi.kr/onto#Facility"/>
+    <rdf:rest rdf:nodeID="ne01c96e6423e42058ddf5344b96b12cab3"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/bbc668db-2aee-4d9f-af40-567f510d815b_os0">
+    <rdf:type rdf:resource="https://delphi.kr/onto#CommsEmission"/>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.2</dlp:spuqUncertainty>
+    <rdfs:label>CommsEmission</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/obs_2fe93257-52c2-4cbe-845e-d50fb3b212bf">
+    <rdf:type rdf:resource="https://delphi.kr/onto#Observation"/>
+    <dlp:atLocation rdf:resource="https://delphi.kr/abox/loc_77d9bcf748"/>
+    <dlp:collectedAt rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-08T05:15:00+00:00</dlp:collectedAt>
+    <dlp:collectedBy rdf:resource="https://delphi.kr/abox/asset_e92126abbc"/>
+    <dlp:derivedFrom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2fe93257-52c2-4cbe-845e-d50fb3b212bf</dlp:derivedFrom>
+    <dlp:observedActivity rdf:resource="https://delphi.kr/abox/2fe93257-52c2-4cbe-845e-d50fb3b212bf_oa0"/>
+    <dlp:observedActivity rdf:resource="https://delphi.kr/abox/2fe93257-52c2-4cbe-845e-d50fb3b212bf_oa1"/>
+    <dlp:observedObject rdf:resource="https://delphi.kr/abox/2fe93257-52c2-4cbe-845e-d50fb3b212bf_oo0"/>
+    <dlp:polarity rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PRESENT</dlp:polarity>
+    <dlp:reliabilityGrade rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</dlp:reliabilityGrade>
+    <rdfs:label>OBS · SATELLITE_IMINT · 동창리 서해위성발사장 - 발사대 및 추진제 저장동 · 2026-07-08</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/ac16d567-c55c-4e04-b347-0bbac9988433_oo1">
+    <rdf:type rdf:resource="https://delphi.kr/onto#SupportVehicle"/>
+    <dlp:count rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</dlp:count>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.205</dlp:spuqUncertainty>
+    <rdfs:label>SupportVehicle ×1</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/cell_48fb1c7fb6">
+    <rdf:type rdf:resource="https://delphi.kr/onto#MGRSCell"/>
+    <dlp:mgrs rdf:datatype="http://www.w3.org/2001/XMLSchema#string">51S YD 36611 32182</dlp:mgrs>
+    <rdfs:label>MGRS · 51S YD 36611 32182</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/08b54f8b-dc8d-4972-a43d-31f7b6980669_oa0">
+    <rdf:type rdf:resource="https://delphi.kr/onto#PersonnelActivity"/>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.1</dlp:spuqUncertainty>
+    <rdfs:label>PersonnelActivity</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#InformationArtifact">
+    <rdfs:subClassOf rdf:resource="https://delphi.kr/onto#Entity"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/loc_950f03f8de">
+    <rdf:type rdf:resource="https://delphi.kr/onto#NamedLocation"/>
+    <rdfs:label>동창리 서해위성발사장 - 수평조립건물 지원구역</rdfs:label>
+    <dlp:withinCell rdf:resource="https://delphi.kr/abox/cell_b2b53b7aa9"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/asset_3c24a0123f">
+    <rdf:type rdf:resource="https://delphi.kr/onto#SatelliteIMINT"/>
+    <dlp:platform rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Airbus Defense &amp; Space (Pleiades)</dlp:platform>
+    <rdfs:label>SatelliteIMINT · Airbus Defense &amp; Space (Pleiades)</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/loc_7e197d5e01">
+    <rdf:type rdf:resource="https://delphi.kr/onto#NamedLocation"/>
+    <rdfs:label>평양 룡성 지도부 전용역</rdfs:label>
+    <dlp:withinCell rdf:resource="https://delphi.kr/abox/cell_460acb009a"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/obs_392713e3-ec50-4bac-80cd-14d6a9564578">
+    <rdf:type rdf:resource="https://delphi.kr/onto#Observation"/>
+    <dlp:atLocation rdf:resource="https://delphi.kr/abox/loc_62dfd21242"/>
+    <dlp:collectedAt rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-14T20:00:00+00:00</dlp:collectedAt>
+    <dlp:collectedBy rdf:resource="https://delphi.kr/abox/asset_843201f4ae"/>
+    <dlp:derivedFrom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">392713e3-ec50-4bac-80cd-14d6a9564578</dlp:derivedFrom>
+    <dlp:observedActivity rdf:resource="https://delphi.kr/abox/392713e3-ec50-4bac-80cd-14d6a9564578_oa0"/>
+    <dlp:observedSignal rdf:resource="https://delphi.kr/abox/392713e3-ec50-4bac-80cd-14d6a9564578_os0"/>
+    <dlp:polarity rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PRESENT</dlp:polarity>
+    <dlp:reliabilityGrade rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</dlp:reliabilityGrade>
+    <rdfs:label>OBS · SIGINT · 동창리 발사장 일대 · 2026-07-14</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#Trailer">
+    <rdfs:subClassOf rdf:resource="https://delphi.kr/onto#MobileObject"/>
+    <rdfs:label xml:lang="ko">트레일러</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/456a3dfa-41a0-4acb-b84c-9f18cca4fc4a_oa0">
+    <rdf:type rdf:resource="https://delphi.kr/onto#PersonnelActivity"/>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.1</dlp:spuqUncertainty>
+    <rdfs:label>PersonnelActivity</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/8a2d4e98-7abd-4a14-b366-47fb3dbc6fc6_oo0">
+    <rdf:type rdf:resource="https://delphi.kr/onto#Trailer"/>
+    <dlp:count rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</dlp:count>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.21</dlp:spuqUncertainty>
+    <rdfs:label>Trailer ×1</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/asset_d4def846a6">
+    <rdf:type rdf:resource="https://delphi.kr/onto#SatelliteIMINT"/>
+    <dlp:platform rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maxar Technologies</dlp:platform>
+    <rdfs:label>SatelliteIMINT · Maxar Technologies</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/4cbbfc2c-cc59-4ae2-b7ed-89c821570353_oa0">
+    <rdf:type rdf:resource="https://delphi.kr/onto#VehicleMassing"/>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.21</dlp:spuqUncertainty>
+    <rdfs:label>VehicleMassing</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/obs_58a2a355-2f44-4fe4-ab5b-f1190f82330b">
+    <rdf:type rdf:resource="https://delphi.kr/onto#Observation"/>
+    <dlp:atLocation rdf:resource="https://delphi.kr/abox/loc_f5628bc0bb"/>
+    <dlp:collectedAt rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-14T01:00:00+00:00</dlp:collectedAt>
+    <dlp:collectedBy rdf:resource="https://delphi.kr/abox/asset_c74b081d17"/>
+    <dlp:derivedFrom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">58a2a355-2f44-4fe4-ab5b-f1190f82330b</dlp:derivedFrom>
+    <dlp:polarity rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PRESENT</dlp:polarity>
+    <dlp:reliabilityGrade rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</dlp:reliabilityGrade>
+    <rdfs:label>OBS · SATELLITE_IMINT · 풍계리 핵실험장 - 북측/서측 갱도 · 2026-07-14</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/cell_cf51de883b">
+    <rdf:type rdf:resource="https://delphi.kr/onto#MGRSCell"/>
+    <dlp:mgrs rdf:datatype="http://www.w3.org/2001/XMLSchema#string">52T BL 72762 59866</dlp:mgrs>
+    <rdfs:label>MGRS · 52T BL 72762 59866</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#OxidizerVehicle">
+    <rdfs:subClassOf rdf:resource="https://delphi.kr/onto#MobileObject"/>
+    <rdfs:label xml:lang="ko">산화제차량</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/afe10aed-9417-4390-8d18-846ce0d4431f_oa0">
+    <rdf:type rdf:resource="https://delphi.kr/onto#SignalActivation"/>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.2</dlp:spuqUncertainty>
+    <rdfs:label>SignalActivation</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="ne01c96e6423e42058ddf5344b96b12cab3">
+    <rdf:first rdf:resource="https://delphi.kr/onto#MobileObject"/>
+    <rdf:rest rdf:nodeID="ne01c96e6423e42058ddf5344b96b12cab4"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/e391d971-d8d2-4be6-a5e5-5d6870c6c02a_os0">
+    <rdf:type rdf:resource="https://delphi.kr/onto#RadarEmission"/>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.1</dlp:spuqUncertainty>
+    <rdfs:label>RadarEmission</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#AerialIMINT">
+    <rdfs:subClassOf rdf:resource="https://delphi.kr/onto#CollectionAsset"/>
+    <rdfs:label xml:lang="ko">항공영상</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#locatedAt">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://delphi.kr/onto#Facility"/>
+    <rdfs:range rdf:resource="https://delphi.kr/onto#NamedLocation"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#ObjectMovement">
+    <rdfs:subClassOf rdf:resource="https://delphi.kr/onto#Activity"/>
+    <rdfs:label xml:lang="ko">물체이동</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/08b54f8b-dc8d-4972-a43d-31f7b6980669_oo1">
+    <rdf:type rdf:resource="https://delphi.kr/onto#EngineTestStand"/>
+    <dlp:count rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</dlp:count>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.1</dlp:spuqUncertainty>
+    <rdfs:label>EngineTestStand ×1</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/loc_4e8040b444">
+    <rdf:type rdf:resource="https://delphi.kr/onto#NamedLocation"/>
+    <rdfs:label>산음동 미사일 연구·생산단지 (평양 인근)</rdfs:label>
+    <dlp:withinCell rdf:resource="https://delphi.kr/abox/cell_48fb1c7fb6"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#observedActivity">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://delphi.kr/onto#Observation"/>
+    <rdfs:range rdf:resource="https://delphi.kr/onto#Activity"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/obs_c381ee0a-9a65-4c1d-a696-eb68448c7204">
+    <rdf:type rdf:resource="https://delphi.kr/onto#Observation"/>
+    <dlp:atLocation rdf:resource="https://delphi.kr/abox/loc_950f03f8de"/>
+    <dlp:collectedAt rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-09T05:21:00+00:00</dlp:collectedAt>
+    <dlp:collectedBy rdf:resource="https://delphi.kr/abox/asset_e92126abbc"/>
+    <dlp:derivedFrom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">c381ee0a-9a65-4c1d-a696-eb68448c7204</dlp:derivedFrom>
+    <dlp:observedActivity rdf:resource="https://delphi.kr/abox/c381ee0a-9a65-4c1d-a696-eb68448c7204_oa0"/>
+    <dlp:observedObject rdf:resource="https://delphi.kr/abox/c381ee0a-9a65-4c1d-a696-eb68448c7204_oo0"/>
+    <dlp:polarity rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PRESENT</dlp:polarity>
+    <dlp:reliabilityGrade rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</dlp:reliabilityGrade>
+    <rdfs:label>OBS · SATELLITE_IMINT · 동창리 서해위성발사장 - 수평조립건물 지원구역 · 2026-07-09</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#CommunicationSurge">
+    <rdfs:subClassOf rdf:resource="https://delphi.kr/onto#Activity"/>
+    <rdfs:label xml:lang="ko">통신급증</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#PersonnelActivity">
+    <rdfs:subClassOf rdf:resource="https://delphi.kr/onto#Activity"/>
+    <rdfs:label xml:lang="ko">인원활동</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/e9034a2a-f224-4db6-8369-db8008373c14_oa0">
+    <rdf:type rdf:resource="https://delphi.kr/onto#StructureWork"/>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.205</dlp:spuqUncertainty>
+    <rdfs:label>StructureWork</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#Observation">
+    <rdfs:subClassOf rdf:resource="https://delphi.kr/onto#InformationArtifact"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/cell_cff36e46db">
+    <rdf:type rdf:resource="https://delphi.kr/onto#MGRSCell"/>
+    <dlp:mgrs rdf:datatype="http://www.w3.org/2001/XMLSchema#string">52S DG 4700 4500</dlp:mgrs>
+    <rdfs:label>MGRS · 52S DG 4700 4500</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/101845d7-0ebd-4d59-8773-14d961f3baad_oo1">
+    <rdf:type rdf:resource="https://delphi.kr/onto#PropellantVehicle"/>
+    <dlp:count rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</dlp:count>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.105</dlp:spuqUncertainty>
+    <rdfs:label>PropellantVehicle ×1</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/loc_32eddf0675">
+    <rdf:type rdf:resource="https://delphi.kr/onto#NamedLocation"/>
+    <rdfs:label>동창리 서해위성발사장 - 발사대</rdfs:label>
+    <dlp:withinCell rdf:resource="https://delphi.kr/abox/cell_b2b53b7aa9"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/2fe93257-52c2-4cbe-845e-d50fb3b212bf_oa1">
+    <rdf:type rdf:resource="https://delphi.kr/onto#ObjectMovement"/>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.105</dlp:spuqUncertainty>
+    <rdfs:label>ObjectMovement</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#polarity">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://delphi.kr/onto#Observation"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/9fb15b18-340f-42d9-8e19-76de160ba00e_oo0">
+    <rdf:type rdf:resource="https://delphi.kr/onto#EngineTestStand"/>
+    <dlp:count rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</dlp:count>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.105</dlp:spuqUncertainty>
+    <rdfs:label>EngineTestStand ×1</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/cell_03af304bbc">
+    <rdf:type rdf:resource="https://delphi.kr/onto#MGRSCell"/>
+    <dlp:mgrs rdf:datatype="http://www.w3.org/2001/XMLSchema#string">51S YD 11588 14896</dlp:mgrs>
+    <rdfs:label>MGRS · 51S YD 11588 14896</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/43538781-cae5-48f3-a8c9-473f25cee3f1_oa0">
+    <rdf:type rdf:resource="https://delphi.kr/onto#PersonnelActivity"/>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.1</dlp:spuqUncertainty>
+    <rdfs:label>PersonnelActivity</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#Facility">
+    <rdfs:subClassOf rdf:resource="https://delphi.kr/onto#Continuant"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#spuqUncertainty">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#mgrs">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://delphi.kr/onto#MGRSCell"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/101845d7-0ebd-4d59-8773-14d961f3baad_oa1">
+    <rdf:type rdf:resource="https://delphi.kr/onto#ObjectMovement"/>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.105</dlp:spuqUncertainty>
+    <rdfs:label>ObjectMovement</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/loc_2dbb59ca59">
+    <rdf:type rdf:resource="https://delphi.kr/onto#NamedLocation"/>
+    <rdfs:label>동창리 발사장 방향</rdfs:label>
+    <dlp:withinCell rdf:resource="https://delphi.kr/abox/cell_b2b53b7aa9"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#SecurityVehicle">
+    <rdfs:subClassOf rdf:resource="https://delphi.kr/onto#MobileObject"/>
+    <rdfs:label xml:lang="ko">보안차량</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#GantryTower">
+    <rdfs:subClassOf rdf:resource="https://delphi.kr/onto#Facility"/>
+    <rdfs:label xml:lang="ko">갠트리타워</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/asset_bef7f5aaab">
+    <rdf:type rdf:resource="https://delphi.kr/onto#OsintSource"/>
+    <dlp:platform rdf:datatype="http://www.w3.org/2001/XMLSchema#string">공개출처 (항행경보 NOTAM)</dlp:platform>
+    <rdfs:label>OsintSource · 공개출처 (항행경보 NOTAM)</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/loc_4db7c43ff3">
+    <rdf:type rdf:resource="https://delphi.kr/onto#NamedLocation"/>
+    <rdfs:label>동창리 발사장 남측 능선 계측지</rdfs:label>
+    <dlp:withinCell rdf:resource="https://delphi.kr/abox/cell_1216df5c4a"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/392713e3-ec50-4bac-80cd-14d6a9564578_os0">
+    <rdf:type rdf:resource="https://delphi.kr/onto#CommsEmission"/>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.1</dlp:spuqUncertainty>
+    <rdfs:label>CommsEmission</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/9fb15b18-340f-42d9-8e19-76de160ba00e_oa0">
+    <rdf:type rdf:resource="https://delphi.kr/onto#StructureWork"/>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.105</dlp:spuqUncertainty>
+    <rdfs:label>StructureWork</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#RailCar">
+    <rdfs:subClassOf rdf:resource="https://delphi.kr/onto#MobileObject"/>
+    <rdfs:label xml:lang="ko">특수열차</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/cell_ec80459a75">
+    <rdf:type rdf:resource="https://delphi.kr/onto#MGRSCell"/>
+    <dlp:mgrs rdf:datatype="http://www.w3.org/2001/XMLSchema#string">51S YD 4500 3200</dlp:mgrs>
+    <rdfs:label>MGRS · 51S YD 4500 3200</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/loc_4c15baffe9">
+    <rdf:type rdf:resource="https://delphi.kr/onto#NamedLocation"/>
+    <rdfs:label>동창리 발사 궤적 / 필리핀·일본 항로</rdfs:label>
+    <dlp:withinCell rdf:resource="https://delphi.kr/abox/cell_b2b53b7aa9"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#Transporter">
+    <rdfs:subClassOf rdf:resource="https://delphi.kr/onto#MobileObject"/>
+    <rdfs:label xml:lang="ko">운반대</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#Airfield">
+    <rdfs:subClassOf rdf:resource="https://delphi.kr/onto#Facility"/>
+    <rdfs:label xml:lang="ko">비행장</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/4ba89abc-c19c-4e9a-9be2-089d6c769354_oa0">
+    <rdf:type rdf:resource="https://delphi.kr/onto#VehicleMassing"/>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.2</dlp:spuqUncertainty>
+    <rdfs:label>VehicleMassing</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/56e8d871-e65d-4d68-9585-7d9fd20e0362_oa0">
+    <rdf:type rdf:resource="https://delphi.kr/onto#AreaClosure"/>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.05</dlp:spuqUncertainty>
+    <rdfs:label>AreaClosure</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/cell_e9554502a9">
+    <rdf:type rdf:resource="https://delphi.kr/onto#MGRSCell"/>
+    <dlp:mgrs rdf:datatype="http://www.w3.org/2001/XMLSchema#string">52S EH 1350 5600</dlp:mgrs>
+    <rdfs:label>MGRS · 52S EH 1350 5600</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/392713e3-ec50-4bac-80cd-14d6a9564578_oa0">
+    <rdf:type rdf:resource="https://delphi.kr/onto#CommunicationSurge"/>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.1</dlp:spuqUncertainty>
+    <rdfs:label>CommunicationSurge</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/ac16d567-c55c-4e04-b347-0bbac9988433_oo0">
+    <rdf:type rdf:resource="https://delphi.kr/onto#RailCar"/>
+    <dlp:count rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</dlp:count>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.205</dlp:spuqUncertainty>
+    <rdfs:label>RailCar ×1</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/8a2d4e98-7abd-4a14-b366-47fb3dbc6fc6_oa0">
+    <rdf:type rdf:resource="https://delphi.kr/onto#ObjectMovement"/>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.21</dlp:spuqUncertainty>
+    <rdfs:label>ObjectMovement</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/e9034a2a-f224-4db6-8369-db8008373c14_oo1">
+    <rdf:type rdf:resource="https://delphi.kr/onto#SecurityVehicle"/>
+    <dlp:count rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</dlp:count>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.205</dlp:spuqUncertainty>
+    <rdfs:label>SecurityVehicle ×4</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/loc_77d9bcf748">
+    <rdf:type rdf:resource="https://delphi.kr/onto#NamedLocation"/>
+    <rdfs:label>동창리 서해위성발사장 - 발사대 및 추진제 저장동</rdfs:label>
+    <dlp:withinCell rdf:resource="https://delphi.kr/abox/cell_b2b53b7aa9"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/4ba89abc-c19c-4e9a-9be2-089d6c769354_oo0">
+    <rdf:type rdf:resource="https://delphi.kr/onto#SupportVehicle"/>
+    <dlp:count rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">5</dlp:count>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.2</dlp:spuqUncertainty>
+    <rdfs:label>SupportVehicle ×5</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/101845d7-0ebd-4d59-8773-14d961f3baad_oo0">
+    <rdf:type rdf:resource="https://delphi.kr/onto#EngineTestStand"/>
+    <dlp:count rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</dlp:count>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.105</dlp:spuqUncertainty>
+    <rdfs:label>EngineTestStand ×1</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/24f455dd-ac68-4c4d-8d08-4f91475ff2dc_oa0">
+    <rdf:type rdf:resource="https://delphi.kr/onto#SignalActivation"/>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.1</dlp:spuqUncertainty>
+    <rdfs:label>SignalActivation</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/08b54f8b-dc8d-4972-a43d-31f7b6980669_oo0">
+    <rdf:type rdf:resource="https://delphi.kr/onto#ProductionComplex"/>
+    <dlp:count rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</dlp:count>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.1</dlp:spuqUncertainty>
+    <rdfs:label>ProductionComplex ×3</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/4cbbfc2c-cc59-4ae2-b7ed-89c821570353_oo0">
+    <rdf:type rdf:resource="https://delphi.kr/onto#SupportVehicle"/>
+    <dlp:count rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">15</dlp:count>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.21</dlp:spuqUncertainty>
+    <rdfs:label>SupportVehicle ×15</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/2fe93257-52c2-4cbe-845e-d50fb3b212bf_oa0">
+    <rdf:type rdf:resource="https://delphi.kr/onto#PersonnelActivity"/>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.105</dlp:spuqUncertainty>
+    <rdfs:label>PersonnelActivity</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#Entity">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/asset_e92126abbc">
+    <rdf:type rdf:resource="https://delphi.kr/onto#SatelliteIMINT"/>
+    <dlp:platform rdf:datatype="http://www.w3.org/2001/XMLSchema#string">DigitalGlobe</dlp:platform>
+    <rdfs:label>SatelliteIMINT · DigitalGlobe</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/e9034a2a-f224-4db6-8369-db8008373c14_oo0">
+    <rdf:type rdf:resource="https://delphi.kr/onto#GantryTower"/>
+    <dlp:count rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</dlp:count>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.205</dlp:spuqUncertainty>
+    <rdfs:label>GantryTower ×1</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#CollectionAsset">
+    <rdfs:subClassOf rdf:resource="https://delphi.kr/onto#InformationArtifact"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#collectedBy">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://delphi.kr/onto#Observation"/>
+    <rdfs:range rdf:resource="https://delphi.kr/onto#CollectionAsset"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#derivedFrom">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://delphi.kr/onto#Observation"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/24f455dd-ac68-4c4d-8d08-4f91475ff2dc_os0">
+    <rdf:type rdf:resource="https://delphi.kr/onto#TelemetryEmission"/>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.1</dlp:spuqUncertainty>
+    <rdfs:label>TelemetryEmission</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/loc_f0702d353b">
+    <rdf:type rdf:resource="https://delphi.kr/onto#NamedLocation"/>
+    <rdfs:label>잠진 기계공장 엔진시험장 (남포 인근)</rdfs:label>
+    <dlp:withinCell rdf:resource="https://delphi.kr/abox/cell_03af304bbc"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#NuclearTestSite">
+    <rdfs:subClassOf rdf:resource="https://delphi.kr/onto#Facility"/>
+    <rdfs:label xml:lang="ko">핵실험장</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/asset_7a5e2365c6">
+    <rdf:type rdf:resource="https://delphi.kr/onto#SatelliteIMINT"/>
+    <dlp:platform rdf:datatype="http://www.w3.org/2001/XMLSchema#string">GeoEye</dlp:platform>
+    <rdfs:label>SatelliteIMINT · GeoEye</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/loc_f5e71a77d4">
+    <rdf:type rdf:resource="https://delphi.kr/onto#NamedLocation"/>
+    <rdfs:label>풍계리 핵실험장 - 남측 갱도/지휘소</rdfs:label>
+    <dlp:withinCell rdf:resource="https://delphi.kr/abox/cell_a07e456304"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/cell_1216df5c4a">
+    <rdf:type rdf:resource="https://delphi.kr/onto#MGRSCell"/>
+    <dlp:mgrs rdf:datatype="http://www.w3.org/2001/XMLSchema#string">51S XD 46531 90749</dlp:mgrs>
+    <rdfs:label>MGRS · 51S XD 46531 90749</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#collectedAt">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://delphi.kr/onto#Observation"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#PropellantVehicle">
+    <rdfs:subClassOf rdf:resource="https://delphi.kr/onto#MobileObject"/>
+    <rdfs:label xml:lang="ko">추진제차량</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#SpatialRegion">
+    <rdfs:subClassOf rdf:resource="https://delphi.kr/onto#Entity"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/cell_460acb009a">
+    <rdf:type rdf:resource="https://delphi.kr/onto#MGRSCell"/>
+    <dlp:mgrs rdf:datatype="http://www.w3.org/2001/XMLSchema#string">51S YD 38591 34275</dlp:mgrs>
+    <rdfs:label>MGRS · 51S YD 38591 34275</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#AreaClosure">
+    <rdfs:subClassOf rdf:resource="https://delphi.kr/onto#Activity"/>
+    <rdfs:label xml:lang="ko">구역폐쇄</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/loc_e3ba6f61ab">
+    <rdf:type rdf:resource="https://delphi.kr/onto#NamedLocation"/>
+    <rdfs:label>풍계리 핵실험장 - 북측 갱도 근접</rdfs:label>
+    <dlp:withinCell rdf:resource="https://delphi.kr/abox/cell_e9554502a9"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#EngineTestStand">
+    <rdfs:subClassOf rdf:resource="https://delphi.kr/onto#Facility"/>
+    <rdfs:label xml:lang="ko">엔진시험대</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/asset_fcc9716b29">
+    <rdf:type rdf:resource="https://delphi.kr/onto#SigintCollector"/>
+    <dlp:platform rdf:datatype="http://www.w3.org/2001/XMLSchema#string">공군 지상 ES체계</dlp:platform>
+    <rdfs:label>SigintCollector · 공군 지상 ES체계</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/b5c06589-561a-4eb2-b6fe-9d56dac84767_oo0">
+    <rdf:type rdf:resource="https://delphi.kr/onto#SupportVehicle"/>
+    <dlp:count rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</dlp:count>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.205</dlp:spuqUncertainty>
+    <rdfs:label>SupportVehicle ×1</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/c381ee0a-9a65-4c1d-a696-eb68448c7204_oo0">
+    <rdf:type rdf:resource="https://delphi.kr/onto#Trailer"/>
+    <dlp:count rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</dlp:count>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.105</dlp:spuqUncertainty>
+    <rdfs:label>Trailer ×2</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#reliabilityGrade">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://delphi.kr/onto#Observation"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/b5c06589-561a-4eb2-b6fe-9d56dac84767_oa0">
+    <rdf:type rdf:resource="https://delphi.kr/onto#ObjectMovement"/>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.205</dlp:spuqUncertainty>
+    <rdfs:label>ObjectMovement</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/loc_62dfd21242">
+    <rdf:type rdf:resource="https://delphi.kr/onto#NamedLocation"/>
+    <rdfs:label>동창리 발사장 일대</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/asset_c74b081d17">
+    <rdf:type rdf:resource="https://delphi.kr/onto#SatelliteIMINT"/>
+    <dlp:platform rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Planet Labs</dlp:platform>
+    <rdfs:label>SatelliteIMINT · Planet Labs</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#SignalActivation">
+    <rdfs:subClassOf rdf:resource="https://delphi.kr/onto#Activity"/>
+    <rdfs:label xml:lang="ko">신호활성화</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#SatelliteIMINT">
+    <rdfs:subClassOf rdf:resource="https://delphi.kr/onto#CollectionAsset"/>
+    <rdfs:label xml:lang="ko">위성영상</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#Continuant">
+    <rdfs:subClassOf rdf:resource="https://delphi.kr/onto#Entity"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#platform">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="https://delphi.kr/onto#CollectionAsset"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#StructureWork">
+    <rdfs:subClassOf rdf:resource="https://delphi.kr/onto#Activity"/>
+    <rdfs:label xml:lang="ko">구조물작업</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="ne01c96e6423e42058ddf5344b96b12cab1">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+    <owl:members rdf:nodeID="ne01c96e6423e42058ddf5344b96b12cab2"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/loc_5e36d2eeca">
+    <rdf:type rdf:resource="https://delphi.kr/onto#NamedLocation"/>
+    <rdfs:label>잠진 기계공장 수직 엔진시험대</rdfs:label>
+    <dlp:withinCell rdf:resource="https://delphi.kr/abox/cell_03af304bbc"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#MGRSCell">
+    <rdfs:subClassOf rdf:resource="https://delphi.kr/onto#SpatialRegion"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/c381ee0a-9a65-4c1d-a696-eb68448c7204_oa0">
+    <rdf:type rdf:resource="https://delphi.kr/onto#ObjectMovement"/>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.105</dlp:spuqUncertainty>
+    <rdfs:label>ObjectMovement</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/obs_b5c06589-561a-4eb2-b6fe-9d56dac84767">
+    <rdf:type rdf:resource="https://delphi.kr/onto#Observation"/>
+    <dlp:atLocation rdf:resource="https://delphi.kr/abox/loc_4db7c43ff3"/>
+    <dlp:collectedAt rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-07-13T23:10:00+00:00</dlp:collectedAt>
+    <dlp:collectedBy rdf:resource="https://delphi.kr/abox/asset_7a5e2365c6"/>
+    <dlp:derivedFrom rdf:datatype="http://www.w3.org/2001/XMLSchema#string">b5c06589-561a-4eb2-b6fe-9d56dac84767</dlp:derivedFrom>
+    <dlp:observedActivity rdf:resource="https://delphi.kr/abox/b5c06589-561a-4eb2-b6fe-9d56dac84767_oa0"/>
+    <dlp:observedObject rdf:resource="https://delphi.kr/abox/b5c06589-561a-4eb2-b6fe-9d56dac84767_oo0"/>
+    <dlp:polarity rdf:datatype="http://www.w3.org/2001/XMLSchema#string">PRESENT</dlp:polarity>
+    <dlp:reliabilityGrade rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</dlp:reliabilityGrade>
+    <rdfs:label>OBS · SATELLITE_IMINT · 동창리 발사장 남측 능선 계측지 · 2026-07-13</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#ProductionComplex">
+    <rdfs:subClassOf rdf:resource="https://delphi.kr/onto#Facility"/>
+    <rdfs:label xml:lang="ko">생산단지</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#SupportVehicle">
+    <rdfs:subClassOf rdf:resource="https://delphi.kr/onto#MobileObject"/>
+    <rdfs:label xml:lang="ko">지원차량</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/loc_e7e6011f30">
+    <rdf:type rdf:resource="https://delphi.kr/onto#NamedLocation"/>
+    <rdfs:label>은하화학공장 (자강도 만포)</rdfs:label>
+    <dlp:withinCell rdf:resource="https://delphi.kr/abox/cell_cf51de883b"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/101845d7-0ebd-4d59-8773-14d961f3baad_oa0">
+    <rdf:type rdf:resource="https://delphi.kr/onto#PersonnelActivity"/>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.105</dlp:spuqUncertainty>
+    <rdfs:label>PersonnelActivity</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="ne01c96e6423e42058ddf5344b96b12cab5">
+    <rdf:first rdf:resource="https://delphi.kr/onto#Activity"/>
+    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#MobileObject">
+    <rdfs:subClassOf rdf:resource="https://delphi.kr/onto#Continuant"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#SubmarineBase">
+    <rdfs:subClassOf rdf:resource="https://delphi.kr/onto#Facility"/>
+    <rdfs:label xml:lang="ko">잠수함기지</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/ac16d567-c55c-4e04-b347-0bbac9988433_oa0">
+    <rdf:type rdf:resource="https://delphi.kr/onto#VehicleMassing"/>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.205</dlp:spuqUncertainty>
+    <rdfs:label>VehicleMassing</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#TEL">
+    <rdfs:subClassOf rdf:resource="https://delphi.kr/onto#Transporter"/>
+    <rdfs:label xml:lang="ko">이동식발사대</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#observedSignal">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://delphi.kr/onto#Observation"/>
+    <rdfs:range rdf:resource="https://delphi.kr/onto#Emission"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#CommsEmission">
+    <rdfs:subClassOf rdf:resource="https://delphi.kr/onto#Emission"/>
+    <rdfs:label xml:lang="ko">통신방출</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#UAVSensor">
+    <rdfs:subClassOf rdf:resource="https://delphi.kr/onto#CollectionAsset"/>
+    <rdfs:label xml:lang="ko">무인기센서</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/asset_816a149beb">
+    <rdf:type rdf:resource="https://delphi.kr/onto#SigintCollector"/>
+    <dlp:platform rdf:datatype="http://www.w3.org/2001/XMLSchema#string">지상 ES 자동수집체계</dlp:platform>
+    <rdfs:label>SigintCollector · 지상 ES 자동수집체계</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#SigintCollector">
+    <rdfs:subClassOf rdf:resource="https://delphi.kr/onto#CollectionAsset"/>
+    <rdfs:label xml:lang="ko">신호수집</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#atLocation">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://delphi.kr/onto#Observation"/>
+    <rdfs:range rdf:resource="https://delphi.kr/onto#SpatialRegion"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/loc_5bdaea7a68">
+    <rdf:type rdf:resource="https://delphi.kr/onto#NamedLocation"/>
+    <rdfs:label>신포 남조선소 잠수함 기지</rdfs:label>
+    <dlp:withinCell rdf:resource="https://delphi.kr/abox/cell_cff36e46db"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/loc_98567c91be">
+    <rdf:type rdf:resource="https://delphi.kr/onto#NamedLocation"/>
+    <rdfs:label>동창리 남서 방면 방공지대</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#observedObject">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="https://delphi.kr/onto#Observation"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#LaunchPad">
+    <rdfs:subClassOf rdf:resource="https://delphi.kr/onto#Facility"/>
+    <rdfs:label xml:lang="ko">발사대</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/abox/08b54f8b-dc8d-4972-a43d-31f7b6980669_oa1">
+    <rdf:type rdf:resource="https://delphi.kr/onto#ObjectMovement"/>
+    <dlp:spuqUncertainty rdf:datatype="http://www.w3.org/2001/XMLSchema#double">0.1</dlp:spuqUncertainty>
+    <rdfs:label>ObjectMovement</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#NamedLocation">
+    <rdfs:subClassOf rdf:resource="https://delphi.kr/onto#SpatialRegion"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#TelemetryEmission">
+    <rdfs:subClassOf rdf:resource="https://delphi.kr/onto#Emission"/>
+    <rdfs:label xml:lang="ko">원격측정방출</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#Emission">
+    <rdfs:subClassOf rdf:resource="https://delphi.kr/onto#Occurrent"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="https://delphi.kr/onto#Occurrent">
+    <rdfs:subClassOf rdf:resource="https://delphi.kr/onto#Entity"/>
+  </rdf:Description>
+</rdf:RDF>

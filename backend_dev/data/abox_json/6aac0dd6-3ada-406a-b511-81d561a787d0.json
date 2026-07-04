@@ -1,0 +1,1 @@
+{"obs_id": "6aac0dd6-3ada-406a-b511-81d561a787d0", "collected_at": "2026-05-07T02:00:00+00:00", "polarity": "PRESENT", "reliability_grade": 3, "collection_asset": {"type": "SatelliteIMINT", "platform": "DigitalGlobe"}, "location": {"named": "동창리 모터 시험장", "mgrs": "51S XD 47973 91665"}, "observed_objects": [], "observed_signals": [], "observed_activities": [], "novelty": []}

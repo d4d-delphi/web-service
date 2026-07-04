@@ -1,0 +1,776 @@
+@prefix dla: <https://delphi.kr/abox/> .
+@prefix dlp: <https://delphi.kr/onto#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+dla:obs_08b54f8b-dc8d-4972-a43d-31f7b6980669 a dlp:Observation ;
+    rdfs:label "OBS · SATELLITE_IMINT · 신포 남조선소 잠수함 기지 · 2026-03-20" ;
+    dlp:atLocation dla:loc_5bdaea7a68 ;
+    dlp:collectedAt "2026-03-20T01:30:00+00:00"^^xsd:dateTime ;
+    dlp:collectedBy dla:asset_e92126abbc ;
+    dlp:derivedFrom "08b54f8b-dc8d-4972-a43d-31f7b6980669"^^xsd:string ;
+    dlp:observedActivity dla:08b54f8b-dc8d-4972-a43d-31f7b6980669_oa0,
+        dla:08b54f8b-dc8d-4972-a43d-31f7b6980669_oa1 ;
+    dlp:observedObject dla:08b54f8b-dc8d-4972-a43d-31f7b6980669_oo0,
+        dla:08b54f8b-dc8d-4972-a43d-31f7b6980669_oo1 ;
+    dlp:polarity "PRESENT"^^xsd:string ;
+    dlp:reliabilityGrade 4 .
+
+dla:obs_101845d7-0ebd-4d59-8773-14d961f3baad a dlp:Observation ;
+    rdfs:label "OBS · SATELLITE_IMINT · 잠진 기계공장 엔진시험장 (남포 인근) · 2026-03-17" ;
+    dlp:atLocation dla:loc_f0702d353b ;
+    dlp:collectedAt "2026-03-17T02:30:00+00:00"^^xsd:dateTime ;
+    dlp:collectedBy dla:asset_a16ab64f70 ;
+    dlp:derivedFrom "101845d7-0ebd-4d59-8773-14d961f3baad"^^xsd:string ;
+    dlp:observedActivity dla:101845d7-0ebd-4d59-8773-14d961f3baad_oa0,
+        dla:101845d7-0ebd-4d59-8773-14d961f3baad_oa1 ;
+    dlp:observedObject dla:101845d7-0ebd-4d59-8773-14d961f3baad_oo0,
+        dla:101845d7-0ebd-4d59-8773-14d961f3baad_oo1,
+        dla:101845d7-0ebd-4d59-8773-14d961f3baad_oo2 ;
+    dlp:polarity "PRESENT"^^xsd:string ;
+    dlp:reliabilityGrade 4 .
+
+dla:obs_24f455dd-ac68-4c4d-8d08-4f91475ff2dc a dlp:Observation ;
+    rdfs:label "OBS · SIGINT · 동창리 발사장 방향 · 2026-07-15" ;
+    dlp:atLocation dla:loc_2dbb59ca59 ;
+    dlp:collectedAt "2026-07-15T00:45:00+00:00"^^xsd:dateTime ;
+    dlp:collectedBy dla:asset_fcc9716b29 ;
+    dlp:derivedFrom "24f455dd-ac68-4c4d-8d08-4f91475ff2dc"^^xsd:string ;
+    dlp:observedActivity dla:24f455dd-ac68-4c4d-8d08-4f91475ff2dc_oa0 ;
+    dlp:observedSignal dla:24f455dd-ac68-4c4d-8d08-4f91475ff2dc_os0 ;
+    dlp:polarity "PRESENT"^^xsd:string ;
+    dlp:reliabilityGrade 4 .
+
+dla:obs_2fe93257-52c2-4cbe-845e-d50fb3b212bf a dlp:Observation ;
+    rdfs:label "OBS · SATELLITE_IMINT · 동창리 서해위성발사장 - 발사대 및 추진제 저장동 · 2026-07-08" ;
+    dlp:atLocation dla:loc_77d9bcf748 ;
+    dlp:collectedAt "2026-07-08T05:15:00+00:00"^^xsd:dateTime ;
+    dlp:collectedBy dla:asset_e92126abbc ;
+    dlp:derivedFrom "2fe93257-52c2-4cbe-845e-d50fb3b212bf"^^xsd:string ;
+    dlp:observedActivity dla:2fe93257-52c2-4cbe-845e-d50fb3b212bf_oa0,
+        dla:2fe93257-52c2-4cbe-845e-d50fb3b212bf_oa1 ;
+    dlp:observedObject dla:2fe93257-52c2-4cbe-845e-d50fb3b212bf_oo0 ;
+    dlp:polarity "PRESENT"^^xsd:string ;
+    dlp:reliabilityGrade 4 .
+
+dla:obs_392713e3-ec50-4bac-80cd-14d6a9564578 a dlp:Observation ;
+    rdfs:label "OBS · SIGINT · 동창리 발사장 일대 · 2026-07-14" ;
+    dlp:atLocation dla:loc_62dfd21242 ;
+    dlp:collectedAt "2026-07-14T20:00:00+00:00"^^xsd:dateTime ;
+    dlp:collectedBy dla:asset_843201f4ae ;
+    dlp:derivedFrom "392713e3-ec50-4bac-80cd-14d6a9564578"^^xsd:string ;
+    dlp:observedActivity dla:392713e3-ec50-4bac-80cd-14d6a9564578_oa0 ;
+    dlp:observedSignal dla:392713e3-ec50-4bac-80cd-14d6a9564578_os0 ;
+    dlp:polarity "PRESENT"^^xsd:string ;
+    dlp:reliabilityGrade 4 .
+
+dla:obs_43538781-cae5-48f3-a8c9-473f25cee3f1 a dlp:Observation ;
+    rdfs:label "OBS · UAV_FLIR · 동창리 서해위성발사장 - 발사대 · 2026-07-15" ;
+    dlp:atLocation dla:loc_32eddf0675 ;
+    dlp:collectedAt "2026-07-15T00:30:00+00:00"^^xsd:dateTime ;
+    dlp:collectedBy dla:asset_fa5d04035f ;
+    dlp:derivedFrom "43538781-cae5-48f3-a8c9-473f25cee3f1"^^xsd:string ;
+    dlp:observedActivity dla:43538781-cae5-48f3-a8c9-473f25cee3f1_oa0,
+        dla:43538781-cae5-48f3-a8c9-473f25cee3f1_oa1 ;
+    dlp:observedObject dla:43538781-cae5-48f3-a8c9-473f25cee3f1_oo0 ;
+    dlp:polarity "PRESENT"^^xsd:string ;
+    dlp:reliabilityGrade 4 .
+
+dla:obs_456a3dfa-41a0-4acb-b84c-9f18cca4fc4a a dlp:Observation ;
+    rdfs:label "OBS · SATELLITE_IMINT · 풍계리 핵실험장 - 북측 갱도 근접 · 2026-07-14" ;
+    dlp:atLocation dla:loc_e3ba6f61ab ;
+    dlp:collectedAt "2026-07-14T22:00:00+00:00"^^xsd:dateTime ;
+    dlp:collectedBy dla:asset_e92126abbc ;
+    dlp:derivedFrom "456a3dfa-41a0-4acb-b84c-9f18cca4fc4a"^^xsd:string ;
+    dlp:observedActivity dla:456a3dfa-41a0-4acb-b84c-9f18cca4fc4a_oa0 ;
+    dlp:observedObject dla:456a3dfa-41a0-4acb-b84c-9f18cca4fc4a_oo0 ;
+    dlp:polarity "PRESENT"^^xsd:string ;
+    dlp:reliabilityGrade 4 .
+
+dla:obs_4ba89abc-c19c-4e9a-9be2-089d6c769354 a dlp:Observation ;
+    rdfs:label "OBS · SATELLITE_IMINT · 순안 비행장 · 2026-07-13" ;
+    dlp:atLocation dla:loc_592debb93a ;
+    dlp:collectedAt "2026-07-13T01:00:00+00:00"^^xsd:dateTime ;
+    dlp:collectedBy dla:asset_c74b081d17 ;
+    dlp:derivedFrom "4ba89abc-c19c-4e9a-9be2-089d6c769354"^^xsd:string ;
+    dlp:observedActivity dla:4ba89abc-c19c-4e9a-9be2-089d6c769354_oa0 ;
+    dlp:observedObject dla:4ba89abc-c19c-4e9a-9be2-089d6c769354_oo0,
+        dla:4ba89abc-c19c-4e9a-9be2-089d6c769354_oo1 ;
+    dlp:polarity "PRESENT"^^xsd:string ;
+    dlp:reliabilityGrade 3 .
+
+dla:obs_4cbbfc2c-cc59-4ae2-b7ed-89c821570353 a dlp:Observation ;
+    rdfs:label "OBS · SATELLITE_IMINT · 산음동 미사일 연구·생산단지 (평양 인근) · 2026-04-16" ;
+    dlp:atLocation dla:loc_4e8040b444 ;
+    dlp:collectedAt "2026-04-16T02:30:00+00:00"^^xsd:dateTime ;
+    dlp:collectedBy dla:asset_e92126abbc ;
+    dlp:derivedFrom "4cbbfc2c-cc59-4ae2-b7ed-89c821570353"^^xsd:string ;
+    dlp:observedActivity dla:4cbbfc2c-cc59-4ae2-b7ed-89c821570353_oa0 ;
+    dlp:observedObject dla:4cbbfc2c-cc59-4ae2-b7ed-89c821570353_oo0 ;
+    dlp:polarity "PRESENT"^^xsd:string ;
+    dlp:reliabilityGrade 3 .
+
+dla:obs_56e8d871-e65d-4d68-9585-7d9fd20e0362 a dlp:Observation ;
+    rdfs:label "OBS · OSINT · 동창리 발사 궤적 / 필리핀·일본 항로 · 2026-07-08" ;
+    dlp:atLocation dla:loc_4c15baffe9 ;
+    dlp:collectedAt "2026-07-08T09:00:00+00:00"^^xsd:dateTime ;
+    dlp:collectedBy dla:asset_bef7f5aaab ;
+    dlp:derivedFrom "56e8d871-e65d-4d68-9585-7d9fd20e0362"^^xsd:string ;
+    dlp:observedActivity dla:56e8d871-e65d-4d68-9585-7d9fd20e0362_oa0 ;
+    dlp:polarity "PRESENT"^^xsd:string ;
+    dlp:reliabilityGrade 5 .
+
+dla:obs_58a2a355-2f44-4fe4-ab5b-f1190f82330b a dlp:Observation ;
+    rdfs:label "OBS · SATELLITE_IMINT · 풍계리 핵실험장 - 북측/서측 갱도 · 2026-07-14" ;
+    dlp:atLocation dla:loc_f5628bc0bb ;
+    dlp:collectedAt "2026-07-14T01:00:00+00:00"^^xsd:dateTime ;
+    dlp:collectedBy dla:asset_c74b081d17 ;
+    dlp:derivedFrom "58a2a355-2f44-4fe4-ab5b-f1190f82330b"^^xsd:string ;
+    dlp:polarity "PRESENT"^^xsd:string ;
+    dlp:reliabilityGrade 4 .
+
+dla:obs_8a2d4e98-7abd-4a14-b366-47fb3dbc6fc6 a dlp:Observation ;
+    rdfs:label "OBS · SATELLITE_IMINT · 풍계리 핵실험장 - 남측 갱도/지휘소 · 2026-07-15" ;
+    dlp:atLocation dla:loc_f5e71a77d4 ;
+    dlp:collectedAt "2026-07-15T01:30:00+00:00"^^xsd:dateTime ;
+    dlp:collectedBy dla:asset_3c24a0123f ;
+    dlp:derivedFrom "8a2d4e98-7abd-4a14-b366-47fb3dbc6fc6"^^xsd:string ;
+    dlp:observedActivity dla:8a2d4e98-7abd-4a14-b366-47fb3dbc6fc6_oa0 ;
+    dlp:observedObject dla:8a2d4e98-7abd-4a14-b366-47fb3dbc6fc6_oo0 ;
+    dlp:polarity "PRESENT"^^xsd:string ;
+    dlp:reliabilityGrade 3 .
+
+dla:obs_9fb15b18-340f-42d9-8e19-76de160ba00e a dlp:Observation ;
+    rdfs:label "[ABSENT] OBS · SATELLITE_IMINT · 잠진 기계공장 수직 엔진시험대 · 2026-03-24" ;
+    dlp:atLocation dla:loc_5e36d2eeca ;
+    dlp:collectedAt "2026-03-24T02:30:00+00:00"^^xsd:dateTime ;
+    dlp:collectedBy dla:asset_e92126abbc ;
+    dlp:derivedFrom "9fb15b18-340f-42d9-8e19-76de160ba00e"^^xsd:string ;
+    dlp:observedActivity dla:9fb15b18-340f-42d9-8e19-76de160ba00e_oa0 ;
+    dlp:observedObject dla:9fb15b18-340f-42d9-8e19-76de160ba00e_oo0 ;
+    dlp:polarity "ABSENT"^^xsd:string ;
+    dlp:reliabilityGrade 4 .
+
+dla:obs_ac16d567-c55c-4e04-b347-0bbac9988433 a dlp:Observation ;
+    rdfs:label "OBS · SATELLITE_IMINT · 평양 룡성 지도부 전용역 · 2026-07-13" ;
+    dlp:atLocation dla:loc_7e197d5e01 ;
+    dlp:collectedAt "2026-07-13T02:30:00+00:00"^^xsd:dateTime ;
+    dlp:collectedBy dla:asset_d4def846a6 ;
+    dlp:derivedFrom "ac16d567-c55c-4e04-b347-0bbac9988433"^^xsd:string ;
+    dlp:observedActivity dla:ac16d567-c55c-4e04-b347-0bbac9988433_oa0 ;
+    dlp:observedObject dla:ac16d567-c55c-4e04-b347-0bbac9988433_oo0,
+        dla:ac16d567-c55c-4e04-b347-0bbac9988433_oo1 ;
+    dlp:polarity "PRESENT"^^xsd:string ;
+    dlp:reliabilityGrade 3 .
+
+dla:obs_afe10aed-9417-4390-8d18-846ce0d4431f a dlp:Observation ;
+    rdfs:label "OBS · SIGINT · 동창리 발사장 방향 · 2026-07-15" ;
+    dlp:atLocation dla:loc_2dbb59ca59 ;
+    dlp:collectedAt "2026-07-15T00:46:00+00:00"^^xsd:dateTime ;
+    dlp:collectedBy dla:asset_816a149beb ;
+    dlp:derivedFrom "afe10aed-9417-4390-8d18-846ce0d4431f"^^xsd:string ;
+    dlp:observedActivity dla:afe10aed-9417-4390-8d18-846ce0d4431f_oa0 ;
+    dlp:observedSignal dla:afe10aed-9417-4390-8d18-846ce0d4431f_os0 ;
+    dlp:polarity "PRESENT"^^xsd:string ;
+    dlp:reliabilityGrade 3 .
+
+dla:obs_b5c06589-561a-4eb2-b6fe-9d56dac84767 a dlp:Observation ;
+    rdfs:label "OBS · SATELLITE_IMINT · 동창리 발사장 남측 능선 계측지 · 2026-07-13" ;
+    dlp:atLocation dla:loc_4db7c43ff3 ;
+    dlp:collectedAt "2026-07-13T23:10:00+00:00"^^xsd:dateTime ;
+    dlp:collectedBy dla:asset_7a5e2365c6 ;
+    dlp:derivedFrom "b5c06589-561a-4eb2-b6fe-9d56dac84767"^^xsd:string ;
+    dlp:observedActivity dla:b5c06589-561a-4eb2-b6fe-9d56dac84767_oa0 ;
+    dlp:observedObject dla:b5c06589-561a-4eb2-b6fe-9d56dac84767_oo0 ;
+    dlp:polarity "PRESENT"^^xsd:string ;
+    dlp:reliabilityGrade 3 .
+
+dla:obs_bbc668db-2aee-4d9f-af40-567f510d815b a dlp:Observation ;
+    rdfs:label "OBS · SIGINT · 은하화학공장 (자강도 만포) · 2026-04-18" ;
+    dlp:atLocation dla:loc_e7e6011f30 ;
+    dlp:collectedAt "2026-04-18T05:00:00+00:00"^^xsd:dateTime ;
+    dlp:collectedBy dla:asset_843201f4ae ;
+    dlp:derivedFrom "bbc668db-2aee-4d9f-af40-567f510d815b"^^xsd:string ;
+    dlp:observedActivity dla:bbc668db-2aee-4d9f-af40-567f510d815b_oa0 ;
+    dlp:observedSignal dla:bbc668db-2aee-4d9f-af40-567f510d815b_os0 ;
+    dlp:polarity "PRESENT"^^xsd:string ;
+    dlp:reliabilityGrade 3 .
+
+dla:obs_c381ee0a-9a65-4c1d-a696-eb68448c7204 a dlp:Observation ;
+    rdfs:label "OBS · SATELLITE_IMINT · 동창리 서해위성발사장 - 수평조립건물 지원구역 · 2026-07-09" ;
+    dlp:atLocation dla:loc_950f03f8de ;
+    dlp:collectedAt "2026-07-09T05:21:00+00:00"^^xsd:dateTime ;
+    dlp:collectedBy dla:asset_e92126abbc ;
+    dlp:derivedFrom "c381ee0a-9a65-4c1d-a696-eb68448c7204"^^xsd:string ;
+    dlp:observedActivity dla:c381ee0a-9a65-4c1d-a696-eb68448c7204_oa0 ;
+    dlp:observedObject dla:c381ee0a-9a65-4c1d-a696-eb68448c7204_oo0 ;
+    dlp:polarity "PRESENT"^^xsd:string ;
+    dlp:reliabilityGrade 4 .
+
+dla:obs_e391d971-d8d2-4be6-a5e5-5d6870c6c02a a dlp:Observation ;
+    rdfs:label "OBS · SIGINT · 동창리 남서 방면 방공지대 · 2026-07-13" ;
+    dlp:atLocation dla:loc_98567c91be ;
+    dlp:collectedAt "2026-07-13T14:00:00+00:00"^^xsd:dateTime ;
+    dlp:collectedBy dla:asset_fcc9716b29 ;
+    dlp:derivedFrom "e391d971-d8d2-4be6-a5e5-5d6870c6c02a"^^xsd:string ;
+    dlp:observedActivity dla:e391d971-d8d2-4be6-a5e5-5d6870c6c02a_oa0 ;
+    dlp:observedSignal dla:e391d971-d8d2-4be6-a5e5-5d6870c6c02a_os0 ;
+    dlp:polarity "PRESENT"^^xsd:string ;
+    dlp:reliabilityGrade 4 .
+
+dla:obs_e9034a2a-f224-4db6-8369-db8008373c14 a dlp:Observation ;
+    rdfs:label "OBS · SATELLITE_IMINT · 동창리 서해위성발사장 - 발사대 · 2026-07-13" ;
+    dlp:atLocation dla:loc_32eddf0675 ;
+    dlp:collectedAt "2026-07-13T23:00:00+00:00"^^xsd:dateTime ;
+    dlp:collectedBy dla:asset_7a5e2365c6 ;
+    dlp:derivedFrom "e9034a2a-f224-4db6-8369-db8008373c14"^^xsd:string ;
+    dlp:observedActivity dla:e9034a2a-f224-4db6-8369-db8008373c14_oa0 ;
+    dlp:observedObject dla:e9034a2a-f224-4db6-8369-db8008373c14_oo0,
+        dla:e9034a2a-f224-4db6-8369-db8008373c14_oo1 ;
+    dlp:polarity "PRESENT"^^xsd:string ;
+    dlp:reliabilityGrade 3 .
+
+dlp: a owl:Ontology ;
+    rdfs:label "DELPHI observation ontology"@en ;
+    rdfs:comment "관측가능 실재 + 관측 사실만. 상태·가설·증거·파라미터는 추론엔진 레이어(온톨로지 밖)."@ko ;
+    owl:versionInfo "0.2" .
+
+dlp:AerialIMINT rdfs:label "항공영상"@ko ;
+    rdfs:subClassOf dlp:CollectionAsset .
+
+dlp:LaunchPad rdfs:label "발사대"@ko ;
+    rdfs:subClassOf dlp:Facility .
+
+dlp:NuclearTestSite rdfs:label "핵실험장"@ko ;
+    rdfs:subClassOf dlp:Facility .
+
+dlp:OxidizerVehicle rdfs:label "산화제차량"@ko ;
+    rdfs:subClassOf dlp:MobileObject .
+
+dlp:SubmarineBase rdfs:label "잠수함기지"@ko ;
+    rdfs:subClassOf dlp:Facility .
+
+dlp:TEL rdfs:label "이동식발사대"@ko ;
+    rdfs:subClassOf dlp:Transporter .
+
+dlp:atLocation a owl:ObjectProperty ;
+    rdfs:domain dlp:Observation ;
+    rdfs:range dlp:SpatialRegion .
+
+dlp:collectedAt a owl:DatatypeProperty ;
+    rdfs:domain dlp:Observation ;
+    rdfs:range xsd:dateTime .
+
+dlp:collectedBy a owl:ObjectProperty ;
+    rdfs:domain dlp:Observation ;
+    rdfs:range dlp:CollectionAsset .
+
+dlp:count a owl:DatatypeProperty ;
+    rdfs:range xsd:integer .
+
+dlp:derivedFrom a owl:DatatypeProperty ;
+    rdfs:domain dlp:Observation ;
+    rdfs:range xsd:string .
+
+dlp:locatedAt a owl:ObjectProperty ;
+    rdfs:domain dlp:Facility ;
+    rdfs:range dlp:NamedLocation .
+
+dlp:mgrs a owl:DatatypeProperty ;
+    rdfs:domain dlp:MGRSCell ;
+    rdfs:range xsd:string .
+
+dlp:observedActivity a owl:ObjectProperty ;
+    rdfs:domain dlp:Observation ;
+    rdfs:range dlp:Activity .
+
+dlp:observedObject a owl:ObjectProperty ;
+    rdfs:domain dlp:Observation .
+
+dlp:observedSignal a owl:ObjectProperty ;
+    rdfs:domain dlp:Observation ;
+    rdfs:range dlp:Emission .
+
+dlp:platform a owl:DatatypeProperty ;
+    rdfs:domain dlp:CollectionAsset ;
+    rdfs:range xsd:string .
+
+dlp:polarity a owl:DatatypeProperty ;
+    rdfs:domain dlp:Observation ;
+    rdfs:range xsd:string .
+
+dlp:reliabilityGrade a owl:DatatypeProperty ;
+    rdfs:domain dlp:Observation ;
+    rdfs:range xsd:integer .
+
+dlp:spuqUncertainty a owl:DatatypeProperty ;
+    rdfs:range xsd:double .
+
+dlp:withinCell a owl:ObjectProperty ;
+    rdfs:domain dlp:NamedLocation ;
+    rdfs:range dlp:MGRSCell .
+
+dla:08b54f8b-dc8d-4972-a43d-31f7b6980669_oa0 a dlp:PersonnelActivity ;
+    rdfs:label "PersonnelActivity" ;
+    dlp:spuqUncertainty 1e-01 .
+
+dla:08b54f8b-dc8d-4972-a43d-31f7b6980669_oa1 a dlp:ObjectMovement ;
+    rdfs:label "ObjectMovement" ;
+    dlp:spuqUncertainty 1e-01 .
+
+dla:08b54f8b-dc8d-4972-a43d-31f7b6980669_oo0 a dlp:ProductionComplex ;
+    rdfs:label "ProductionComplex ×3" ;
+    dlp:count 3 ;
+    dlp:spuqUncertainty 1e-01 .
+
+dla:08b54f8b-dc8d-4972-a43d-31f7b6980669_oo1 a dlp:EngineTestStand ;
+    rdfs:label "EngineTestStand ×1" ;
+    dlp:count 1 ;
+    dlp:spuqUncertainty 1e-01 .
+
+dla:101845d7-0ebd-4d59-8773-14d961f3baad_oa0 a dlp:PersonnelActivity ;
+    rdfs:label "PersonnelActivity" ;
+    dlp:spuqUncertainty 1.05e-01 .
+
+dla:101845d7-0ebd-4d59-8773-14d961f3baad_oa1 a dlp:ObjectMovement ;
+    rdfs:label "ObjectMovement" ;
+    dlp:spuqUncertainty 1.05e-01 .
+
+dla:101845d7-0ebd-4d59-8773-14d961f3baad_oo0 a dlp:EngineTestStand ;
+    rdfs:label "EngineTestStand ×1" ;
+    dlp:count 1 ;
+    dlp:spuqUncertainty 1.05e-01 .
+
+dla:101845d7-0ebd-4d59-8773-14d961f3baad_oo1 a dlp:PropellantVehicle ;
+    rdfs:label "PropellantVehicle ×1" ;
+    dlp:count 1 ;
+    dlp:spuqUncertainty 1.05e-01 .
+
+dla:101845d7-0ebd-4d59-8773-14d961f3baad_oo2 a dlp:SupportVehicle ;
+    rdfs:label "SupportVehicle ×2" ;
+    dlp:count 2 ;
+    dlp:spuqUncertainty 1.05e-01 .
+
+dla:24f455dd-ac68-4c4d-8d08-4f91475ff2dc_oa0 a dlp:SignalActivation ;
+    rdfs:label "SignalActivation" ;
+    dlp:spuqUncertainty 1e-01 .
+
+dla:24f455dd-ac68-4c4d-8d08-4f91475ff2dc_os0 a dlp:TelemetryEmission ;
+    rdfs:label "TelemetryEmission" ;
+    dlp:spuqUncertainty 1e-01 .
+
+dla:2fe93257-52c2-4cbe-845e-d50fb3b212bf_oa0 a dlp:PersonnelActivity ;
+    rdfs:label "PersonnelActivity" ;
+    dlp:spuqUncertainty 1.05e-01 .
+
+dla:2fe93257-52c2-4cbe-845e-d50fb3b212bf_oa1 a dlp:ObjectMovement ;
+    rdfs:label "ObjectMovement" ;
+    dlp:spuqUncertainty 1.05e-01 .
+
+dla:2fe93257-52c2-4cbe-845e-d50fb3b212bf_oo0 a dlp:SupportVehicle ;
+    rdfs:label "SupportVehicle ×3" ;
+    dlp:count 3 ;
+    dlp:spuqUncertainty 1.05e-01 .
+
+dla:392713e3-ec50-4bac-80cd-14d6a9564578_oa0 a dlp:CommunicationSurge ;
+    rdfs:label "CommunicationSurge" ;
+    dlp:spuqUncertainty 1e-01 .
+
+dla:392713e3-ec50-4bac-80cd-14d6a9564578_os0 a dlp:CommsEmission ;
+    rdfs:label "CommsEmission" ;
+    dlp:spuqUncertainty 1e-01 .
+
+dla:43538781-cae5-48f3-a8c9-473f25cee3f1_oa0 a dlp:PersonnelActivity ;
+    rdfs:label "PersonnelActivity" ;
+    dlp:spuqUncertainty 1e-01 .
+
+dla:43538781-cae5-48f3-a8c9-473f25cee3f1_oa1 a dlp:VehicleMassing ;
+    rdfs:label "VehicleMassing" ;
+    dlp:spuqUncertainty 1e-01 .
+
+dla:43538781-cae5-48f3-a8c9-473f25cee3f1_oo0 a dlp:SupportVehicle ;
+    rdfs:label "SupportVehicle ×5" ;
+    dlp:count 5 ;
+    dlp:spuqUncertainty 1e-01 .
+
+dla:456a3dfa-41a0-4acb-b84c-9f18cca4fc4a_oa0 a dlp:PersonnelActivity ;
+    rdfs:label "PersonnelActivity" ;
+    dlp:spuqUncertainty 1e-01 .
+
+dla:456a3dfa-41a0-4acb-b84c-9f18cca4fc4a_oo0 a dlp:SupportVehicle ;
+    rdfs:label "SupportVehicle ×2" ;
+    dlp:count 2 ;
+    dlp:spuqUncertainty 1e-01 .
+
+dla:4ba89abc-c19c-4e9a-9be2-089d6c769354_oa0 a dlp:VehicleMassing ;
+    rdfs:label "VehicleMassing" ;
+    dlp:spuqUncertainty 2e-01 .
+
+dla:4ba89abc-c19c-4e9a-9be2-089d6c769354_oo0 a dlp:SupportVehicle ;
+    rdfs:label "SupportVehicle ×5" ;
+    dlp:count 5 ;
+    dlp:spuqUncertainty 2e-01 .
+
+dla:4ba89abc-c19c-4e9a-9be2-089d6c769354_oo1 a dlp:Airfield ;
+    rdfs:label "Airfield ×2" ;
+    dlp:count 2 ;
+    dlp:spuqUncertainty 2e-01 .
+
+dla:4cbbfc2c-cc59-4ae2-b7ed-89c821570353_oa0 a dlp:VehicleMassing ;
+    rdfs:label "VehicleMassing" ;
+    dlp:spuqUncertainty 2.1e-01 .
+
+dla:4cbbfc2c-cc59-4ae2-b7ed-89c821570353_oo0 a dlp:SupportVehicle ;
+    rdfs:label "SupportVehicle ×15" ;
+    dlp:count 15 ;
+    dlp:spuqUncertainty 2.1e-01 .
+
+dla:56e8d871-e65d-4d68-9585-7d9fd20e0362_oa0 a dlp:AreaClosure ;
+    rdfs:label "AreaClosure" ;
+    dlp:spuqUncertainty 5e-02 .
+
+dla:8a2d4e98-7abd-4a14-b366-47fb3dbc6fc6_oa0 a dlp:ObjectMovement ;
+    rdfs:label "ObjectMovement" ;
+    dlp:spuqUncertainty 2.1e-01 .
+
+dla:8a2d4e98-7abd-4a14-b366-47fb3dbc6fc6_oo0 a dlp:Trailer ;
+    rdfs:label "Trailer ×1" ;
+    dlp:count 1 ;
+    dlp:spuqUncertainty 2.1e-01 .
+
+dla:9fb15b18-340f-42d9-8e19-76de160ba00e_oa0 a dlp:StructureWork ;
+    rdfs:label "StructureWork" ;
+    dlp:spuqUncertainty 1.05e-01 .
+
+dla:9fb15b18-340f-42d9-8e19-76de160ba00e_oo0 a dlp:EngineTestStand ;
+    rdfs:label "EngineTestStand ×1" ;
+    dlp:count 1 ;
+    dlp:spuqUncertainty 1.05e-01 .
+
+dla:ac16d567-c55c-4e04-b347-0bbac9988433_oa0 a dlp:VehicleMassing ;
+    rdfs:label "VehicleMassing" ;
+    dlp:spuqUncertainty 2.05e-01 .
+
+dla:ac16d567-c55c-4e04-b347-0bbac9988433_oo0 a dlp:RailCar ;
+    rdfs:label "RailCar ×1" ;
+    dlp:count 1 ;
+    dlp:spuqUncertainty 2.05e-01 .
+
+dla:ac16d567-c55c-4e04-b347-0bbac9988433_oo1 a dlp:SupportVehicle ;
+    rdfs:label "SupportVehicle ×1" ;
+    dlp:count 1 ;
+    dlp:spuqUncertainty 2.05e-01 .
+
+dla:afe10aed-9417-4390-8d18-846ce0d4431f_oa0 a dlp:SignalActivation ;
+    rdfs:label "SignalActivation" ;
+    dlp:spuqUncertainty 2e-01 .
+
+dla:afe10aed-9417-4390-8d18-846ce0d4431f_os0 a dlp:TelemetryEmission ;
+    rdfs:label "TelemetryEmission" ;
+    dlp:spuqUncertainty 2e-01 .
+
+dla:asset_3c24a0123f a dlp:SatelliteIMINT ;
+    rdfs:label "SatelliteIMINT · Airbus Defense & Space (Pleiades)" ;
+    dlp:platform "Airbus Defense & Space (Pleiades)"^^xsd:string .
+
+dla:asset_816a149beb a dlp:SigintCollector ;
+    rdfs:label "SigintCollector · 지상 ES 자동수집체계" ;
+    dlp:platform "지상 ES 자동수집체계"^^xsd:string .
+
+dla:asset_a16ab64f70 a dlp:SatelliteIMINT ;
+    rdfs:label "SatelliteIMINT · Pleiades (CNES/Airbus DS)" ;
+    dlp:platform "Pleiades (CNES/Airbus DS)"^^xsd:string .
+
+dla:asset_bef7f5aaab a dlp:OsintSource ;
+    rdfs:label "OsintSource · 공개출처 (항행경보 NOTAM)" ;
+    dlp:platform "공개출처 (항행경보 NOTAM)"^^xsd:string .
+
+dla:asset_d4def846a6 a dlp:SatelliteIMINT ;
+    rdfs:label "SatelliteIMINT · Maxar Technologies" ;
+    dlp:platform "Maxar Technologies"^^xsd:string .
+
+dla:asset_fa5d04035f a dlp:UAVSensor ;
+    rdfs:label "UAVSensor · RQ-4 Global Hawk" ;
+    dlp:platform "RQ-4 Global Hawk"^^xsd:string .
+
+dla:b5c06589-561a-4eb2-b6fe-9d56dac84767_oa0 a dlp:ObjectMovement ;
+    rdfs:label "ObjectMovement" ;
+    dlp:spuqUncertainty 2.05e-01 .
+
+dla:b5c06589-561a-4eb2-b6fe-9d56dac84767_oo0 a dlp:SupportVehicle ;
+    rdfs:label "SupportVehicle ×1" ;
+    dlp:count 1 ;
+    dlp:spuqUncertainty 2.05e-01 .
+
+dla:bbc668db-2aee-4d9f-af40-567f510d815b_oa0 a dlp:CommunicationSurge ;
+    rdfs:label "CommunicationSurge" ;
+    dlp:spuqUncertainty 2e-01 .
+
+dla:bbc668db-2aee-4d9f-af40-567f510d815b_os0 a dlp:CommsEmission ;
+    rdfs:label "CommsEmission" ;
+    dlp:spuqUncertainty 2e-01 .
+
+dla:c381ee0a-9a65-4c1d-a696-eb68448c7204_oa0 a dlp:ObjectMovement ;
+    rdfs:label "ObjectMovement" ;
+    dlp:spuqUncertainty 1.05e-01 .
+
+dla:c381ee0a-9a65-4c1d-a696-eb68448c7204_oo0 a dlp:Trailer ;
+    rdfs:label "Trailer ×2" ;
+    dlp:count 2 ;
+    dlp:spuqUncertainty 1.05e-01 .
+
+dla:cell_1216df5c4a a dlp:MGRSCell ;
+    rdfs:label "MGRS · 51S XD 46531 90749" ;
+    dlp:mgrs "51S XD 46531 90749"^^xsd:string .
+
+dla:cell_460acb009a a dlp:MGRSCell ;
+    rdfs:label "MGRS · 51S YD 38591 34275" ;
+    dlp:mgrs "51S YD 38591 34275"^^xsd:string .
+
+dla:cell_48fb1c7fb6 a dlp:MGRSCell ;
+    rdfs:label "MGRS · 51S YD 36611 32182" ;
+    dlp:mgrs "51S YD 36611 32182"^^xsd:string .
+
+dla:cell_a07e456304 a dlp:MGRSCell ;
+    rdfs:label "MGRS · 52S EH 1400 5550" ;
+    dlp:mgrs "52S EH 1400 5550"^^xsd:string .
+
+dla:cell_cf51de883b a dlp:MGRSCell ;
+    rdfs:label "MGRS · 52T BL 72762 59866" ;
+    dlp:mgrs "52T BL 72762 59866"^^xsd:string .
+
+dla:cell_cff36e46db a dlp:MGRSCell ;
+    rdfs:label "MGRS · 52S DG 4700 4500" ;
+    dlp:mgrs "52S DG 4700 4500"^^xsd:string .
+
+dla:cell_ec80459a75 a dlp:MGRSCell ;
+    rdfs:label "MGRS · 51S YD 4500 3200" ;
+    dlp:mgrs "51S YD 4500 3200"^^xsd:string .
+
+dla:e391d971-d8d2-4be6-a5e5-5d6870c6c02a_oa0 a dlp:SignalActivation ;
+    rdfs:label "SignalActivation" ;
+    dlp:spuqUncertainty 1e-01 .
+
+dla:e391d971-d8d2-4be6-a5e5-5d6870c6c02a_os0 a dlp:RadarEmission ;
+    rdfs:label "RadarEmission" ;
+    dlp:spuqUncertainty 1e-01 .
+
+dla:e9034a2a-f224-4db6-8369-db8008373c14_oa0 a dlp:StructureWork ;
+    rdfs:label "StructureWork" ;
+    dlp:spuqUncertainty 2.05e-01 .
+
+dla:e9034a2a-f224-4db6-8369-db8008373c14_oo0 a dlp:GantryTower ;
+    rdfs:label "GantryTower ×1" ;
+    dlp:count 1 ;
+    dlp:spuqUncertainty 2.05e-01 .
+
+dla:e9034a2a-f224-4db6-8369-db8008373c14_oo1 a dlp:SecurityVehicle ;
+    rdfs:label "SecurityVehicle ×4" ;
+    dlp:count 4 ;
+    dlp:spuqUncertainty 2.05e-01 .
+
+dla:loc_4c15baffe9 a dlp:NamedLocation ;
+    rdfs:label "동창리 발사 궤적 / 필리핀·일본 항로" ;
+    dlp:withinCell dla:cell_b2b53b7aa9 .
+
+dla:loc_4db7c43ff3 a dlp:NamedLocation ;
+    rdfs:label "동창리 발사장 남측 능선 계측지" ;
+    dlp:withinCell dla:cell_1216df5c4a .
+
+dla:loc_4e8040b444 a dlp:NamedLocation ;
+    rdfs:label "산음동 미사일 연구·생산단지 (평양 인근)" ;
+    dlp:withinCell dla:cell_48fb1c7fb6 .
+
+dla:loc_592debb93a a dlp:NamedLocation ;
+    rdfs:label "순안 비행장" ;
+    dlp:withinCell dla:cell_ec80459a75 .
+
+dla:loc_5bdaea7a68 a dlp:NamedLocation ;
+    rdfs:label "신포 남조선소 잠수함 기지" ;
+    dlp:withinCell dla:cell_cff36e46db .
+
+dla:loc_5e36d2eeca a dlp:NamedLocation ;
+    rdfs:label "잠진 기계공장 수직 엔진시험대" ;
+    dlp:withinCell dla:cell_03af304bbc .
+
+dla:loc_62dfd21242 a dlp:NamedLocation ;
+    rdfs:label "동창리 발사장 일대" .
+
+dla:loc_77d9bcf748 a dlp:NamedLocation ;
+    rdfs:label "동창리 서해위성발사장 - 발사대 및 추진제 저장동" ;
+    dlp:withinCell dla:cell_b2b53b7aa9 .
+
+dla:loc_7e197d5e01 a dlp:NamedLocation ;
+    rdfs:label "평양 룡성 지도부 전용역" ;
+    dlp:withinCell dla:cell_460acb009a .
+
+dla:loc_950f03f8de a dlp:NamedLocation ;
+    rdfs:label "동창리 서해위성발사장 - 수평조립건물 지원구역" ;
+    dlp:withinCell dla:cell_b2b53b7aa9 .
+
+dla:loc_98567c91be a dlp:NamedLocation ;
+    rdfs:label "동창리 남서 방면 방공지대" .
+
+dla:loc_e3ba6f61ab a dlp:NamedLocation ;
+    rdfs:label "풍계리 핵실험장 - 북측 갱도 근접" ;
+    dlp:withinCell dla:cell_e9554502a9 .
+
+dla:loc_e7e6011f30 a dlp:NamedLocation ;
+    rdfs:label "은하화학공장 (자강도 만포)" ;
+    dlp:withinCell dla:cell_cf51de883b .
+
+dla:loc_f0702d353b a dlp:NamedLocation ;
+    rdfs:label "잠진 기계공장 엔진시험장 (남포 인근)" ;
+    dlp:withinCell dla:cell_03af304bbc .
+
+dla:loc_f5628bc0bb a dlp:NamedLocation ;
+    rdfs:label "풍계리 핵실험장 - 북측/서측 갱도" ;
+    dlp:withinCell dla:cell_e9554502a9 .
+
+dla:loc_f5e71a77d4 a dlp:NamedLocation ;
+    rdfs:label "풍계리 핵실험장 - 남측 갱도/지휘소" ;
+    dlp:withinCell dla:cell_a07e456304 .
+
+dlp:Airfield rdfs:label "비행장"@ko ;
+    rdfs:subClassOf dlp:Facility .
+
+dlp:AreaClosure rdfs:label "구역폐쇄"@ko ;
+    rdfs:subClassOf dlp:Activity .
+
+dlp:GantryTower rdfs:label "갠트리타워"@ko ;
+    rdfs:subClassOf dlp:Facility .
+
+dlp:OsintSource rdfs:label "공개출처"@ko ;
+    rdfs:subClassOf dlp:CollectionAsset .
+
+dlp:ProductionComplex rdfs:label "생산단지"@ko ;
+    rdfs:subClassOf dlp:Facility .
+
+dlp:PropellantVehicle rdfs:label "추진제차량"@ko ;
+    rdfs:subClassOf dlp:MobileObject .
+
+dlp:RadarEmission rdfs:label "레이더방출"@ko ;
+    rdfs:subClassOf dlp:Emission .
+
+dlp:RailCar rdfs:label "특수열차"@ko ;
+    rdfs:subClassOf dlp:MobileObject .
+
+dlp:SecurityVehicle rdfs:label "보안차량"@ko ;
+    rdfs:subClassOf dlp:MobileObject .
+
+dlp:Transporter rdfs:label "운반대"@ko ;
+    rdfs:subClassOf dlp:MobileObject .
+
+dlp:UAVSensor rdfs:label "무인기센서"@ko ;
+    rdfs:subClassOf dlp:CollectionAsset .
+
+dla:asset_7a5e2365c6 a dlp:SatelliteIMINT ;
+    rdfs:label "SatelliteIMINT · GeoEye" ;
+    dlp:platform "GeoEye"^^xsd:string .
+
+dla:asset_843201f4ae a dlp:SigintCollector ;
+    rdfs:label "SigintCollector · 777사령부 수집체계" ;
+    dlp:platform "777사령부 수집체계"^^xsd:string .
+
+dla:asset_c74b081d17 a dlp:SatelliteIMINT ;
+    rdfs:label "SatelliteIMINT · Planet Labs" ;
+    dlp:platform "Planet Labs"^^xsd:string .
+
+dla:asset_fcc9716b29 a dlp:SigintCollector ;
+    rdfs:label "SigintCollector · 공군 지상 ES체계" ;
+    dlp:platform "공군 지상 ES체계"^^xsd:string .
+
+dla:cell_03af304bbc a dlp:MGRSCell ;
+    rdfs:label "MGRS · 51S YD 11588 14896" ;
+    dlp:mgrs "51S YD 11588 14896"^^xsd:string .
+
+dla:cell_e9554502a9 a dlp:MGRSCell ;
+    rdfs:label "MGRS · 52S EH 1350 5600" ;
+    dlp:mgrs "52S EH 1350 5600"^^xsd:string .
+
+dla:loc_2dbb59ca59 a dlp:NamedLocation ;
+    rdfs:label "동창리 발사장 방향" ;
+    dlp:withinCell dla:cell_b2b53b7aa9 .
+
+dla:loc_32eddf0675 a dlp:NamedLocation ;
+    rdfs:label "동창리 서해위성발사장 - 발사대" ;
+    dlp:withinCell dla:cell_b2b53b7aa9 .
+
+dlp:CommsEmission rdfs:label "통신방출"@ko ;
+    rdfs:subClassOf dlp:Emission .
+
+dlp:CommunicationSurge rdfs:label "통신급증"@ko ;
+    rdfs:subClassOf dlp:Activity .
+
+dlp:Continuant rdfs:subClassOf dlp:Entity .
+
+dlp:InformationArtifact rdfs:subClassOf dlp:Entity .
+
+dlp:Occurrent rdfs:subClassOf dlp:Entity .
+
+dlp:StructureWork rdfs:label "구조물작업"@ko ;
+    rdfs:subClassOf dlp:Activity .
+
+dlp:TelemetryEmission rdfs:label "원격측정방출"@ko ;
+    rdfs:subClassOf dlp:Emission .
+
+dlp:Trailer rdfs:label "트레일러"@ko ;
+    rdfs:subClassOf dlp:MobileObject .
+
+dlp:EngineTestStand rdfs:label "엔진시험대"@ko ;
+    rdfs:subClassOf dlp:Facility .
+
+dlp:SigintCollector rdfs:label "신호수집"@ko ;
+    rdfs:subClassOf dlp:CollectionAsset .
+
+dlp:SignalActivation rdfs:label "신호활성화"@ko ;
+    rdfs:subClassOf dlp:Activity .
+
+dlp:SpatialRegion rdfs:subClassOf dlp:Entity .
+
+dlp:Entity a owl:Class .
+
+dlp:VehicleMassing rdfs:label "차량집결"@ko ;
+    rdfs:subClassOf dlp:Activity .
+
+dla:cell_b2b53b7aa9 a dlp:MGRSCell ;
+    rdfs:label "MGRS · 51S XD 46261 91410" ;
+    dlp:mgrs "51S XD 46261 91410"^^xsd:string .
+
+dlp:Emission rdfs:subClassOf dlp:Occurrent .
+
+dlp:PersonnelActivity rdfs:label "인원활동"@ko ;
+    rdfs:subClassOf dlp:Activity .
+
+dla:asset_e92126abbc a dlp:SatelliteIMINT ;
+    rdfs:label "SatelliteIMINT · DigitalGlobe" ;
+    dlp:platform "DigitalGlobe"^^xsd:string .
+
+dlp:ObjectMovement rdfs:label "물체이동"@ko ;
+    rdfs:subClassOf dlp:Activity .
+
+dlp:SatelliteIMINT rdfs:label "위성영상"@ko ;
+    rdfs:subClassOf dlp:CollectionAsset .
+
+dlp:CollectionAsset rdfs:subClassOf dlp:InformationArtifact .
+
+dlp:MobileObject rdfs:subClassOf dlp:Continuant .
+
+dlp:SupportVehicle rdfs:label "지원차량"@ko ;
+    rdfs:subClassOf dlp:MobileObject .
+
+dlp:Activity rdfs:subClassOf dlp:Occurrent .
+
+dlp:Facility rdfs:subClassOf dlp:Continuant .
+
+dlp:MGRSCell rdfs:subClassOf dlp:SpatialRegion .
+
+dlp:NamedLocation rdfs:subClassOf dlp:SpatialRegion .
+
+dlp:Observation rdfs:subClassOf dlp:InformationArtifact .
+
+[] a owl:AllDisjointClasses ;
+    owl:members ( dlp:Facility dlp:MobileObject dlp:Emission dlp:Activity ) .
+

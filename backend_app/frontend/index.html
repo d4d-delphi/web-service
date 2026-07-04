@@ -1,0 +1,122 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>DELPHI · belief timeline (API)</title>
+<style>
+:root{--surface:#1a1a19;--plane:#0d0d0d;--ink:#fff;--ink2:#c3c2b7;--muted:#898781;--grid:#2c2c2a;--axis:#383835;
+  --pl:#e66767;--pa:#3987e5;--s1:#c98500;--s2:#d95926;--s3:#d55181;--fu:#199e70;--ra:#9085e9;--ph:#008300}
+@media (prefers-color-scheme: light){:root{--surface:#fcfcfb;--plane:#f9f9f7;--ink:#0b0b0b;--ink2:#52514e;
+  --grid:#e1e0d9;--axis:#c3c2b7;--pl:#e34948;--pa:#2a78d6;--s1:#eda100;--s2:#eb6834;--s3:#e87ba4;--fu:#1baf7a;--ra:#4a3aa7}}
+*{box-sizing:border-box}html,body{margin:0;height:100%;background:var(--plane);color:var(--ink);
+  font:13px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif}
+header{padding:12px 18px 8px}h1{margin:0;font-size:15px}.sub{color:var(--ink2);font-size:12px;margin-top:3px}
+#api{color:var(--muted);font-size:11px}
+.tabs{margin-top:9px;display:flex;gap:6px}
+.tab{background:var(--surface);border:1px solid var(--axis);color:var(--ink2);border-radius:7px;padding:5px 12px;cursor:pointer;font-size:12px}
+.tab.on{color:var(--ink);border-color:var(--pa);box-shadow:0 0 0 1px var(--pa)}
+#wrap{padding:0 12px;display:flex;gap:10px}
+#cvbox{flex:1;min-width:0}#cv{display:block;width:100%;background:var(--surface);border:1px solid var(--grid);border-radius:10px}
+#drill{width:340px;flex:0 0 340px;background:var(--surface);border:1px solid var(--grid);border-radius:10px;padding:12px;max-height:82vh;overflow:auto}
+#drill h3{margin:0 0 2px;font-size:13px}#drill .c{color:var(--ink2);font-size:11px}
+.big{font-size:22px;font-weight:700;margin:6px 0}.big.red{color:var(--pl)}
+.contrib{border-top:1px solid var(--grid);padding:6px 0;font-size:11.5px}
+.contrib .hd{display:flex;justify-content:space-between;gap:8px}.contrib .db{font-weight:700}
+.contrib .db.pos{color:var(--fu)}.contrib .db.neg{color:var(--pl)}
+.contrib .src{color:var(--ink2);margin-top:2px}
+.hint{color:var(--muted);font-size:11px;padding:2px 18px 12px}
+#tip{position:fixed;pointer-events:none;background:var(--surface);border:1px solid var(--axis);border-radius:8px;padding:8px 10px;font-size:11.5px;display:none;z-index:9;min-width:180px}
+#tip .r{display:flex;justify-content:space-between;gap:12px}#tip .r i{width:9px;height:9px;border-radius:2px;display:inline-block;margin-right:5px}
+.err{color:var(--pl);padding:12px 18px}
+</style></head><body>
+<header><h1>DELPHI · 추론 belief 타임라인 <span style="font-weight:400;color:var(--muted)">— live from API</span></h1>
+<div class="sub" id="sub">loading…</div><div id="api"></div><div class="tabs" id="tabs"></div></header>
+<div id="wrap"><div id="cvbox"><canvas id="cv"></canvas></div>
+<div id="drill"><h3>드릴다운</h3><div class="c">신호 이벤트(세로선)나 곡선을 클릭하면 그 시점의 확률과 <b>기여도 역산</b>(어느 관측이 밀어올렸나)을 API에서 불러옵니다.</div></div></div>
+<div class="hint">데이터 출처: <code>GET /api/v1/inference/series</code> (곡선) + <code>GET /api/v1/inference</code> (클릭 시 기여도) · 좌→우 시간순</div>
+<div id="tip"></div>
+<script>
+const API=location.origin+"/api/v1";
+document.getElementById('api').textContent="API base: "+API;
+const SER=[
+ {k:'p_launch',lab:'P(발사)',c:'--pl',p:0},{k:'p_activity',lab:'P(활동)',c:'--pa',p:0},
+ {k:'s1_early',lab:'s1 초기',c:'--s1',p:1},{k:'s2_pad',lab:'s2 발사장',c:'--s2',p:1},{k:'s3_imminent',lab:'s3 임박',c:'--s3',p:1},
+ {k:'fuel',lab:'P(액체)',c:'--fu',p:2},{k:'range',lab:'P(장거리)',c:'--ra',p:2},{k:'ph',lab:'P(H)액체·장거리',c:'--ph',p:2}];
+const PANELS=['Outputs (발사·활동)','Stages — leaky (s1·s2·s3)','Static axes (액체·장거리·결합)'];
+const FIELDS="p_launch,p_activity,s1_early,s2_pad,s3_imminent,fuel,range,hypotheses";
+const cv=document.getElementById('cv'),ctx=cv.getContext('2d'),tip=document.getElementById('tip');
+let CAMP=null,ROWS=[],geom=null;
+function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+
+async function boot(){
+  try{
+    const cj=await (await fetch(API+"/campaigns")).json();
+    const tabs=document.getElementById('tabs');
+    tabs.innerHTML=cj.campaigns.map((c,i)=>`<div class="tab${i===0?' on':''}" data-c="${c.campaign_id}">${c.label} · ${c.observation_count}</div>`).join('');
+    tabs.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{tabs.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));t.classList.add('on');load(t.dataset.c);});
+    load(cj.campaigns[0].campaign_id);
+  }catch(e){document.getElementById('sub').innerHTML='<span class="err">API 연결 실패: '+e+'</span>';}
+}
+async function load(camp){
+  CAMP=camp;
+  const j=await (await fetch(`${API}/inference/series?campaign_id=${camp}&fields=${encodeURIComponent(FIELDS)}`)).json();
+  ROWS=j.series.map(p=>({...p, ph:(p.hypotheses||{})['액체·장거리']||0}));
+  document.getElementById('sub').textContent=`campaign ${camp} · ${ROWS.length} snapshots · ${ROWS[0].timestamp.slice(0,10)} → ${ROWS[ROWS.length-1].timestamp.slice(0,10)} · 세로선=신호이벤트`;
+  draw();
+}
+function layout(){
+  const DPR=devicePixelRatio||1,W=cv.clientWidth,np=3,ph=180,gap=20,top=14,bot=32,H=top+np*ph+(np-1)*gap+bot;
+  cv.width=W*DPR;cv.height=H*DPR;cv.style.height=H+'px';ctx.setTransform(DPR,0,0,DPR,0,0);
+  const L=46,R=150,t0=new Date(ROWS[0].timestamp),t1=new Date(ROWS[ROWS.length-1].timestamp),panels=[];
+  for(let p=0;p<np;p++){const y0=top+p*(ph+gap);panels.push({y0,y1:y0+ph});}
+  geom={L,R,W,H,top,np,t0:+t0,t1:+t1,panels,plotW:W-L-R};
+}
+const X=t=>geom.L+(+new Date(t)-geom.t0)/(geom.t1-geom.t0||1)*geom.plotW;
+const Y=(p,v)=>{const g=geom.panels[p];return g.y1-v*(g.y1-g.y0);};
+function draw(){
+  if(!ROWS.length)return; layout(); ctx.clearRect(0,0,geom.W,geom.H);
+  const grid=css('--grid'),muted=css('--muted'),axis=css('--axis'),ink2=css('--ink2');
+  ctx.strokeStyle=grid;ctx.lineWidth=1;
+  ROWS.forEach(d=>{if(d.is_signal){const x=X(d.timestamp);ctx.globalAlpha=.7;ctx.beginPath();ctx.moveTo(x,geom.top);ctx.lineTo(x,geom.panels[2].y1);ctx.stroke();}});
+  ctx.globalAlpha=1;
+  for(let p=0;p<3;p++){const g=geom.panels[p];
+    ctx.strokeStyle=grid;ctx.fillStyle=muted;ctx.font='10px system-ui';ctx.textAlign='right';
+    [0,.5,1].forEach(v=>{const y=Y(p,v);ctx.globalAlpha=v===0?.9:.5;ctx.beginPath();ctx.moveTo(geom.L,y);ctx.lineTo(geom.W-geom.R,y);ctx.stroke();ctx.globalAlpha=1;ctx.fillText(v.toFixed(1),geom.L-6,y+3);});
+    ctx.textAlign='left';ctx.fillStyle=ink2;ctx.font='600 11px system-ui';ctx.fillText(PANELS[p],geom.L+2,g.y0-3);
+    const labs=[];
+    SER.filter(s=>s.p===p).forEach(s=>{ctx.strokeStyle=css(s.c);ctx.lineWidth=2;ctx.beginPath();
+      ROWS.forEach((d,i)=>{const x=X(d.timestamp),y=Y(p,d[s.k]);i?ctx.lineTo(x,y):ctx.moveTo(x,y);});ctx.stroke();
+      const last=ROWS[ROWS.length-1];labs.push({y:Y(p,last[s.k]),lab:s.lab,col:css(s.c),v:last[s.k]});});
+    labs.sort((a,b)=>a.y-b.y);for(let i=1;i<labs.length;i++)if(labs[i].y-labs[i-1].y<12)labs[i].y=labs[i-1].y+12;
+    ctx.font='10px system-ui';labs.forEach(l=>{ctx.fillStyle=l.col;ctx.fillText('●',geom.W-geom.R+4,l.y+3);ctx.fillStyle=ink2;ctx.fillText(l.lab+' '+l.v.toFixed(2),geom.W-geom.R+15,l.y+3);});
+  }
+  ctx.strokeStyle=axis;ctx.fillStyle=muted;ctx.font='10px system-ui';ctx.textAlign='center';const ay=geom.panels[2].y1+16,seen={};
+  ROWS.forEach(d=>{const m=d.timestamp.slice(0,7);if(!seen[m]){seen[m]=1;const x=X(d.timestamp);ctx.beginPath();ctx.moveTo(x,ay-6);ctx.lineTo(x,ay-2);ctx.stroke();ctx.fillText(m,x,ay+6);}});
+}
+function nearest(mx){let bi=0,bd=1e9;ROWS.forEach((d,i)=>{const dx=Math.abs(X(d.timestamp)-mx);if(dx<bd){bd=dx;bi=i;}});return bi;}
+cv.addEventListener('mousemove',e=>{const rc=cv.getBoundingClientRect(),mx=e.clientX-rc.left;if(!geom||mx<geom.L||mx>geom.W-geom.R){tip.style.display='none';draw();return;}
+  const d=ROWS[nearest(mx)],x=X(d.timestamp);draw();
+  ctx.strokeStyle=css('--muted');ctx.setLineDash([4,3]);ctx.beginPath();ctx.moveTo(x,geom.top);ctx.lineTo(x,geom.panels[2].y1);ctx.stroke();ctx.setLineDash([]);
+  SER.forEach(s=>{const y=Y(s.p,d[s.k]);ctx.fillStyle=css(s.c);ctx.beginPath();ctx.arc(x,y,3,0,7);ctx.fill();});
+  tip.style.display='block';let left=e.clientX+14;if(left>innerWidth-200)left=e.clientX-190;tip.style.left=left+'px';tip.style.top=(e.clientY+8)+'px';
+  tip.innerHTML=`<div style="color:var(--ink2);margin-bottom:4px">${d.timestamp.slice(0,10)} ${d.timestamp.slice(11,16)} ${d.is_signal?'· ●신호':''}</div>`+
+    SER.map(s=>`<div class="r"><span><i style="background:${css(s.c)}"></i>${s.lab}</span><b>${(d[s.k]||0).toFixed(3)}</b></div>`).join('');
+});
+cv.addEventListener('mouseleave',()=>{tip.style.display='none';draw();});
+cv.addEventListener('click',e=>{const rc=cv.getBoundingClientRect();drill(ROWS[nearest(e.clientX-rc.left)]);});
+async function drill(d){
+  const el=document.getElementById('drill');el.innerHTML='<h3>드릴다운</h3><div class="c">불러오는 중…</div>';
+  const j=await (await fetch(`${API}/inference?campaign_id=${CAMP}&at=${encodeURIComponent(d.timestamp)}&top_n=6`)).json();
+  const top=Object.entries(j.hypotheses).sort((a,b)=>b[1]-a[1])[0];
+  const lc=j.launch_contributions.map(it=>{
+    const s=it.source||{};const cls=it.residual_db>=0?'pos':'neg';
+    return `<div class="contrib"><div class="hd"><span>${(s.location_name||it.obs_id).slice(0,24)}</span><span class="db ${cls}">${it.residual_db>=0?'+':''}${it.residual_db} dB</span></div>
+      <div class="src">${(s.collected_at||'').slice(0,16)} · ${s.asset_type||''} · ${it.stages.join('+')}</div>
+      <div class="src">${(s.activity_desc||'').slice(0,90)}</div></div>`;}).join('');
+  el.innerHTML=`<h3>${d.timestamp.slice(0,10)} ${d.timestamp.slice(11,16)}</h3>
+    <div class="c">seq ${j.seq} · ${d.is_signal?'신호 '+(d.items||[]).join(', '):'감쇠'}</div>
+    <div class="big red">P(발사) ${j.p_launch}</div>
+    <div class="c">최유력 가설: <b>${top[0]}</b> ${top[1].toFixed(3)}</div>
+    <div class="c" style="margin-top:10px">P(발사) 기여 역산 (residual, 조회시점까지 감쇠)</div>${lc||'<div class="c">기여 없음</div>'}`;
+}
+addEventListener('resize',draw);
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',draw);
+boot();
+</script></body></html>

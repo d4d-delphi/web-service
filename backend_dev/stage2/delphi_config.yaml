@@ -1,0 +1,87 @@
+# DELPHI inference engine config v1.
+# Externalizes the validated staged model as data. Add/edit hypotheses, stages, emission tables HERE.
+# The engine code reads only this file (library-like: many hypothesis combinations can be added).
+
+meta:
+  name: "unha3-launch-inference"
+  tick_days: 1               # internal time unit (days). snapshots are per-observation.
+  deciban: true              # per-year unit = deciban (10*log10 LR)
+
+# ── static hypothesis axes (naive Bayes, no decay) ──────────────────────────
+#  each axis is binary (+/- logodds). axes multiplied -> joint hypotheses P(H).
+static_axes:
+  fuel:                      # liquid(+) vs solid(-)
+    positive_label: "액체"
+    negative_label: "고체"
+    prior_db: 0              # neutral
+    likelihood_db:           # observed type -> deciban toward liquid
+      PropellantVehicle: +12
+      OxidizerVehicle: +12
+      TEL: -8
+  range:                     # long-range(+) vs short-range(-)
+    positive_label: "장거리"
+    negative_label: "단거리"
+    prior_db: +5             # facility prior (a large launch pad leans long-range, P~0.7)
+    likelihood_db:
+      StructureWork: +5
+      TelemetryEmission: +5
+      RadarEmission: +4
+      AreaClosure: +6
+
+# ── dynamic stages (leaky integrator + progression -> launch imminence) ─────
+#  each stage is a leaky logistic. decay_per_day relaxes over time. signal mapping.
+stages:
+  s1_early:                  # early prep (production/transport/assembly)
+    prior_db: -8
+    decay_per_day: 0.85
+    likelihood_db:
+      VehicleMassing: +6
+      ObjectMovement: +6
+      Trailer: +7
+      RailCar: +7
+      SupportVehicle: +4
+      PersonnelActivity: +4
+      PropellantVehicle: +6
+  s2_pad:                    # pad activation / inspection (pad ops, security, radar, comms)
+    prior_db: -8
+    decay_per_day: 0.85
+    likelihood_db:
+      StructureWork: +9
+      SecurityVehicle: +8
+      RadarEmission: +12
+      SignalActivation: +12
+      CommsEmission: +9
+      CommunicationSurge: +9
+  s3_imminent:               # imminent (NOTAM, telemetry) -> launch window declared / vehicle fueled
+    prior_db: -15
+    decay_per_day: 0.92      # slow decay after declaration
+    likelihood_db:
+      AreaClosure: +20
+      TelemetryEmission: +18
+
+# ── output propositions (stage-combination rules) ───────────────────────────
+#  s(stage) = sigmoid(integrator). declarative rule expressions define outputs.
+outputs:
+  p_launch:                  # launch imminence = imminent signal AND campaign progression
+    expr: "s3_imminent * (1 - (1-s1_early)*(1-s2_pad))"
+  p_activity:                # any-activity = any stage active
+    expr: "1 - (1-s1_early)*(1-s2_pad)*(1-s3_imminent)"
+
+# ── source reliability discount λ(r) ────────────────────────────────────────
+reliability_lambda: {1: 0.2, 2: 0.5, 3: 0.75, 4: 0.9, 5: 1.0}
+
+# ── facility classes (presence, emit nothing) ───────────────────────────────
+facility_classes: [LaunchPad, EngineTestStand, ProductionComplex, SubmarineBase,
+                   NuclearTestSite, Airfield, GantryTower]
+
+# ── campaign routing (observation location -> campaign) ─────────────────────
+#  keywords matched as substrings of the observation's location.named (adapted to Stage-1 data).
+campaigns:
+  unha3:
+    match_any: ["동창리", "잠진", "은하", "룡성", "산음동"]
+    match_null_location: true      # null location (e.g. air-defense SIGINT) -> this campaign
+    prior_override: {range: +5}    # long-range prior for this campaign
+  sinpo:
+    match_any: ["신포"]
+  punggye:
+    match_any: ["풍계리"]

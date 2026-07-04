@@ -1,0 +1,1 @@
+{"obs_id": "e9034a2a-f224-4db6-8369-db8008373c14", "llm": {"observed_objects": [{"type": "GantryTower", "count": 1}, {"type": "SecurityVehicle", "count": 4}], "observed_signals": [], "observed_activities": ["StructureWork"], "novelty": ["화염구 덮개 1기(flame trench cover)", "갠트리 내부 차폐"]}}
