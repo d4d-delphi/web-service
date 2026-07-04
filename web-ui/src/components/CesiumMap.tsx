@@ -655,8 +655,8 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets, cust
 
     // 서해 접적해역 적 함정/어선 (경비함=warship, 어선=fishing)
     const westSeaShips = [
-      { id: 'es-patrol-1', lat: 37.78, lng: 125.30, sym: 'warship', name: 'NKR 경비함', fill: '#6b7280' },
-      { id: 'es-patrol-2', lat: 37.70, lng: 124.75, sym: 'warship', name: 'NKR 경비정', fill: '#6b7280' },
+      { id: 'es-patrol-1', lat: 37.78, lng: 125.30, sym: 'warship', name: 'NKR 경비함', fill: '#dc2626' },
+      { id: 'es-patrol-2', lat: 37.70, lng: 124.75, sym: 'warship', name: 'NKR 경비정', fill: '#dc2626' },
       { id: 'es-fish-1', lat: 37.58, lng: 125.05, sym: 'fishing', name: '중국 어선', fill: '#8b7d6b' },
       { id: 'es-fish-2', lat: 37.48, lng: 124.65, sym: 'fishing', name: '북한 어선', fill: '#8b7d6b' },
       { id: 'es-fish-3', lat: 37.40, lng: 124.90, sym: 'fishing', name: '중국 어선단', fill: '#8b7d6b' },
