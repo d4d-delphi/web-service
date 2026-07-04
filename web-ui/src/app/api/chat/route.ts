@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { buildChatGrounding } from '@/lib/grounding';
 
 export const runtime = 'nodejs';
 
@@ -43,9 +44,17 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'messages가 비어 있습니다.' }, { status: 400 });
     }
 
-    const systemContent = context
-      ? `${SYSTEM_PROMPT}\n\n[현재 상황 컨텍스트]\n${context}`
-      : SYSTEM_PROMPT;
+    // DELPHI 지식베이스 그라운딩: 최근 사용자 질문 → 정규 엔티티(시설/미사일/방출원) + 과거사례 RAG.
+    // (lib 함수는 서버 fs 미러를 읽음 → 클라이언트 ChatPanel 이 아닌 이 서버 라우트에서 조립.)
+    const lastUser = [...messages].reverse().find((m) => m.role === 'user')?.content ?? '';
+    const grounding = await buildChatGrounding(lastUser);
+    const systemContent = [
+      SYSTEM_PROMPT,
+      context ? `[현재 상황 컨텍스트]\n${context}` : '',
+      grounding ? `[DELPHI 지식베이스 매칭 — 이 근거를 우선 활용]\n${grounding}` : '',
+    ]
+      .filter(Boolean)
+      .join('\n\n');
 
     const res = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
