@@ -674,11 +674,10 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets, cust
       addLabelEntity(Cesium, viewer, s.id, Cesium.Cartesian3.fromDegrees(s.lng, s.lat, 0), s.name, '#9ca3af', 'rgba(10,14,26,0.72)');
     });
 
-    // 러시아 블라디보스토크 → 원산 적 항공기 1기 (빨간색 마커 + 빨간 trail).
-    // 출발 시점부터 현재 위치까지 빨간 궤적 선이 그려진다. performance.now() 기반
-    // CallbackProperty로 매 프레임 갱신 — Cesium clock 의존성 없음.
+    // 러시아 → 원산 러시아 항공기 1기 (핑크색 마커 + 핑크 trail).
+    // 러시아는 적(DPRK)과 구분하여 핑크색으로 표시.
     const enemyAc = {
-      dep: { lat: 43.12, lng: 131.88 }, // 블라디보스토크
+      dep: { lat: 43.12, lng: 131.88 }, // 러시아
       arr: { lat: 39.15, lng: 127.45 }, // 원산
       duration: 120000,                 // 120초 만에 도착 (데모용 가속)
     };
@@ -692,7 +691,6 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets, cust
       const lng = enemyAc.dep.lng + (enemyAc.arr.lng - enemyAc.dep.lng) * t;
       return { lat, lng };
     };
-    // 진행 방향 bearing(billboard 회전용). 0=북, 시계방향.
     const acBearing = Math.atan2(
       (enemyAc.arr.lng - enemyAc.dep.lng) * Math.cos((enemyAc.dep.lat * Math.PI) / 180),
       enemyAc.arr.lat - enemyAc.dep.lat,
@@ -705,9 +703,9 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets, cust
       id: 'enemy-ac-vostok',
       position: acPosition,
       billboard: {
-        image: markerCanvas('aircraft', '#dc2626', '#7f1d1d'),
+        image: markerCanvas('aircraft', '#ec4899', '#831843'),
         scale: 1.1,
-        rotation: -acBearing, // Cesium billboard 회전은 CCW 양수
+        rotation: -acBearing,
         verticalOrigin: Cesium.VerticalOrigin.CENTER,
         disableDepthTestDistance: Number.POSITIVE_INFINITY,
       },
@@ -717,12 +715,11 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets, cust
       viewer,
       'enemy-ac-vostok',
       acPosition,
-      '적 전투기 (블라디보스토크→원산)',
-      '#fca5a5',
+      '러시아 항공기 (러시아→원산)',
+      '#f9a8d4',
       'rgba(10,14,26,0.78)',
     );
-    // 빨간 trail — 출발점부터 현재 위치까지 Polyline. CallbackProperty가 매 프레임
-    // 출발~현재 구간을 샘플링하여 빨간 선을 그린다(똥꼬 선).
+    // 핑크 trail
     viewer.entities.add({
       id: 'enemy-ac-vostok-trail',
       polyline: {
@@ -742,7 +739,7 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets, cust
         }, false),
         width: 2,
         material: new Cesium.ColorMaterialProperty(
-          Cesium.Color.fromCssColorString('#dc2626'),
+          Cesium.Color.fromCssColorString('#ec4899'),
         ),
       },
     });
