@@ -28,14 +28,18 @@ function AssetStatusBadge({ status }: { status: string }) {
 }
 
 function AssetIcon({ type }: { type: string }) {
-  const icons: Record<string, string> = {
-    MISSILE: '🚀',
-    FIGHTER: '✈️',
-    ISR: '👁️',
-    SHIP: '🚢',
-    COMMAND: '📡',
+  const labels: Record<string, string> = {
+    MISSILE: 'MSL',
+    FIGHTER: 'FTR',
+    ISR: 'ISR',
+    SHIP: 'SHP',
+    COMMAND: 'CMD',
   };
-  return <span className="text-sm">{icons[type] || '•'}</span>;
+  return (
+    <span className="text-[9px] font-mono text-blue-500/70 tracking-wider">
+      {labels[type] || '•'}
+    </span>
+  );
 }
 
 export default function FriendlyPanel({ friendlies }: FriendlyPanelProps) {
