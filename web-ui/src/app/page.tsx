@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import EnemyPanel from '@/components/EnemyPanel';
 import FriendlyPanel from '@/components/FriendlyPanel';
+import ChatPanel from '@/components/ChatPanel';
 import Timeline from '@/components/Timeline';
 import EventModal from '@/components/EventModal';
 import LaunchSpecModal from '@/components/LaunchSpecModal';
@@ -211,6 +212,32 @@ export default function Home() {
     setIsPlaying(true);
   };
 
+  // 지휘 참모 AI에 넘길 현재 상황 요약. 추론 결과·시나리오·경과 시간을 압축한다.
+  const chatContext = useMemo(() => {
+    const scenarioLabel =
+      activeScenario === 'scenario-a'
+        ? '우주발사체(정찰위성) 발사 징후 — 동창리'
+        : '고체연료 단거리(SRBM) 발사 징후 — 알섬 표적';
+    const lines = [
+      `시나리오: ${scenarioLabel}`,
+      `경과 시간: ${Math.floor(currentTime / 60)}분`,
+    ];
+    if (inferenceResult?.topHypothesis) {
+      const t = inferenceResult.topHypothesis;
+      lines.push(
+        `최고 가설: ${t.name} (확률 ${(t.posterior * 100).toFixed(0)}%, 불확실성 ${((t.uncertainty ?? 0) * 100).toFixed(0)}%)`,
+        `증거 수: ${inferenceResult.evidenceCount}`,
+        `상위 가설: ${inferenceResult.hypotheses
+          .slice(0, 3)
+          .map((h) => `${h.name} ${(h.posterior * 100).toFixed(0)}%`)
+          .join(', ')}`,
+      );
+    } else {
+      lines.push('아직 유효한 관측/추론 결과 없음 (타임라인 재생 전).');
+    }
+    return lines.join('\n');
+  }, [activeScenario, currentTime, inferenceResult]);
+
   // 발사(H-0) 이후 커스터디(비행 추적) 상태. launch 없는 시나리오는 null.
   const custody = useMemo(() => custodyState(scenario, currentTime), [scenario, currentTime]);
   const inCustody = !!custody?.active;
@@ -309,8 +336,15 @@ export default function Home() {
             {friendlyOpen ? '›' : '‹'}
           </button>
           {friendlyOpen ? (
-            <div className="flex-1 min-h-0">
-              <FriendlyPanel friendlies={scenario.friendlies} />
+            <div className="flex-1 min-h-0 flex flex-col">
+              {/* 상단 절반: 아군 자산 정보 */}
+              <div className="h-1/2 min-h-0 overflow-hidden">
+                <FriendlyPanel friendlies={scenario.friendlies} />
+              </div>
+              {/* 하단 절반: 지휘 참모 AI 채팅 */}
+              <div className="h-1/2 min-h-0">
+                <ChatPanel context={chatContext} />
+              </div>
             </div>
           ) : (
             <div className="flex-1 flex items-center justify-center bg-[#0d1117] border-l border-blue-900/30">
