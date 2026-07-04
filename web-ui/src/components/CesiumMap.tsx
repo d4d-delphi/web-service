@@ -563,8 +563,8 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets, cust
         ? motion.position
         : Cesium.Cartesian3.fromDegrees(friendly.position.lng, friendly.position.lat, 0);
 
-      const fFill = '#9ca3af';
-      const fOutline = '#4b5563';
+      const fFill = '#3b82f6';
+      const fOutline = '#1e3a8a';
 
       viewer.entities.add({
         id: friendly.id,
@@ -582,7 +582,7 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets, cust
         friendly.id,
         position,
         friendly.name,
-        '#9ca3af',
+        '#93c5fd',
         'rgba(10,14,26,0.72)',
       );
     });
@@ -744,9 +744,11 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets, cust
       },
     });
 
-    // Observation markers (amber dots)
+    // Observation markers (amber dots) — 동창리 TEL 관측은 지도에서 제외
     scenario.timeline.forEach((event) => {
       if (!event.position) return;
+      // TEL 이동 징후(동창리 인근)는 지도 점에서 제외 — 너무 어지러움
+      if (event.title?.includes('TEL') || event.description?.includes('TEL')) return;
       viewer.entities.add({
         id: `obs-${event.id}`,
         position: Cesium.Cartesian3.fromDegrees(event.position.lng, event.position.lat, 0),
