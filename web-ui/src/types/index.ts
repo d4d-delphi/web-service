@@ -192,12 +192,22 @@ export interface HypothesisNode {
 // 추론 엔진 출력
 // ============================================
 
+// 최유력 가설에 대한 개별 증거의 기여도
+export interface EvidenceContribution {
+  actionId: string;
+  likelihood: number;    // L_i(H*): 최유력 가설 하에서의 우도
+  weight: number;        // w_i: SPUQ 확신도 가중치
+  logOdds: number;       // 판별 로그오즈 (음수면 가설과 상충)
+  contribution: number;  // 0-1, 양의 기여분 중 정규화된 비중
+}
+
 export interface InferenceResult {
   hypotheses: HypothesisNode[];
   topHypothesis: HypothesisNode | null;
   overallConfidence: number;
   updatedAt: string;
   evidenceCount: number;
+  evidenceContributions: EvidenceContribution[];
 }
 
 // ============================================
