@@ -3,6 +3,7 @@ import { generateBriefing } from '@/lib/claude';
 import { searchSimilarCases, formatCasesForPrompt } from '@/lib/rag';
 import { resolveFacility, resolveMissile, formatEntitiesForPrompt } from '@/lib/ontology';
 import { mapDoctrineContext, formatDoctrineForPrompt } from '@/lib/doctrine';
+import { resolveFriendly, buildBlueContext, formatBlueForPrompt } from '@/lib/blue';
 import { runInference } from '@/lib/bayesian';
 import { structureReport } from '@/lib/spuq';
 import { TimelineEvent, ThreatAsset, ActionClass, Hypothesis } from '@/types';
@@ -49,6 +50,9 @@ export async function POST(request: NextRequest) {
       missiles: resolvedMissiles,
     });
 
+    // === 아군(Blue) 온톨로지: 징후 텍스트에서 아군 자산 정규 엔티티 해석 ===
+    const resolvedFriendlyUnits = resolveFriendly(observationText);
+
     // === 교리 연동 (Track B): 추론 결과 → WATCHCON/킬체인/대응옵션/C2/ROE 매핑 ===
     // 발사 탐지 여부: 타임라인에 launch/strike 이벤트가 보이거나 극단적 고확률이면 true.
     const launchDetected =
@@ -64,6 +68,18 @@ export async function POST(request: NextRequest) {
       phaseId,
     });
     const doctrineContextText = doctrineContext ? formatDoctrineForPrompt(doctrineContext) : '';
+
+    // === 아군(Blue) 연동 (Session 2 — 공수 양면): 현재 킬체인 단계에서 가용한 아군 대응 전력 ===
+    // doctrine 이 결정한 킬체인 단계를 재사용해, "지금 우리가 할 수 있는 것"을 축별로 구성.
+    // 미러가 없으면(fresh clone) null — 기존 brief 동작 유지.
+    const blueContext = buildBlueContext({
+      killchainPhase: doctrineContext?.killchainPhase.phase ?? null,
+      readyOnly: true,
+    });
+    if (blueContext && resolvedFriendlyUnits.length) {
+      blueContext.resolvedUnits = resolvedFriendlyUnits;
+    }
+    const blueContextText = blueContext ? formatBlueForPrompt(blueContext) : '';
 
     // === 보고 계층: 대형 LLM으로 종합 보고서 생성 ===
     const currentSituation = `
@@ -83,6 +99,8 @@ ${inferenceResult.hypotheses.slice(0, 3).map((h) => `- ${h.name}: ${(h.posterior
 ${entityContext || '(탐지된 정규 시설/미사일 체계 없음)'}
 
 ${doctrineContextText}
+
+${blueContextText}
 `;
 
     // Try Claude API, then phase snapshot fallback, then inference-based fallback
@@ -113,6 +131,7 @@ ${doctrineContextText}
         missiles: resolvedMissiles.map((m) => ({ canonicalName: m.canonicalName, kn: m.kn, weaponClass: m.weaponClass, matchedAlias: m.matchedAlias, rangeKm: m.rangeKm })),
       },
       doctrineContext,
+      blueContext,
     };
 
     return NextResponse.json(result);
