@@ -99,9 +99,16 @@ export default function Timeline({
 
 
 
-        {/* Time Display */}
-        <div className="text-xs font-mono text-gray-400 min-w-[60px] text-right">
-          {formatTime(currentTime)} / {formatTime(duration)}
+        {/* Time Display + current phase breadcrumb */}
+        <div className="flex flex-col items-end gap-0.5">
+          <div className="text-sm font-mono text-gray-400 min-w-[60px] text-right">
+            {formatTime(currentTime)} / {formatTime(duration)}
+          </div>
+          {currentPhase && (
+            <div className="text-[11px] text-gray-500 font-mono max-w-[160px] truncate text-right">
+              <span className="text-gray-700">▶</span> {currentPhase.name}
+            </div>
+          )}
         </div>
       </div>
     </div>

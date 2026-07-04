@@ -44,14 +44,11 @@ export default function EnemyPanel({ events, currentTime, inferenceResult, scena
     .sort((a, b) => b.posterior - a.posterior);
 
   return (
-    <div className="h-full flex flex-col bg-[#0d1117] border-r border-gray-800/50">
+    <div className="h-full flex flex-col layer-1 border-r border-gray-800/50">
       
       {/* 상단: 식별된 위협 시나리오들 */}
       {confirmedHypotheses.length > 0 && (
         <div className="shrink-0 flex flex-col border-b border-gray-800 bg-gray-900/80 max-h-[60%] overflow-y-auto">
-          <div className="p-2 border-b border-gray-800 bg-black/40 sticky top-0 z-10 shadow-md">
-             <span className="text-[10px] text-red-400 font-bold tracking-wider">식별된 위협 시나리오 (위험도 순)</span>
-          </div>
           <div className="p-2 flex flex-col gap-2">
             {confirmedHypotheses.map(h => {
               const scenario = scenarios.find(s => s.id === h.id);
@@ -88,13 +85,13 @@ export default function EnemyPanel({ events, currentTime, inferenceResult, scena
                 <div key={e.id} className="flex items-start gap-2 p-2 rounded bg-gray-800/30 border border-gray-700/50 animate-fade-in">
                   <SourceBadge actionClass={e.actionClass} />
                   <div className="min-w-0 flex-1">
-                    <p className="text-[11px] font-bold text-gray-300 leading-tight">
+                    <p className="text-xs font-bold text-gray-300 leading-tight">
                       {e.title}
                     </p>
-                    <p className="text-[10px] text-gray-400 mt-1 leading-snug break-keep">
+                    <p className="text-[11px] text-gray-400 mt-1 leading-snug break-keep">
                       {e.description}
                     </p>
-                    <p className="text-[9px] text-gray-600 font-mono mt-1">{e.time}</p>
+                    <p className="text-[10px] text-gray-600 font-mono mt-1">{e.time}</p>
                   </div>
                 </div>
               ))}
@@ -158,7 +155,7 @@ function ScenarioBlock({ hypothesisId, posterior, scenario, events, currentTime 
   };
 
   return (
-    <div className="flex flex-col bg-[#0d1117] border border-amber-900/30 rounded mb-2 animate-fade-in shadow-lg overflow-hidden">
+    <div className="flex flex-col layer-2 border border-amber-900/30 rounded mb-2 animate-fade-in overflow-hidden">
       {/* Header */}
       <div className="p-3 border-b border-amber-900/30 bg-amber-950/20 shrink-0">
         <h2 className="text-sm font-bold text-amber-400 flex items-center gap-2">
@@ -170,7 +167,7 @@ function ScenarioBlock({ hypothesisId, posterior, scenario, events, currentTime 
       {/* Compact live gauge */}
       <div className="px-3 pt-3 shrink-0">
         <div className="flex items-baseline justify-between mb-1">
-          <span className="text-[10px] text-gray-500 uppercase tracking-wider">위험도 (신뢰도)</span>
+          <span className="text-[11px] text-gray-500 uppercase tracking-wider">위험도 (신뢰도)</span>
         </div>
         <div className="flex items-end gap-2">
           <span className={`text-3xl font-bold leading-none ${gaugeText(probPct)}`}>
@@ -212,19 +209,21 @@ function ScenarioBlock({ hypothesisId, posterior, scenario, events, currentTime 
                 {/* Content */}
                 <div className="text-left flex-1 pb-3">
                   <div className="flex items-center justify-between gap-2">
-                    <span className={`text-[13px] font-bold leading-tight ${style.name} ${s.active ? 'tracking-wide' : ''}`}>
+                    <span className={`text-sm font-bold leading-tight ${style.name} ${s.active ? 'tracking-wide' : ''}`}>
                       {s.phase.name}
                       {s.active && <span className="ml-1.5 text-[9px] font-normal text-amber-400/80">◀ 현재</span>}
-                      {s.isLaunch && s.reached && <span className="ml-1">🚀</span>}
+                      {s.isLaunch && s.reached && (
+                        <span className="ml-1 text-red-400 text-[10px] font-mono font-bold">[L]</span>
+                      )}
                     </span>
                     {s.dday && (
-                      <span className={`shrink-0 text-[9px] font-mono px-1 py-0.5 rounded border ${style.badge}`}>
+                      <span className={`shrink-0 text-[10px] font-mono px-1 py-0.5 rounded border ${style.badge}`}>
                         {s.dday}
                       </span>
                     )}
                   </div>
 
-                  <div className="mt-1 flex items-center gap-2 text-[9px]">
+                  <div className="mt-1 flex items-center gap-2 text-[10px]">
                     {s.prob != null && (
                       <span className={`font-mono font-bold ${style.prob}`} title="과거 유사사례 기준 발사확률">
                         {s.prob}%
@@ -247,7 +246,7 @@ function ScenarioBlock({ hypothesisId, posterior, scenario, events, currentTime 
                         return (
                           <div key={e.id} className={`flex items-start gap-1.5 ${seen ? '' : 'opacity-40'}`}>
                             <div className="min-w-0">
-                              <p className={`text-[10px] leading-tight ${seen ? 'text-gray-300' : 'text-gray-500'}`}>
+                              <p className={`text-xs leading-tight ${seen ? 'text-gray-300' : 'text-gray-500'}`}>
                                 {e.title}
                               </p>
                             </div>
@@ -264,7 +263,7 @@ function ScenarioBlock({ hypothesisId, posterior, scenario, events, currentTime 
 
         {launchReached && (
           <div className="mt-1 px-2 py-1.5 rounded bg-red-950/40 border border-red-800/50 text-center animate-fade-in">
-            <p className="text-[10px] font-bold text-red-300">🚀 발사 확인 · CUSTODY 추적</p>
+            <p className="text-[10px] font-bold text-red-300">[L] 발사 확인 · CUSTODY 추적</p>
           </div>
         )}
       </div>
@@ -290,16 +289,16 @@ function SourceBadge({ actionClass }: { actionClass?: string }) {
     return <span className="shrink-0 w-1.5 h-1.5 mt-1 rounded-full bg-gray-600" />;
   }
   const styles: Record<string, string> = {
-    IMINT: 'bg-purple-500/20 text-purple-400 border-purple-500/30',
+    IMINT: 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30',
     SIGINT: 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30',
     MASINT: 'bg-orange-500/20 text-orange-400 border-orange-500/30',
     UAV: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
-    OSINT: 'bg-pink-500/20 text-pink-400 border-pink-500/30',
+    OSINT: 'bg-teal-500/20 text-teal-400 border-teal-500/30',
     HUMINT: 'bg-amber-500/20 text-amber-400 border-amber-500/30',
   };
   return (
     <span
-      className={`shrink-0 text-[8px] px-1 py-0.5 rounded border font-mono ${
+      className={`shrink-0 text-[10px] px-1 py-0.5 rounded border font-mono ${
         styles[actionClass] || 'bg-gray-500/20 text-gray-400 border-gray-500/30'
       }`}
     >

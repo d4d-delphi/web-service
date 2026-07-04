@@ -25,14 +25,17 @@ export default function EventModal({ event, onClose }: EventModalProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 pointer-events-none">
+      {/* Scrim: 시각적 집중 유도, 인터랙션 차단하지 않음 */}
+      <div className="absolute inset-0 bg-black/25" />
+      {/* 모달 카드 */}
       <div
         // key via parent remount drives the entrance animation per event
-        className="animate-modal-in pointer-events-auto w-[min(92vw,420px)] rounded-xl border border-amber-500/40 bg-[#0d1117]/95 backdrop-blur-sm shadow-[0_0_30px_rgba(245,158,11,0.25)] overflow-hidden"
+        className="relative animate-modal-in pointer-events-auto w-[min(92vw,420px)] rounded-xl border border-amber-500/40 layer-modal backdrop-blur-sm overflow-hidden"
       >
         {/* Header */}
         <div className="flex items-center gap-2 px-4 pt-3 pb-2 border-b border-amber-900/30">
           <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
-          <span className="text-[10px] uppercase tracking-widest text-amber-500/80 font-bold">
+          <span className="text-[11px] uppercase tracking-widest text-amber-500/80 font-bold">
             신규 첩보 수신
           </span>
           <span className="ml-auto text-[10px] font-mono text-gray-500">{event.time}</span>
@@ -62,8 +65,8 @@ export default function EventModal({ event, onClose }: EventModalProps) {
               </span>
             )}
           </div>
-          <p className="text-sm font-bold text-gray-100 leading-snug">{event.title}</p>
-          <p className="mt-1 text-[11px] text-gray-400 leading-relaxed line-clamp-4">
+          <p className="text-base font-bold text-gray-100 leading-snug">{event.title}</p>
+          <p className="mt-1 text-xs text-gray-400 leading-relaxed line-clamp-4">
             {event.description}
           </p>
         </div>

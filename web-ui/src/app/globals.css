@@ -106,3 +106,17 @@ body {
 .glow-amber {
   box-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
 }
+
+/* Elevation utility classes */
+.layer-1 {
+  background: var(--layer-1);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+.layer-2 {
+  background: var(--layer-2);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+}
+.layer-modal {
+  background: var(--layer-2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.04);
+}

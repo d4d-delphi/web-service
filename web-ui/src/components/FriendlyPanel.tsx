@@ -21,7 +21,7 @@ function AssetStatusBadge({ status }: { status: string }) {
   };
 
   return (
-    <span className={`text-[10px] px-1.5 py-0.5 rounded border ${colors[status] || colors.standby}`}>
+    <span className={`text-[11px] px-1.5 py-0.5 rounded border ${colors[status] || colors.standby}`}>
       {labels[status] || status}
     </span>
   );
@@ -44,7 +44,7 @@ function AssetIcon({ type }: { type: string }) {
 
 export default function FriendlyPanel({ friendlies }: FriendlyPanelProps) {
   return (
-    <div className="h-full flex flex-col bg-[#0d1117] border-l border-blue-900/30">
+    <div className="h-full flex flex-col layer-1 border-l border-blue-900/30">
       {/* Header */}
       <div className="p-3 border-b border-blue-900/30 bg-blue-950/20">
         <h2 className="text-sm font-bold text-blue-400 flex items-center gap-2">
@@ -60,7 +60,7 @@ export default function FriendlyPanel({ friendlies }: FriendlyPanelProps) {
           {friendlies.map((asset) => (
             <div
               key={asset.id}
-              className="p-2 rounded bg-blue-950/20 border border-blue-900/20 hover:border-blue-700/40 text-xs transition-all"
+              className="p-2 rounded bg-blue-950/20 border border-blue-900/20 hover:border-blue-700/40 text-sm transition-all"
             >
               <div className="flex justify-between items-center">
                 <span className="font-medium text-blue-300 flex items-center gap-1.5">

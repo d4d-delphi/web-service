@@ -21,6 +21,8 @@ export default function Home() {
   const [activeScenario, setActiveScenario] = useState<ScenarioId>('scenario-a');
   const [currentTime, setCurrentTime] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [enemyOpen, setEnemyOpen] = useState(true);
+  const [friendlyOpen, setFriendlyOpen] = useState(true);
   const [speed, setSpeed] = useState(1); // 재생 배속 (1x 기본 / 5x 빨리감기)
   const [destroyedAssets, setDestroyedAssets] = useState<string[]>([]);
   const [inferenceResult, setInferenceResult] = useState<InferenceResult | null>(null);
@@ -244,16 +246,32 @@ export default function Home() {
       {/* Main Content: 3 panels */}
       <div className="flex-1 flex overflow-hidden">
         {/* Left Panel - Enemy Info */}
-        <div className="w-[20%] min-w-[240px]">
-          <EnemyPanel
-            events={scenario.timeline}
-            currentTime={currentTime}
-            inferenceResult={inferenceResult}
-            scenarios={[
-              { id: 'h-satellite', name: '우주발사체(정찰위성) 발사', phases: scenarioAData.phases },
-              { id: 'h-solid-short', name: '고체연료 단거리 미사일(SRBM)', phases: scenarioBData.phases }
-            ]}
-          />
+        <div className={`transition-all duration-300 ${enemyOpen ? 'w-[20%] min-w-[240px]' : 'w-10'} flex flex-col`}>
+          {/* Collapse toggle */}
+          <button
+            onClick={() => setEnemyOpen((v) => !v)}
+            className="shrink-0 h-8 flex items-center justify-center bg-gray-900 border-b border-r border-gray-800 text-gray-500 hover:text-gray-200 transition-colors z-10"
+            aria-label={enemyOpen ? '적 정보 패널 닫기' : '적 정보 패널 열기'}
+          >
+            {enemyOpen ? '‹' : '›'}
+          </button>
+          {enemyOpen ? (
+            <div className="flex-1 min-h-0">
+              <EnemyPanel
+                events={scenario.timeline}
+                currentTime={currentTime}
+                inferenceResult={inferenceResult}
+                scenarios={[
+                  { id: 'h-satellite', name: '우주발사체(정찰위성) 발사', phases: scenarioAData.phases },
+                  { id: 'h-solid-short', name: '고체연료 단거리 미사일(SRBM)', phases: scenarioBData.phases }
+                ]}
+              />
+            </div>
+          ) : (
+            <div className="flex-1 flex items-center justify-center bg-[#0d1117] border-r border-gray-800/50">
+              <span className="text-[10px] text-gray-600 font-mono [writing-mode:vertical-rl] tracking-widest">적 정보</span>
+            </div>
+          )}
         </div>
 
         {/* Center - Map */}
@@ -274,8 +292,24 @@ export default function Home() {
         </div>
 
         {/* Right Panel - Friendly Info */}
-        <div className="w-[20%] min-w-[240px]">
-          <FriendlyPanel friendlies={scenario.friendlies} />
+        <div className={`transition-all duration-300 ${friendlyOpen ? 'w-[20%] min-w-[240px]' : 'w-10'} flex flex-col`}>
+          {/* Collapse toggle */}
+          <button
+            onClick={() => setFriendlyOpen((v) => !v)}
+            className="shrink-0 h-8 flex items-center justify-center bg-gray-900 border-b border-l border-gray-800 text-gray-500 hover:text-gray-200 transition-colors z-10"
+            aria-label={friendlyOpen ? '아군 정보 패널 닫기' : '아군 정보 패널 열기'}
+          >
+            {friendlyOpen ? '›' : '‹'}
+          </button>
+          {friendlyOpen ? (
+            <div className="flex-1 min-h-0">
+              <FriendlyPanel friendlies={scenario.friendlies} />
+            </div>
+          ) : (
+            <div className="flex-1 flex items-center justify-center bg-[#0d1117] border-l border-blue-900/30">
+              <span className="text-[10px] text-gray-600 font-mono [writing-mode:vertical-rl] tracking-widest">아군 정보</span>
+            </div>
+          )}
         </div>
       </div>
 
@@ -303,7 +337,7 @@ export default function Home() {
               H-0
             </div>
             <div className="mt-2 text-amber-300 text-lg font-bold tracking-widest [text-shadow:0_0_12px_rgba(251,191,36,0.6)]">
-              🚀 발사 확인 — 커스터디 개시
+              [ LAUNCH ] 발사 확인 — 커스터디 개시
             </div>
             <div className="mt-1 text-amber-200/60 text-xs font-mono">비행 궤적 실시간 추적 전환</div>
           </div>
