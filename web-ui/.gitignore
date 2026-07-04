@@ -40,3 +40,5 @@ next-env.d.ts
 
 # cesium static assets
 /public/cesium
+
+data/
