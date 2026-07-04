@@ -87,7 +87,7 @@ const HYPS = [
   { key: '고체·장거리', color: '#fb7185' },
   { key: '고체·단거리', color: '#c084fc' },
 ] as const;
-const PANEL_TITLES = ['Outputs · P(발사)', 'Hypothesis · 가설 4종 (꺾은선)'];
+const PANEL_TITLES = ['P(발사) · 가설 4종 (꺾은선)'];
 const SERIES_FIELDS = 'p_launch,hypotheses';
 
 // ---- Influence-graph node styling (labels + colors, keyed by backend node name) ----
@@ -159,11 +159,39 @@ function fmt(n: number, d = 3) {
   return Number.isFinite(n) ? n.toFixed(d) : '—';
 }
 
+// Cold-start-tolerant fetch. The free-tier backend spins down after ~15 min idle
+// and takes up to ~50s to wake, dropping the first request(s) — a single fetch
+// then surfaces as "Failed to fetch". Retry with a per-attempt timeout so the UI
+// connects once the instance is up instead of getting stuck offline.
+async function fetchRetry(
+  url: string,
+  opts: RequestInit = {},
+  tries = 8,
+  perTimeoutMs = 12000,
+  gapMs = 2500,
+): Promise<Response> {
+  let lastErr: unknown;
+  for (let i = 0; i < tries; i++) {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), perTimeoutMs);
+    try {
+      return await fetch(url, { ...opts, signal: ctrl.signal });
+    } catch (e) {
+      lastErr = e;
+      if (i < tries - 1) await new Promise((r) => setTimeout(r, gapMs));
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+  throw lastErr instanceof Error ? lastErr : new Error(String(lastErr));
+}
+
 export default function ServerPage() {
   const [base, setBase] = useState(DEFAULT_BASE);
   const [baseDraft, setBaseDraft] = useState(DEFAULT_BASE);
   const [health, setHealth] = useState<Health | null>(null);
   const [healthErr, setHealthErr] = useState<string | null>(null);
+  const [connecting, setConnecting] = useState(false);
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [active, setActive] = useState<string | null>(null);
   const [series, setSeries] = useState<SeriesRow[]>([]);
@@ -180,19 +208,22 @@ export default function ServerPage() {
   // ---- data loading --------------------------------------------------------
   const loadHealth = useCallback(async () => {
     setHealthErr(null);
+    setConnecting(true);
     try {
-      const r = await fetch(`${base}/health`);
+      const r = await fetchRetry(`${base}/health`);
       if (!r.ok) throw new Error(`HTTP ${r.status}`);
       setHealth((await r.json()) as Health);
     } catch (e) {
       setHealth(null);
       setHealthErr(e instanceof Error ? e.message : String(e));
+    } finally {
+      setConnecting(false);
     }
   }, [base]);
 
   const loadCampaigns = useCallback(async () => {
     try {
-      const r = await fetch(`${base}/api/v1/campaigns`);
+      const r = await fetchRetry(`${base}/api/v1/campaigns`);
       if (!r.ok) throw new Error(`HTTP ${r.status}`);
       const j = (await r.json()) as { campaigns: Campaign[] };
       setCampaigns(j.campaigns);
@@ -214,7 +245,7 @@ export default function ServerPage() {
     setDrill(null);
     setDrillAt(null);
     setDrillIdx(-1);
-    fetch(`${base}/api/v1/inference/series?campaign_id=${active}&fields=${encodeURIComponent(SERIES_FIELDS)}`)
+    fetchRetry(`${base}/api/v1/inference/series?campaign_id=${active}&fields=${encodeURIComponent(SERIES_FIELDS)}`)
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`HTTP ${r.status}`))))
       .then((j: { series: SeriesRow[] }) => {
         if (cancelled) return;
@@ -382,7 +413,7 @@ export default function ServerPage() {
           </p>
         </div>
         <div className="flex-1" />
-        <HealthPill health={health} err={healthErr} />
+        <HealthPill health={health} err={healthErr} connecting={connecting} />
         <form
           className="flex items-center gap-2"
           onSubmit={(e) => {
@@ -622,17 +653,23 @@ function StatusDot({ status }: { status: number }) {
   );
 }
 
-function HealthPill({ health, err }: { health: Health | null; err: string | null }) {
+function HealthPill({ health, err, connecting }: { health: Health | null; err: string | null; connecting?: boolean }) {
   const ok = health?.status === 'ok';
   return (
     <div className="flex items-center gap-2 text-[11px]">
-      <span className={`w-2 h-2 rounded-full ${ok ? 'bg-emerald-500 threat-pulse' : 'bg-red-500'}`} />
+      <span
+        className={`w-2 h-2 rounded-full ${
+          ok ? 'bg-emerald-500 threat-pulse' : connecting ? 'bg-amber-500 animate-pulse' : 'bg-red-500'
+        }`}
+      />
       {ok && health ? (
         <span className="text-gray-400">
           <span className="text-emerald-400 font-medium">online</span> · {health.snapshots} snap ·{' '}
           {health.ledger} ledger · {health.mode} ·{' '}
           <span className="text-gray-500">{health.cache?.slice(0, 16)?.replace('T', ' ')}</span>
         </span>
+      ) : connecting ? (
+        <span className="text-amber-400">연결 중… (백엔드 절전 해제 대기, 최대 ~50초)</span>
       ) : (
         <span className="text-red-400">offline{err ? ` · ${err}` : ''}</span>
       )}
@@ -762,7 +799,7 @@ function TimelineChart({
     if (!cv || !wrap || !rows.length) return;
     const DPR = window.devicePixelRatio || 1;
     const W = wrap.clientWidth;
-    const np = 2;
+    const np = 1;
     const ph = Math.max(120, (wrap.clientHeight - 60) / np);
     const gap = 18;
     const top = 12;
@@ -827,36 +864,35 @@ function TimelineChart({
 
       const labs: { y: number; label: string; color: string; v: number }[] = [];
 
-      if (p === 1) {
-        // the 4 hypotheses, each as its own line (꺾은선) graph, revealed up to revealIdx.
-        HYPS.forEach((h) => {
-          ctx.strokeStyle = h.color;
-          ctx.lineWidth = 2;
-          ctx.beginPath();
-          for (let i = 0; i <= revealIdx; i++) {
-            const x = X(times[i]);
-            const y = Y(p, Number(rows[i].hypotheses?.[h.key] ?? 0));
-            i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
-          }
-          ctx.stroke();
-          const v = Number(rows[revealIdx].hypotheses?.[h.key] ?? 0);
-          labs.push({ y: Y(p, v), label: h.key, color: h.color, v });
-        });
-      } else {
-        SERIES.filter((s) => s.panel === p).forEach((s) => {
-          ctx.strokeStyle = s.color;
-          ctx.lineWidth = 2;
-          ctx.beginPath();
-          for (let i = 0; i <= revealIdx; i++) {
-            const x = X(times[i]);
-            const y = Y(p, Number(rows[i][s.key] ?? 0));
-            i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
-          }
-          ctx.stroke();
-          const lead = rows[revealIdx];
-          labs.push({ y: Y(p, Number(lead[s.key] ?? 0)), label: s.label, color: s.color, v: Number(lead[s.key] ?? 0) });
-        });
-      }
+      // Merged into one plot: the 4 hypotheses as thin lines (꺾은선), plus the
+      // P(발사) output drawn thicker on top so it reads as the headline series.
+      HYPS.forEach((h) => {
+        ctx.strokeStyle = h.color;
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        for (let i = 0; i <= revealIdx; i++) {
+          const x = X(times[i]);
+          const y = Y(p, Number(rows[i].hypotheses?.[h.key] ?? 0));
+          i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+        }
+        ctx.stroke();
+        const v = Number(rows[revealIdx].hypotheses?.[h.key] ?? 0);
+        labs.push({ y: Y(p, v), label: h.key, color: h.color, v });
+      });
+
+      SERIES.forEach((s) => {
+        ctx.strokeStyle = s.color;
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        for (let i = 0; i <= revealIdx; i++) {
+          const x = X(times[i]);
+          const y = Y(p, Number(rows[i][s.key] ?? 0));
+          i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+        }
+        ctx.stroke();
+        const lead = rows[revealIdx];
+        labs.push({ y: Y(p, Number(lead[s.key] ?? 0)), label: s.label, color: s.color, v: Number(lead[s.key] ?? 0) });
+      });
 
       ctx.textAlign = 'left';
       ctx.fillStyle = '#9ca3af';
