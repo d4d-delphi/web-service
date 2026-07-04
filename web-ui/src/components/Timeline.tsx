@@ -44,7 +44,7 @@ export default function Timeline({
                 : 'border-gray-700 text-gray-500 hover:text-gray-300'
             }`}
           >
-            시나리오 A
+            ① 우주발사체
           </button>
           <button
             onClick={() => onScenarioChange('scenario-b')}
@@ -54,7 +54,7 @@ export default function Timeline({
                 : 'border-gray-700 text-gray-500 hover:text-gray-300'
             }`}
           >
-            시나리오 B
+            ④ 단거리(SRBM)
           </button>
         </div>
 

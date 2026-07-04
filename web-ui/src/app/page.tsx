@@ -76,19 +76,10 @@ export default function Home() {
     setInferenceResult(result);
   }, [currentTime, scenario.timeline]);
 
-  // Handle scenario B destruction events
+  // Both scenarios are launch-indicator timelines (no strike/destruction phase)
   useEffect(() => {
-    if (activeScenario === 'scenario-b') {
-      const destroyed: string[] = [];
-      if (currentTime >= 900) destroyed.push('t-radar-b');
-      if (currentTime >= 1200) destroyed.push('t-cmd-1');
-      if (currentTime >= 1800) destroyed.push('t-sam-a');
-      if (currentTime >= 2100) destroyed.push('t-sam-c');
-      setDestroyedAssets(destroyed);
-    } else {
-      setDestroyedAssets([]);
-    }
-  }, [currentTime, activeScenario]);
+    setDestroyedAssets([]);
+  }, [activeScenario]);
 
   // Get current threat level
   const getCurrentThreatLevel = useCallback(() => {
@@ -131,36 +122,36 @@ export default function Home() {
       // Fallback mock briefing
       setBriefing({
         summary: activeScenario === 'scenario-a'
-          ? '무수단리 기지에서 화성-17형 ICBM 발사 준비 징후가 확인됩니다. TEL 직립 및 연료주입이 진행 중이며, 과거 유사 패턴 분석 결과 30분 내 발사 가능성이 높습니다.'
-          : '적 IADS 서부 방공망 분석 완료. SA-5 2개 대대와 P-14 감시레이더가 핵심 위협입니다. SEAD 작전을 통한 순차적 무력화를 권고합니다.',
+          ? '동창리 서해위성발사장에서 액체연료 우주발사체(정찰위성) 발사 징후가 확인됩니다. 일본 JCG 낙탄구역 통보, 필리핀 방향 남향 궤적, 발사장 인근 바지선 밀착 정박(Rule#1)이 모두 충족되어 위성 발사로 판단됩니다.'
+          : '전방 진지에서 고체연료 단거리 탄도미사일(KN-23) 발사 징후가 확인됩니다. TEL 단독 기동, 알섬 방향 궤적, 신포 차량 집결·국제 통보 부재(Rule#4)로 고체 SRBM 기습 발사로 판단됩니다.',
         threatAssessment: activeScenario === 'scenario-a'
-          ? '화성-17형 ICBM 발사 준비 단계 진입. 액체연료 주입 완료 시 2시간 내 발사 창 개방.'
-          : '서부 방공망 SA-5의 유효사거리 250km로 아군 항공자산 진입 불가. 레이더-지휘소-발사대 순 제거 필요.',
-        confidence: 85,
-        launchProbability: activeScenario === 'scenario-a' ? 78 : undefined,
+          ? '함흥 UDMH·만포 산화제 생산 → 트레일러 기동 → 국제 통보 → 바지선 밀착 순으로 진행. VIP 전용열차 소실 및 A2/AD 가동 확인. H-0 발사 임박(100%).'
+          : '함흥 17/11호 고체 생산 → TEL 단독 기동 → 전용열차 소실 순으로 진행. 고체연료 특성상 즉시 발사 가능하여 사전 경고 시간 극히 제한적.',
+        confidence: 92,
+        launchProbability: activeScenario === 'scenario-a' ? 100 : 95,
         recommendations: activeScenario === 'scenario-a'
-          ? ['정찰자산 추가 투입 (백두 긴급 출격)', '현무-4 타격 준비태세 격상', '한미 정보공유 체계 활성화']
-          : ['KF-16 HARM 선제투사로 레이더 무력화', '현무-2A로 지휘소 동시 타격', 'F-15K 후속 타격으로 SA-5 진지 파괴'],
+          ? ['E-737 피스아이 상시 체공 및 발사 즉시 항적 Custody 유지', '777사령부 텔레메트리 수신 태세 격상', '한미일 정보공유(SIS) 및 낙탄구역 항행 경보 확인']
+          : ['그린파인 레이더 KAMD 경계태세 격상', '헤론 UAV로 전방 TEL 상시 추적', '현무 대응타격 준비태세 유지 및 한미 공동 감시'],
         historicalCases: [
           {
-            id: 'case-4',
-            date: '2022-03-24',
-            title: '화성-17형 ICBM 발사',
-            missileType: 'ICBM (화성-17)',
-            indicators: ['11축 TEL 이동', '대형 발사대 직립', '연료주입'],
-            outcome: '발사 성공, 비행시간 71분, 고도 6,248km',
+            id: 'case-slv',
+            date: '2023-11-21',
+            title: '만리경-1 정찰위성 발사',
+            missileType: '우주발사체 (천리마-1)',
+            indicators: ['동창리 발사대', '일본 통보', '바지선 밀착', '남향 궤적'],
+            outcome: '위성 궤도 진입 성공, 필리핀 동방 해상 낙탄',
             description: '',
-            similarity: 0.87,
+            similarity: activeScenario === 'scenario-a' ? 0.91 : 0.32,
           },
           {
-            id: 'case-3',
-            date: '2017-11-29',
-            title: '화성-15형 ICBM 발사',
-            missileType: 'ICBM (화성-15)',
-            indicators: ['대형 TEL 이동', '연료주입', '발사대 직립'],
-            outcome: '발사 성공, 비행거리 960km, 고도 4,475km',
+            id: 'case-kn23',
+            date: '2022-01-14',
+            title: 'KN-23 전술유도무기 발사',
+            missileType: 'SRBM (KN-23)',
+            indicators: ['TEL 단독 기동', '알섬 표적', '고체연료', '기습 발사'],
+            outcome: '비행거리 430km, 저고도 풀업 기동',
             description: '',
-            similarity: 0.72,
+            similarity: activeScenario === 'scenario-a' ? 0.28 : 0.88,
           },
         ],
       });
