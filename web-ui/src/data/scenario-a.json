@@ -266,21 +266,6 @@
       "timeFraction": 0.74
     },
     {
-      "id": "evt-launch-2",
-      "time": "H+30m",
-      "timestamp": 5500,
-      "type": "launch",
-      "actionClass": "UAV",
-      "title": "헤론 FLR 발사체 궤적 추적(Custody) 유지",
-      "description": "헤론 FLR이 발사체 궤적 추적(Lock-on) 유지. 동해상 탄착 예상.",
-      "position": {
-        "lat": 38.0,
-        "lng": 128.0
-      },
-      "collectedAt": "2026-07-16T00:30:00Z",
-      "timeFraction": 0.79
-    },
-    {
       "id": "evt-osint-1",
       "time": "D+1",
       "timestamp": 6200,
