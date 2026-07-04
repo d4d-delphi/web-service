@@ -317,4 +317,28 @@ export interface HistoricalCase {
   similarity?: number;
 }
 
+// Layer 2+ 실제 발사사례 (CNS NK Missile Test Database + nagix bearing).
+// Supabase `launch_cases` 테이블이 source of truth; `launch-cases.json`은 RAG용 평면 미러.
+// HistoricalCase 호환 필드(id/date/title/missileType/indicators/outcome/description/similarity)를 가져
+// `searchSimilarCases`에서 HistoricalCase와 동일하게 취급된다.
+export interface LaunchCase {
+  id: string;
+  caseNo: number;
+  date: string;
+  title: string;
+  missileType: string;
+  facility?: string | null;
+  outcome: string;
+  indicators: string[];
+  description: string;
+  distanceKm?: number | null;
+  apogeeKm?: number | null;
+  facilityLat?: number | null;
+  facilityLng?: number | null;
+  landingLat?: number | null;
+  landingLng?: number | null;
+  kn?: string | null;
+  similarity?: number; // 런타임 계산
+}
+
 export type ScenarioId = 'scenario-a' | 'scenario-b';
