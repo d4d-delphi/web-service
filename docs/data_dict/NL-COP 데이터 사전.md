@@ -2,9 +2,9 @@
 
 ## 문서 목적
 
-이 문서는 다중 출처 융합 및 자연어 지휘통제(NL COP) 시스템, **DELPHI/NL-COP**의 데이터 기준을 정리한다. 해커톤 설계 노트(로컬 전용 기획 문서: 데이터셋 설계, 프로젝트 요약, 발사 징후 마스터 타임라인)에서 도출된 5대 원천 데이터셋과, 실제 `src/types`, `src/data`, `src/lib`, `src/app/api`에 이미 구현된 정형화·추론·보고·시각화 계층 스키마를 함께 다룬다.
+이 문서는 다중 출처 융합 및 자연어 지휘통제(NL COP) 시스템, **DELPHI/NL-COP**의 데이터 기준을 정리한다. 해커톤 설계 노트(로컬 전용 기획 문서: 데이터셋 설계, 프로젝트 요약, 발사 징후 마스터 타임라인)에서 도출된 5대 원천 데이터셋과, 실제 `web-ui/src/types`, `web-ui/src/data`, `web-ui/src/lib`, `web-ui/src/app/api`에 이미 구현된 정형화·추론·보고·시각화 계층 스키마를 함께 다룬다.
 
-- 원천 데이터셋(영상/신호/추적/과거사례/공개첩보) 설계는 기획 문서에서 시작해 `src/types/index.ts`의 TypeScript interface와 `src/data/*.json` 정적 데이터로 이미 반영되어 있다.
+- 원천 데이터셋(영상/신호/추적/과거사례/공개첩보) 설계는 기획 문서에서 시작해 `web-ui/src/types/index.ts`의 TypeScript interface와 `web-ui/src/data/*.json` 정적 데이터로 이미 반영되어 있다.
 - 발사 징후 마스터 타임라인(시설별 준비 단계, Rule-Base 매칭)은 기획 문서에만 존재하고 아직 코드/데이터로 구현되지 않았다. 이 문서에서는 목표 설계로 별도 정리한다.
 - 이 문서는 `docs/DATASET-SCHEMA.md`(5개 원천 데이터셋의 요약 스키마)를 대체하지 않고, 파이프라인 전 계층(원천 → 정형화 → 추론 → 보고 → 시각화)과 물리/논리 필드, 상태, 관계까지 확장한 상세판이다.
 
@@ -17,14 +17,14 @@
 - 과거 도발 사례(`Provocation`)와 아군 대응/BDA(`FriendlyAction`)는 관계형으로 분리하고 `yearly_launch_seq` / `related_launch_seq`로 연결한다. OSINT도 동일한 키로 도발 사례에 연결한다.
 - 정형화 계층(`ActionClass`)은 원천 데이터(IMINT/SIGINT/UAV/OSINT)의 원본을 `sourceData`로 참조하면서 SPUQ 기반 불확실성(신뢰도)을 함께 보관해, 원본을 잃지 않고 추론 계층에 재사용한다.
 - 추론 계층(`Hypothesis`/`InferenceResult`)은 사전확률(prior)과 우도표(likelihoodMap)를 정적 데이터(`hypotheses.json`)로 관리하고, 실행 결과(posterior/uncertainty)는 요청마다 계산되는 비영속 결과로 취급한다.
-- 현재 원천 데이터는 정적 JSON(`src/data/*.json`)으로 관리하고, Supabase(`src/lib/supabase.ts`)는 클라이언트만 구성되어 있고 실제 벡터 검색/영속 테이블은 아직 연결되지 않았다. RAG(`searchSimilarCases`)는 로컬 키워드 유사도로 폴백 동작한다.
+- 현재 원천 데이터는 정적 JSON(`web-ui/src/data/*.json`)으로 관리하고, Supabase(`web-ui/src/lib/supabase.ts`)는 클라이언트만 구성되어 있고 실제 벡터 검색/영속 테이블은 아직 연결되지 않았다. RAG(`searchSimilarCases`)는 로컬 키워드 유사도로 폴백 동작한다.
 - 시설/표적 마스터와 Rule-Base 매칭 테이블처럼 아직 코드화되지 않은 목표 설계는 향후 Supabase 테이블 전환 대상으로 별도 표시한다.
 
 ## 상태 구분
 
 | 상태 | 의미 |
 | --- | --- |
-| 구현됨 | `src/types/index.ts`에 TypeScript interface로 정의되어 있고 `src/data/*.json` 또는 `src/lib`, `src/app/api`에서 실제 사용 중이다. |
+| 구현됨 | `web-ui/src/types/index.ts`에 TypeScript interface로 정의되어 있고 `web-ui/src/data/*.json` 또는 `web-ui/src/lib`, `web-ui/src/app/api`에서 실제 사용 중이다. |
 | 설계 문서만 존재 | 로컬 기획 문서(데이터셋 설계, 발사 징후 타임라인)에는 있으나 아직 코드/데이터로 옮겨지지 않았다. |
 | 목표 설계 | 해커톤 데모 이후 프로덕션/Supabase 전환에 필요하므로 미리 데이터사전에 둔다. |
 | 미래 확장 | 데모 범위 밖이며, 실제 벡터 DB 연동·시설 마스터 자동 갱신 등 후속 확장에서 다룬다. |
@@ -56,13 +56,13 @@
 
 | 계층 | 대표 스키마 | 구현 위치 | 상태 |
 | --- | --- | --- | --- |
-| 원천 수집 (Source) | `IMINTReport`, `SIGINTRaw`, `SIGINTProcessed`, `UAVTelemetry`, `OSINTReport`, `ProvocationCase`, `FriendlyActionCase` | `src/types/index.ts`, `src/data/*.json` | 구현됨 |
-| 시설/표적 마스터 | `ThreatAsset`, `FriendlyAsset` | `src/types/index.ts`, `src/data/scenario-*.json` | 구현됨 |
+| 원천 수집 (Source) | `IMINTReport`, `SIGINTRaw`, `SIGINTProcessed`, `UAVTelemetry`, `OSINTReport`, `ProvocationCase`, `FriendlyActionCase` | `web-ui/src/types/index.ts`, `web-ui/src/data/*.json` | 구현됨 |
+| 시설/표적 마스터 | `ThreatAsset`, `FriendlyAsset` | `web-ui/src/types/index.ts`, `web-ui/src/data/scenario-*.json` | 구현됨 |
 | 시설 마스터(발사 징후) | 시설 마스터, 발사 징후 이벤트, Rule-Base | 로컬 기획 문서(발사 징후 마스터 타임라인) | 설계 문서만 존재 → 목표 설계 |
-| 정형화 (Structuring) | `ActionClass`, `ActionClassType`, `SPUQResult` | `src/types/index.ts`, `src/lib/spuq.ts` | 구현됨 |
-| 추론 (Inference) | `Hypothesis`, `HypothesisNode`, `InferenceResult` | `src/types/index.ts`, `src/lib/bayesian.ts`, `src/data/hypotheses.json` | 구현됨 |
-| 보고 (Reporting) | `BriefingResult`, `EvidenceTrace` | `src/types/index.ts`, `src/lib/claude.ts`, `src/app/api/brief` | 구현됨 |
-| 시각화 (Visualization) | `Scenario`, `ScenarioPhase`, `TimelineEvent`, `Coordinates` | `src/types/index.ts`, `src/data/scenario-a.json`, `src/data/scenario-b.json` | 구현됨 |
+| 정형화 (Structuring) | `ActionClass`, `ActionClassType`, `SPUQResult` | `web-ui/src/types/index.ts`, `web-ui/src/lib/spuq.ts` | 구현됨 |
+| 추론 (Inference) | `Hypothesis`, `HypothesisNode`, `InferenceResult` | `web-ui/src/types/index.ts`, `web-ui/src/lib/bayesian.ts`, `web-ui/src/data/hypotheses.json` | 구현됨 |
+| 보고 (Reporting) | `BriefingResult`, `EvidenceTrace` | `web-ui/src/types/index.ts`, `web-ui/src/lib/claude.ts`, `web-ui/src/app/api/brief` | 구현됨 |
+| 시각화 (Visualization) | `Scenario`, `ScenarioPhase`, `TimelineEvent`, `Coordinates` | `web-ui/src/types/index.ts`, `web-ui/src/data/scenario-a.json`, `web-ui/src/data/scenario-b.json` | 구현됨 |
 
 ---
 
@@ -70,7 +70,7 @@
 
 ## `IMINTReport` (구현됨)
 
-> 위성/항공기 영상에서 추출한 판독 결과다. `src/types/index.ts`에 정의되어 있고, 현재는 독립 파일이 아니라 `scenario-a.json` / `scenario-b.json`의 `TimelineEvent.imintData`에 이벤트별로 내장되어 있다.
+> 위성/항공기 영상에서 추출한 판독 결과다. `web-ui/src/types/index.ts`에 정의되어 있고, 현재는 독립 파일이 아니라 `scenario-a.json` / `scenario-b.json`의 `TimelineEvent.imintData`에 이벤트별로 내장되어 있다.
 
 | 필드명(물리) | 필드명(논리) | 데이터 타입 | 설명 | 제약사항 |
 | --- | --- | --- | --- | --- |
@@ -121,7 +121,7 @@
 | `human_summary` | 병사 작성 텍스트 요약 | Text | 예: "14:10~14:45 원산 방공기지 SA-2 표적레이더 가동 식별됨." | Not Null |
 | `ew_environment` | 전자전 환경 | Enum | `Normal`(정상 수집) / `Jammed`(교란) | Not Null |
 
-> **AI 자동 가공 포인트:** 국지도발(전시) 상황에서 Raw 데이터가 폭주해 병사의 가공이 지연될 경우, AI가 `estimated_MGRS`와 `frequency_band`/`signal_characteristics`를 실시간 군집화하여 `human_summary`를 자동 생성하는 것을 데모 킬러 기능으로 설계한다(현재 `src/lib`에 자동 군집화 로직은 미구현, 목표 설계).
+> **AI 자동 가공 포인트:** 국지도발(전시) 상황에서 Raw 데이터가 폭주해 병사의 가공이 지연될 경우, AI가 `estimated_MGRS`와 `frequency_band`/`signal_characteristics`를 실시간 군집화하여 `human_summary`를 자동 생성하는 것을 데모 킬러 기능으로 설계한다(현재 `web-ui/src/lib`에 자동 군집화 로직은 미구현, 목표 설계).
 
 ---
 
@@ -174,7 +174,7 @@
 
 ## `HistoricalCase` (구현됨 — Legacy/RAG 호환)
 
-> `src/data/historical-cases.json`의 실제 저장 단위다. RAG 검색(`searchSimilarCases`) 호환을 위한 평면 요약 필드에 `provocation`/`friendlyAction` 중첩 객체를 함께 보관한다.
+> `web-ui/src/data/historical-cases.json`의 실제 저장 단위다. RAG 검색(`searchSimilarCases`) 호환을 위한 평면 요약 필드에 `provocation`/`friendlyAction` 중첩 객체를 함께 보관한다.
 
 | 필드명(물리) | 필드명(논리) | 데이터 타입 | 설명 | 제약사항 |
 | --- | --- | --- | --- | --- |
@@ -197,7 +197,7 @@
 
 ## `OSINTReport` (구현됨)
 
-> 북한 선전매체 원문(과장/선전 포함)을 정보사 공개정보단이 군사적 팩트로 필터링·요약한 결과다. `src/data/osint.json`에 저장된다.
+> 북한 선전매체 원문(과장/선전 포함)을 정보사 공개정보단이 군사적 팩트로 필터링·요약한 결과다. `web-ui/src/data/osint.json`에 저장된다.
 
 | 필드명(물리) | 필드명(논리) | 데이터 타입 | 설명 | 제약사항 |
 | --- | --- | --- | --- | --- |
@@ -218,7 +218,7 @@
 
 ## `ThreatAsset` (구현됨)
 
-> 지도(Cesium) 시각화에 표출되는 적 자산이다. `src/data/scenario-a.json` / `scenario-b.json`의 `threats` 배열에 저장된다.
+> 지도(Cesium) 시각화에 표출되는 적 자산이다. `web-ui/src/data/scenario-a.json` / `scenario-b.json`의 `threats` 배열에 저장된다.
 
 | 필드명(물리) | 필드명(논리) | 데이터 타입 | 설명 | 제약사항 |
 | --- | --- | --- | --- | --- |
@@ -291,7 +291,7 @@
 
 ## `ActionClass` (구현됨)
 
-> 원천 데이터(비정형 판독 보고 포함)를 표준 액션 클래스로 정형화한 결과다. `src/lib/spuq.ts`의 `structureReport`가 생성하고, `src/app/api/infer`, `src/app/api/brief`에서 소비한다.
+> 원천 데이터(비정형 판독 보고 포함)를 표준 액션 클래스로 정형화한 결과다. `web-ui/src/lib/spuq.ts`의 `structureReport`가 생성하고, `web-ui/src/app/api/infer`, `web-ui/src/app/api/brief`에서 소비한다.
 
 | 필드명(물리) | 필드명(논리) | 데이터 타입 | 설명 | 제약사항 |
 | --- | --- | --- | --- | --- |
@@ -326,7 +326,7 @@
 
 ## `Hypothesis` (구현됨)
 
-> 베이지안 추론의 사전 지식(가설 DB)이다. `src/data/hypotheses.json`에 정적으로 저장되고 `src/lib/bayesian.ts`가 소비한다.
+> 베이지안 추론의 사전 지식(가설 DB)이다. `web-ui/src/data/hypotheses.json`에 정적으로 저장되고 `web-ui/src/lib/bayesian.ts`가 소비한다.
 
 | 필드명(물리) | 필드명(논리) | 데이터 타입 | 설명 | 제약사항 |
 | --- | --- | --- | --- | --- |
@@ -355,7 +355,7 @@
 
 ## `InferenceResult` (구현됨)
 
-> `runInference`의 최종 반환값이며 `src/app/api/infer`, `src/app/api/brief`가 그대로 응답에 포함한다.
+> `runInference`의 최종 반환값이며 `web-ui/src/app/api/infer`, `web-ui/src/app/api/brief`가 그대로 응답에 포함한다.
 
 | 필드명(물리) | 필드명(논리) | 데이터 타입 | 설명 | 제약사항 |
 | --- | --- | --- | --- | --- |
@@ -371,7 +371,7 @@
 
 ## `BriefingResult` (구현됨)
 
-> 대형 LLM(Claude) 또는 추론 엔진 폴백으로 생성되는 지휘관용 종합 브리핑이다. `src/app/api/brief`가 반환한다.
+> 대형 LLM(Claude) 또는 추론 엔진 폴백으로 생성되는 지휘관용 종합 브리핑이다. `web-ui/src/app/api/brief`가 반환한다.
 
 | 필드명(물리) | 필드명(논리) | 데이터 타입 | 설명 | 제약사항 |
 | --- | --- | --- | --- | --- |
@@ -442,7 +442,7 @@
 
 ## `Scenario` (구현됨)
 
-> `src/data/scenario-a.json`(평시: 발사 징후 탐지), `scenario-b.json`(전시: SEAD/BDA)의 최상위 컨테이너다.
+> `web-ui/src/data/scenario-a.json`(평시: 발사 징후 탐지), `scenario-b.json`(전시: SEAD/BDA)의 최상위 컨테이너다.
 
 | 필드명(물리) | 필드명(논리) | 데이터 타입 | 설명 | 제약사항 |
 | --- | --- | --- | --- | --- |
@@ -490,9 +490,9 @@
 
 | 항목 | 기준 |
 | --- | --- |
-| 원천 데이터 저장소 | `src/data/*.json` 정적 파일 (`osint.json`, `historical-cases.json`, `hypotheses.json`, `scenario-a.json`, `scenario-b.json`) |
+| 원천 데이터 저장소 | `web-ui/src/data/*.json` 정적 파일 (`osint.json`, `historical-cases.json`, `hypotheses.json`, `scenario-a.json`, `scenario-b.json`) |
 | IMINT/SIGINT/UAV 저장 방식 | 독립 파일 없이 `scenario-*.json`의 `TimelineEvent` 내부에 중첩 저장 |
-| DB 클라이언트 | `src/lib/supabase.ts`에 `supabase`(anon)/`supabaseAdmin`(service role) 클라이언트 구성만 존재, 실제 테이블/쿼리 미연결 |
+| DB 클라이언트 | `web-ui/src/lib/supabase.ts`에 `supabase`(anon)/`supabaseAdmin`(service role) 클라이언트 구성만 존재, 실제 테이블/쿼리 미연결 |
 | RAG 검색 | `searchSimilarCases`가 Supabase 벡터 검색을 시도한다는 주석은 있으나, 현재 구현은 로컬 키워드 유사도(`calculateSimilarity`)로만 동작 |
 | 추론 결과 저장 | `InferenceResult`, `BriefingResult`는 API 응답에서만 존재하는 비영속(요청-응답) 데이터 |
 
