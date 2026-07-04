@@ -294,6 +294,8 @@ export default function Home() {
           {showSpecModal && scenario.launch && (
             <LaunchSpecModal launch={scenario.launch} onClose={() => setShowSpecModal(false)} />
           )}
+          {/* 지도 범례 */}
+          <MapLegend />
         </div>
 
         {/* Right Panel - Friendly Info */}
@@ -348,6 +350,71 @@ export default function Home() {
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+function MapLegend() {
+  return (
+    <div className="absolute bottom-4 left-3 z-10 pointer-events-none">
+      <div className="bg-[#0a0e1a]/85 backdrop-blur-sm border border-gray-700/60 rounded-md px-3 py-2.5 min-w-[160px]">
+        <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">범례</p>
+
+        {/* 마커 */}
+        <div className="flex flex-col gap-1.5">
+          <div className="flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-red-500 shrink-0" />
+            <span className="text-[11px] text-gray-300">적 미사일 시설</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-orange-400 shrink-0" />
+            <span className="text-[11px] text-gray-300">이동식 발사대 (TEL)</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-yellow-400 shrink-0" />
+            <span className="text-[11px] text-gray-300">방공망 (SAM)</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-blue-400 shrink-0" />
+            <span className="text-[11px] text-gray-300">아군 감시자산</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 shrink-0" />
+            <span className="text-[11px] text-gray-300">아군 지휘통제</span>
+          </div>
+
+          {/* 구분선 */}
+          <div className="border-t border-gray-700/60 my-0.5" />
+
+          {/* 선 범례 */}
+          <div className="flex items-center gap-2">
+            <svg width="20" height="8" className="shrink-0">
+              <line x1="0" y1="4" x2="20" y2="4" stroke="#ef4444" strokeWidth="1.5" strokeDasharray="4 2" />
+            </svg>
+            <span className="text-[11px] text-gray-300">발사 궤적</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <svg width="20" height="8" className="shrink-0">
+              <line x1="0" y1="4" x2="20" y2="4" stroke="#f59e0b" strokeWidth="1.5" strokeDasharray="4 2" />
+            </svg>
+            <span className="text-[11px] text-gray-300">의심 이동경로</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <svg width="20" height="8" className="shrink-0">
+              <line x1="0" y1="4" x2="20" y2="4" stroke="#3b82f6" strokeWidth="1.5" strokeDasharray="3 3" />
+            </svg>
+            <span className="text-[11px] text-gray-300">아군 작전반경</span>
+          </div>
+
+          {/* 구분선 */}
+          <div className="border-t border-gray-700/60 my-0.5" />
+
+          <div className="flex items-center gap-2">
+            <span className="text-red-400 text-xs leading-none shrink-0">▲</span>
+            <span className="text-[11px] text-gray-300">경계/위험 징후</span>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
