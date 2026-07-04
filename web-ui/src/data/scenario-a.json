@@ -6,8 +6,16 @@
   "duration": 7000,
   "launch": {
     "phaseId": 6,
-    "site": { "lat": 39.66, "lng": 124.7, "name": "동창리 서해위성발사장" },
-    "target": { "lat": 12.5, "lng": 128.5, "name": "필리핀 동방 해상 — 궤도진입 코리더" },
+    "site": {
+      "lat": 39.66,
+      "lng": 124.7,
+      "name": "동창리 서해위성발사장"
+    },
+    "target": {
+      "lat": 12.5,
+      "lng": 128.5,
+      "name": "필리핀 동방 해상 — 궤도진입 코리더"
+    },
     "profile": "orbital",
     "apogeeKm": 500,
     "maxVelKms": 7.8,
@@ -22,14 +30,16 @@
     "pitch": -60,
     "range": 900000
   },
-  "threats": [
-     ],
+  "threats": [],
   "friendlies": [
     {
       "id": "f-e737",
       "name": "E-737 피스아이",
       "type": "ISR",
-      "position": { "lat": 37.2, "lng": 127.0 },
+      "position": {
+        "lat": 37.2,
+        "lng": 127.0
+      },
       "status": "ready",
       "capability": "조기경보/항적 추적(Custody)",
       "details": "공군 조기경보통제기. 발사 직후 즉각 항적 유지"
@@ -38,7 +48,10 @@
       "id": "f-777",
       "name": "777사령부",
       "type": "COMMAND",
-      "position": { "lat": 37.5, "lng": 127.05 },
+      "position": {
+        "lat": 37.5,
+        "lng": 127.05
+      },
       "status": "ready",
       "capability": "SIGINT/대형 접시형 안테나",
       "details": "미사일 텔레메트리 궤적 지속 수신·종말 탄착 확인"
@@ -47,7 +60,10 @@
       "id": "f-isr-geumgang",
       "name": "RC-800G(금강)",
       "type": "ISR",
-      "position": { "lat": 37.3, "lng": 126.2 },
+      "position": {
+        "lat": 37.3,
+        "lng": 126.2
+      },
       "status": "ready",
       "capability": "SIGINT/ELINT",
       "details": "실시간 신호정보 수집, 통제소 무전 감청"
@@ -56,14 +72,244 @@
       "id": "f-ship-sejong",
       "name": "세종대왕함(DDG)",
       "type": "SHIP",
-      "position": { "lat": 37.0, "lng": 124.5 },
+      "position": {
+        "lat": 37.0,
+        "lng": 124.5
+      },
       "status": "ready",
       "capability": "SPY 레이더 항적 추적",
       "details": "이지스 구축함, 서해 해상 탐지·추적 지원"
     }
   ],
   "timeline": [
- 
+    {
+      "id": "evt-pre-1",
+      "time": "D-90",
+      "timestamp": 200,
+      "type": "intel",
+      "actionClass": "IMINT",
+      "title": "잠진 액체엔진 지상 분출 시험 포착",
+      "description": "남포 인근 잠진 엔진시험장에서 대출력 액체엔진 분출 흔적(그을림·수풀 제거) 식별.",
+      "position": {
+        "lat": 38.99,
+        "lng": 125.63
+      },
+      "mgrs": "51S YD 30845 42393",
+      "collectedAt": "2026-03-17T02:30:00Z",
+      "timeFraction": 0.03
+    },
+    {
+      "id": "evt-pre-2",
+      "time": "D-45",
+      "timestamp": 500,
+      "type": "intel",
+      "actionClass": "IMINT",
+      "title": "동창리 고체모터 연소 시험 시설 가동",
+      "description": "동창리 서해위성발사장 인근 고체모터 시험장에서 신형 고체연료 모터 연소 시험 흔적 포착.",
+      "position": {
+        "lat": 39.63,
+        "lng": 124.72
+      },
+      "mgrs": "51S XD 46261 91410",
+      "collectedAt": "2026-04-16T02:30:00Z",
+      "timeFraction": 0.07
+    },
+    {
+      "id": "evt-fuel-1",
+      "time": "D-14",
+      "timestamp": 1200,
+      "type": "intel",
+      "actionClass": "SIGINT",
+      "title": "만포 은하화학공장 VHF 교신 급증",
+      "description": "자강도 만포 은하화학공장 일대 VHF 대역 통신 트래픽 급증. 야간 지속. 방출원 미식별.",
+      "position": {
+        "lat": 41.0,
+        "lng": 126.3
+      },
+      "collectedAt": "2026-04-18T05:00:00Z",
+      "timeFraction": 0.17
+    },
+    {
+      "id": "evt-fuel-2",
+      "time": "D-10",
+      "timestamp": 1500,
+      "type": "intel",
+      "actionClass": "IMINT",
+      "title": "산음동 미사일 생산단지 차량 집중",
+      "description": "평양 인근 산음동 대형 생산홀 인근, 7m 유개트럭 8대·8m 무개트럭 7대 식별.",
+      "position": {
+        "lat": 39.0,
+        "lng": 125.7
+      },
+      "collectedAt": "2026-04-20T02:30:00Z",
+      "timeFraction": 0.21
+    },
+    {
+      "id": "evt-move-1",
+      "time": "D-7",
+      "timestamp": 2200,
+      "type": "intel",
+      "actionClass": "IMINT",
+      "title": "동창리 발사대 추진제 저장동 활동 식별",
+      "description": "발사대 인접 1·2단 추진제 저장동 양측에서 인원·차량 활동. 발사대 표면에 차량 3대.",
+      "position": {
+        "lat": 39.66,
+        "lng": 124.71
+      },
+      "mgrs": "51S XD 46261 91410",
+      "collectedAt": "2026-07-08T05:15:00Z",
+      "timeFraction": 0.31
+    },
+    {
+      "id": "evt-move-2",
+      "time": "D-5",
+      "timestamp": 2500,
+      "type": "alert",
+      "actionClass": "OSINT",
+      "title": "북한 NOTAM 발행 — 1·2단 낙탄구역 통보",
+      "description": "북한 항행경보(NOTAM). 1단 낙탄구역 발사지 정남 480km, 2단 2500km. 남서 궤적. 발사창 04:00~08:00 UTC.",
+      "position": {
+        "lat": 37.5,
+        "lng": 125.0
+      },
+      "collectedAt": "2026-07-08T09:00:00Z",
+      "timeFraction": 0.36
+    },
+    {
+      "id": "evt-move-3",
+      "time": "D-3",
+      "timestamp": 2800,
+      "type": "intel",
+      "actionClass": "IMINT",
+      "title": "동창리 해상 바지선 출현",
+      "description": "동창리 발사장 인근 해상에 정체불명 바지선 출현. 발사 3일전 해상 계측 지원 가능성.",
+      "position": {
+        "lat": 39.6,
+        "lng": 124.7
+      },
+      "collectedAt": "2026-07-09T05:21:00Z",
+      "timeFraction": 0.4
+    },
+    {
+      "id": "evt-vip-1",
+      "time": "D-2",
+      "timestamp": 3200,
+      "type": "intel",
+      "actionClass": "IMINT",
+      "title": "평양 룡성 전용역 VIP 열차 식별",
+      "description": "룡성 지도부 전용역 캐노피 승강장에 대형 편성 열차 정차. 직전 영상엔 미관측. VIP 현지 참관 유력.",
+      "position": {
+        "lat": 39.05,
+        "lng": 125.8
+      },
+      "collectedAt": "2026-07-13T02:30:00Z",
+      "timeFraction": 0.46
+    },
+    {
+      "id": "evt-vip-2",
+      "time": "D-1",
+      "timestamp": 3500,
+      "type": "intel",
+      "actionClass": "SIGINT",
+      "title": "동창리 남서 방공지대 S-Band 레이더 방출 증가",
+      "description": "동창리 남서 방면 다수 지점 S-Band 레이더 방출 동시 증가. 활성 방출원 수 급증.",
+      "position": {
+        "lat": 39.5,
+        "lng": 124.5
+      },
+      "collectedAt": "2026-07-13T14:00:00Z",
+      "timeFraction": 0.5
+    },
+    {
+      "id": "evt-imm-1",
+      "time": "H-6",
+      "timestamp": 4200,
+      "type": "alert",
+      "actionClass": "SIGINT",
+      "title": "발사통제소 지상 점검 신호(Ping) 수집",
+      "description": "동창리 발사통제소 추정 지상 점검용 기계 신호(Ping) 패턴 포착.",
+      "position": {
+        "lat": 39.66,
+        "lng": 124.71
+      },
+      "collectedAt": "2026-07-15T20:00:00Z",
+      "timeFraction": 0.6
+    },
+    {
+      "id": "evt-imm-2",
+      "time": "H-2",
+      "timestamp": 4500,
+      "type": "intel",
+      "actionClass": "IMINT",
+      "title": "발사대 직립·연료주입 징후",
+      "description": "발사대 표면에 발사체 직립 확인. 인접 저장동에서 발사대 방향 파이프라인 활동.",
+      "position": {
+        "lat": 39.66,
+        "lng": 124.71
+      },
+      "collectedAt": "2026-07-15T22:00:00Z",
+      "timeFraction": 0.64
+    },
+    {
+      "id": "evt-launch-1",
+      "time": "H-0",
+      "timestamp": 5200,
+      "type": "launch",
+      "actionClass": "SIGINT",
+      "title": "🚀 미사일 본체 텔레메트리 신호 폭증 — 발사 확인",
+      "description": "지상 통제소 신호와 미사일 본체 방출 신호(Telemetry) 동시 폭발적 수신. 발사 확정.",
+      "position": {
+        "lat": 39.66,
+        "lng": 124.71
+      },
+      "collectedAt": "2026-07-16T00:00:00Z",
+      "timeFraction": 0.74
+    },
+    {
+      "id": "evt-launch-2",
+      "time": "H+30m",
+      "timestamp": 5500,
+      "type": "launch",
+      "actionClass": "UAV",
+      "title": "헤론 FLR 발사체 궤적 추적(Custody) 유지",
+      "description": "헤론 FLR이 발사체 궤적 추적(Lock-on) 유지. 동해상 탄착 예상.",
+      "position": {
+        "lat": 38.0,
+        "lng": 128.0
+      },
+      "collectedAt": "2026-07-16T00:30:00Z",
+      "timeFraction": 0.79
+    },
+    {
+      "id": "evt-osint-1",
+      "time": "D+1",
+      "timestamp": 6200,
+      "type": "intel",
+      "actionClass": "OSINT",
+      "title": "노동신문 위성 발사 보도 확인",
+      "description": "북한 매체가 '위성 발사 성공' 보도. 발사체 명칭·VIP 참관 여부 공개.",
+      "position": {
+        "lat": 39.03,
+        "lng": 125.76
+      },
+      "collectedAt": "2026-07-16T06:00:00Z",
+      "timeFraction": 0.89
+    },
+    {
+      "id": "evt-osint-2",
+      "time": "D+1",
+      "timestamp": 6500,
+      "type": "intel",
+      "actionClass": "OSINT",
+      "title": "NOTAM 낙탄구역과 실제 궤적 교차검증",
+      "description": "통보된 낙탄구역(480km/2500km)과 실제 궤적 일치 확인. 아군 탐지 데이터와 정합.",
+      "position": {
+        "lat": 20.0,
+        "lng": 125.0
+      },
+      "collectedAt": "2026-07-16T07:00:00Z",
+      "timeFraction": 0.93
+    }
   ],
   "phases": [
     {
@@ -72,7 +318,11 @@
       "startTime": 0,
       "endTime": 1000,
       "description": "Pre-Phase (D-90~D-30): 잠진 액체엔진·동창리 고체모터 시험",
-      "cameraTarget": { "lat": 39.3, "lng": 125.2, "range": 600000 }
+      "cameraTarget": {
+        "lat": 39.3,
+        "lng": 125.2,
+        "range": 600000
+      }
     },
     {
       "id": 2,
@@ -80,7 +330,11 @@
       "startTime": 1000,
       "endTime": 2000,
       "description": "Phase 1 (D-14~D-7) 30%: 만포 산화제·함흥 UDMH 생산",
-      "cameraTarget": { "lat": 40.5, "lng": 126.9, "range": 500000 }
+      "cameraTarget": {
+        "lat": 40.5,
+        "lng": 126.9,
+        "range": 500000
+      }
     },
     {
       "id": 3,
@@ -88,7 +342,11 @@
       "startTime": 2000,
       "endTime": 3000,
       "description": "Phase 2 (D-7~D-3) 50%: 트레일러 기동·일본 통보·바지선 출현",
-      "cameraTarget": { "lat": 39.5, "lng": 124.9, "range": 300000 }
+      "cameraTarget": {
+        "lat": 39.5,
+        "lng": 124.9,
+        "range": 300000
+      }
     },
     {
       "id": 4,
@@ -96,7 +354,11 @@
       "startTime": 3000,
       "endTime": 4000,
       "description": "Phase 3 (D-2~D-1) 70%: 전용열차 소실·방공망 가동",
-      "cameraTarget": { "lat": 39.3, "lng": 125.5, "range": 400000 }
+      "cameraTarget": {
+        "lat": 39.3,
+        "lng": 125.5,
+        "range": 400000
+      }
     },
     {
       "id": 5,
@@ -104,7 +366,11 @@
       "startTime": 4000,
       "endTime": 5000,
       "description": "Phase 4 (H-6~H-1) 95%: 바지선 밀착·통신 폭증·드론 신호",
-      "cameraTarget": { "lat": 39.66, "lng": 124.7, "range": 60000 }
+      "cameraTarget": {
+        "lat": 39.66,
+        "lng": 124.7,
+        "range": 60000
+      }
     },
     {
       "id": 6,
@@ -112,7 +378,11 @@
       "startTime": 5000,
       "endTime": 6000,
       "description": "H-0/Phase 5: 텔레메트리 수신·E-737 Custody",
-      "cameraTarget": { "lat": 37.5, "lng": 125.5, "range": 700000 }
+      "cameraTarget": {
+        "lat": 37.5,
+        "lng": 125.5,
+        "range": 700000
+      }
     },
     {
       "id": 7,
@@ -120,7 +390,11 @@
       "startTime": 6000,
       "endTime": 7000,
       "description": "Phase 6 (D+1 06:00): 노동신문/KCNA 교차검증",
-      "cameraTarget": { "lat": 39.66, "lng": 124.7, "range": 200000 }
+      "cameraTarget": {
+        "lat": 39.66,
+        "lng": 124.7,
+        "range": 200000
+      }
     }
   ]
 }
