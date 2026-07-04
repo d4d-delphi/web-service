@@ -403,12 +403,17 @@ export default function Home() {
           </button>
           {friendlyOpen ? (
             <div className="flex-1 min-h-0 flex flex-col">
-              {/* 상단 절반: 아군 자산 정보 */}
-              <div className="h-1/2 min-h-0 overflow-hidden">
-                <FriendlyPanel friendlies={scenario.friendlies} />
+              {/* 상단: 지휘관 상황판 (SitRep) — 위협게이지/가용자산/최근징후/대응옵션 스크롤 */}
+              <div className="flex-[3] min-h-0 overflow-hidden">
+                <FriendlyPanel
+                  friendlies={scenario.friendlies}
+                  events={scenario.timeline}
+                  currentTime={currentTime}
+                  inferenceResult={inferenceResult}
+                />
               </div>
-              {/* 하단 절반: 지휘 참모 AI 채팅 */}
-              <div className="h-1/2 min-h-0">
+              {/* 하단: 지휘 참모 AI 채팅 */}
+              <div className="flex-[2] min-h-0">
                 <ChatPanel context={chatContext} />
               </div>
             </div>
