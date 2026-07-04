@@ -6,7 +6,7 @@
 
 - 원천 데이터셋(영상/신호/추적/과거사례/공개첩보) 설계는 기획 문서에서 시작해 `web-ui/src/types/index.ts`의 TypeScript interface와 `web-ui/src/data/*.json` 정적 데이터로 이미 반영되어 있다.
 - 발사 징후 마스터 타임라인(시설별 준비 단계, Rule-Base 매칭)은 기획 문서에만 존재하고 아직 코드/데이터로 구현되지 않았다. 이 문서에서는 목표 설계로 별도 정리한다.
-- 이 문서는 `docs/DATASET-SCHEMA.md`(5개 원천 데이터셋의 요약 스키마)를 대체하지 않고, 파이프라인 전 계층(원천 → 정형화 → 추론 → 보고 → 시각화)과 물리/논리 필드, 상태, 관계까지 확장한 상세판이다.
+- 이 문서는 `docs/DATASET-SCHEMA.md`(Layer 1 원천 관측 통합 스키마 — 모든 감시 자산을 단일 `observation` 테이블 + `asset_detail` jsonb로 수집)를 대체하지 않는다. `DATASET-SCHEMA.md`가 "무엇을 어떻게 원천 수집하는가"를 다룬다면, 이 문서는 그 위에서 가공되는 정형화(processed) → 추론 → 보고 → 시각화 계층과 각 필드의 물리/논리 설계, 상태, 관계까지 확장한 상세판이다.
 
 ## 설계 기준
 
@@ -495,33 +495,28 @@
 | DB 클라이언트 | `web-ui/src/lib/supabase.ts`에 `supabase`(anon)/`supabaseAdmin`(service role) 클라이언트 구성만 존재, 실제 테이블/쿼리 미연결 |
 | RAG 검색 | `searchSimilarCases`가 Supabase 벡터 검색을 시도한다는 주석은 있으나, 현재 구현은 로컬 키워드 유사도(`calculateSimilarity`)로만 동작 |
 | 추론 결과 저장 | `InferenceResult`, `BriefingResult`는 API 응답에서만 존재하는 비영속(요청-응답) 데이터 |
+| Layer 1 원천 수집 (Supabase) | `observation` 테이블이 이미 원격에 적용되어 있다(`docs/DATASET-SCHEMA.md`). 다만 앱은 아직 이 테이블을 읽지 않고 로컬 JSON을 그대로 사용하므로 **실질 동작 변화는 없음** — 파이프라인 연결은 후속 작업 |
 
-## Supabase 전환 시 테이블 매핑 (목표 설계)
+## Layer 1 → 정형화 계층 매핑 (목표 설계)
 
-| 목표 테이블 | 원본 스키마 | 비고 |
+과거에는 `IMINTReport`/`SIGINTRaw`/`UAVTelemetry` 등 타입별로 Supabase 테이블을 1:1로 분리하는 안이었으나, 실제로는 **모든 원천을 `observation` 단일 테이블로 통합**하는 Layer 1 설계가 채택·적용되었다(`docs/DATASET-SCHEMA.md` §2 DDL 참고). 이 문서의 §2~§7 타입들은 이제 개별 테이블이 아니라 `observation.asset_type`으로 구분되는 논리적 뷰로 이해해야 한다.
+
+| 이 문서의 타입 | `observation.asset_type` | 매핑 방식 |
 | --- | --- | --- |
-| `imint_reports` | `IMINTReport` | `TimelineEvent`에서 분리, `event_id` FK 추가 |
-| `sigint_raw` | `SIGINTRaw` | 대량 스트리밍 대비 파티셔닝 후보(시간 기준) |
-| `sigint_processed` | `SIGINTProcessed` | `sigint_raw`와 시간 범위로 논리 연결 |
-| `uav_telemetry` | `UAVTelemetry` | 초 단위 적재 대비 파티셔닝 후보 |
-| `provocation_cases` | `ProvocationCase` | `yearly_launch_seq` UNIQUE |
-| `friendly_actions` | `FriendlyActionCase` | `related_launch_seq` FK |
-| `osint_reports` | `OSINTReport` | `related_launch_seq` FK |
-| `facilities` | 신규(§8) | 발사 징후 마스터 타임라인 정규화 |
-| `launch_indicator_events` | 신규(§8) | `facilities`, `provocation_cases` FK |
-| `launch_classification_rules` | 신규(§13) | Rule-Base 판정 테이블 |
-| `action_classes` | `ActionClass` | `sourceData`는 원본 테이블 참조 방식(다형 FK)으로 재설계 필요 |
-| `hypotheses` | `Hypothesis` | 정적 시드 데이터, 관리자 편집 UI 고려 |
-| `inference_runs` | `InferenceResult` | 감사/재현을 위해 영속화할 경우 신규 |
-| `historical_case_embeddings` | `HistoricalCase.indicators` | pgvector 임베딩으로 전환 시 RAG 실제 벡터 검색 지원 |
+| `IMINTReport` | `SATELLITE_IMINT` / `AERIAL_IMINT` | `asset_detail`(sensor_type/look_angle_deg/cloud_cover_pct) + 공통 컬럼(mgrs, activity_desc 등)에서 파생 |
+| `SIGINTRaw` | `SIGINT` (`asset_detail.is_raw = true`) | `analyst_id`가 null인 레코드. `asset_detail.signal_params`/`frequency_band`가 원본 필드 |
+| `SIGINTProcessed` | `SIGINT` (`asset_detail.is_raw = false`) | 판독관이 식별을 완료한 레코드. `emitter_guess` 등은 단일 관측 추정치이며, 융합 확정은 Layer 2+ 몫 |
+| `UAVTelemetry` | `UAV_FLIR` | `asset_detail`(sensor_mode/platform_mgrs/slant_range_km/tracking_status) |
+| `OSINTReport` | `OSINT` | `asset_detail`(source_media/media_type/key_entities) |
+| `ProvocationCase` / `FriendlyActionCase` / `HistoricalCase` | (해당 없음) | `observation`의 원시 관측이 아니라, 여러 `observation` 행을 사건 단위로 묶은 **Layer 2 이상의 파생 산물**. 아직 Layer 1에는 사건 소속(`scenario_id` 등)을 태깅하지 않는다(§5 설계 결정 참고) |
+| `facilities` / `launch_indicator_events` / `launch_classification_rules`(§8, §13, 목표 설계) | (해당 없음) | Layer 1 스코프 밖. `observation.location_name`(자유텍스트) → 시설 마스터 매칭은 후속 Layer 2(지오코딩)에서 설계 예정 |
 
 ## 파티셔닝/보존 후보
 
-| 테이블 | 기준 |
+| 대상 | 기준 |
 | --- | --- |
-| `sigint_raw` | 시간(일/시간) 단위 range partition, 단기 보존 후 archive |
-| `uav_telemetry` | 임무(`task_id`) 또는 시간 단위 partition |
-| `inference_runs` | 월별 range partition (감사 목적) |
+| `observation` | `collected_at`(시간) 또는 `asset_type` 기준 range partition. 특히 `SIGINT`(`is_raw=true`)·`UAV_FLIR`는 고빈도 적재가 예상되므로 단기 보존 후 archive 우선 검토 |
+| `inference_runs`(신규 시) | 월별 range partition (감사 목적) |
 
 ## 관계 요약
 
@@ -529,7 +524,7 @@
 | --- | --- |
 | `ProvocationCase.yearly_launch_seq` ↔ `FriendlyActionCase.related_launch_seq` | 1:1 (도발 사례 ↔ 아군 대응) |
 | `ProvocationCase.yearly_launch_seq` ↔ `OSINTReport.related_launch_seq` | 1:N (도발 사례 ↔ 사후 공개보도) |
-| `ActionClass.sourceData` → `IMINTReport`/`SIGINTRaw`/`SIGINTProcessed`/`UAVTelemetry`/`OSINTReport` | 다형(polymorphic) 참조 |
+| `ActionClass.sourceData` → `observation.obs_id` | 다형(polymorphic) 참조. 과거에는 `IMINTReport`/`SIGINTRaw`/`SIGINTProcessed`/`UAVTelemetry`/`OSINTReport` 개별 테이블을 가리켰으나, Layer 1 통합 이후에는 `observation` 단일 테이블의 행을 가리킨다 |
 | `EvidenceTrace.actionId` → `ActionClass.id` | N:1 |
 | `TimelineEvent.actionId` → `ActionClass.id` | N:1 |
 | `UAVTelemetry.linked_target_id` → `ThreatAsset.id` | N:1 (논리적 참조) |
@@ -602,13 +597,13 @@
 | --- | --- | --- |
 | 1 | `facilities`, `launch_indicator_events` | 발사 징후 마스터 타임라인을 정규화해 Phase별 확률 추정 근거를 데이터로 관리 |
 | 2 | `launch_classification_rules` | Rule-Base 판정을 `Hypothesis.likelihoodMap`과 병행 검증하는 결정론적 보조 로직 |
-| 3 | `imint_reports`, `sigint_raw`, `sigint_processed`, `uav_telemetry` 독립 테이블화 | `TimelineEvent` 내장 구조에서 분리해 재사용성/조회 성능 확보 |
+| 3 | `TimelineEvent` 내장 원천 데이터를 Layer 1 `observation` 테이블로 이관 | `docs/DATASET-SCHEMA.md`의 `observation` 스키마는 이미 적용됨 — 앱에서 실제로 읽어오도록 연결하는 작업만 남음 |
 
 ## 프로덕션 전환 (미래 확장)
 
 | 범위 | 항목 |
 | --- | --- |
-| Supabase 실 연동 | `supabaseAdmin` 기반 실제 테이블 생성, `searchSimilarCases`의 pgvector 임베딩 검색 전환 |
-| 대량 스트리밍 저장 | `sigint_raw`, `uav_telemetry`의 파티셔닝/보존 정책 수립 |
+| Supabase 실 연동 | `observation`(Layer 1) 실제 조회/적재 연결, `searchSimilarCases`의 pgvector 임베딩 검색 전환 |
+| 대량 스트리밍 저장 | `observation`(SIGINT raw, UAV_FLIR 위주)의 파티셔닝/보존 정책 수립 |
 | 감사/재현성 | `inference_runs` 영속화로 추론 결과 이력 관리 |
 | 시설 마스터 자동 갱신 | OSINT/영상 자산 갱신 시 `facilities.first_observed_phase` 자동 업데이트 파이프라인 |
