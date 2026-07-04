@@ -1,12 +1,15 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { Scenario, ThreatAsset, FriendlyAsset } from '@/types';
+import { Scenario, ThreatAsset, FriendlyAsset, LaunchConfig } from '@/types';
+import { trackAt, flownPath, fullPath, launchBearingDeg } from '@/lib/custody';
 
 interface CesiumMapProps {
   scenario: Scenario | null;
   currentTime: number;
   destroyedAssets: string[];
+  // 발사(H-0) 이후 커스터디 추적 상태. null이면 평시 지도.
+  custody?: { launch: LaunchConfig; progress: number } | null;
 }
 
 // Asset-type → marker symbol
@@ -251,13 +254,15 @@ function loadCesiumScript(): Promise<any> {
   });
 }
 
-export default function CesiumMap({ scenario, currentTime, destroyedAssets }: CesiumMapProps) {
+export default function CesiumMap({ scenario, currentTime, destroyedAssets, custody }: CesiumMapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const viewerRef = useRef<any>(null);
   const cesiumRef = useRef<any>(null);
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const prevPhaseRef = useRef<number | null>(null);
+  // 커스터디 카메라: 최초 진입 시 극적 스웝(flyTo) 후 프레임마다 추종(setView).
+  const custodyEngagedAtRef = useRef<number | null>(null);
   const lastPulseKeyRef = useRef<string | null>(null);
   // Latest currentTime, read by the entity-build effect (which isn't keyed on it)
   // to set the initial visibility of time-gated observation markers.
@@ -671,6 +676,13 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets }: Ce
       (p) => currentTime >= p.startTime && currentTime < p.endTime
     );
 
+    // 발사(추적) 단계에 진입하면 카메라는 커스터디 효과가 미사일을 추종하므로,
+    // 단계전환 flyTo는 건너뛴다(두 카메라 명령이 충돌하지 않도록).
+    if (currentPhase && scenario.launch && currentPhase.id === scenario.launch.phaseId) {
+      prevPhaseRef.current = currentPhase.id;
+      return;
+    }
+
     if (currentPhase && currentPhase.id !== prevPhaseRef.current && currentPhase.cameraTarget) {
       prevPhaseRef.current = currentPhase.id;
       viewer.camera.flyTo({
@@ -688,6 +700,99 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets }: Ce
       });
     }
   }, [scenario, currentTime, loaded]);
+
+  // 커스터디(비행 추적) 오버레이 — 발사 후 미사일 궤적/마커를 그리고 카메라가 추종.
+  useEffect(() => {
+    if (!viewerRef.current || !loaded || !cesiumRef.current) return;
+    const Cesium = cesiumRef.current;
+    const viewer = viewerRef.current;
+    const amber = '#f59e0b';
+
+    const CUSTODY_IDS = ['custody-path-full', 'custody-path-flown', 'custody-missile'];
+    const clear = () => {
+      for (const id of CUSTODY_IDS) {
+        const e = viewer.entities.getById(id);
+        if (e) viewer.entities.remove(e);
+      }
+    };
+
+    if (!custody) {
+      clear();
+      custodyEngagedAtRef.current = null;
+      return;
+    }
+
+    const { launch, progress } = custody;
+    const t = trackAt(launch, progress);
+
+    // 예측 전체 궤적(흐린 점선) — 최초 1회 생성.
+    if (!viewer.entities.getById('custody-path-full')) {
+      viewer.entities.add({
+        id: 'custody-path-full',
+        polyline: {
+          positions: Cesium.Cartesian3.fromDegreesArray(
+            fullPath(launch).flatMap((p) => [p.lng, p.lat]),
+          ),
+          width: 1.5,
+          material: new Cesium.PolylineDashMaterialProperty({
+            color: Cesium.Color.fromCssColorString(amber).withAlpha(0.35),
+            dashLength: 12,
+          }),
+        },
+      });
+    }
+
+    // 비행 완료 궤적(밝은 실선) — 매 틱 갱신.
+    const flownPos = Cesium.Cartesian3.fromDegreesArray(
+      flownPath(launch, progress).flatMap((p) => [p.lng, p.lat]),
+    );
+    const flownEnt = viewer.entities.getById('custody-path-flown');
+    if (flownEnt) {
+      flownEnt.polyline.positions = flownPos;
+    } else {
+      viewer.entities.add({
+        id: 'custody-path-flown',
+        polyline: {
+          positions: flownPos,
+          width: 3,
+          material: new Cesium.ColorMaterialProperty(
+            Cesium.Color.fromCssColorString(amber).withAlpha(0.95),
+          ),
+        },
+      });
+    }
+
+    // 미사일 마커(진행 방향으로 회전).
+    const carto = Cesium.Cartesian3.fromDegrees(t.lng, t.lat, 0);
+    const missile = viewer.entities.getById('custody-missile');
+    if (missile) {
+      missile.position = carto;
+    } else {
+      viewer.entities.add({
+        id: 'custody-missile',
+        position: carto,
+        billboard: {
+          image: markerCanvas('chevron', '#fde68a', '#dc2626'),
+          scale: 1.3,
+          rotation: -Cesium.Math.toRadians(launchBearingDeg(launch)),
+          verticalOrigin: Cesium.VerticalOrigin.CENTER,
+          disableDepthTestDistance: Number.POSITIVE_INFINITY,
+        },
+      });
+    }
+
+    // 카메라: 최초 진입은 극적 스웝(flyTo), 스웝이 끝난 뒤부터 프레임마다 추종.
+    const FOLLOW_RANGE = 700000;
+    const dest = Cesium.Cartesian3.fromDegrees(t.lng, t.lat, FOLLOW_RANGE);
+    const orientation = { heading: 0, pitch: Cesium.Math.toRadians(-90), roll: 0 };
+    const now = performance.now();
+    if (custodyEngagedAtRef.current == null) {
+      custodyEngagedAtRef.current = now;
+      viewer.camera.flyTo({ destination: dest, orientation, duration: 1.8 });
+    } else if (now - custodyEngagedAtRef.current > 1900) {
+      viewer.camera.setView({ destination: dest, orientation });
+    }
+  }, [custody, loaded]);
 
   return (
     <div className="relative w-full h-full">

@@ -92,6 +92,13 @@ body {
   animation: modalCountdown 3s linear forwards;
 }
 
+/* 발사(H-0) 커스터디 전환 배너 등장 */
+@keyframes custodyIn {
+  from { opacity: 0; transform: scale(0.82); }
+  60% { opacity: 1; }
+  to { opacity: 1; transform: scale(1); }
+}
+
 .threat-pulse {
   animation: pulse-threat 2s infinite;
 }

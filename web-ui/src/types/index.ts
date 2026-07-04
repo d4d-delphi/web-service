@@ -281,6 +281,20 @@ export interface TimelineEvent {
   osintData?: OSINTReport;
 }
 
+// 발사(H-0) 이후 '커스터디' 화면 전환을 위한 설정. 실제 비행 궤적/제원은
+// 데이터로 존재하지 않으므로 site→target 사이를 합성한 부스트/탄도 궤적으로
+// 애니메이션한다. launch가 없는 시나리오는 커스터디 전환을 하지 않는다.
+export interface LaunchConfig {
+  phaseId: number;                        // 이 단계 진입 시각 = H-0
+  site: Coordinates & { name: string };   // 발사 지점
+  target: Coordinates & { name: string }; // 궤도진입/탄착 지점(다운레인지 종단)
+  profile: 'orbital' | 'ballistic';       // orbital=단조상승, ballistic=포물선
+  apogeeKm: number;                        // 정점/궤도 고도 (km)
+  maxVelKms: number;                       // 최대 속도 (km/s)
+  rangeKm: number;                         // 총 다운레인지 (km)
+  flightSec: number;                       // 명목 비행시간(초) — MET 표기용
+}
+
 export interface Scenario {
   id: string;
   name: string;
@@ -292,6 +306,7 @@ export interface Scenario {
   friendlies: FriendlyAsset[];
   timeline: TimelineEvent[];
   phases: ScenarioPhase[];
+  launch?: LaunchConfig;
 }
 
 export interface ScenarioPhase {

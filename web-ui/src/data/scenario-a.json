@@ -4,6 +4,16 @@
   "description": "동창리 서해위성발사장 액체연료 우주발사체(정찰위성) 발사 마스터 타임라인. 일본 통보 + 필리핀 방향 + 바지선 밀착 = Rule#1 매칭. 사전 엔진시험(D-90)부터 발사(H-0), D+1 OSINT 교차검증까지 다중출처 융합 탐지.",
   "startTime": "2026-07-04T06:00:00Z",
   "duration": 7000,
+  "launch": {
+    "phaseId": 6,
+    "site": { "lat": 39.66, "lng": 124.7, "name": "동창리 서해위성발사장" },
+    "target": { "lat": 12.5, "lng": 128.5, "name": "필리핀 동방 해상 — 궤도진입 코리더" },
+    "profile": "orbital",
+    "apogeeKm": 500,
+    "maxVelKms": 7.8,
+    "rangeKm": 3000,
+    "flightSec": 600
+  },
   "cameraPosition": {
     "lat": 39.2,
     "lng": 126.0,

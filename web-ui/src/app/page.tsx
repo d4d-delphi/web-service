@@ -5,9 +5,11 @@ import dynamic from 'next/dynamic';
 import EnemyPanel from '@/components/EnemyPanel';
 import FriendlyPanel from '@/components/FriendlyPanel';
 import Timeline from '@/components/Timeline';
+import CustodyHUD from '@/components/CustodyHUD';
 import EventModal from '@/components/EventModal';
 import { Scenario, ScenarioId, ScenarioPhase, InferenceResult, TimelineEvent } from '@/types';
 import { runInference } from '@/lib/bayesian';
+import { custodyState } from '@/lib/custody';
 import { structureReport } from '@/lib/spuq';
 import hypothesesData from '@/data/hypotheses.json';
 import scenarioAData from '@/data/scenario-a.json';
@@ -29,6 +31,11 @@ export default function Home() {
   const [modalEvent, setModalEvent] = useState<TimelineEvent | null>(null);
   const shownEventIdsRef = useRef<Set<string>>(new Set());
   const modalTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // 발사(H-0) 확인 순간 짧게 띄우는 화면전환 배너.
+  const [showLaunchBanner, setShowLaunchBanner] = useState(false);
+  const launchFiredRef = useRef(false);
+  const bannerTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // 원천 첩보(events)를 Supabase `observation`에서 Next.js API 경유로 로드.
   // 실패/미설정 시 정적 mock 타임라인으로 폴백한다.
@@ -66,18 +73,19 @@ export default function Home() {
       timestamp: Math.round((n > 1 ? i / (n - 1) : 0) * span),
     }));
 
-    // 각 단계 구간 [startTime, endTime) 에 속한 실제 이벤트 위치의 평균으로
-    // cameraTarget 을 갱신. 구간에 관측이 없으면 기존(mock) 목표점을 유지한다.
+    // 각 단계 구간 [startTime, endTime) 의 '첫' 실제 관측 위치로 cameraTarget 을
+    // 갱신한다. (평균 중심점을 쓰면 여러 관측이 흩어진 구간에서 카메라가 어느
+    // 노란 점에도 얹히지 않고 그 사이 허공을 비추므로, 구간 진입 시 활성화되는
+    // 첫 관측 지점에 맞춘다.) 구간에 관측이 없으면 기존(mock) 목표점을 유지한다.
     const phases: ScenarioPhase[] = scenarioBase.phases.map((phase) => {
       const inWindow = timeline.filter(
         (e) => e.position && e.timestamp >= phase.startTime && e.timestamp < phase.endTime,
       );
       if (inWindow.length === 0) return phase;
-      const lat = inWindow.reduce((s, e) => s + e.position!.lat, 0) / inWindow.length;
-      const lng = inWindow.reduce((s, e) => s + e.position!.lng, 0) / inWindow.length;
+      const first = inWindow[0].position!;
       return {
         ...phase,
-        cameraTarget: { lat, lng, range: phase.cameraTarget?.range ?? 400000 },
+        cameraTarget: { lat: first.lat, lng: first.lng, range: phase.cameraTarget?.range ?? 400000 },
       };
     });
 
@@ -194,8 +202,33 @@ export default function Home() {
     setIsPlaying(true);
   };
 
+  // 발사(H-0) 이후 커스터디(비행 추적) 상태. launch 없는 시나리오는 null.
+  const custody = useMemo(() => custodyState(scenario, currentTime), [scenario, currentTime]);
+  const inCustody = !!custody?.active;
+
+  // H-0을 처음 넘긴 순간 화면전환 배너를 2.6초간 띄운다. 되감아 H-0 이전으로
+  // 돌아가면 리셋해 다시 발사할 때 또 발동하도록 한다.
+  useEffect(() => {
+    if (inCustody && !launchFiredRef.current) {
+      launchFiredRef.current = true;
+      setShowLaunchBanner(true);
+      if (bannerTimeoutRef.current) clearTimeout(bannerTimeoutRef.current);
+      bannerTimeoutRef.current = setTimeout(() => setShowLaunchBanner(false), 2600);
+    } else if (!inCustody && launchFiredRef.current) {
+      launchFiredRef.current = false;
+      setShowLaunchBanner(false);
+    }
+  }, [inCustody]);
+
+  // 시나리오 전환 시 커스터디/배너 상태 초기화.
+  useEffect(() => {
+    launchFiredRef.current = false;
+    setShowLaunchBanner(false);
+    if (bannerTimeoutRef.current) clearTimeout(bannerTimeoutRef.current);
+  }, [activeScenario]);
+
   return (
-    <div className="h-screen w-screen flex flex-col bg-[#0a0e1a]">
+    <div className="relative h-screen w-screen flex flex-col bg-[#0a0e1a]">
       {/* 이벤트 발생 알림 모달 (3초 후 자동 종료). key로 이벤트마다 재진입 애니메이션 */}
       <EventModal key={modalEvent?.id} event={modalEvent} onClose={() => setModalEvent(null)} />
 
@@ -240,6 +273,7 @@ export default function Home() {
             scenario={scenario}
             currentTime={currentTime}
             destroyedAssets={destroyedAssets}
+            custody={inCustody && scenario.launch ? { launch: scenario.launch, progress: custody!.progress } : null}
           />
         </div>
 
@@ -249,20 +283,45 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Timeline */}
-      <Timeline
-        phases={scenario.phases}
-        currentTime={currentTime}
-        duration={scenario.duration}
-        isPlaying={isPlaying}
-        speed={speed}
-        onPlay={() => setIsPlaying(true)}
-        onPause={() => setIsPlaying(false)}
-        onFastForward={handleFastForward}
-        onPhaseClick={handlePhaseClick}
-        onScenarioChange={handleScenarioChange}
-        activeScenario={activeScenario}
-      />
+      {/* 하단 스트립: 발사 전에는 타임라인, 발사(H-0) 후에는 커스터디 텔레메트리 HUD */}
+      {inCustody && scenario.launch ? (
+        <CustodyHUD
+          launch={scenario.launch}
+          progress={custody!.progress}
+          speed={speed}
+          isPlaying={isPlaying}
+        />
+      ) : (
+        <Timeline
+          phases={scenario.phases}
+          currentTime={currentTime}
+          duration={scenario.duration}
+          isPlaying={isPlaying}
+          speed={speed}
+          onPlay={() => setIsPlaying(true)}
+          onPause={() => setIsPlaying(false)}
+          onFastForward={handleFastForward}
+          onPhaseClick={handlePhaseClick}
+          onScenarioChange={handleScenarioChange}
+          activeScenario={activeScenario}
+        />
+      )}
+
+      {/* 발사 확인 화면전환 배너 (2.6초) */}
+      {showLaunchBanner && (
+        <div className="pointer-events-none absolute inset-0 z-50 flex items-center justify-center">
+          <div className="absolute inset-0 bg-red-950/30 animate-pulse" />
+          <div className="relative text-center animate-[custodyIn_0.5s_ease-out]">
+            <div className="text-red-500 text-5xl font-black tracking-[0.3em] [text-shadow:0_0_24px_rgba(239,68,68,0.7)]">
+              H-0
+            </div>
+            <div className="mt-2 text-amber-300 text-lg font-bold tracking-widest [text-shadow:0_0_12px_rgba(251,191,36,0.6)]">
+              🚀 발사 확인 — 커스터디 개시
+            </div>
+            <div className="mt-1 text-amber-200/60 text-xs font-mono">비행 궤적 실시간 추적 전환</div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

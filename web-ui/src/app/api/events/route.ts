@@ -97,6 +97,8 @@ export async function GET() {
     .select(
       'obs_id, asset_type, polarity, collected_at, mgrs, location_name, observed_objects, activity_desc, unusual_flag, platform, reliability',
     )
+    // 이상징후(unusual_flag=TRUE) 관측만 노출한다. 평시 관측은 제외.
+    .eq('unusual_flag', true)
     .order('collected_at', { ascending: true });
 
   if (error) {
