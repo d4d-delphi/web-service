@@ -260,7 +260,7 @@ export default function ChatPanel({ context }: ChatPanelProps) {
           disabled={loading}
           className="w-full h-8 rounded-md bg-cyan-950/40 hover:bg-cyan-900/50 border border-cyan-700/40 hover:border-cyan-600/60 disabled:opacity-50 disabled:cursor-not-allowed text-cyan-200 text-[12px] font-medium transition-colors"
         >
-          브리핑
+          현재 상황 브리핑하기
         </button>
         <div className="flex items-end gap-1.5">
           <textarea
