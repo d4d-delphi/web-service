@@ -1,5 +1,17 @@
+// Backend origin proxied same-origin (see rewrites below) so the browser never
+// makes a cross-origin request to *.onrender.com — sidesteps CORS, mixed-content,
+// and privacy extensions that block free-host domains. Override via env if needed.
+const BACKEND_ORIGIN = process.env.BACKEND_ORIGIN || 'https://delphi-api-wupt.onrender.com';
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Reverse-proxy the DELPHI backend under our own domain. Client code calls
+  // /backend/... (same-origin) → Vercel forwards to the Render backend.
+  async rewrites() {
+    return [
+      { source: '/backend/:path*', destination: `${BACKEND_ORIGIN}/:path*` },
+    ];
+  },
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.fallback = {
