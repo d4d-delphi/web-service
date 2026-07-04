@@ -92,6 +92,87 @@ function markerCanvas(symbol: string, fill: string, outline: string): HTMLCanvas
   return c;
 }
 
+// Render label text onto a canvas for use as a Cesium billboard image.
+// Cesium 1.56+ draws entity labels via an SDF glyph atlas whose resolution
+// mangles dense CJK (한글/한자) strokes — text comes out garbled. Rendering the
+// text ourselves through the 2D canvas bypasses SDF entirely, so Korean stays
+// crisp. Drawn at 2× for retina and displayed at scale 0.5.
+const LABEL_RES = 2;
+const LABEL_FONT = 'bold 13px sans-serif';
+const LABEL_PAD_X = 6;
+const LABEL_PAD_Y = 4;
+const LABEL_LINE_H = 17;
+
+let _measureCtx: CanvasRenderingContext2D | null = null;
+function measureLabel(text: string): number {
+  if (!_measureCtx) _measureCtx = document.createElement('canvas').getContext('2d');
+  _measureCtx!.font = LABEL_FONT;
+  return Math.ceil(_measureCtx!.measureText(text).width);
+}
+
+function roundRectPath(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r);
+  ctx.closePath();
+}
+
+// Returns a canvas + its CSS (unscaled) width/height so callers can size the
+// billboard and the declutter step can reason about the on-screen box.
+function labelCanvas(text: string, fill: string, bg: string): { image: HTMLCanvasElement; width: number; height: number } {
+  const tw = measureLabel(text);
+  const cssW = tw + LABEL_PAD_X * 2;
+  const cssH = LABEL_LINE_H + LABEL_PAD_Y * 2;
+  const c = document.createElement('canvas');
+  c.width = cssW * LABEL_RES;
+  c.height = cssH * LABEL_RES;
+  const ctx = c.getContext('2d')!;
+  ctx.scale(LABEL_RES, LABEL_RES);
+
+  ctx.fillStyle = bg;
+  roundRectPath(ctx, 0, 0, cssW, cssH, 3);
+  ctx.fill();
+
+  ctx.font = LABEL_FONT;
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'middle';
+  ctx.fillStyle = fill;
+  ctx.fillText(text, LABEL_PAD_X, cssH / 2 + 0.5);
+
+  return { image: c, width: cssW, height: cssH };
+}
+
+// Add a text label as a separate billboard entity (id `${baseId}-label`) so the
+// declutter pass can toggle it independently of the marker icon. `below` places
+// the label under the anchor instead of above it.
+function addLabelEntity(
+  Cesium: any,
+  viewer: any,
+  baseId: string,
+  position: any,
+  text: string,
+  fill: string,
+  bg: string,
+  below = false,
+) {
+  const { image, width } = labelCanvas(text, fill, bg);
+  viewer.entities.add({
+    id: `${baseId}-label`,
+    position,
+    properties: { labelWidth: width },
+    billboard: {
+      image,
+      scale: 1 / LABEL_RES,
+      verticalOrigin: below ? Cesium.VerticalOrigin.TOP : Cesium.VerticalOrigin.BOTTOM,
+      pixelOffset: new Cesium.Cartesian2(0, below ? 14 : -14),
+      disableDepthTestDistance: Number.POSITIVE_INFINITY,
+    },
+  });
+}
+
 function loadCesiumScript(): Promise<any> {
   return new Promise((resolve, reject) => {
     // Already loaded
@@ -244,20 +325,16 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets }: Ce
           scale: isDestroyed ? 0.8 : 1,
           verticalOrigin: Cesium.VerticalOrigin.CENTER,
         },
-        label: {
-          text: threat.name,
-          font: 'bold 13px sans-serif',
-          fillColor: Cesium.Color.WHITE,
-          outlineColor: Cesium.Color.BLACK,
-          outlineWidth: 2,
-          style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-          showBackground: true,
-          backgroundColor: Cesium.Color.fromCssColorString('#0a0e1a').withAlpha(0.72),
-          backgroundPadding: new Cesium.Cartesian2(6, 4),
-          verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-          pixelOffset: new Cesium.Cartesian2(0, -14),
-        },
       });
+      addLabelEntity(
+        Cesium,
+        viewer,
+        threat.id,
+        Cesium.Cartesian3.fromDegrees(threat.position.lng, threat.position.lat, 0),
+        threat.name,
+        '#ffffff',
+        'rgba(10,14,26,0.72)',
+      );
 
       // Threat radius
       if (threat.threatRadius && threat.threatRadius > 0 && !isDestroyed) {
@@ -287,20 +364,16 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets }: Ce
           scale: 1,
           verticalOrigin: Cesium.VerticalOrigin.CENTER,
         },
-        label: {
-          text: friendly.name,
-          font: 'bold 13px sans-serif',
-          fillColor: Cesium.Color.CYAN,
-          outlineColor: Cesium.Color.BLACK,
-          outlineWidth: 2,
-          style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-          showBackground: true,
-          backgroundColor: Cesium.Color.fromCssColorString('#0a0e1a').withAlpha(0.72),
-          backgroundPadding: new Cesium.Cartesian2(6, 4),
-          verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-          pixelOffset: new Cesium.Cartesian2(0, -14),
-        },
       });
+      addLabelEntity(
+        Cesium,
+        viewer,
+        friendly.id,
+        Cesium.Cartesian3.fromDegrees(friendly.position.lng, friendly.position.lat, 0),
+        friendly.name,
+        '#22d3ee',
+        'rgba(10,14,26,0.72)',
+      );
     });
   }, [scenario, loaded, destroyedAssets]);
 
@@ -329,16 +402,23 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets }: Ce
       }
     }
 
+    const removePulse = () => {
+      const p = viewer.entities.getById('active-event-pulse');
+      if (p) viewer.entities.remove(p);
+      const l = viewer.entities.getById('active-event-pulse-label');
+      if (l) viewer.entities.remove(l);
+    };
+
     const existing = viewer.entities.getById('active-event-pulse');
     if (!active || !pos) {
-      if (existing) viewer.entities.remove(existing);
+      removePulse();
       lastPulseKeyRef.current = null;
       return;
     }
 
     // Rebuild only when the active event changes (not every frame)
     if (existing && lastPulseKeyRef.current === active.id) return;
-    if (existing) viewer.entities.remove(existing);
+    removePulse();
 
     const period = 1600;
     const amber = '#f59e0b';
@@ -364,20 +444,17 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets }: Ce
         outlineColor: Cesium.Color.WHITE,
         outlineWidth: 2,
       },
-      label: {
-        text: `▶ ${active.title}`,
-        font: 'bold 13px sans-serif',
-        fillColor: Cesium.Color.fromCssColorString('#fde68a'),
-        outlineColor: Cesium.Color.BLACK,
-        outlineWidth: 3,
-        style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-        showBackground: true,
-        backgroundColor: Cesium.Color.fromCssColorString('#3a2a06').withAlpha(0.85),
-        backgroundPadding: new Cesium.Cartesian2(7, 4),
-        verticalOrigin: Cesium.VerticalOrigin.TOP,
-        pixelOffset: new Cesium.Cartesian2(0, 14),
-      },
     });
+    addLabelEntity(
+      Cesium,
+      viewer,
+      'active-event-pulse',
+      Cesium.Cartesian3.fromDegrees(pos.lng, pos.lat, 0),
+      `▶ ${active.title}`,
+      '#fde68a',
+      'rgba(58,42,6,0.85)',
+      true,
+    );
     lastPulseKeyRef.current = active.id;
   }, [scenario, currentTime, loaded]);
 
@@ -410,14 +487,15 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets }: Ce
       const time = Cesium.JulianDate.now();
       const items: any[] = [];
       for (const e of viewer.entities.values) {
-        if (!e.label || !e.position) continue;
+        const id = e.id as string;
+        if (!id.endsWith('-label') || !e.billboard || !e.position) continue;
         const world = e.position.getValue(time);
         if (!world) continue;
         const win = toWindow(scene, world);
         if (!win) continue;
-        const rawText = e.label.text;
-        const text = rawText && rawText.getValue ? rawText.getValue(time) : rawText;
-        items.push({ e, win, text: String(text || ''), pri: priority(e.id) });
+        const baseId = id.slice(0, -'-label'.length);
+        const w = e.properties?.labelWidth?.getValue(time) ?? 26;
+        items.push({ e, win, w, pri: priority(baseId) });
       }
       items.sort((a, b) => a.pri - b.pri);
 
@@ -425,7 +503,7 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets }: Ce
       const cw = scene.canvas.clientWidth;
       const ch = scene.canvas.clientHeight;
       for (const it of items) {
-        const w = Math.max(26, it.text.length * 9.2 + 14);
+        const w = it.w;
         const h = 20;
         const anchorY = it.win.y - 14; // label sits above the marker point
         const box = { l: it.win.x - w / 2, r: it.win.x + w / 2, t: anchorY - h, b: anchorY };
@@ -440,7 +518,7 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets }: Ce
           }
         }
         const show = !off && !collide;
-        if (it.e.label.show !== show) it.e.label.show = show;
+        if (it.e.billboard.show !== show) it.e.billboard.show = show;
         if (show) placed.push(box);
       }
     };
