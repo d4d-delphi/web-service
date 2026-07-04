@@ -327,6 +327,8 @@ export default function Home() {
           {showSpecModal && scenario.launch && (
             <LaunchSpecModal launch={scenario.launch} onClose={() => setShowSpecModal(false)} />
           )}
+          {/* 지도 범례 */}
+          <MapLegend />
         </div>
 
         {/* Right Panel - Friendly Info */}
