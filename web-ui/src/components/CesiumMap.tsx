@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { Scenario, ThreatAsset, FriendlyAsset, LaunchConfig, MilitaryUnit, FriendlyFormation } from '@/types';
+import { drawBoundaries } from '@/lib/boundaries';
 import { trackAt, flownPath, fullPath, launchBearingDeg } from '@/lib/custody';
 
 interface CesiumMapProps {
@@ -586,6 +587,9 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets, cust
           addLabelEntity(Cesium, viewer, id, pos, u.designation, '#9ca3af', 'rgba(10,14,26,0.72)');
         });
     });
+
+    // 대한민국 방공/해상 경계선(KADIZ·NLL·해상경계) — 흰색 폴리라인
+    drawBoundaries(Cesium, viewer);
 
     // Observation markers (amber dots)
     scenario.timeline.forEach((event) => {
