@@ -10,7 +10,7 @@ import EventModal from '@/components/EventModal';
 import LaunchSpecModal from '@/components/LaunchSpecModal';
 import { Scenario, ScenarioId, ScenarioPhase, InferenceResult, TimelineEvent } from '@/types';
 import { runInference } from '@/lib/bayesian';
-import { runBackendInference, scenarioToCampaign, latestObservationAt } from '@/lib/inference_client';
+import { runBackendInference, scenarioToCampaign, latestObservationAt, backendEnabled } from '@/lib/inference_client';
 import { custodyState } from '@/lib/custody';
 import { structureReport } from '@/lib/spuq';
 import hypothesesData from '@/data/hypotheses.json';
@@ -127,7 +127,7 @@ export default function Home() {
     };
   }, [isPlaying, scenario.duration, speed]);
 
-  // Run Bayesian inference as events appear (optimized)
+  // Run inference — DELPHI 백엔드 우선, fallback: 프론트 Bayesian
   const lastVisibleEventIdsRef = useRef<string>('');
   const structuredActionsCacheRef = useRef<Map<string, any>>(new Map());
 
@@ -141,16 +141,15 @@ export default function Home() {
 
     const currentEventIds = visibleEvents.map((e) => e.id).join(',');
     if (currentEventIds === lastVisibleEventIdsRef.current) {
-      return; // No new events, skip heavy SPUQ & Bayesian calculations
+      return; // No new events, skip heavy calculations
     }
     lastVisibleEventIdsRef.current = currentEventIds;
 
     // 이벤트를 액션 클래스로 정형화 (캐시 활용하여 연산량 최소화)
     const actions = visibleEvents.map((event, i) => {
       const cacheId = event.id || `event-${i}`;
-      if (structuredActionsCacheRef.current.has(cacheId)) {
+      if (structuredActionsCacheRef.current.has(cacheId))
         return structuredActionsCacheRef.current.get(cacheId);
-      }
       const action = structureReport(
         `${event.title}: ${event.description}`,
         cacheId,
@@ -227,6 +226,7 @@ export default function Home() {
       `시나리오: ${scenarioLabel}`,
       `경과 시간: ${Math.floor(currentTime / 60)}분`,
     ];
+    if (backendEnabled()) lines.push(`데이터 소스: DELPHI 백엔드 (캠페인: ${scenarioToCampaign(activeScenario) ?? 'N/A'})`);
     if (inferenceResult?.topHypothesis) {
       const t = inferenceResult.topHypothesis;
       lines.push(
@@ -237,6 +237,7 @@ export default function Home() {
           .map((h) => `${h.name} ${(h.posterior * 100).toFixed(0)}%`)
           .join(', ')}`,
       );
+      if (backendEnabled()) lines.push(`발사 임박도(p_launch): ${(inferenceResult.overallConfidence * 100).toFixed(0)}%`);
     } else {
       lines.push('아직 유효한 관측/추론 결과 없음 (타임라인 재생 전).');
     }
