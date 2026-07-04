@@ -188,6 +188,16 @@ def main():
         if canon_slug in slug_to_mid:
             lines.append(f"update launch_cases set missile_id = {qt(slug_to_mid[canon_slug])} where missile_name = {qt(qname)} and missile_id is null;")
 
+    # missiles.range_km 백필 — launch_cases 실측 최대 비행거리 (missile_id 조인)
+    lines.append('\n-- missiles.range_km 백필 (launch_cases 실측 최대 비행거리)')
+    lines.append("""update missiles m set range_km = d.range_km
+from (
+  select missile_id, max(distance_km) as range_km
+  from launch_cases where missile_id is not null and distance_km is not null
+  group by missile_id
+) d
+where d.missile_id = m.missile_id and m.range_km is distinct from d.range_km;""")
+
     with open(SQL_OUT, 'w', encoding='utf-8') as f:
         f.write('\n'.join(lines) + '\n')
     print(f'✅ missiles={len(missiles)} aliases={len(aliases)}  → {os.path.relpath(SQL_OUT, WEB_UI)}')
