@@ -1,9 +1,15 @@
 import { InferenceResult, HypothesisNode, TimelineEvent } from '@/types';
 
-// 백엔드(deciban 추론 엔진) 연동 — P0. env BACKEND_API_URL(예: http://127.0.0.1:8000/api/v1)이 있고
-// 해당 시나리오=캠페인 매핑이 있으면 백엔드 /inference 를 쓴다. 실패/미설정 시 호출측에서 bayesian.ts 폴백.
-
-const BACKEND = process.env.NEXT_PUBLIC_BACKEND_API_URL;
+// 백엔드(deciban 추론 엔진) 연동 — P0. 해당 시나리오=캠페인 매핑이 있으면 백엔드 /inference 를
+// 쓴다. 실패/미설정 시 호출측에서 bayesian.ts 폴백.
+//
+// 베이스 URL 은 앱 전역과 동일한 NEXT_PUBLIC_API_BASE_URL(예: http://127.0.0.1:8000, 또는
+// 배포 시 Render URL)에 /api/v1 을 붙여 만든다. (레거시로 NEXT_PUBLIC_BACKEND_API_URL 이
+// /api/v1 까지 포함해 지정돼 있으면 그대로 우선.) 예전엔 이 파일만 다른 env 이름을 읽어
+// 항상 undefined → 백엔드 미호출 → 폴백값(overallConfidence)이 게이지에 표시되는 버그가 있었다.
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL?.replace(/\/$/, '');
+const BACKEND =
+  process.env.NEXT_PUBLIC_BACKEND_API_URL ?? (API_BASE ? `${API_BASE}/api/v1` : undefined);
 
 // 백엔드가 돌려주는 한글 가설 라벨 → 프론트 시나리오 id(EnemyPanel `scenarios` prop과 매칭).
 // 매핑이 없으면 라벨 원문을 id로 사용. (delphiAdapter.ts LABEL_MAP과 동일 키)

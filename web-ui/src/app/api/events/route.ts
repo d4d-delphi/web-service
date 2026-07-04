@@ -49,6 +49,12 @@ const ASSET_EVENT_TYPE: Record<ObservationRow['asset_type'], TimelineEvent['type
   OSINT: 'alert',
 };
 
+// H-0(발사 순간) 신호: 비행 텔레메트리 하향 방출 = 미사일이 실제로 이륙했다는 확증.
+// 이 관측을 launch 타입으로 표기하면 custodyState 가 H-0 배너/제원 모달을 '발사대 열원·
+// 텔레메트리'까지 관측이 쌓인 실제 발사 시점에 앵커한다. (발사대·발사장 같은 지명에 든
+// '발사'는 상시 등장하므로 쓰지 않고, 비행 신호인 '텔레메트리'만 확증 신호로 본다.)
+const LAUNCH_SIGNAL = /텔레메트리/;
+
 // MGRS 군사좌표 → WGS84 lat/lng. 파싱 실패 시 undefined (지도에 표시 안 함).
 function parseMgrs(mgrs: string | null): Coordinates | undefined {
   if (!mgrs) return undefined;
@@ -79,7 +85,9 @@ function mapRow(row: ObservationRow, fraction: number): TimelineEvent {
     timeFraction: fraction,
     title: row.polarity === 'ABSENT' ? `[부재] ${shortTitle(row)}` : shortTitle(row),
     description: row.activity_desc,
-    type: ASSET_EVENT_TYPE[row.asset_type] ?? 'intel',
+    type: LAUNCH_SIGNAL.test(row.activity_desc)
+      ? 'launch'
+      : ASSET_EVENT_TYPE[row.asset_type] ?? 'intel',
     threatLevel: row.reliability,
     actionClass: ASSET_CLASS[row.asset_type] ?? 'IMINT',
     actionId: row.obs_id,

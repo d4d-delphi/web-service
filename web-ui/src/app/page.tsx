@@ -32,6 +32,10 @@ const SIGNATURE_DWELL_MS = 9000;
 const LAUNCH_DWELL_MS = 14000;
 // 재생 틱당 관측 시각 진행 보폭(기본 배속 기준). 작을수록 전반적 재생이 느려짐.
 const PLAYBACK_STEP_BASE = 7;
+// H-0 발사 확인 배너/제원 모달을 띄우기 위한 발사 임박도(p_launch) 하한.
+// H-0 시각(발사 관측)에 도달했더라도 추론이 실제 발사를 확증(≥90%)해야 배너를
+// 띄운다 — 시점과 게이지가 항상 정합하도록 보장(35%인데 H-0 뜨는 모순 방지).
+const LAUNCH_CONFIRM_PLAUNCH = 0.9;
 
 export default function Home() {
   const [activeScenario, setActiveScenario] = useState<ScenarioId>('scenario-a');
@@ -39,9 +43,6 @@ export default function Home() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [enemyOpen, setEnemyOpen] = useState(true);
   const [friendlyOpen, setFriendlyOpen] = useState(true);
-  // 좌측 패널 모드: 'enemy' (적 정보 분석) | 'timeline' (이벤트 타임라인).
-  // 시나리오 전환 시 자동으로 'timeline' 로 전환되며, 사용자가 탭으로 되돌릴 수 있다.
-  const [leftPanelMode, setLeftPanelMode] = useState<'enemy' | 'timeline'>('enemy');
   // 채팅 활성 여부 — ChatPanel 이 메시지/로딩 시 상위로 알림. 활성 시 채팅 패널이 위로 확장.
   const [chatActive, setChatActive] = useState(false);
   const [speed, setSpeed] = useState(1); // 재생 배속 (1x 기본 / 5x 빨리감기)
@@ -158,7 +159,9 @@ export default function Home() {
         setCurrentTime((prev) => {
           let next = prev + PLAYBACK_STEP_BASE * speed; // 기본 배속 × (빨리감기 시 5)
           const phase = scenario.phases.find((p) => prev >= p.startTime && prev < p.endTime);
-          if (phase) {
+          // 빨리감기(speed > 1)에서는 징후 게이트 체류를 건너뛴다 — 게이트마다
+          // 멈추면 빨리감기의 목적(빠른 훑기)이 사라지므로, 1x 재생에서만 dwell 적용.
+          if (phase && speed === 1) {
             const gate = phaseGate.get(phase.id);
             if (gate && next > gate.ts) {
               if (!holdRef.current || holdRef.current.phaseId !== phase.id) {
@@ -266,10 +269,8 @@ export default function Home() {
     shownEventIdsRef.current.clear();
     setModalEvent(null);
     if (modalTimeoutRef.current) clearTimeout(modalTimeoutRef.current);
-    // 시나리오 전환 시 타임라인(EnemyPanel) 자동 표시.
+    // 시나리오 전환 시 적 정보 패널 자동 표시.
     setEnemyOpen(true);
-    // 시나리오가 바뀌면 좌측 패널을 이벤트 타임라인으로 전환.
-    setLeftPanelMode('timeline');
     // 페이싱 게이트 상태 초기화 (이전 시나리오의 dwell 잔류 방지).
     holdRef.current = null;
   };
@@ -314,14 +315,20 @@ export default function Home() {
     return lines.join('\n');
   }, [activeScenario, currentTime, inferenceResult]);
 
-  // 발사(H-0) 이후 커스터디(비행 추적) 상태. launch 없는 시나리오는 null.
+  // 발사(H-0) 도달 여부. H-0 = 실제 발사 관측 시각. launch 없는 시나리오는 null.
   const custody = useMemo(() => custodyState(scenario, currentTime), [scenario, currentTime]);
   const inCustody = !!custody?.active;
 
-  // H-0을 처음 넘긴 순간 화면전환 배너를 2.6초간 띄운다. 되감아 H-0 이전으로
-  // 돌아가면 리셋해 다시 발사할 때 또 발동하도록 한다.
+  // 발사 확증: H-0 시각에 도달했고 + 발사 임박도(p_launch)가 하한을 넘겼을 때만.
+  // 추론(비동기)이 게이지를 실제로 끌어올린 뒤 배너가 뜨므로, 배너와 p_launch가
+  // 항상 정합한다.
+  const pLaunch = inferenceResult?.overallConfidence ?? 0;
+  const launchConfirmed = inCustody && pLaunch >= LAUNCH_CONFIRM_PLAUNCH;
+
+  // 발사가 확증된 순간 발사 확인 배너를 2.6초간 띄운다. 되감아 H-0 이전으로
+  // 돌아가면(=inCustody 해제) 리셋해 다시 발사할 때 또 발동하도록 한다.
   useEffect(() => {
-    if (inCustody && !launchFiredRef.current) {
+    if (launchConfirmed && !launchFiredRef.current) {
       launchFiredRef.current = true;
       setShowLaunchBanner(true);
       setShowSpecModal(true);
@@ -332,7 +339,7 @@ export default function Home() {
       setShowLaunchBanner(false);
       setShowSpecModal(false);
     }
-  }, [inCustody]);
+  }, [launchConfirmed, inCustody]);
 
   // 시나리오 전환 시 커스터디/배너 상태 초기화.
   useEffect(() => {
@@ -363,35 +370,12 @@ export default function Home() {
           </button>
           {enemyOpen ? (
             <div className="flex-1 min-h-0 flex flex-col">
-              {/* 좌측 패널 모드 전환 탭: 적 정보 / 타임라인 */}
-              <div className="shrink-0 flex bg-gray-900/60 border-b border-gray-800">
-                <button
-                  onClick={() => setLeftPanelMode('enemy')}
-                  className={`flex-1 h-8 text-[11px] font-bold tracking-wide transition-colors ${
-                    leftPanelMode === 'enemy'
-                      ? 'bg-gray-800 text-amber-400 border-b-2 border-amber-500'
-                      : 'text-gray-500 hover:text-gray-300 border-b-2 border-transparent'
-                  }`}
-                >
-                  적 정보
-                </button>
-                <button
-                  onClick={() => setLeftPanelMode('timeline')}
-                  className={`flex-1 h-8 text-[11px] font-bold tracking-wide transition-colors ${
-                    leftPanelMode === 'timeline'
-                      ? 'bg-gray-800 text-cyan-400 border-b-2 border-cyan-500'
-                      : 'text-gray-500 hover:text-gray-300 border-b-2 border-transparent'
-                  }`}
-                >
-                  타임라인
-                </button>
-              </div>
               <div className="flex-1 min-h-0">
                 <EnemyPanel
                   events={scenario.timeline}
                   currentTime={currentTime}
                   inferenceResult={inferenceResult}
-                  viewMode={leftPanelMode}
+                  viewMode="enemy"
                   scenarios={[
                     { id: 'h-solid-short',  name: '고체 단거리 (SRBM)',       phases: scenarioBData.phases as any },
                     { id: 'h-solid-long',   name: '고체 장거리 (IRBM/ICBM)', phases: phasesSolidLong as any },
@@ -492,9 +476,9 @@ export default function Home() {
               H-0
             </div>
             <div className="mt-2 text-amber-300 text-lg font-bold tracking-widest [text-shadow:0_0_12px_rgba(251,191,36,0.6)]">
-              [ LAUNCH ] 발사 확인 — 커스터디 개시
+              [ LAUNCH ] 미사일 발사 확인
             </div>
-            <div className="mt-1 text-amber-200/60 text-xs font-mono">비행 궤적 실시간 추적 전환</div>
+            <div className="mt-1 text-amber-200/60 text-xs font-mono">발사 순간 포착 — H-0 도달</div>
           </div>
         </div>
       )}

@@ -82,13 +82,16 @@ export interface CustodyState {
   progress: number; // H-0~duration 구간 진행도 0..1
 }
 
-// 시나리오 재생 시각으로부터 커스터디 상태를 계산. launch 없으면 null.
+// 시나리오 재생 시각으로부터 발사(H-0) 상태를 계산. launch 없으면 null.
+// H-0 = 미사일이 실제로 발사되는 시점. 타임라인에 발사/타격 관측이 있으면 그 관측
+// 시각을 H-0 로 쓰고(실제 발사 순간), 없으면 발사 단계(startTime)로 폴백한다.
 export function custodyState(scenario: Scenario, currentTime: number): CustodyState | null {
   const launch = scenario.launch;
   if (!launch) return null;
+  const fireEvent = scenario.timeline.find((e) => e.type === 'launch' || e.type === 'strike');
   const phase = scenario.phases.find((p) => p.id === launch.phaseId);
-  if (!phase) return null;
-  const hZero = phase.startTime;
+  const hZero = fireEvent?.timestamp ?? phase?.startTime;
+  if (hZero == null) return null;
   const span = Math.max(1, scenario.duration - hZero);
   return {
     active: currentTime >= hZero,
