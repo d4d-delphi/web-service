@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import EnemyPanel from '@/components/EnemyPanel';
 import FriendlyPanel from '@/components/FriendlyPanel';
 import Timeline from '@/components/Timeline';
-import { Scenario, ScenarioId, ScenarioPhase, InferenceResult } from '@/types';
+import EventModal from '@/components/EventModal';
+import { Scenario, ScenarioId, ScenarioPhase, InferenceResult, TimelineEvent } from '@/types';
 import { runInference } from '@/lib/bayesian';
 import { structureReport } from '@/lib/spuq';
 import hypothesesData from '@/data/hypotheses.json';
@@ -18,18 +19,77 @@ export default function Home() {
   const [activeScenario, setActiveScenario] = useState<ScenarioId>('scenario-a');
   const [currentTime, setCurrentTime] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [speed, setSpeed] = useState(1); // 재생 배속 (1x 기본 / 5x 빨리감기)
   const [destroyedAssets, setDestroyedAssets] = useState<string[]>([]);
   const [inferenceResult, setInferenceResult] = useState<InferenceResult | null>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  const scenario: Scenario = (activeScenario === 'scenario-a' ? scenarioAData : scenarioBData) as Scenario;
+  // 각 이벤트가 "발생"하는 순간(재생 시각이 timestamp를 넘을 때) 상단에 모달을 띄우고
+  // 3초 후 자동으로 감춘다.
+  const [modalEvent, setModalEvent] = useState<TimelineEvent | null>(null);
+  const shownEventIdsRef = useRef<Set<string>>(new Set());
+  const modalTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // 원천 첩보(events)를 Supabase `observation`에서 Next.js API 경유로 로드.
+  // 실패/미설정 시 정적 mock 타임라인으로 폴백한다.
+  const [supabaseEvents, setSupabaseEvents] = useState<TimelineEvent[] | null>(null);
+  useEffect(() => {
+    let cancelled = false;
+    fetch('/api/events')
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`HTTP ${r.status}`))))
+      .then((data) => {
+        if (!cancelled && Array.isArray(data.events) && data.events.length) {
+          setSupabaseEvents(data.events as TimelineEvent[]);
+        }
+      })
+      .catch((err) => console.warn('Falling back to mock events:', err));
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const scenarioBase: Scenario = (activeScenario === 'scenario-a' ? scenarioAData : scenarioBData) as Scenario;
+
+  // Supabase 이벤트가 있으면 mock 타임라인을 대체한다. 관측 시간축(0..1)을
+  // 활성 시나리오 재생 duration에 매핑해 timestamp를 부여한다.
+  // 단계(사전개발·연료/동체생산·기동/국제통보·VIP/A2AD·발사임박·발사/추적·OSINT검증)는
+  // 이름·구간은 유지하되, 카메라 목표점을 해당 구간 실제 관측(MGRS) 중심으로 재설정한다.
+  const scenario: Scenario = useMemo(() => {
+    if (!supabaseEvents || supabaseEvents.length === 0) return scenarioBase;
+    const n = supabaseEvents.length;
+    const span = Math.max(scenarioBase.duration - 300, 1);
+    // 이벤트는 collected_at 순으로 정렬되어 온다. 절대 시간축은 소수의 과거
+    // 관측(2014·2017)에 눌려 최근 발사국면이 한 단계에 뭉치므로, 순번 기준으로
+    // 균등 배치해 7개 단계가 고르게 채워지도록 한다.
+    const timeline: TimelineEvent[] = supabaseEvents.map((e, i) => ({
+      ...e,
+      timestamp: Math.round((n > 1 ? i / (n - 1) : 0) * span),
+    }));
+
+    // 각 단계 구간 [startTime, endTime) 에 속한 실제 이벤트 위치의 평균으로
+    // cameraTarget 을 갱신. 구간에 관측이 없으면 기존(mock) 목표점을 유지한다.
+    const phases: ScenarioPhase[] = scenarioBase.phases.map((phase) => {
+      const inWindow = timeline.filter(
+        (e) => e.position && e.timestamp >= phase.startTime && e.timestamp < phase.endTime,
+      );
+      if (inWindow.length === 0) return phase;
+      const lat = inWindow.reduce((s, e) => s + e.position!.lat, 0) / inWindow.length;
+      const lng = inWindow.reduce((s, e) => s + e.position!.lng, 0) / inWindow.length;
+      return {
+        ...phase,
+        cameraTarget: { lat, lng, range: phase.cameraTarget?.range ?? 400000 },
+      };
+    });
+
+    return { ...scenarioBase, timeline, phases };
+  }, [supabaseEvents, scenarioBase]);
 
   // Playback logic
   useEffect(() => {
     if (isPlaying) {
       intervalRef.current = setInterval(() => {
         setCurrentTime((prev) => {
-          const next = prev + 10; // 10x speed
+          const next = prev + 10 * speed; // 기본 배속 × (빨리감기 시 5)
           if (next >= scenario.duration) {
             setIsPlaying(false);
             return scenario.duration;
@@ -46,7 +106,7 @@ export default function Home() {
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [isPlaying, scenario.duration]);
+  }, [isPlaying, scenario.duration, speed]);
 
   // Run Bayesian inference as events appear
   useEffect(() => {
@@ -72,6 +132,25 @@ export default function Home() {
     setInferenceResult(result);
   }, [currentTime, scenario.timeline]);
 
+  // 재생 중, 새로 발생한(방금 timestamp를 넘긴) 이벤트를 모달로 알림.
+  // 한 틱에 여러 개가 넘어가면 가장 최근 것을 보여주고 나머지도 '표시됨'으로 처리한다.
+  useEffect(() => {
+    if (!isPlaying) return;
+    const newly = scenario.timeline.filter(
+      (e) => e.timestamp <= currentTime && !shownEventIdsRef.current.has(e.id),
+    );
+    if (newly.length === 0) return;
+    newly.forEach((e) => shownEventIdsRef.current.add(e.id));
+    const latest = newly.reduce((a, b) => (b.timestamp >= a.timestamp ? b : a));
+    setModalEvent(latest);
+    if (modalTimeoutRef.current) clearTimeout(modalTimeoutRef.current);
+    modalTimeoutRef.current = setTimeout(() => setModalEvent(null), 3000);
+  }, [currentTime, isPlaying, scenario.timeline]);
+
+  useEffect(() => () => {
+    if (modalTimeoutRef.current) clearTimeout(modalTimeoutRef.current);
+  }, []);
+
   // Both scenarios are launch-indicator timelines (no strike/destruction phase)
   useEffect(() => {
     setDestroyedAssets([]);
@@ -81,16 +160,29 @@ export default function Home() {
     setActiveScenario(id);
     setCurrentTime(0);
     setIsPlaying(false);
+    setSpeed(1);
     setDestroyedAssets([]);
     setInferenceResult(null);
+    shownEventIdsRef.current.clear();
+    setModalEvent(null);
+    if (modalTimeoutRef.current) clearTimeout(modalTimeoutRef.current);
   };
 
   const handlePhaseClick = (phase: ScenarioPhase) => {
     setCurrentTime(phase.startTime);
   };
 
+  // 빨리감기: 1x ↔ 5x 토글. 켜면 곧바로 재생을 시작한다.
+  const handleFastForward = () => {
+    setSpeed((s) => (s === 5 ? 1 : 5));
+    setIsPlaying(true);
+  };
+
   return (
     <div className="h-screen w-screen flex flex-col">
+      {/* 이벤트 발생 알림 모달 (3초 후 자동 종료). key로 이벤트마다 재진입 애니메이션 */}
+      <EventModal key={modalEvent?.id} event={modalEvent} onClose={() => setModalEvent(null)} />
+
       {/* Top Bar */}
       <header className="relative h-10 bg-[#0d1117] border-b border-gray-800 flex items-center px-4 justify-between shrink-0">
         <div className="flex items-center gap-3">
@@ -147,8 +239,10 @@ export default function Home() {
         currentTime={currentTime}
         duration={scenario.duration}
         isPlaying={isPlaying}
+        speed={speed}
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
+        onFastForward={handleFastForward}
         onPhaseClick={handlePhaseClick}
         onScenarioChange={handleScenarioChange}
         activeScenario={activeScenario}

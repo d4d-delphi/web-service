@@ -7,8 +7,10 @@ interface TimelineProps {
   currentTime: number;
   duration: number;
   isPlaying: boolean;
+  speed: number;
   onPlay: () => void;
   onPause: () => void;
+  onFastForward: () => void;
   onPhaseClick: (phase: ScenarioPhase) => void;
   onScenarioChange: (id: ScenarioId) => void;
   activeScenario: ScenarioId;
@@ -19,8 +21,10 @@ export default function Timeline({
   currentTime,
   duration,
   isPlaying,
+  speed,
   onPlay,
   onPause,
+  onFastForward,
   onPhaseClick,
   onScenarioChange,
   activeScenario,
@@ -73,6 +77,23 @@ export default function Timeline({
               <polygon points="5,3 19,12 5,21" />
             </svg>
           )}
+        </button>
+
+        {/* Fast-forward (5x) */}
+        <button
+          onClick={onFastForward}
+          title="빨리감기 5배속"
+          className={`h-7 px-1.5 flex items-center gap-1 rounded border transition-all ${
+            speed === 5
+              ? 'bg-amber-500/20 border-amber-500/50 text-amber-400'
+              : 'bg-gray-800 border-gray-700 text-gray-300 hover:border-gray-500'
+          }`}
+        >
+          <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
+            <polygon points="3,4 11,12 3,20" />
+            <polygon points="12,4 20,12 12,20" />
+          </svg>
+          <span className="text-[10px] font-mono font-bold">5×</span>
         </button>
 
         {/* Progress Bar */}

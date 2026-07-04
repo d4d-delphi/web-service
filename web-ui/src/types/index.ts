@@ -268,6 +268,11 @@ export interface TimelineEvent {
   // 데이터셋 연동
   actionClass?: ActionClassType;
   actionId?: string;
+  // Supabase `observation` 연동 (Layer 1 원천 첩보)
+  position?: Coordinates;   // MGRS → lat/lng 파싱 결과 (지도 배치용)
+  mgrs?: string;            // 원본 군사좌표
+  collectedAt?: string;     // observation.collected_at (정본 시간축)
+  timeFraction?: number;    // 관측 시간축상 상대 위치 0..1 (재생 타임스탬프 매핑용)
   // 원본 데이터 참조 (각 도메인)
   imintData?: IMINTReport;
   sigintData?: SIGINTProcessed;

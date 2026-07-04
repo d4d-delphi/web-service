@@ -173,6 +173,43 @@ function addLabelEntity(
   });
 }
 
+// Continuous patrol motion for recon assets (정찰기 / 정찰선). Aircraft fly a wide
+// racetrack orbit; ships crawl a slow, tight patrol box. Driven by performance.now()
+// so it animates every frame without React re-renders (same approach as the event
+// pulse). Returns Cesium properties for the entity position and billboard heading.
+function patrolMotion(
+  Cesium: any,
+  base: { lat: number; lng: number },
+  profile: 'air' | 'sea',
+  seed: number,
+) {
+  const coslat = Math.cos((base.lat * Math.PI) / 180) || 1;
+  // Ellipse radii in degrees of latitude (rLng > rLat → elongated racetrack).
+  const rLat = profile === 'air' ? 0.32 : 0.06;
+  const rLng = profile === 'air' ? 0.55 : 0.11;
+  const period = profile === 'air' ? 26000 : 72000; // ms per full loop
+  const w = (2 * Math.PI) / period;
+  const phase = seed * 1.7; // desync assets so they don't fly in lockstep
+
+  const position = new Cesium.CallbackProperty(() => {
+    const a = w * performance.now() + phase;
+    const lat = base.lat + rLat * Math.cos(a);
+    const lng = base.lng + (rLng * Math.sin(a)) / coslat;
+    return Cesium.Cartesian3.fromDegrees(lng, lat, 0);
+  }, false);
+
+  // Heading = tangent of the ellipse, so the glyph faces its direction of travel.
+  const rotation = new Cesium.CallbackProperty(() => {
+    const a = w * performance.now() + phase;
+    const vEast = rLng * Math.cos(a); // ∝ d(east)/dt
+    const vNorth = -rLat * Math.sin(a); // ∝ d(north)/dt
+    const bearing = Math.atan2(vEast, vNorth); // 0 = north, +clockwise
+    return -bearing; // Cesium billboard rotation is CCW-positive; glyphs point north
+  }, false);
+
+  return { position, rotation };
+}
+
 function loadCesiumScript(): Promise<any> {
   return new Promise((resolve, reject) => {
     // Already loaded
@@ -204,6 +241,10 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets }: Ce
   const [error, setError] = useState<string | null>(null);
   const prevPhaseRef = useRef<number | null>(null);
   const lastPulseKeyRef = useRef<string | null>(null);
+  // Latest currentTime, read by the entity-build effect (which isn't keyed on it)
+  // to set the initial visibility of time-gated observation markers.
+  const currentTimeRef = useRef(currentTime);
+  currentTimeRef.current = currentTime;
 
   useEffect(() => {
     if (!containerRef.current || viewerRef.current) return;
@@ -354,28 +395,69 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets }: Ce
       }
     });
 
-    // Friendly assets (blue)
-    scenario.friendlies.forEach((friendly: FriendlyAsset) => {
+    // Friendly assets (blue). Recon aircraft (ISR/UAV = 정찰기) and recon ships
+    // (SHIP = 정찰선) patrol continuously; command posts / missiles stay put.
+    scenario.friendlies.forEach((friendly: FriendlyAsset, i: number) => {
+      const profile: 'air' | 'sea' | null =
+        friendly.type === 'SHIP'
+          ? 'sea'
+          : friendly.type === 'ISR' || friendly.type === 'UAV' || friendly.type === 'FIGHTER'
+            ? 'air'
+            : null;
+      const motion = profile ? patrolMotion(Cesium, friendly.position, profile, i) : null;
+      const position = motion
+        ? motion.position
+        : Cesium.Cartesian3.fromDegrees(friendly.position.lng, friendly.position.lat, 0);
+
       viewer.entities.add({
         id: friendly.id,
-        position: Cesium.Cartesian3.fromDegrees(friendly.position.lng, friendly.position.lat, 0),
+        position,
         billboard: {
           image: markerCanvas(FRIENDLY_SYMBOL[friendly.type] || 'circle', '#3b82f6', '#22d3ee'),
           scale: 1,
           verticalOrigin: Cesium.VerticalOrigin.CENTER,
+          ...(motion ? { rotation: motion.rotation } : {}),
         },
       });
       addLabelEntity(
         Cesium,
         viewer,
         friendly.id,
-        Cesium.Cartesian3.fromDegrees(friendly.position.lng, friendly.position.lat, 0),
+        position,
         friendly.name,
         '#22d3ee',
         'rgba(10,14,26,0.72)',
       );
     });
+
+    // Observation markers (amber dots) — one per Supabase event whose MGRS parsed
+    // to a position. Gated by time: shown once currentTime reaches the event.
+    scenario.timeline.forEach((event) => {
+      if (!event.position) return;
+      viewer.entities.add({
+        id: `obs-${event.id}`,
+        position: Cesium.Cartesian3.fromDegrees(event.position.lng, event.position.lat, 0),
+        show: event.timestamp <= currentTimeRef.current,
+        point: {
+          pixelSize: 7,
+          color: Cesium.Color.fromCssColorString('#f59e0b').withAlpha(0.9),
+          outlineColor: Cesium.Color.fromCssColorString('#3a2a06'),
+          outlineWidth: 1.5,
+        },
+      });
+    });
   }, [scenario, loaded, destroyedAssets]);
+
+  // Time-gate observation markers as playback advances (cheap show/hide toggle).
+  useEffect(() => {
+    if (!viewerRef.current || !scenario || !loaded) return;
+    const viewer = viewerRef.current;
+    scenario.timeline.forEach((event) => {
+      if (!event.position) return;
+      const ent = viewer.entities.getById(`obs-${event.id}`);
+      if (ent) ent.show = event.timestamp <= currentTime;
+    });
+  }, [scenario, currentTime, loaded]);
 
   // Pulsing marker on the currently-active timeline event's location
   useEffect(() => {
@@ -388,9 +470,12 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets }: Ce
     const past = scenario.timeline.filter((e) => e.timestamp <= currentTime);
     const active = past.length ? past[past.length - 1] : null;
 
-    // Resolve a position from the event's related assets
+    // Resolve a position: prefer the event's own MGRS-parsed position (Supabase
+    // observations), else fall back to a related asset's position (mock data).
     let pos: { lat: number; lng: number } | null = null;
-    if (active) {
+    if (active?.position) {
+      pos = active.position;
+    } else if (active) {
       for (const id of active.relatedAssets || []) {
         const asset =
           scenario.threats.find((x) => x.id === id) ||
