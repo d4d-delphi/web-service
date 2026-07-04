@@ -94,6 +94,8 @@ class Store:
                 enrich(it)
         for it in r["launch_contributions"]:
             enrich(it)
+        for it in r.get("graph", {}).get("obs", []):
+            enrich(it)
         return {"campaign_id": campaign_id, **r}
 
     def series(self, campaign_id, frm=None, to=None, fields=None):
