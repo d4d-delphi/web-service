@@ -247,9 +247,12 @@ export default function Home() {
         <div className="w-[20%] min-w-[240px]">
           <EnemyPanel
             events={scenario.timeline}
-            phases={scenario.phases}
             currentTime={currentTime}
             inferenceResult={inferenceResult}
+            scenarios={[
+              { id: 'h-satellite', name: '우주발사체(정찰위성) 발사', phases: scenarioAData.phases },
+              { id: 'h-solid-short', name: '고체연료 단거리 미사일(SRBM)', phases: scenarioBData.phases }
+            ]}
           />
         </div>
 
@@ -262,7 +265,7 @@ export default function Home() {
             scenario={scenario}
             currentTime={currentTime}
             destroyedAssets={destroyedAssets}
-            custody={inCustody && scenario.launch ? { launch: scenario.launch, progress: custody!.progress } : null}
+            custody={null}
           />
           {/* 발사 확인 시 지도 위에 발사체 제원 모달 (하단바는 변경 없음) */}
           {showSpecModal && scenario.launch && (

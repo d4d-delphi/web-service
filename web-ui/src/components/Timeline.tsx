@@ -38,29 +38,7 @@ export default function Timeline({
   return (
     <div className="bg-[#0d1117] border-t border-gray-800 px-4 py-2">
       <div className="flex items-center gap-3">
-        {/* Scenario Selector */}
-        <div className="flex gap-1">
-          <button
-            onClick={() => onScenarioChange('scenario-a')}
-            className={`px-2 py-1 text-[10px] rounded border transition-all ${
-              activeScenario === 'scenario-a'
-                ? 'bg-amber-500/20 border-amber-500/50 text-amber-400'
-                : 'border-gray-700 text-gray-500 hover:text-gray-300'
-            }`}
-          >
-            ① 우주발사체
-          </button>
-          <button
-            onClick={() => onScenarioChange('scenario-b')}
-            className={`px-2 py-1 text-[10px] rounded border transition-all ${
-              activeScenario === 'scenario-b'
-                ? 'bg-blue-500/20 border-blue-500/50 text-blue-400'
-                : 'border-gray-700 text-gray-500 hover:text-gray-300'
-            }`}
-          >
-            ④ 단거리(SRBM)
-          </button>
-        </div>
+
 
         {/* Play/Pause */}
         <button
@@ -119,22 +97,7 @@ export default function Timeline({
           </div>
         </div>
 
-        {/* Phase Buttons */}
-        <div className="flex gap-1">
-          {phases.map((phase) => (
-            <button
-              key={phase.id}
-              onClick={() => onPhaseClick(phase)}
-              className={`px-2 py-1 text-[10px] rounded border transition-all whitespace-nowrap ${
-                currentPhase?.id === phase.id
-                  ? 'bg-amber-500/20 border-amber-500/50 text-amber-400'
-                  : 'border-gray-700 text-gray-500 hover:text-gray-300 hover:border-gray-500'
-              }`}
-            >
-              {phase.name}
-            </button>
-          ))}
-        </div>
+
 
         {/* Time Display */}
         <div className="text-xs font-mono text-gray-400 min-w-[60px] text-right">
