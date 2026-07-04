@@ -1,101 +1,250 @@
-import Image from "next/image";
+'use client';
+
+import { useState, useEffect, useCallback, useRef } from 'react';
+import dynamic from 'next/dynamic';
+import EnemyPanel from '@/components/EnemyPanel';
+import FriendlyPanel from '@/components/FriendlyPanel';
+import Timeline from '@/components/Timeline';
+import BriefingModal from '@/components/BriefingModal';
+import { Scenario, ScenarioId, ScenarioPhase, BriefingResult, InferenceResult } from '@/types';
+import { runInference } from '@/lib/bayesian';
+import { structureReport } from '@/lib/spuq';
+import hypothesesData from '@/data/hypotheses.json';
+import scenarioAData from '@/data/scenario-a.json';
+import scenarioBData from '@/data/scenario-b.json';
+
+const CesiumMap = dynamic(() => import('@/components/CesiumMap'), { ssr: false });
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [activeScenario, setActiveScenario] = useState<ScenarioId>('scenario-a');
+  const [currentTime, setCurrentTime] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [briefing, setBriefing] = useState<BriefingResult | null>(null);
+  const [isLoadingBriefing, setIsLoadingBriefing] = useState(false);
+  const [showBriefingModal, setShowBriefingModal] = useState(false);
+  const [destroyedAssets, setDestroyedAssets] = useState<string[]>([]);
+  const [inferenceResult, setInferenceResult] = useState<InferenceResult | null>(null);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const scenario: Scenario = (activeScenario === 'scenario-a' ? scenarioAData : scenarioBData) as Scenario;
+
+  // Playback logic
+  useEffect(() => {
+    if (isPlaying) {
+      intervalRef.current = setInterval(() => {
+        setCurrentTime((prev) => {
+          const next = prev + 10; // 10x speed
+          if (next >= scenario.duration) {
+            setIsPlaying(false);
+            return scenario.duration;
+          }
+          return next;
+        });
+      }, 100);
+    } else {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    }
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, [isPlaying, scenario.duration]);
+
+  // Run Bayesian inference as events appear
+  useEffect(() => {
+    const visibleEvents = scenario.timeline.filter((e) => e.timestamp <= currentTime);
+    if (visibleEvents.length === 0) {
+      setInferenceResult(null);
+      return;
+    }
+
+    // 이벤트를 액션 클래스로 정형화
+    const actions = visibleEvents.map((event, i) =>
+      structureReport(
+        `${event.title}: ${event.description}`,
+        event.id || `event-${i}`,
+        event.actionClass || 'IMINT',
+        0.8,
+        event.time
+      )
+    );
+
+    // 베이지안 추론 실행
+    const result = runInference(actions, hypothesesData as any);
+    setInferenceResult(result);
+  }, [currentTime, scenario.timeline]);
+
+  // Handle scenario B destruction events
+  useEffect(() => {
+    if (activeScenario === 'scenario-b') {
+      const destroyed: string[] = [];
+      if (currentTime >= 900) destroyed.push('t-radar-b');
+      if (currentTime >= 1200) destroyed.push('t-cmd-1');
+      if (currentTime >= 1800) destroyed.push('t-sam-a');
+      if (currentTime >= 2100) destroyed.push('t-sam-c');
+      setDestroyedAssets(destroyed);
+    } else {
+      setDestroyedAssets([]);
+    }
+  }, [currentTime, activeScenario]);
+
+  // Get current threat level
+  const getCurrentThreatLevel = useCallback(() => {
+    const visibleEvents = scenario.timeline.filter((e) => e.timestamp <= currentTime);
+    if (visibleEvents.length === 0) return 1;
+    return Math.max(...visibleEvents.map((e) => e.threatLevel || 1));
+  }, [scenario.timeline, currentTime]);
+
+  const handleScenarioChange = (id: ScenarioId) => {
+    setActiveScenario(id);
+    setCurrentTime(0);
+    setIsPlaying(false);
+    setBriefing(null);
+    setDestroyedAssets([]);
+    setInferenceResult(null);
+  };
+
+  const handlePhaseClick = (phase: ScenarioPhase) => {
+    setCurrentTime(phase.startTime);
+  };
+
+  const handleRequestBriefing = async () => {
+    setIsLoadingBriefing(true);
+    try {
+      const response = await fetch('/api/brief', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          scenarioId: activeScenario,
+          currentTime,
+          threats: scenario.threats,
+          friendlies: scenario.friendlies,
+          events: scenario.timeline.filter((e) => e.timestamp <= currentTime),
+        }),
+      });
+      const data = await response.json();
+      setBriefing(data);
+      setShowBriefingModal(true);
+    } catch {
+      // Fallback mock briefing
+      setBriefing({
+        summary: activeScenario === 'scenario-a'
+          ? '무수단리 기지에서 화성-17형 ICBM 발사 준비 징후가 확인됩니다. TEL 직립 및 연료주입이 진행 중이며, 과거 유사 패턴 분석 결과 30분 내 발사 가능성이 높습니다.'
+          : '적 IADS 서부 방공망 분석 완료. SA-5 2개 대대와 P-14 감시레이더가 핵심 위협입니다. SEAD 작전을 통한 순차적 무력화를 권고합니다.',
+        threatAssessment: activeScenario === 'scenario-a'
+          ? '화성-17형 ICBM 발사 준비 단계 진입. 액체연료 주입 완료 시 2시간 내 발사 창 개방.'
+          : '서부 방공망 SA-5의 유효사거리 250km로 아군 항공자산 진입 불가. 레이더-지휘소-발사대 순 제거 필요.',
+        confidence: 85,
+        launchProbability: activeScenario === 'scenario-a' ? 78 : undefined,
+        recommendations: activeScenario === 'scenario-a'
+          ? ['정찰자산 추가 투입 (백두 긴급 출격)', '현무-4 타격 준비태세 격상', '한미 정보공유 체계 활성화']
+          : ['KF-16 HARM 선제투사로 레이더 무력화', '현무-2A로 지휘소 동시 타격', 'F-15K 후속 타격으로 SA-5 진지 파괴'],
+        historicalCases: [
+          {
+            id: 'case-4',
+            date: '2022-03-24',
+            title: '화성-17형 ICBM 발사',
+            missileType: 'ICBM (화성-17)',
+            indicators: ['11축 TEL 이동', '대형 발사대 직립', '연료주입'],
+            outcome: '발사 성공, 비행시간 71분, 고도 6,248km',
+            description: '',
+            similarity: 0.87,
+          },
+          {
+            id: 'case-3',
+            date: '2017-11-29',
+            title: '화성-15형 ICBM 발사',
+            missileType: 'ICBM (화성-15)',
+            indicators: ['대형 TEL 이동', '연료주입', '발사대 직립'],
+            outcome: '발사 성공, 비행거리 960km, 고도 4,475km',
+            description: '',
+            similarity: 0.72,
+          },
+        ],
+      });
+      setShowBriefingModal(true);
+    } finally {
+      setIsLoadingBriefing(false);
+    }
+  };
+
+  return (
+    <div className="h-screen w-screen flex flex-col">
+      {/* Top Bar */}
+      <header className="h-10 bg-[#0d1117] border-b border-gray-800 flex items-center px-4 justify-between shrink-0">
+        <div className="flex items-center gap-3">
+          <h1 className="text-sm font-bold text-gray-200 tracking-wide">
+            <span className="text-amber-400">NL</span>-COP
+          </h1>
+          <span className="text-[10px] text-gray-500 border border-gray-700 rounded px-1.5 py-0.5">
+            다중출처 융합 지휘통제
+          </span>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+        <div className="flex items-center gap-3 text-xs text-gray-500">
+          <span className="flex items-center gap-1">
+            <span className="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+            SYSTEM ONLINE
+          </span>
+          <span>{new Date().toLocaleTimeString('ko-KR')}</span>
+        </div>
+      </header>
+
+      {/* Main Content: 3 panels */}
+      <div className="flex-1 flex overflow-hidden">
+        {/* Left Panel - Enemy Info */}
+        <div className="w-[20%] min-w-[240px]">
+          <EnemyPanel
+            threats={scenario.threats}
+            events={scenario.timeline}
+            currentTime={currentTime}
+            threatLevel={getCurrentThreatLevel()}
+            destroyedAssets={destroyedAssets}
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
+        </div>
+
+        {/* Center - Map */}
+        <div className="flex-1">
+          <CesiumMap
+            scenario={scenario}
+            currentTime={currentTime}
+            destroyedAssets={destroyedAssets}
           />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
+        </div>
+
+        {/* Right Panel - Friendly Info */}
+        <div className="w-[20%] min-w-[240px]">
+          <FriendlyPanel
+            friendlies={scenario.friendlies}
+            briefing={briefing}
+            onRequestBriefing={handleRequestBriefing}
+            isLoadingBriefing={isLoadingBriefing}
+            inferenceResult={inferenceResult}
           />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        </div>
+      </div>
+
+      {/* Timeline */}
+      <Timeline
+        phases={scenario.phases}
+        currentTime={currentTime}
+        duration={scenario.duration}
+        isPlaying={isPlaying}
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
+        onPhaseClick={handlePhaseClick}
+        onScenarioChange={handleScenarioChange}
+        activeScenario={activeScenario}
+      />
+
+      {/* Briefing Modal */}
+      {showBriefingModal && briefing && (
+        <BriefingModal
+          briefing={briefing}
+          onClose={() => setShowBriefingModal(false)}
+        />
+      )}
     </div>
   );
 }

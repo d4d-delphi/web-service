@@ -1,0 +1,275 @@
+{
+  "id": "scenario-b",
+  "name": "SEAD/방공망 제압 + BDA",
+  "description": "적 SA-5 방공망 식별 → SEAD 타격 → MQ-9 북상 BDA 시나리오",
+  "startTime": "2026-08-15T08:00:00Z",
+  "duration": 2400,
+  "cameraPosition": {
+    "lat": 38.5,
+    "lng": 126.5,
+    "alt": 300000,
+    "heading": 0,
+    "pitch": -45,
+    "range": 500000
+  },
+  "threats": [
+    {
+      "id": "t-sam-west",
+      "name": "SA-5 대대 (서부)",
+      "type": "SAM",
+      "position": { "lat": 38.9, "lng": 125.8 },
+      "status": "active",
+      "threatRadius": 250,
+      "details": "S-200 Angara, 유효사거리 250km. 아군 항공작전 최대 위협."
+    },
+    {
+      "id": "t-sam-east",
+      "name": "SA-5 대대 (동부)",
+      "type": "SAM",
+      "position": { "lat": 39.1, "lng": 127.5 },
+      "status": "active",
+      "threatRadius": 250,
+      "details": "S-200 Vega, 유효사거리 250km"
+    },
+    {
+      "id": "t-sam-sa3",
+      "name": "SA-3 대대 (저고도)",
+      "type": "SAM",
+      "position": { "lat": 38.7, "lng": 126.2 },
+      "status": "active",
+      "threatRadius": 35,
+      "details": "S-125 Neva, 저고도 방어"
+    },
+    {
+      "id": "t-radar-p14",
+      "name": "P-14 감시레이더",
+      "type": "RADAR",
+      "position": { "lat": 39.0, "lng": 126.8 },
+      "status": "active",
+      "threatRadius": 400,
+      "details": "장거리 조기경보레이더, IADS 핵심 센서"
+    },
+    {
+      "id": "t-cmd-iads",
+      "name": "방공지휘소 (IADS)",
+      "type": "COMMAND",
+      "position": { "lat": 38.95, "lng": 126.5 },
+      "status": "active",
+      "details": "통합방공지휘소, 모든 방공자산 통제"
+    }
+  ],
+  "friendlies": [
+    {
+      "id": "f-sead-kf16",
+      "name": "KF-16 SEAD 편대",
+      "type": "FIGHTER",
+      "position": { "lat": 37.1, "lng": 127.0 },
+      "status": "ready",
+      "capability": "AGM-88 HARM 대레이더 미사일",
+      "details": "제20전투비행단, HARM 장착 4기"
+    },
+    {
+      "id": "f-strike-f15k",
+      "name": "F-15K 타격편대",
+      "type": "FIGHTER",
+      "position": { "lat": 36.4, "lng": 127.6 },
+      "status": "ready",
+      "capability": "AGM-84H SLAM-ER",
+      "details": "정밀유도탄 대지타격"
+    },
+    {
+      "id": "f-missile-hyunmoo",
+      "name": "현무-2A 포대",
+      "type": "MISSILE",
+      "position": { "lat": 37.5, "lng": 126.8 },
+      "status": "ready",
+      "capability": "지대지 500km",
+      "details": "SA-5 진지 및 지휘소 타격용"
+    },
+    {
+      "id": "f-uav-mq9",
+      "name": "MQ-9 리퍼",
+      "type": "UAV",
+      "position": { "lat": 36.0, "lng": 129.0 },
+      "status": "standby",
+      "capability": "FLIR/SAR BDA",
+      "details": "고고도 ISR, 방공망 제거 후 BDA 북상 예정"
+    },
+    {
+      "id": "f-ship-sejong",
+      "name": "세종대왕함 (DDG)",
+      "type": "SHIP",
+      "position": { "lat": 36.5, "lng": 125.5 },
+      "status": "ready",
+      "capability": "해성-II 순항미사일",
+      "details": "이지스 구축함, 해상 타격 지원"
+    }
+  ],
+  "timeline": [
+    {
+      "id": "b1",
+      "time": "08:00",
+      "timestamp": 0,
+      "title": "SIGINT: SA-5 추적레이더 가동 포착",
+      "description": "777사령부 및 금강 정찰기 ELINT에서 서부 SA-5 기지 Square Pair 추적레이더 방사 포착. 아군 항공자산 접근 불가.",
+      "type": "intel",
+      "relatedAssets": ["t-sam-west", "t-radar-p14"],
+      "threatLevel": 4,
+      "actionClass": "SIGINT",
+      "sigintData": {
+        "time_start": "2026-08-15T07:55:00Z",
+        "time_end": "2026-08-15T08:30:00Z",
+        "facility_name": "서부 SA-5 기지",
+        "emitter_identified": "SA-5 Square Pair 추적레이더",
+        "integrated_sources": ["777사령부", "금강(RC-800) ELINT"],
+        "human_summary": "07:55부 서부 SA-5 기지에서 Square Pair 추적레이더 방사 확인. S-Band, 6RPM 회전. 대공 위협 범위 250km 설정됨.",
+        "ew_environment": "Normal"
+      }
+    },
+    {
+      "id": "b2",
+      "time": "08:10",
+      "timestamp": 600,
+      "title": "위성 확인: SA-5 진지 좌표 정밀 식별",
+      "description": "상용위성 EO 영상에서 SA-5 발사대 6기 및 레이더 정확한 좌표 확인. AI 타격 계획 수립 개시.",
+      "type": "intel",
+      "relatedAssets": ["t-sam-west"],
+      "threatLevel": 4,
+      "actionClass": "IMINT",
+      "imintData": {
+        "timestamp_captured": "2026-08-15T08:05:00Z",
+        "timestamp_analyzed": "2026-08-15T08:10:00Z",
+        "sensor_type": "EO",
+        "source_platform": "상용위성(Planet SkySat)",
+        "MGRS_coordinate": "51S TU 4567 8901",
+        "location_name": "서부 SA-5 기지",
+        "detected_objects": [{"type": "SA-5 발사대", "count": 6}, {"type": "Square Pair 레이더", "count": 1}, {"type": "지휘벙커", "count": 1}],
+        "unusual_activity_flag": true,
+        "semantic_analysis": "SA-5 발사대 6기 전개 상태 확인. 레이더 안테나 회전 중(그림자 분석). 진지 주변 차량 활동 활발. 전투 배치 상태로 판단.",
+        "confidence_level": 5,
+        "analyst_name": "이영상 중위",
+        "analyst_unit": "공군 항공정보단(AFIC)"
+      }
+    },
+    {
+      "id": "b3",
+      "time": "08:15",
+      "timestamp": 900,
+      "title": "AI 타격계획: 레이더→지휘소→발사대 순",
+      "description": "베이지안 추론 + 킬체인 최적화 결과: ①P-14 레이더(HARM) ②IADS 지휘소(현무) ③SA-5 발사대(SLAM-ER) 순서 도출",
+      "type": "intel",
+      "relatedAssets": ["t-radar-p14", "t-cmd-iads", "t-sam-west"],
+      "threatLevel": 4,
+      "actionClass": "IMINT"
+    },
+    {
+      "id": "b4",
+      "time": "08:20",
+      "timestamp": 1200,
+      "title": "SEAD 개시: HARM 발사, P-14 레이더 타격",
+      "description": "KF-16 편대 AGM-88 HARM 2발 발사. P-14 감시레이더 타격. 직후 SIGINT에서 레이더 신호 소실 확인.",
+      "type": "strike",
+      "relatedAssets": ["f-sead-kf16", "t-radar-p14"],
+      "threatLevel": 3,
+      "actionClass": "SIGINT",
+      "sigintData": {
+        "time_start": "2026-08-15T08:20:00Z",
+        "time_end": "2026-08-15T08:20:30Z",
+        "facility_name": "P-14 레이더 진지",
+        "emitter_identified": "P-14 (신호소실 확인)",
+        "integrated_sources": ["777사령부", "KF-16 RWR"],
+        "human_summary": "08:20 HARM 명중 직후 P-14 레이더 신호 완전 소실. 방공 감시망 1차 무력화 확인.",
+        "ew_environment": "Normal"
+      }
+    },
+    {
+      "id": "b5",
+      "time": "08:25",
+      "timestamp": 1500,
+      "title": "현무-2A 발사: IADS 지휘소 타격",
+      "description": "현무-2A 2발 발사, 방공지휘소 정밀 타격. 이후 SA-5 기지 간 통신 두절 확인.",
+      "type": "strike",
+      "relatedAssets": ["f-missile-hyunmoo", "t-cmd-iads"],
+      "threatLevel": 2,
+      "actionClass": "SIGINT"
+    },
+    {
+      "id": "b6",
+      "time": "08:30",
+      "timestamp": 1800,
+      "title": "F-15K SLAM-ER: SA-5 서부 발사대 타격",
+      "description": "F-15K 편대 AGM-84H SLAM-ER 투하, SA-5 서부대대 발사대 6기 중 4기 파괴 추정",
+      "type": "strike",
+      "relatedAssets": ["f-strike-f15k", "t-sam-west"],
+      "threatLevel": 2,
+      "actionClass": "IMINT"
+    },
+    {
+      "id": "b7",
+      "time": "08:35",
+      "timestamp": 2100,
+      "title": "MQ-9 북상: BDA 실시",
+      "description": "위협 반경 소멸 확인. MQ-9 리퍼 적 내륙 진입, SA-5 진지 FLIR Lock-on. BDA: 레이더 파괴 100%, 발사대 4/6 파괴 확인.",
+      "type": "bda",
+      "relatedAssets": ["f-uav-mq9", "t-sam-west"],
+      "threatLevel": 1,
+      "actionClass": "UAV",
+      "uavData": {
+        "timestamp": "2026-08-15T08:35:00Z",
+        "task_id": "TASK-202608-BDA-01",
+        "asset_name": "MQ-9",
+        "sensor_mode": "FLIR_WhiteHot",
+        "platform_MGRS": "51S TU 4500 8900",
+        "crosshair_MGRS": "51S TU 4567 8901",
+        "slant_range_km": 12.4,
+        "tracking_status": "Lock-on",
+        "linked_target_id": "SA5_West_Destroyed"
+      }
+    },
+    {
+      "id": "b8",
+      "time": "08:40",
+      "timestamp": 2400,
+      "title": "안전 비행회랑 확보 완료",
+      "description": "서부 방공망 완전 무력화. SIGINT 확인: SA-5 Square Pair 신호 소실 지속. 해당 회랑으로 아군 전투기 안전 진입 가능.",
+      "type": "bda",
+      "relatedAssets": ["t-sam-west", "t-radar-p14", "t-cmd-iads"],
+      "threatLevel": 1,
+      "actionClass": "SIGINT"
+    }
+  ],
+  "phases": [
+    {
+      "id": 1,
+      "name": "위협 식별",
+      "startTime": 0,
+      "endTime": 600,
+      "description": "SIGINT+IMINT: 적 방공망 가동 및 진지 좌표 확인",
+      "cameraTarget": { "lat": 38.9, "lng": 125.8, "range": 600000 }
+    },
+    {
+      "id": 2,
+      "name": "타격 계획",
+      "startTime": 600,
+      "endTime": 1200,
+      "description": "AI 킬체인 최적화 + 타격순서 도출",
+      "cameraTarget": { "lat": 38.5, "lng": 126.5, "range": 400000 }
+    },
+    {
+      "id": 3,
+      "name": "SEAD 타격",
+      "startTime": 1200,
+      "endTime": 1800,
+      "description": "HARM→현무→SLAM-ER 순차 타격",
+      "cameraTarget": { "lat": 39.0, "lng": 126.5, "range": 200000 }
+    },
+    {
+      "id": 4,
+      "name": "BDA 북상",
+      "startTime": 1800,
+      "endTime": 2400,
+      "description": "MQ-9 내륙 진입, FLIR BDA 실시",
+      "cameraTarget": { "lat": 38.9, "lng": 125.8, "range": 100000 }
+    }
+  ]
+}

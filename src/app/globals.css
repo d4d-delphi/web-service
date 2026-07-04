@@ -3,25 +3,70 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --navy-900: #0a0e1a;
+  --navy-800: #111827;
+  --navy-700: #1f2937;
+  --threat-red: #ef4444;
+  --friendly-blue: #3b82f6;
+  --friendly-green: #10b981;
+  --ai-gold: #f59e0b;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--navy-900);
+  color: #e5e7eb;
+  font-family: 'Inter', system-ui, sans-serif;
+  overflow: hidden;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+/* Cesium overrides */
+.cesium-widget canvas {
+  border-radius: 0;
+}
+
+.cesium-viewer .cesium-widget-credits {
+  display: none !important;
+}
+
+.cesium-viewer .cesium-viewer-toolbar {
+  display: none !important;
+}
+
+.cesium-viewer .cesium-viewer-bottom {
+  display: none !important;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: var(--navy-900);
+}
+::-webkit-scrollbar-thumb {
+  background: #374151;
+  border-radius: 2px;
+}
+
+/* Animations */
+@keyframes pulse-threat {
+  0%, 100% { box-shadow: 0 0 5px rgba(239, 68, 68, 0.5); }
+  50% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.8); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.threat-pulse {
+  animation: pulse-threat 2s infinite;
+}
+
+.glow-amber {
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
 }

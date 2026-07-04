@@ -1,0 +1,306 @@
+{
+  "id": "scenario-a",
+  "name": "탄도미사일 발사 징후 포착",
+  "description": "원산 갈마 일대 KN-23 SRBM 발사 준비 징후 다중출처 융합 탐지 시나리오",
+  "startTime": "2026-07-04T06:00:00Z",
+  "duration": 3600,
+  "cameraPosition": {
+    "lat": 39.2,
+    "lng": 127.5,
+    "alt": 500000,
+    "heading": 0,
+    "pitch": -60,
+    "range": 800000
+  },
+  "threats": [
+    {
+      "id": "t-tel-1",
+      "name": "TEL #1 (KN-23)",
+      "type": "TEL",
+      "position": { "lat": 39.166, "lng": 127.433 },
+      "status": "active",
+      "details": "궤도형 TEL, 원산 갈마 해안가 전개"
+    },
+    {
+      "id": "t-tel-2",
+      "name": "TEL #2 (KN-23)",
+      "type": "TEL",
+      "position": { "lat": 39.17, "lng": 127.44 },
+      "status": "active",
+      "details": "궤도형 TEL, 직립 준비"
+    },
+    {
+      "id": "t-sam-kaesong",
+      "name": "개성 SA-2 기지",
+      "type": "SAM",
+      "position": { "lat": 37.97, "lng": 126.56 },
+      "status": "active",
+      "threatRadius": 40,
+      "details": "SA-2 Guideline, Fan Song 레이더"
+    },
+    {
+      "id": "t-radar-wonsan",
+      "name": "원산 조기경보레이더",
+      "type": "RADAR",
+      "position": { "lat": 39.15, "lng": 127.45 },
+      "status": "active",
+      "threatRadius": 300,
+      "details": "P-18 조기경보레이더"
+    },
+    {
+      "id": "t-base-wonsan",
+      "name": "원산 미사일 기지",
+      "type": "MISSILE_BASE",
+      "position": { "lat": 39.16, "lng": 127.43 },
+      "status": "active",
+      "details": "KN-23 SRBM 저장/정비 시설"
+    }
+  ],
+  "friendlies": [
+    {
+      "id": "f-isr-geumgang",
+      "name": "금강 정찰기",
+      "type": "ISR",
+      "position": { "lat": 37.5, "lng": 127.8 },
+      "status": "ready",
+      "capability": "SIGINT/ELINT",
+      "details": "RC-800 금강, 실시간 신호정보 수집"
+    },
+    {
+      "id": "f-uav-heron",
+      "name": "헤론 UAV",
+      "type": "UAV",
+      "position": { "lat": 37.85, "lng": 126.75 },
+      "status": "ready",
+      "capability": "FLIR/EO 실시간 추적",
+      "details": "군단급 UAV, 전방 감시 체공 중"
+    },
+    {
+      "id": "f-missile-hyunmoo",
+      "name": "현무-2C 포대",
+      "type": "MISSILE",
+      "position": { "lat": 37.9, "lng": 127.2 },
+      "status": "ready",
+      "capability": "지대지 800km",
+      "details": "현무-2C, 정밀타격 가능"
+    },
+    {
+      "id": "f-fighter-f35",
+      "name": "F-35A 편대",
+      "type": "FIGHTER",
+      "position": { "lat": 36.95, "lng": 127.03 },
+      "status": "standby",
+      "capability": "스텔스 정밀타격",
+      "details": "제11전투비행단, 4기 대기"
+    },
+    {
+      "id": "f-fighter-f15k",
+      "name": "F-15K 타격편대",
+      "type": "FIGHTER",
+      "position": { "lat": 36.4, "lng": 127.6 },
+      "status": "standby",
+      "capability": "AGM-84H SLAM-ER",
+      "details": "제11전투비행단, 대지타격"
+    }
+  ],
+  "timeline": [
+    {
+      "id": "a1",
+      "time": "06:00",
+      "timestamp": 0,
+      "title": "위성 영상 TEL 이동 포착",
+      "description": "군사정찰위성(425) 다목적실용위성 SAR 영상에서 원산 갈마 해안가 TEL 2기 격납고 외부 전개 식별",
+      "type": "intel",
+      "relatedAssets": ["t-tel-1", "t-tel-2"],
+      "threatLevel": 3,
+      "actionClass": "IMINT",
+      "imintData": {
+        "timestamp_captured": "2026-07-04T05:45:00Z",
+        "timestamp_analyzed": "2026-07-04T06:00:00Z",
+        "sensor_type": "SAR",
+        "source_platform": "군사정찰위성(425위성)",
+        "MGRS_coordinate": "52S CG 9876 5432",
+        "location_name": "원산 갈마 해안가",
+        "detected_objects": [{"type": "TEL(궤도형)", "count": 2}, {"type": "지원차량", "count": 4}],
+        "unusual_activity_flag": true,
+        "semantic_analysis": "원산 갈마 해안가에서 궤도형 TEL 2기가 격납고 외부로 전개된 것을 확인. 인근 지원차량 4대 동반 이동. 평시 훈련 패턴과 상이한 실전 전개 양상.",
+        "confidence_level": 4,
+        "analyst_name": "김판독 대위",
+        "analyst_unit": "국방정보본부(정보사)"
+      }
+    },
+    {
+      "id": "a2",
+      "time": "06:10",
+      "timestamp": 600,
+      "title": "SIGINT: 발사통제소 무전 급증",
+      "description": "777사령부 수집체계에서 원산 기지 통제소-연구원 추정 VHF 교신량 3배 이상 급증 포착",
+      "type": "intel",
+      "relatedAssets": ["t-base-wonsan"],
+      "threatLevel": 3,
+      "actionClass": "SIGINT",
+      "sigintData": {
+        "time_start": "2026-07-04T06:05:00Z",
+        "time_end": "2026-07-04T06:30:00Z",
+        "facility_name": "원산 미사일 기지 통제소",
+        "emitter_identified": "VHF 무전통신 (발사통제 채널)",
+        "integrated_sources": ["777사령부 수집체계", "RF-16(청매)"],
+        "human_summary": "06:05~계속 원산 미사일 기지 발사통제소와 현장 연구원 간 VHF 교신량 평시 대비 3배 이상 급증. 발사 준비 절차 관련 교신으로 추정.",
+        "ew_environment": "Normal"
+      },
+      "sigintRaw": [
+        {
+          "timestamp": "2026-07-04T06:05:12Z",
+          "receiving_system": "777사령부 수집체계",
+          "estimated_MGRS": "52S CG 9870 5430",
+          "frequency_band": "VHF",
+          "signal_characteristics": {"PRI": 0, "PW": 0, "Scan": "N/A"},
+          "raw_emitter_guess": "VHF_Voice_Communication",
+          "signal_strength": "High"
+        },
+        {
+          "timestamp": "2026-07-04T06:07:45Z",
+          "receiving_system": "RF-16(청매)",
+          "estimated_MGRS": "52S CG 9875 5435",
+          "frequency_band": "VHF",
+          "signal_characteristics": {"PRI": 0, "PW": 0, "Scan": "N/A"},
+          "raw_emitter_guess": "VHF_Voice_Multiple_Nets",
+          "signal_strength": "High"
+        }
+      ]
+    },
+    {
+      "id": "a3",
+      "time": "06:20",
+      "timestamp": 1200,
+      "title": "SIGINT: 촬영용 무인기 텔레메트리 포착",
+      "description": "원산 앞바다에서 소형 무인기(드론) 텔레메트리 신호 포착. 발사 참관 및 촬영용으로 추정",
+      "type": "alert",
+      "relatedAssets": ["t-base-wonsan"],
+      "threatLevel": 4,
+      "actionClass": "SIGINT",
+      "sigintRaw": [
+        {
+          "timestamp": "2026-07-04T06:18:30Z",
+          "receiving_system": "RF-16(청매)",
+          "estimated_MGRS": "52S CG 9900 5500",
+          "frequency_band": "UHF",
+          "signal_characteristics": {"PRI": 500, "PW": 0.5, "Scan": "Omni"},
+          "raw_emitter_guess": "UAV_Telemetry_Datalink",
+          "signal_strength": "Moderate"
+        }
+      ]
+    },
+    {
+      "id": "a4",
+      "time": "06:30",
+      "timestamp": 1800,
+      "title": "헤론 UAV: 개성 SA-2 레이더 가동 감시",
+      "description": "헤론 FLIR 개성 SA-2 기지 Lock-on. Fan Song 추적레이더 회전 식별. 발사 엄호용 방공망 가동 추정",
+      "type": "alert",
+      "relatedAssets": ["t-sam-kaesong", "f-uav-heron"],
+      "threatLevel": 4,
+      "actionClass": "UAV",
+      "uavData": {
+        "timestamp": "2026-07-04T06:30:00Z",
+        "task_id": "TASK-202607-ISR-01",
+        "asset_name": "Heron",
+        "sensor_mode": "FLIR_WhiteHot",
+        "platform_MGRS": "52S CG 1250 1250",
+        "crosshair_MGRS": "52S CG 3456 7890",
+        "slant_range_km": 41.2,
+        "tracking_status": "Lock-on",
+        "linked_target_id": "SA2_Kaesong_Radar"
+      }
+    },
+    {
+      "id": "a5",
+      "time": "06:40",
+      "timestamp": 2400,
+      "title": "MASINT: 적외선 열원 감지 (산화제 주입 추정)",
+      "description": "위성 IR 센서에서 TEL 인근 고온 열원 감지. 액체 산화제/추진제 주입 작업으로 추정",
+      "type": "alert",
+      "relatedAssets": ["t-tel-1", "t-tel-2"],
+      "threatLevel": 5,
+      "actionClass": "MASINT",
+      "imintData": {
+        "timestamp_captured": "2026-07-04T06:38:00Z",
+        "timestamp_analyzed": "2026-07-04T06:40:00Z",
+        "sensor_type": "IR",
+        "source_platform": "군사정찰위성(425위성) IR채널",
+        "MGRS_coordinate": "52S CG 9876 5432",
+        "location_name": "원산 갈마 TEL 전개 지점",
+        "detected_objects": [{"type": "고온열원(추진제차량)", "count": 2}, {"type": "TEL", "count": 2}],
+        "unusual_activity_flag": true,
+        "semantic_analysis": "TEL 2기 인접 위치에서 고온 열원 2개소 식별. 액체 산화제(RFNA) 주입 시 발생하는 열 패턴과 일치. 발사 준비 최종 단계 진입 추정.",
+        "confidence_level": 4,
+        "analyst_name": "박영상 소령",
+        "analyst_unit": "국방정보본부(정보사)"
+      }
+    },
+    {
+      "id": "a6",
+      "time": "06:50",
+      "timestamp": 3000,
+      "title": "AI 베이지안 추론: 발사 임박 판단",
+      "description": "다중출처 융합 분석 결과: KN-23 SRBM 발사 확률 95%. 과거 2026-04 사례와 징후 패턴 92% 일치. T-10분 이내 발사 예상.",
+      "type": "alert",
+      "relatedAssets": ["t-tel-1", "t-tel-2"],
+      "threatLevel": 5,
+      "actionClass": "IMINT"
+    },
+    {
+      "id": "a7",
+      "time": "07:00",
+      "timestamp": 3600,
+      "title": "탄도미사일 2발 발사 확인",
+      "description": "원산 갈마에서 SRBM 2발 발사. KAMD 체계(그린파인) 최초 항적 탐지, 중앙방공통제소(MCRC) 표적 정보 연동.",
+      "type": "launch",
+      "relatedAssets": ["t-tel-1", "t-tel-2"],
+      "threatLevel": 5,
+      "actionClass": "SIGINT"
+    }
+  ],
+  "phases": [
+    {
+      "id": 1,
+      "name": "위성 징후",
+      "startTime": 0,
+      "endTime": 600,
+      "description": "IMINT: 위성 영상에서 TEL 전개 포착",
+      "cameraTarget": { "lat": 39.166, "lng": 127.433, "range": 50000 }
+    },
+    {
+      "id": 2,
+      "name": "신호 포착",
+      "startTime": 600,
+      "endTime": 1800,
+      "description": "SIGINT: 무전 급증 + 드론 텔레메트리",
+      "cameraTarget": { "lat": 39.16, "lng": 127.44, "range": 30000 }
+    },
+    {
+      "id": 3,
+      "name": "UAV 감시",
+      "startTime": 1800,
+      "endTime": 2400,
+      "description": "UAV: 헤론 FLIR로 적 방공망 감시",
+      "cameraTarget": { "lat": 37.97, "lng": 126.56, "range": 100000 }
+    },
+    {
+      "id": 4,
+      "name": "발사 임박",
+      "startTime": 2400,
+      "endTime": 3000,
+      "description": "MASINT+AI: 열원 감지 + 베이지안 추론",
+      "cameraTarget": { "lat": 39.166, "lng": 127.433, "range": 15000 }
+    },
+    {
+      "id": 5,
+      "name": "발사",
+      "startTime": 3000,
+      "endTime": 3600,
+      "description": "미사일 발사 및 KAMD 탐지",
+      "cameraTarget": { "lat": 38.5, "lng": 128.0, "range": 500000 }
+    }
+  ]
+}
