@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
 
     // === 보고 계층: 대형 LLM으로 종합 보고서 생성 ===
     const currentSituation = `
-시나리오: ${scenarioId === 'scenario-a' ? '탄도미사일 발사 징후' : 'SEAD/방공망 제압'}
+시나리오: ${scenarioId === 'scenario-a' ? '우주발사체(정찰위성) 발사 징후 — 동창리 [Rule#1]' : '고체연료 단거리(SRBM) 발사 징후 — 알섬 표적 [Rule#4]'}
 경과 시간: ${Math.floor(currentTime / 60)}분
 확인된 위협: ${(threats as ThreatAsset[]).map((t) => `${t.name}(${t.status})`).join(', ')}
 탐지된 징후: ${indicators.join(' → ')}

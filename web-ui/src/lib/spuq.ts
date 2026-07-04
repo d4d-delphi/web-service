@@ -15,12 +15,12 @@ const ACTION_CLASS_TYPES: ActionClassType[] = [
 
 // 키워드 기반 클래스 분류 규칙 (데모용 - 실제로는 소형 LLM)
 const CLASS_KEYWORDS: Record<ActionClassType, string[]> = {
-  IMINT: ['위성', '영상', '사진', '촬영', '관측', '포착', 'SAR', 'EO', '해상도', '식별', '판독', 'TEL', '발사대'],
+  IMINT: ['위성', '영상', '사진', '촬영', '관측', '포착', 'SAR', 'EO', '해상도', '식별', '판독', 'TEL', '발사대', '바지선', '트레일러', '전용열차'],
   HUMINT: ['정보원', '첩보', '보고', '접선', '내부자', '증언', '탈북'],
-  SIGINT: ['통신', '신호', '전파', '주파수', 'ELINT', '감청', '암호', '교신', '무전', '레이더', '텔레메트리', '방사', '소실'],
+  SIGINT: ['통신', '신호', '전파', '주파수', 'ELINT', '감청', '암호', '교신', '무전', '레이더', '텔레메트리', '방사', '소실', '트래픽', 'Ping'],
   GEOINT: ['지형', '시설', '건물', '도로', '좌표', '면적', '구조물', 'MGRS'],
-  OSINT: ['뉴스', '기념일', '열병식', '보도', 'SNS', '성명', '담화', '훈련일정', '노동신문', 'KCNA', '조선중앙'],
-  MASINT: ['적외선', '열원', '진동', '음향', '화학', '방사능', '연료', '배기', '산화제', '추진제', 'IR'],
+  OSINT: ['통보', '뉴스', '기념일', '열병식', '보도', 'SNS', '성명', '담화', '훈련일정', '노동신문', 'KCNA', '조선중앙'],
+  MASINT: ['적외선', '열원', '진동', '음향', '화학', '방사능', '연료', '배기', '산화제', '추진제', '분출', '연소', 'IR'],
   CYBINT: ['사이버', '네트워크', 'IP', '해킹', '트래픽', '서버'],
   WXINT: ['기상', '풍속', '시정', '기온', '구름', '날씨'],
   UAV: ['UAV', '무인기', '헤론', 'MQ-9', 'FLIR', '체공', 'Lock-on', '추적', '드론', 'BDA'],
@@ -141,7 +141,7 @@ function extractFields(
 
   switch (classType) {
     case 'IMINT':
-      fields.objectType = extractKeywordMatch(rawText, ['TEL', '발사대', '차량', '건물', '미사일']);
+      fields.objectType = extractKeywordMatch(rawText, ['바지선', 'TEL', '발사대', '차량', '건물', '미사일']);
       fields.changeDetected = rawText.includes('이동') || rawText.includes('변화') || rawText.includes('신규');
       fields.activity = extractKeywordMatch(rawText, ['이동', '직립', '전개', '은폐', '위장']);
       break;
@@ -160,7 +160,7 @@ function extractFields(
       fields.activity = extractKeywordMatch(rawText, ['이동', '준비', '명령', '지시', '현지지도']);
       break;
     case 'OSINT':
-      fields.sourceType = extractKeywordMatch(rawText, ['뉴스', 'SNS', '성명', '담화', '기념일']);
+      fields.sourceType = extractKeywordMatch(rawText, ['통보', '위성', '뉴스', 'SNS', '성명', '담화', '기념일']);
       fields.relevance = rawText.includes('미사일') || rawText.includes('핵') ? 'high' : 'medium';
       break;
     default:

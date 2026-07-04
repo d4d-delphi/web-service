@@ -48,12 +48,20 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets }: Ce
         const Cesium = await loadCesiumScript();
         cesiumRef.current = Cesium;
 
-        // Disable Ion (offline mode)
         Cesium.Ion.defaultAccessToken = '';
 
-        // Create imagery from local NaturalEarthII tiles
-        const imageryProvider = await Cesium.TileMapServiceImageryProvider.fromUrl(
-          '/cesium/Assets/Textures/NaturalEarthII'
+        // CartoDB "dark matter" tiles — dark, low-color, and crisp at every
+        // zoom. @2x (retina) endpoint at 512px for extra sharpness.
+        // Note: requires internet at runtime.
+        const baseLayer = new Cesium.ImageryLayer(
+          new Cesium.UrlTemplateImageryProvider({
+            url: 'https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}@2x.png',
+            subdomains: 'abcd',
+            tileWidth: 512,
+            tileHeight: 512,
+            maximumLevel: 20,
+            credit: '© OpenStreetMap contributors © CARTO',
+          }),
         );
 
         const viewer = new Cesium.Viewer(containerRef.current!, {
@@ -68,7 +76,7 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets }: Ce
           vrButton: false,
           infoBox: false,
           selectionIndicator: false,
-          baseLayer: new Cesium.ImageryLayer(imageryProvider),
+          baseLayer,
           // Flat 2D map (still CesiumJS) instead of the 3D globe.
           sceneMode: Cesium.SceneMode.SCENE2D,
         });
@@ -76,7 +84,7 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets }: Ce
         // Dark theme
         viewer.scene.backgroundColor = Cesium.Color.fromCssColorString('#0a0e1a');
         viewer.scene.globe.enableLighting = false;
-        viewer.scene.globe.baseColor = Cesium.Color.fromCssColorString('#1a1a2e');
+        viewer.scene.globe.baseColor = Cesium.Color.fromCssColorString('#0b0f16');
         if (viewer.scene.skyBox) viewer.scene.skyBox.show = false;
         if (viewer.scene.sun) viewer.scene.sun.show = false;
         if (viewer.scene.moon) viewer.scene.moon.show = false;
@@ -135,6 +143,7 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets }: Ce
         label: {
           text: threat.name,
           font: '11px sans-serif',
+          scale: 0.5,
           fillColor: Cesium.Color.WHITE,
           outlineColor: Cesium.Color.BLACK,
           outlineWidth: 2,
@@ -176,6 +185,7 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets }: Ce
         label: {
           text: friendly.name,
           font: '11px sans-serif',
+          scale: 0.5,
           fillColor: Cesium.Color.CYAN,
           outlineColor: Cesium.Color.BLACK,
           outlineWidth: 2,

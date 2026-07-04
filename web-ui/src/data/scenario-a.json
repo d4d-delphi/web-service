@@ -1,306 +1,475 @@
 {
   "id": "scenario-a",
-  "name": "탄도미사일 발사 징후 포착",
-  "description": "원산 갈마 일대 KN-23 SRBM 발사 준비 징후 다중출처 융합 탐지 시나리오",
+  "name": "① 우주발사체(정찰위성) 발사 징후 — 동창리",
+  "description": "동창리 서해위성발사장 액체연료 우주발사체(정찰위성) 발사 마스터 타임라인. 일본 통보 + 필리핀 방향 + 바지선 밀착 = Rule#1 매칭. 사전 엔진시험(D-90)부터 발사(H-0), D+1 OSINT 교차검증까지 다중출처 융합 탐지.",
   "startTime": "2026-07-04T06:00:00Z",
-  "duration": 3600,
+  "duration": 7000,
   "cameraPosition": {
     "lat": 39.2,
-    "lng": 127.5,
-    "alt": 500000,
+    "lng": 126.0,
+    "alt": 700000,
     "heading": 0,
     "pitch": -60,
-    "range": 800000
+    "range": 900000
   },
   "threats": [
     {
-      "id": "t-tel-1",
-      "name": "TEL #1 (KN-23)",
-      "type": "TEL",
-      "position": { "lat": 39.166, "lng": 127.433 },
+      "id": "t-chamjin",
+      "name": "잠진 기계공장/엔진시험장",
+      "type": "MISSILE_BASE",
+      "position": { "lat": 38.99, "lng": 125.63 },
       "status": "active",
-      "details": "궤도형 TEL, 원산 갈마 해안가 전개"
+      "details": "남포 인근. 대출력 액체엔진 지상 분출 시험장 (D-90)"
     },
     {
-      "id": "t-tel-2",
-      "name": "TEL #2 (KN-23)",
-      "type": "TEL",
-      "position": { "lat": 39.17, "lng": 127.44 },
+      "id": "t-sohae",
+      "name": "동창리 서해위성발사장",
+      "type": "MISSILE_BASE",
+      "position": { "lat": 39.66, "lng": 124.705 },
       "status": "active",
-      "details": "궤도형 TEL, 직립 준비"
+      "details": "우주발사체 발사대. 필리핀 방향(남쪽) 궤적. 발사 주 시설"
     },
     {
-      "id": "t-sam-kaesong",
-      "name": "개성 SA-2 기지",
-      "type": "SAM",
-      "position": { "lat": 37.97, "lng": 126.56 },
+      "id": "t-sohae-solid",
+      "name": "동창리 고체모터 시험장",
+      "type": "MISSILE_BASE",
+      "position": { "lat": 39.63, "lng": 124.72 },
       "status": "active",
-      "threatRadius": 40,
-      "details": "SA-2 Guideline, Fan Song 레이더"
+      "details": "신형 고체연료 모터 연소 시험장 (D-45)"
     },
     {
-      "id": "t-radar-wonsan",
-      "name": "원산 조기경보레이더",
+      "id": "t-manpo",
+      "name": "만포 은하화학공장",
+      "type": "MISSILE_BASE",
+      "position": { "lat": 41.15, "lng": 126.29 },
+      "status": "active",
+      "details": "자강도. 질산·산화제(RFNA) 생산. 가동률 증가 포착"
+    },
+    {
+      "id": "t-hungnam-vinalon",
+      "name": "함흥 2.8 비날론 연합기업소",
+      "type": "MISSILE_BASE",
+      "position": { "lat": 39.87, "lng": 127.6 },
+      "status": "active",
+      "details": "액체연료 UDMH 배합·생산. 특수 화물열차 적재"
+    },
+    {
+      "id": "t-pyongsong",
+      "name": "평성 1월18일 기계공장(신리)",
+      "type": "MISSILE_BASE",
+      "position": { "lat": 39.26, "lng": 125.87 },
+      "status": "active",
+      "details": "대형 이동식 발사대(TEL) 차대·특수 구조물 제작"
+    },
+    {
+      "id": "t-vip-station",
+      "name": "평양 조차장(전용역)",
+      "type": "COMMAND",
+      "position": { "lat": 39.01, "lng": 125.74 },
+      "status": "active",
+      "details": "김정은 전용열차 기지. VIP 참관 시 열차 소실"
+    },
+    {
+      "id": "t-barge",
+      "name": "정체불명 바지선(Barge)",
+      "type": "MISSILE_BASE",
+      "position": { "lat": 39.64, "lng": 124.6 },
+      "status": "relocating",
+      "details": "동창리 앞바다 출현(D-3). H-6 발사장 옆 해상 밀착 정박"
+    },
+    {
+      "id": "t-radar-a2ad",
+      "name": "동창리 A2/AD 레이더망",
       "type": "RADAR",
-      "position": { "lat": 39.15, "lng": 127.45 },
+      "position": { "lat": 39.7, "lng": 124.78 },
       "status": "active",
       "threatRadius": 300,
-      "details": "P-18 조기경보레이더"
+      "details": "반접근/지역거부 조기경보 레이더. 발사 궤적 감시"
     },
     {
-      "id": "t-base-wonsan",
-      "name": "원산 미사일 기지",
-      "type": "MISSILE_BASE",
-      "position": { "lat": 39.16, "lng": 127.43 },
+      "id": "t-sam-west",
+      "name": "궤적상 SA-5 방공대대",
+      "type": "SAM",
+      "position": { "lat": 38.9, "lng": 125.0 },
       "status": "active",
-      "details": "KN-23 SRBM 저장/정비 시설"
+      "threatRadius": 250,
+      "details": "발사 궤적 주변 방공망. D-1 집중 가동"
     }
   ],
   "friendlies": [
     {
-      "id": "f-isr-geumgang",
-      "name": "금강 정찰기",
+      "id": "f-sat-425",
+      "name": "425 군사정찰위성",
       "type": "ISR",
-      "position": { "lat": 37.5, "lng": 127.8 },
+      "position": { "lat": 39.2, "lng": 125.2 },
+      "status": "ready",
+      "capability": "SAR/EO 영상정찰",
+      "details": "정찰위성 5기 군집. 동창리·함흥·평성 주기 촬영"
+    },
+    {
+      "id": "f-e737",
+      "name": "E-737 피스아이",
+      "type": "ISR",
+      "position": { "lat": 37.2, "lng": 127.0 },
+      "status": "ready",
+      "capability": "조기경보/항적 추적(Custody)",
+      "details": "공군 조기경보통제기. 발사 직후 즉각 항적 유지"
+    },
+    {
+      "id": "f-777",
+      "name": "777사령부",
+      "type": "COMMAND",
+      "position": { "lat": 37.5, "lng": 127.05 },
+      "status": "ready",
+      "capability": "SIGINT/대형 접시형 안테나",
+      "details": "미사일 텔레메트리 궤적 지속 수신·종말 탄착 확인"
+    },
+    {
+      "id": "f-isr-geumgang",
+      "name": "금강 정찰기(RC-800)",
+      "type": "ISR",
+      "position": { "lat": 37.3, "lng": 126.2 },
       "status": "ready",
       "capability": "SIGINT/ELINT",
-      "details": "RC-800 금강, 실시간 신호정보 수집"
+      "details": "실시간 신호정보 수집, 통제소 무전 감청"
     },
     {
-      "id": "f-uav-heron",
-      "name": "헤론 UAV",
-      "type": "UAV",
-      "position": { "lat": 37.85, "lng": 126.75 },
+      "id": "f-ship-sejong",
+      "name": "세종대왕함(DDG)",
+      "type": "SHIP",
+      "position": { "lat": 37.0, "lng": 124.5 },
       "status": "ready",
-      "capability": "FLIR/EO 실시간 추적",
-      "details": "군단급 UAV, 전방 감시 체공 중"
+      "capability": "SPY 레이더 항적 추적",
+      "details": "이지스 구축함, 서해 해상 탐지·추적 지원"
     },
     {
-      "id": "f-missile-hyunmoo",
-      "name": "현무-2C 포대",
-      "type": "MISSILE",
-      "position": { "lat": 37.9, "lng": 127.2 },
-      "status": "ready",
-      "capability": "지대지 800km",
-      "details": "현무-2C, 정밀타격 가능"
-    },
-    {
-      "id": "f-fighter-f35",
-      "name": "F-35A 편대",
-      "type": "FIGHTER",
-      "position": { "lat": 36.95, "lng": 127.03 },
+      "id": "f-baekdu",
+      "name": "백두 정찰기",
+      "type": "ISR",
+      "position": { "lat": 37.6, "lng": 126.9 },
       "status": "standby",
-      "capability": "스텔스 정밀타격",
-      "details": "제11전투비행단, 4기 대기"
-    },
-    {
-      "id": "f-fighter-f15k",
-      "name": "F-15K 타격편대",
-      "type": "FIGHTER",
-      "position": { "lat": 36.4, "lng": 127.6 },
-      "status": "standby",
-      "capability": "AGM-84H SLAM-ER",
-      "details": "제11전투비행단, 대지타격"
+      "capability": "COMINT/신호정보",
+      "details": "긴급 출격 대기. 발사통제소 교신 정밀 수집"
     }
   ],
   "timeline": [
     {
       "id": "a1",
-      "time": "06:00",
+      "time": "D-90",
       "timestamp": 0,
-      "title": "위성 영상 TEL 이동 포착",
-      "description": "군사정찰위성(425) 다목적실용위성 SAR 영상에서 원산 갈마 해안가 TEL 2기 격납고 외부 전개 식별",
+      "title": "잠진 액체엔진 지상 분출 시험 포착",
+      "description": "위성 IR 영상에서 남포 인근 잠진 기계공장/엔진시험장의 대출력 액체엔진 지상 분출 시험 열원 포착. 신형 우주발사체 1단 엔진 개발 활동으로 추정.",
       "type": "intel",
-      "relatedAssets": ["t-tel-1", "t-tel-2"],
-      "threatLevel": 3,
-      "actionClass": "IMINT",
-      "imintData": {
-        "timestamp_captured": "2026-07-04T05:45:00Z",
-        "timestamp_analyzed": "2026-07-04T06:00:00Z",
-        "sensor_type": "SAR",
-        "source_platform": "군사정찰위성(425위성)",
-        "MGRS_coordinate": "52S CG 9876 5432",
-        "location_name": "원산 갈마 해안가",
-        "detected_objects": [{"type": "TEL(궤도형)", "count": 2}, {"type": "지원차량", "count": 4}],
-        "unusual_activity_flag": true,
-        "semantic_analysis": "원산 갈마 해안가에서 궤도형 TEL 2기가 격납고 외부로 전개된 것을 확인. 인근 지원차량 4대 동반 이동. 평시 훈련 패턴과 상이한 실전 전개 양상.",
-        "confidence_level": 4,
-        "analyst_name": "김판독 대위",
-        "analyst_unit": "국방정보본부(정보사)"
-      }
-    },
-    {
-      "id": "a2",
-      "time": "06:10",
-      "timestamp": 600,
-      "title": "SIGINT: 발사통제소 무전 급증",
-      "description": "777사령부 수집체계에서 원산 기지 통제소-연구원 추정 VHF 교신량 3배 이상 급증 포착",
-      "type": "intel",
-      "relatedAssets": ["t-base-wonsan"],
-      "threatLevel": 3,
-      "actionClass": "SIGINT",
-      "sigintData": {
-        "time_start": "2026-07-04T06:05:00Z",
-        "time_end": "2026-07-04T06:30:00Z",
-        "facility_name": "원산 미사일 기지 통제소",
-        "emitter_identified": "VHF 무전통신 (발사통제 채널)",
-        "integrated_sources": ["777사령부 수집체계", "RF-16(청매)"],
-        "human_summary": "06:05~계속 원산 미사일 기지 발사통제소와 현장 연구원 간 VHF 교신량 평시 대비 3배 이상 급증. 발사 준비 절차 관련 교신으로 추정.",
-        "ew_environment": "Normal"
-      },
-      "sigintRaw": [
-        {
-          "timestamp": "2026-07-04T06:05:12Z",
-          "receiving_system": "777사령부 수집체계",
-          "estimated_MGRS": "52S CG 9870 5430",
-          "frequency_band": "VHF",
-          "signal_characteristics": {"PRI": 0, "PW": 0, "Scan": "N/A"},
-          "raw_emitter_guess": "VHF_Voice_Communication",
-          "signal_strength": "High"
-        },
-        {
-          "timestamp": "2026-07-04T06:07:45Z",
-          "receiving_system": "RF-16(청매)",
-          "estimated_MGRS": "52S CG 9875 5435",
-          "frequency_band": "VHF",
-          "signal_characteristics": {"PRI": 0, "PW": 0, "Scan": "N/A"},
-          "raw_emitter_guess": "VHF_Voice_Multiple_Nets",
-          "signal_strength": "High"
-        }
-      ]
-    },
-    {
-      "id": "a3",
-      "time": "06:20",
-      "timestamp": 1200,
-      "title": "SIGINT: 촬영용 무인기 텔레메트리 포착",
-      "description": "원산 앞바다에서 소형 무인기(드론) 텔레메트리 신호 포착. 발사 참관 및 촬영용으로 추정",
-      "type": "alert",
-      "relatedAssets": ["t-base-wonsan"],
-      "threatLevel": 4,
-      "actionClass": "SIGINT",
-      "sigintRaw": [
-        {
-          "timestamp": "2026-07-04T06:18:30Z",
-          "receiving_system": "RF-16(청매)",
-          "estimated_MGRS": "52S CG 9900 5500",
-          "frequency_band": "UHF",
-          "signal_characteristics": {"PRI": 500, "PW": 0.5, "Scan": "Omni"},
-          "raw_emitter_guess": "UAV_Telemetry_Datalink",
-          "signal_strength": "Moderate"
-        }
-      ]
-    },
-    {
-      "id": "a4",
-      "time": "06:30",
-      "timestamp": 1800,
-      "title": "헤론 UAV: 개성 SA-2 레이더 가동 감시",
-      "description": "헤론 FLIR 개성 SA-2 기지 Lock-on. Fan Song 추적레이더 회전 식별. 발사 엄호용 방공망 가동 추정",
-      "type": "alert",
-      "relatedAssets": ["t-sam-kaesong", "f-uav-heron"],
-      "threatLevel": 4,
-      "actionClass": "UAV",
-      "uavData": {
-        "timestamp": "2026-07-04T06:30:00Z",
-        "task_id": "TASK-202607-ISR-01",
-        "asset_name": "Heron",
-        "sensor_mode": "FLIR_WhiteHot",
-        "platform_MGRS": "52S CG 1250 1250",
-        "crosshair_MGRS": "52S CG 3456 7890",
-        "slant_range_km": 41.2,
-        "tracking_status": "Lock-on",
-        "linked_target_id": "SA2_Kaesong_Radar"
-      }
-    },
-    {
-      "id": "a5",
-      "time": "06:40",
-      "timestamp": 2400,
-      "title": "MASINT: 적외선 열원 감지 (산화제 주입 추정)",
-      "description": "위성 IR 센서에서 TEL 인근 고온 열원 감지. 액체 산화제/추진제 주입 작업으로 추정",
-      "type": "alert",
-      "relatedAssets": ["t-tel-1", "t-tel-2"],
-      "threatLevel": 5,
+      "relatedAssets": ["t-chamjin"],
+      "threatLevel": 2,
       "actionClass": "MASINT",
       "imintData": {
-        "timestamp_captured": "2026-07-04T06:38:00Z",
-        "timestamp_analyzed": "2026-07-04T06:40:00Z",
+        "timestamp_captured": "2026-04-05T02:00:00Z",
+        "timestamp_analyzed": "2026-04-05T06:00:00Z",
         "sensor_type": "IR",
-        "source_platform": "군사정찰위성(425위성) IR채널",
-        "MGRS_coordinate": "52S CG 9876 5432",
-        "location_name": "원산 갈마 TEL 전개 지점",
-        "detected_objects": [{"type": "고온열원(추진제차량)", "count": 2}, {"type": "TEL", "count": 2}],
+        "source_platform": "425 군사정찰위성 IR채널",
+        "MGRS_coordinate": "51S TU 8100 1200",
+        "location_name": "잠진 기계공장/엔진시험장",
+        "detected_objects": [{ "type": "엔진시험대 고온열원", "count": 1 }],
         "unusual_activity_flag": true,
-        "semantic_analysis": "TEL 2기 인접 위치에서 고온 열원 2개소 식별. 액체 산화제(RFNA) 주입 시 발생하는 열 패턴과 일치. 발사 준비 최종 단계 진입 추정.",
+        "semantic_analysis": "잠진 엔진시험장에서 장시간(120초+) 고온 분출 열원 식별. 대출력 액체엔진 지상 연소시험 패턴과 일치. 우주발사체용 신형 엔진 개발 단계로 판단.",
         "confidence_level": 4,
         "analyst_name": "박영상 소령",
         "analyst_unit": "국방정보본부(정보사)"
       }
     },
     {
+      "id": "a2",
+      "time": "D-45",
+      "timestamp": 500,
+      "title": "동창리 고체모터 연소 시험 포착",
+      "description": "동창리 서해위성발사장 고체모터 시험장에서 신형 고체연료 모터 연소 시험 적외선 열원 포착. 병행 개발 동향.",
+      "type": "intel",
+      "relatedAssets": ["t-sohae-solid"],
+      "threatLevel": 2,
+      "actionClass": "MASINT"
+    },
+    {
+      "id": "a3",
+      "time": "D-14",
+      "timestamp": 1000,
+      "title": "만포 은하화학공장 산화제 생산 가동률 증가",
+      "description": "위성 영상에서 자강도 만포 은하화학공장의 야간 불빛·차량 출입 급증 포착. 질산 및 특수 화학물질(산화제) 생산 가동률 증가. 액체연료 계열 발사 준비 초기 징후.",
+      "type": "intel",
+      "relatedAssets": ["t-manpo"],
+      "threatLevel": 3,
+      "actionClass": "IMINT",
+      "imintData": {
+        "timestamp_captured": "2026-06-20T15:00:00Z",
+        "timestamp_analyzed": "2026-06-20T18:00:00Z",
+        "sensor_type": "EO",
+        "source_platform": "425 군사정찰위성",
+        "MGRS_coordinate": "51T VF 4200 6600",
+        "location_name": "만포 은하화학공장",
+        "detected_objects": [{ "type": "화물차량", "count": 12 }, { "type": "가동 굴뚝(열)", "count": 3 }],
+        "unusual_activity_flag": true,
+        "semantic_analysis": "만포 은하화학공장 야간 조명 및 차량 출입 평시 대비 3배. 산화제(RFNA) 대량 생산 정황. 발사 준비 초기 단계(D-14) 진입 추정.",
+        "confidence_level": 3,
+        "analyst_name": "김판독 대위",
+        "analyst_unit": "국방정보본부(정보사)"
+      }
+    },
+    {
+      "id": "a4",
+      "time": "D-10",
+      "timestamp": 1500,
+      "title": "함흥 비날론 UDMH 배합·특수화물열차 포착",
+      "description": "함경남도 함흥 2.8 비날론 연합기업소에서 미사일 액체연료(UDMH) 배합·생산 활동 및 특수 화물열차 적재 포착. 산화제-연료 동시 생산으로 액체연료 발사체 확정 정황.",
+      "type": "intel",
+      "relatedAssets": ["t-hungnam-vinalon"],
+      "threatLevel": 3,
+      "actionClass": "MASINT"
+    },
+    {
+      "id": "a5",
+      "time": "D-7",
+      "timestamp": 2000,
+      "title": "평양 차고지 20m 탄두 트레일러 야간 기동",
+      "description": "위성 영상에서 평양 인근 차고지의 20m 길이 탄두 운반 트레일러 2대가 야간을 틈타 기동하는 것을 포착. 동창리 방향 이동. 발사장 진입로 지반 다지기·위장막 설치 공사 병행 식별.",
+      "type": "movement",
+      "relatedAssets": ["t-pyongsong", "t-sohae"],
+      "threatLevel": 3,
+      "actionClass": "IMINT"
+    },
+    {
       "id": "a6",
-      "time": "06:50",
-      "timestamp": 3000,
-      "title": "AI 베이지안 추론: 발사 임박 판단",
-      "description": "다중출처 융합 분석 결과: KN-23 SRBM 발사 확률 95%. 과거 2026-04 사례와 징후 패턴 92% 일치. T-10분 이내 발사 예상.",
+      "time": "D-7",
+      "timestamp": 2400,
+      "title": "일본 JCG 위성발사 경보 통보 접수",
+      "description": "일본 해상보안청(JCG) 측에 북한의 위성 발사 경보 및 1단/2단 추진체 낙탄 구역(좌표) 통보. 필리핀 방향 남측 항로 상 낙탄 구역 설정. 우주발사체(정찰위성) 발사 강력 시사.",
       "type": "alert",
-      "relatedAssets": ["t-tel-1", "t-tel-2"],
+      "relatedAssets": ["t-sohae"],
+      "threatLevel": 4,
+      "actionClass": "OSINT",
+      "osintData": {
+        "osint_id": "OSINT-JCG-001",
+        "published_time": "2026-06-27T09:00:00Z",
+        "processed_time": "2026-06-27T10:00:00Z",
+        "source_media": "일본 해상보안청(JCG) 항행경보",
+        "media_type": "Text",
+        "original_title": "북한 위성발사 예고 및 낙탄구역 통보",
+        "key_entities": ["위성 발사", "필리핀 방향", "낙탄구역 좌표", "동창리"],
+        "dia_analytical_summary": "JCG에 통보된 낙탄 구역이 서해→동중국해→필리핀 동방 해상으로 설정됨. 남향 궤적 우주발사체 특징. 국제 통보를 동반하는 것은 위성 발사에 국한됨(탄도미사일은 미통보).",
+        "strategic_intent": "정찰위성 추가 발사를 통한 감시정찰 능력 과시",
+        "related_launch_seq": "2026-07"
+      }
+    },
+    {
+      "id": "a7",
+      "time": "D-3",
+      "timestamp": 2700,
+      "title": "동창리 앞바다 정체불명 바지선 출현",
+      "description": "위성 영상에서 동창리 발사장 인근 해상에 정체불명의 바지선(Barge) 출현 식별. 발사 관련 해상 지원·낙탄 계측용으로 추정. 우주발사체 발사 전용 징후.",
+      "type": "alert",
+      "relatedAssets": ["t-barge", "t-sohae"],
+      "threatLevel": 4,
+      "actionClass": "IMINT",
+      "imintData": {
+        "timestamp_captured": "2026-07-01T05:00:00Z",
+        "timestamp_analyzed": "2026-07-01T06:00:00Z",
+        "sensor_type": "SAR",
+        "source_platform": "425 군사정찰위성",
+        "MGRS_coordinate": "51S TU 3900 5400",
+        "location_name": "동창리 서해위성발사장 앞바다",
+        "detected_objects": [{ "type": "바지선", "count": 1 }, { "type": "예인선", "count": 1 }],
+        "unusual_activity_flag": true,
+        "semantic_analysis": "발사장 남측 3km 해상에 대형 바지선 정박. 과거 우주발사체 발사 시 반복 관측된 해상 지원자산 패턴과 일치. 발사 임박 D-3 정황.",
+        "confidence_level": 4,
+        "analyst_name": "이영상 중위",
+        "analyst_unit": "공군 항공정보단(AFIC)"
+      }
+    },
+    {
+      "id": "a8",
+      "time": "D-2",
+      "timestamp": 3000,
+      "title": "김정은 전용열차 소실 (VIP 참관 확정)",
+      "description": "위성 영상 분석 결과 평양 조차장(전용역)에서 김정은 전용열차가 사라짐. VIP 현지 참관 확정. 발사 확률 급상승.",
+      "type": "movement",
+      "relatedAssets": ["t-vip-station"],
+      "threatLevel": 4,
+      "actionClass": "IMINT"
+    },
+    {
+      "id": "a9",
+      "time": "D-1",
+      "timestamp": 3500,
+      "title": "궤적상 방공망·A2/AD 레이더 집중 가동",
+      "description": "SIGINT에서 발사 궤적 상의 주변 방공망(SA-5) 및 A2/AD(반접근/지역거부) 레이더망 신호 방사 집중 가동 포착. 발사 엄호 태세 전환.",
+      "type": "alert",
+      "relatedAssets": ["t-sam-west", "t-radar-a2ad"],
+      "threatLevel": 4,
+      "actionClass": "SIGINT",
+      "sigintData": {
+        "time_start": "2026-07-03T06:00:00Z",
+        "time_end": "2026-07-03T18:00:00Z",
+        "facility_name": "동창리 A2/AD 레이더망",
+        "emitter_identified": "SA-5 Square Pair + 조기경보레이더",
+        "integrated_sources": ["777사령부", "금강(RC-800) ELINT"],
+        "human_summary": "D-1 발사 궤적 주변 방공 레이더 방사량 급증. 발사 엄호 및 궤적 감시 목적으로 판단. 반접근/지역거부 태세 전환 확인.",
+        "ew_environment": "Normal"
+      }
+    },
+    {
+      "id": "a10",
+      "time": "H-6",
+      "timestamp": 4000,
+      "title": "바지선 발사장 옆 해상 밀착 정박",
+      "description": "위성 영상에서 D-3에 인근에 있던 바지선이 동창리 발사장 바로 옆 해상(해안가)으로 바짝 이동하여 정박. H-6 발사 최종 준비. Rule#1(동창리+통보+필리핀 방향+바지선 밀착) 완성.",
+      "type": "alert",
+      "relatedAssets": ["t-barge", "t-sohae"],
       "threatLevel": 5,
       "actionClass": "IMINT"
     },
     {
-      "id": "a7",
-      "time": "07:00",
-      "timestamp": 3600,
-      "title": "탄도미사일 2발 발사 확인",
-      "description": "원산 갈마에서 SRBM 2발 발사. KAMD 체계(그린파인) 최초 항적 탐지, 중앙방공통제소(MCRC) 표적 정보 연동.",
-      "type": "launch",
-      "relatedAssets": ["t-tel-1", "t-tel-2"],
+      "id": "a11",
+      "time": "H-2",
+      "timestamp": 4400,
+      "title": "발사통제소 무전 주파수 트래픽 폭증",
+      "description": "발사통제소 지상 점검용 기계 신호(Ping) 수집. 발사 주최 부대 고유 무전 주파수 신호 트래픽 폭증 포착. 발사 절차 최종 단계 진입.",
+      "type": "alert",
+      "relatedAssets": ["t-sohae"],
+      "threatLevel": 5,
+      "actionClass": "SIGINT",
+      "sigintData": {
+        "time_start": "2026-07-04T04:00:00Z",
+        "time_end": "2026-07-04T05:00:00Z",
+        "facility_name": "동창리 발사통제소",
+        "emitter_identified": "UHF/VHF 무전 + 지상점검 Ping",
+        "integrated_sources": ["777사령부", "백두 정찰기", "금강(RC-800)"],
+        "human_summary": "H-2부 발사통제소 무전 주파수 트래픽 평시 대비 5배 이상 폭증. 지상 점검용 기계 신호(Ping) 반복 수집. 발사 임박(95%) 판단.",
+        "ew_environment": "Normal"
+      }
+    },
+    {
+      "id": "a12",
+      "time": "H-1",
+      "timestamp": 4700,
+      "title": "촬영용 드론 비디오 송출 신호 포착",
+      "description": "현장 선전 매체(노동신문/조선중앙TV) 촬영·관측용 드론으로 추정되는 비디오 송출 신호(Video Signal) 포착. 발사 참관·기록 준비. 발사 확률 95%+.",
+      "type": "alert",
+      "relatedAssets": ["t-sohae"],
       "threatLevel": 5,
       "actionClass": "SIGINT"
+    },
+    {
+      "id": "a13",
+      "time": "H-0",
+      "timestamp": 5000,
+      "title": "우주발사체 발사 — 텔레메트리 동시 수신",
+      "description": "지상 신호(통제소)와 미사일 본체 방출 신호(Telemetry) 동시 폭발적 수신. 동창리에서 우주발사체 발사. 필리핀 방향 남측 궤적. AI 융합 판단: 액체연료 정찰위성 발사(Rule#1) 확정, 발사 확률 100%.",
+      "type": "launch",
+      "relatedAssets": ["t-sohae"],
+      "threatLevel": 5,
+      "actionClass": "SIGINT"
+    },
+    {
+      "id": "a14",
+      "time": "H+0:10",
+      "timestamp": 5500,
+      "title": "E-737·777사령부 실시간 추적(Custody)",
+      "description": "발사 직후 공군 E-737(피스아이) 즉각 항적 추적(Custody) 유지. 777사령부 대형 접시형 안테나로 텔레메트리 궤적 지속 수신 및 단분리·종말 단계 추적.",
+      "type": "bda",
+      "relatedAssets": ["f-e737", "f-777"],
+      "threatLevel": 4,
+      "actionClass": "SIGINT",
+      "uavData": {
+        "timestamp": "2026-07-04T06:10:00Z",
+        "task_id": "TASK-202607-CUSTODY-01",
+        "asset_name": "E-737",
+        "sensor_mode": "IR_MidWave",
+        "platform_MGRS": "52S CF 1200 5000",
+        "crosshair_MGRS": "51S TU 3900 5300",
+        "slant_range_km": 210.0,
+        "tracking_status": "Lock-on",
+        "linked_target_id": "SLV_Sohae_Track"
+      }
+    },
+    {
+      "id": "a15",
+      "time": "D+1 06:00",
+      "timestamp": 6000,
+      "title": "OSINT 교차검증 — 노동신문 발사 보도",
+      "description": "다음 날 아침 노동신문·조선중앙통신(KCNA) 보도를 통해 발사 주체(부대명), 무기체계 명칭(정찰위성 발사체), VIP 참관 여부, 발사 의도 최종 확인. 아군 탐지 데이터(원점/궤적)와 비교 검증 완료.",
+      "type": "bda",
+      "relatedAssets": ["t-sohae"],
+      "threatLevel": 3,
+      "actionClass": "OSINT",
+      "osintData": {
+        "osint_id": "OSINT-KCNA-002",
+        "published_time": "2026-07-05T06:00:00Z",
+        "processed_time": "2026-07-05T06:30:00Z",
+        "source_media": "노동신문/조선중앙통신(KCNA)",
+        "media_type": "Photo",
+        "original_title": "국가항공우주기술총국 정찰위성 발사 성공 보도",
+        "key_entities": ["정찰위성", "국가항공우주기술총국", "김정은 참관", "동창리"],
+        "dia_analytical_summary": "KCNA가 정찰위성 발사 성공 및 김정은 참관을 공개 보도. 아군 탐지 원점(동창리)·궤적(남향)과 일치 확인. Rule#1 우주발사체 판단 최종 검증됨.",
+        "strategic_intent": "감시정찰 능력 과시 및 대내 결속",
+        "related_launch_seq": "2026-07"
+      }
     }
   ],
   "phases": [
     {
       "id": 1,
-      "name": "위성 징후",
+      "name": "사전개발",
       "startTime": 0,
-      "endTime": 600,
-      "description": "IMINT: 위성 영상에서 TEL 전개 포착",
-      "cameraTarget": { "lat": 39.166, "lng": 127.433, "range": 50000 }
+      "endTime": 1000,
+      "description": "Pre-Phase (D-90~D-30): 잠진 액체엔진·동창리 고체모터 시험",
+      "cameraTarget": { "lat": 39.3, "lng": 125.2, "range": 600000 }
     },
     {
       "id": 2,
-      "name": "신호 포착",
-      "startTime": 600,
-      "endTime": 1800,
-      "description": "SIGINT: 무전 급증 + 드론 텔레메트리",
-      "cameraTarget": { "lat": 39.16, "lng": 127.44, "range": 30000 }
+      "name": "연료·동체생산",
+      "startTime": 1000,
+      "endTime": 2000,
+      "description": "Phase 1 (D-14~D-7) 30%: 만포 산화제·함흥 UDMH 생산",
+      "cameraTarget": { "lat": 40.5, "lng": 126.9, "range": 500000 }
     },
     {
       "id": 3,
-      "name": "UAV 감시",
-      "startTime": 1800,
-      "endTime": 2400,
-      "description": "UAV: 헤론 FLIR로 적 방공망 감시",
-      "cameraTarget": { "lat": 37.97, "lng": 126.56, "range": 100000 }
+      "name": "기동·국제통보",
+      "startTime": 2000,
+      "endTime": 3000,
+      "description": "Phase 2 (D-7~D-3) 50%: 트레일러 기동·일본 통보·바지선 출현",
+      "cameraTarget": { "lat": 39.5, "lng": 124.9, "range": 300000 }
     },
     {
       "id": 4,
-      "name": "발사 임박",
-      "startTime": 2400,
-      "endTime": 3000,
-      "description": "MASINT+AI: 열원 감지 + 베이지안 추론",
-      "cameraTarget": { "lat": 39.166, "lng": 127.433, "range": 15000 }
+      "name": "VIP·A2/AD",
+      "startTime": 3000,
+      "endTime": 4000,
+      "description": "Phase 3 (D-2~D-1) 70%: 전용열차 소실·방공망 가동",
+      "cameraTarget": { "lat": 39.3, "lng": 125.5, "range": 400000 }
     },
     {
       "id": 5,
-      "name": "발사",
-      "startTime": 3000,
-      "endTime": 3600,
-      "description": "미사일 발사 및 KAMD 탐지",
-      "cameraTarget": { "lat": 38.5, "lng": 128.0, "range": 500000 }
+      "name": "발사임박",
+      "startTime": 4000,
+      "endTime": 5000,
+      "description": "Phase 4 (H-6~H-1) 95%: 바지선 밀착·통신 폭증·드론 신호",
+      "cameraTarget": { "lat": 39.66, "lng": 124.7, "range": 60000 }
+    },
+    {
+      "id": 6,
+      "name": "발사·추적",
+      "startTime": 5000,
+      "endTime": 6000,
+      "description": "H-0/Phase 5: 텔레메트리 수신·E-737 Custody",
+      "cameraTarget": { "lat": 37.5, "lng": 125.5, "range": 700000 }
+    },
+    {
+      "id": 7,
+      "name": "OSINT검증",
+      "startTime": 6000,
+      "endTime": 7000,
+      "description": "Phase 6 (D+1 06:00): 노동신문/KCNA 교차검증",
+      "cameraTarget": { "lat": 39.66, "lng": 124.7, "range": 200000 }
     }
   ]
 }

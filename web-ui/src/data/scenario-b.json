@@ -1,275 +1,361 @@
 {
   "id": "scenario-b",
-  "name": "SEAD/방공망 제압 + BDA",
-  "description": "적 SA-5 방공망 식별 → SEAD 타격 → MQ-9 북상 BDA 시나리오",
-  "startTime": "2026-08-15T08:00:00Z",
-  "duration": 2400,
+  "name": "④ 고체연료 단거리(SRBM) 발사 징후 — 알섬 표적",
+  "description": "고체연료 단거리 탄도미사일(KN-23/24/25) 알섬 타격 마스터 타임라인. 평양/전방 TEL 단독 기동 + 알섬 궤적 + 신포 집결 없음 + 통보 없음 = Rule#4 매칭. 함흥 17/11호 고체 생산부터 발사·BDA까지.",
+  "startTime": "2026-08-15T06:00:00Z",
+  "duration": 6000,
   "cameraPosition": {
-    "lat": 38.5,
-    "lng": 126.5,
-    "alt": 300000,
+    "lat": 39.5,
+    "lng": 127.5,
+    "alt": 700000,
     "heading": 0,
-    "pitch": -45,
-    "range": 500000
+    "pitch": -60,
+    "range": 900000
   },
   "threats": [
     {
-      "id": "t-sam-west",
-      "name": "SA-5 대대 (서부)",
-      "type": "SAM",
-      "position": { "lat": 38.9, "lng": 125.8 },
+      "id": "t-hungnam-17",
+      "name": "함흥 제17호 공장",
+      "type": "MISSILE_BASE",
+      "position": { "lat": 39.88, "lng": 127.62 },
       "status": "active",
-      "threatRadius": 250,
-      "details": "S-200 Angara, 유효사거리 250km. 아군 항공작전 최대 위협."
+      "details": "고체연료 배합·충전, 연소관 틀 주조/가공. 흥남 화학공업단지 인근"
     },
     {
-      "id": "t-sam-east",
-      "name": "SA-5 대대 (동부)",
-      "type": "SAM",
-      "position": { "lat": 39.1, "lng": 127.5 },
+      "id": "t-hungnam-11",
+      "name": "함흥 제11호 공장(룡성기계)",
+      "type": "MISSILE_BASE",
+      "position": { "lat": 39.95, "lng": 127.6 },
       "status": "active",
-      "threatRadius": 250,
-      "details": "S-200 Vega, 유효사거리 250km"
+      "details": "고체연료 미사일(KN-23) 동체 조립 라인·지하시설 진입로 확장"
     },
     {
-      "id": "t-sam-sa3",
-      "name": "SA-3 대대 (저고도)",
-      "type": "SAM",
-      "position": { "lat": 38.7, "lng": 126.2 },
+      "id": "t-pyongsong",
+      "name": "평성 1월18일 기계공장(신리)",
+      "type": "MISSILE_BASE",
+      "position": { "lat": 39.26, "lng": 125.87 },
       "status": "active",
-      "threatRadius": 35,
-      "details": "S-125 Neva, 저고도 방어"
+      "details": "대형 이동식 발사대(TEL) 차대·특수 구조물 제작/가공"
     },
     {
-      "id": "t-radar-p14",
-      "name": "P-14 감시레이더",
-      "type": "RADAR",
-      "position": { "lat": 39.0, "lng": 126.8 },
+      "id": "t-tel-front",
+      "name": "전방 TEL 전개지",
+      "type": "TEL",
+      "position": { "lat": 38.7, "lng": 126.4 },
       "status": "active",
-      "threatRadius": 400,
-      "details": "장거리 조기경보레이더, IADS 핵심 센서"
+      "details": "궤도형 TEL 단독 기동. 20m 트레일러 동반. 알섬 방향 사격 진지"
     },
     {
-      "id": "t-cmd-iads",
-      "name": "방공지휘소 (IADS)",
+      "id": "t-vip-station",
+      "name": "평양 조차장(전용역)",
       "type": "COMMAND",
-      "position": { "lat": 38.95, "lng": 126.5 },
+      "position": { "lat": 39.01, "lng": 125.74 },
       "status": "active",
-      "details": "통합방공지휘소, 모든 방공자산 통제"
+      "details": "김정은 전용열차 기지. VIP 참관 시 열차 소실"
+    },
+    {
+      "id": "t-sam-front",
+      "name": "궤적상 SA-2 방공대대",
+      "type": "SAM",
+      "position": { "lat": 39.3, "lng": 127.8 },
+      "status": "active",
+      "threatRadius": 40,
+      "details": "발사 궤적 주변 방공망. D-1 집중 가동"
+    },
+    {
+      "id": "t-alseom",
+      "name": "알섬(표적)",
+      "type": "MISSILE_BASE",
+      "position": { "lat": 40.02, "lng": 129.4 },
+      "status": "active",
+      "threatRadius": 15,
+      "details": "함경북도 길주군 무인도. 단거리 탄도미사일 타격 표적"
     }
   ],
   "friendlies": [
     {
-      "id": "f-sead-kf16",
-      "name": "KF-16 SEAD 편대",
-      "type": "FIGHTER",
-      "position": { "lat": 37.1, "lng": 127.0 },
+      "id": "f-uav-heron",
+      "name": "헤론 UAV",
+      "type": "UAV",
+      "position": { "lat": 37.85, "lng": 126.75 },
       "status": "ready",
-      "capability": "AGM-88 HARM 대레이더 미사일",
-      "details": "제20전투비행단, HARM 장착 4기"
+      "capability": "FLIR/EO 실시간 추적",
+      "details": "군단급 UAV, 전방 TEL 감시 체공"
     },
     {
-      "id": "f-strike-f15k",
-      "name": "F-15K 타격편대",
-      "type": "FIGHTER",
-      "position": { "lat": 36.4, "lng": 127.6 },
+      "id": "f-e737",
+      "name": "E-737 피스아이",
+      "type": "ISR",
+      "position": { "lat": 37.2, "lng": 127.0 },
       "status": "ready",
-      "capability": "AGM-84H SLAM-ER",
-      "details": "정밀유도탄 대지타격"
+      "capability": "조기경보/항적 추적(Custody)",
+      "details": "발사 직후 즉각 항적 유지"
+    },
+    {
+      "id": "f-greenpine",
+      "name": "그린파인 레이더",
+      "type": "COMMAND",
+      "position": { "lat": 37.1, "lng": 127.5 },
+      "status": "ready",
+      "capability": "KAMD 탄도탄 조기경보",
+      "details": "최초 항적 탐지·중앙방공통제소(MCRC) 연동"
+    },
+    {
+      "id": "f-isr-geumgang",
+      "name": "금강 정찰기(RC-800)",
+      "type": "ISR",
+      "position": { "lat": 37.3, "lng": 126.2 },
+      "status": "ready",
+      "capability": "SIGINT/ELINT",
+      "details": "발사통제소 무전 감청"
+    },
+    {
+      "id": "f-777",
+      "name": "777사령부",
+      "type": "COMMAND",
+      "position": { "lat": 37.5, "lng": 127.05 },
+      "status": "ready",
+      "capability": "SIGINT/텔레메트리 수신",
+      "details": "미사일 텔레메트리 궤적 수신·종말 탄착 확인"
     },
     {
       "id": "f-missile-hyunmoo",
-      "name": "현무-2A 포대",
+      "name": "현무-2C 포대",
       "type": "MISSILE",
-      "position": { "lat": 37.5, "lng": 126.8 },
-      "status": "ready",
-      "capability": "지대지 500km",
-      "details": "SA-5 진지 및 지휘소 타격용"
-    },
-    {
-      "id": "f-uav-mq9",
-      "name": "MQ-9 리퍼",
-      "type": "UAV",
-      "position": { "lat": 36.0, "lng": 129.0 },
+      "position": { "lat": 37.9, "lng": 127.2 },
       "status": "standby",
-      "capability": "FLIR/SAR BDA",
-      "details": "고고도 ISR, 방공망 제거 후 BDA 북상 예정"
-    },
-    {
-      "id": "f-ship-sejong",
-      "name": "세종대왕함 (DDG)",
-      "type": "SHIP",
-      "position": { "lat": 36.5, "lng": 125.5 },
-      "status": "ready",
-      "capability": "해성-II 순항미사일",
-      "details": "이지스 구축함, 해상 타격 지원"
+      "capability": "지대지 800km 정밀타격",
+      "details": "대응 타격 준비태세"
     }
   ],
   "timeline": [
     {
       "id": "b1",
-      "time": "08:00",
+      "time": "D-45",
       "timestamp": 0,
-      "title": "SIGINT: SA-5 추적레이더 가동 포착",
-      "description": "777사령부 및 금강 정찰기 ELINT에서 서부 SA-5 기지 Square Pair 추적레이더 방사 포착. 아군 항공자산 접근 불가.",
+      "title": "함흥 고체모터 연소 시험 포착",
+      "description": "위성 IR 영상에서 함흥 제17호 공장 인근 고체연료 모터 지상 연소 시험 열원 포착. 신형 고체 단거리 미사일(KN-23 계열) 개발·정비 동향.",
       "type": "intel",
-      "relatedAssets": ["t-sam-west", "t-radar-p14"],
-      "threatLevel": 4,
-      "actionClass": "SIGINT",
-      "sigintData": {
-        "time_start": "2026-08-15T07:55:00Z",
-        "time_end": "2026-08-15T08:30:00Z",
-        "facility_name": "서부 SA-5 기지",
-        "emitter_identified": "SA-5 Square Pair 추적레이더",
-        "integrated_sources": ["777사령부", "금강(RC-800) ELINT"],
-        "human_summary": "07:55부 서부 SA-5 기지에서 Square Pair 추적레이더 방사 확인. S-Band, 6RPM 회전. 대공 위협 범위 250km 설정됨.",
-        "ew_environment": "Normal"
-      }
+      "relatedAssets": ["t-hungnam-17"],
+      "threatLevel": 2,
+      "actionClass": "MASINT"
     },
     {
       "id": "b2",
-      "time": "08:10",
-      "timestamp": 600,
-      "title": "위성 확인: SA-5 진지 좌표 정밀 식별",
-      "description": "상용위성 EO 영상에서 SA-5 발사대 6기 및 레이더 정확한 좌표 확인. AI 타격 계획 수립 개시.",
+      "time": "D-14",
+      "timestamp": 1000,
+      "title": "함흥 17호 고체연료 배합·충전 활동 급증",
+      "description": "위성 영상에서 함경남도 함흥 제17호 공장의 고체 배합·충전, 연소관 틀 주조/가공 활동 급증 식별. 야간 불빛·차량 출입 증가. 고체모터 계열 발사 준비 초기 징후.",
       "type": "intel",
-      "relatedAssets": ["t-sam-west"],
-      "threatLevel": 4,
+      "relatedAssets": ["t-hungnam-17"],
+      "threatLevel": 3,
       "actionClass": "IMINT",
       "imintData": {
-        "timestamp_captured": "2026-08-15T08:05:00Z",
-        "timestamp_analyzed": "2026-08-15T08:10:00Z",
+        "timestamp_captured": "2026-08-01T15:00:00Z",
+        "timestamp_analyzed": "2026-08-01T18:00:00Z",
         "sensor_type": "EO",
-        "source_platform": "상용위성(Planet SkySat)",
-        "MGRS_coordinate": "51S TU 4567 8901",
-        "location_name": "서부 SA-5 기지",
-        "detected_objects": [{"type": "SA-5 발사대", "count": 6}, {"type": "Square Pair 레이더", "count": 1}, {"type": "지휘벙커", "count": 1}],
+        "source_platform": "425 군사정찰위성",
+        "MGRS_coordinate": "52S CH 2200 4400",
+        "location_name": "함흥 제17호 공장",
+        "detected_objects": [{ "type": "화물차량", "count": 9 }, { "type": "연소관 자재", "count": 6 }],
         "unusual_activity_flag": true,
-        "semantic_analysis": "SA-5 발사대 6기 전개 상태 확인. 레이더 안테나 회전 중(그림자 분석). 진지 주변 차량 활동 활발. 전투 배치 상태로 판단.",
-        "confidence_level": 5,
-        "analyst_name": "이영상 중위",
-        "analyst_unit": "공군 항공정보단(AFIC)"
+        "semantic_analysis": "함흥 17호 공장 고체연료 충전동 가동률 급증. 액체연료 산화제 생산 시설(만포/함흥 비날론) 정황은 미포착 → 고체연료 계열로 판단. 발사 준비 D-14 단계.",
+        "confidence_level": 4,
+        "analyst_name": "박영상 소령",
+        "analyst_unit": "국방정보본부(정보사)"
       }
     },
     {
       "id": "b3",
-      "time": "08:15",
-      "timestamp": 900,
-      "title": "AI 타격계획: 레이더→지휘소→발사대 순",
-      "description": "베이지안 추론 + 킬체인 최적화 결과: ①P-14 레이더(HARM) ②IADS 지휘소(현무) ③SA-5 발사대(SLAM-ER) 순서 도출",
+      "time": "D-10",
+      "timestamp": 1500,
+      "title": "함흥 11호 동체 조립·평성 TEL 차대 제작",
+      "description": "위성 영상에서 함흥 제11호 공장(룡성 기계연합기업소) 고체 미사일 동체 조립 라인 가동 및 지하시설 진입로 확장 포착. 평성 1월18일 기계공장에서 TEL 차대 제작 병행.",
       "type": "intel",
-      "relatedAssets": ["t-radar-p14", "t-cmd-iads", "t-sam-west"],
-      "threatLevel": 4,
+      "relatedAssets": ["t-hungnam-11", "t-pyongsong"],
+      "threatLevel": 3,
       "actionClass": "IMINT"
     },
     {
       "id": "b4",
-      "time": "08:20",
-      "timestamp": 1200,
-      "title": "SEAD 개시: HARM 발사, P-14 레이더 타격",
-      "description": "KF-16 편대 AGM-88 HARM 2발 발사. P-14 감시레이더 타격. 직후 SIGINT에서 레이더 신호 소실 확인.",
-      "type": "strike",
-      "relatedAssets": ["f-sead-kf16", "t-radar-p14"],
-      "threatLevel": 3,
-      "actionClass": "SIGINT",
-      "sigintData": {
-        "time_start": "2026-08-15T08:20:00Z",
-        "time_end": "2026-08-15T08:20:30Z",
-        "facility_name": "P-14 레이더 진지",
-        "emitter_identified": "P-14 (신호소실 확인)",
-        "integrated_sources": ["777사령부", "KF-16 RWR"],
-        "human_summary": "08:20 HARM 명중 직후 P-14 레이더 신호 완전 소실. 방공 감시망 1차 무력화 확인.",
-        "ew_environment": "Normal"
-      }
+      "time": "D-7",
+      "timestamp": 2000,
+      "title": "20m 트레일러·TEL 단독 야간 기동",
+      "description": "위성 영상에서 평양 인근 차고지의 20m 탄두 운반 트레일러 2대와 궤도형 TEL이 야간을 틈타 단독 기동. 전방 진지 방향 이동. 대규모 발사장 진입로 공사 없이 TEL 단독 기동 → 단거리 기습발사 패턴.",
+      "type": "movement",
+      "relatedAssets": ["t-tel-front", "t-pyongsong"],
+      "threatLevel": 4,
+      "actionClass": "IMINT"
     },
     {
       "id": "b5",
-      "time": "08:25",
-      "timestamp": 1500,
-      "title": "현무-2A 발사: IADS 지휘소 타격",
-      "description": "현무-2A 2발 발사, 방공지휘소 정밀 타격. 이후 SA-5 기지 간 통신 두절 확인.",
-      "type": "strike",
-      "relatedAssets": ["f-missile-hyunmoo", "t-cmd-iads"],
-      "threatLevel": 2,
-      "actionClass": "SIGINT"
+      "time": "D-5",
+      "timestamp": 2500,
+      "title": "알섬 방향 관측자산 이동 — 신포 집결 없음",
+      "description": "함경북도 길주군 무인도 알섬 타격을 위한 전방위 관측 자산(무인기 등) 이동 포착. 궤도형 TEL 단독 사격 진지 전개. 단거리 탄도미사일(KN-23) 알섬 사격 준비로 판단. 신포 일대 계측차량·고위급 참관 집결은 미식별. Rule#4 매칭.",
+      "type": "alert",
+      "relatedAssets": ["t-alseom", "t-tel-front"],
+      "threatLevel": 4,
+      "actionClass": "IMINT"
     },
     {
       "id": "b6",
-      "time": "08:30",
-      "timestamp": 1800,
-      "title": "F-15K SLAM-ER: SA-5 서부 발사대 타격",
-      "description": "F-15K 편대 AGM-84H SLAM-ER 투하, SA-5 서부대대 발사대 6기 중 4기 파괴 추정",
-      "type": "strike",
-      "relatedAssets": ["f-strike-f15k", "t-sam-west"],
-      "threatLevel": 2,
+      "time": "D-2",
+      "timestamp": 3000,
+      "title": "김정은 전용열차 소실 (VIP 참관 확정)",
+      "description": "위성 영상 분석 결과 평양 조차장에서 김정은 전용열차가 사라짐. VIP 현지 참관 확정.",
+      "type": "movement",
+      "relatedAssets": ["t-vip-station"],
+      "threatLevel": 4,
       "actionClass": "IMINT"
     },
     {
       "id": "b7",
-      "time": "08:35",
-      "timestamp": 2100,
-      "title": "MQ-9 북상: BDA 실시",
-      "description": "위협 반경 소멸 확인. MQ-9 리퍼 적 내륙 진입, SA-5 진지 FLIR Lock-on. BDA: 레이더 파괴 100%, 발사대 4/6 파괴 확인.",
-      "type": "bda",
-      "relatedAssets": ["f-uav-mq9", "t-sam-west"],
-      "threatLevel": 1,
-      "actionClass": "UAV",
-      "uavData": {
-        "timestamp": "2026-08-15T08:35:00Z",
-        "task_id": "TASK-202608-BDA-01",
-        "asset_name": "MQ-9",
-        "sensor_mode": "FLIR_WhiteHot",
-        "platform_MGRS": "51S TU 4500 8900",
-        "crosshair_MGRS": "51S TU 4567 8901",
-        "slant_range_km": 12.4,
-        "tracking_status": "Lock-on",
-        "linked_target_id": "SA5_West_Destroyed"
+      "time": "D-1",
+      "timestamp": 3500,
+      "title": "궤적상 방공망 집중 가동",
+      "description": "SIGINT에서 발사 궤적 상 주변 방공망(SA-2) 레이더 신호 방사 집중 가동 포착. 발사 엄호 태세 전환.",
+      "type": "alert",
+      "relatedAssets": ["t-sam-front"],
+      "threatLevel": 4,
+      "actionClass": "SIGINT",
+      "sigintData": {
+        "time_start": "2026-08-14T06:00:00Z",
+        "time_end": "2026-08-14T18:00:00Z",
+        "facility_name": "전방 SA-2 방공대대",
+        "emitter_identified": "Fan Song 추적레이더",
+        "integrated_sources": ["777사령부", "금강(RC-800) ELINT"],
+        "human_summary": "D-1 발사 궤적 주변 방공 레이더 방사량 급증. 단거리 발사 엄호 목적으로 판단.",
+        "ew_environment": "Normal"
       }
     },
     {
       "id": "b8",
-      "time": "08:40",
-      "timestamp": 2400,
-      "title": "안전 비행회랑 확보 완료",
-      "description": "서부 방공망 완전 무력화. SIGINT 확인: SA-5 Square Pair 신호 소실 지속. 해당 회랑으로 아군 전투기 안전 진입 가능.",
-      "type": "bda",
-      "relatedAssets": ["t-sam-west", "t-radar-p14", "t-cmd-iads"],
-      "threatLevel": 1,
+      "time": "H-4",
+      "timestamp": 4000,
+      "title": "헤론 UAV: TEL 직립 포착",
+      "description": "헤론 FLIR로 전방 진지 TEL Lock-on. 발사대 직립 및 최종 사격 준비 자세 식별. 고체연료는 즉시 발사 가능하여 발사 임박.",
+      "type": "alert",
+      "relatedAssets": ["t-tel-front", "f-uav-heron"],
+      "threatLevel": 5,
+      "actionClass": "UAV",
+      "uavData": {
+        "timestamp": "2026-08-15T02:00:00Z",
+        "task_id": "TASK-202608-ISR-02",
+        "asset_name": "Heron",
+        "sensor_mode": "FLIR_WhiteHot",
+        "platform_MGRS": "52S CF 3400 2100",
+        "crosshair_MGRS": "52S CG 1000 3000",
+        "slant_range_km": 38.5,
+        "tracking_status": "Lock-on",
+        "linked_target_id": "TEL_Front_KN23"
+      }
+    },
+    {
+      "id": "b9",
+      "time": "H-2",
+      "timestamp": 4400,
+      "title": "발사통제 무전 트래픽 폭증·지상점검 Ping",
+      "description": "발사통제소 지상 점검용 기계 신호(Ping) 수집. 발사 부대 고유 무전 주파수 신호 트래픽 폭증 포착. 발사 임박 95%.",
+      "type": "alert",
+      "relatedAssets": ["t-tel-front"],
+      "threatLevel": 5,
       "actionClass": "SIGINT"
+    },
+    {
+      "id": "b10",
+      "time": "H-0",
+      "timestamp": 4700,
+      "title": "SRBM 발사 — 텔레메트리 동시 수신",
+      "description": "지상 신호와 미사일 본체 방출 신호(Telemetry) 동시 수신. 전방 TEL에서 고체연료 단거리 탄도미사일(KN-23) 발사. 알섬 방향 궤적. AI 융합 판단: 고체연료 SRBM 발사(Rule#4) 확정.",
+      "type": "launch",
+      "relatedAssets": ["t-tel-front", "t-alseom"],
+      "threatLevel": 5,
+      "actionClass": "SIGINT"
+    },
+    {
+      "id": "b11",
+      "time": "H+0:05",
+      "timestamp": 5000,
+      "title": "그린파인 탐지·E-737 Custody·알섬 탄착",
+      "description": "그린파인 레이더 최초 항적 탐지, 중앙방공통제소(MCRC) 표적정보 연동. E-737 항적 추적(Custody) 유지. 777사령부 텔레메트리 수신으로 알섬 종말 탄착 확인.",
+      "type": "bda",
+      "relatedAssets": ["f-greenpine", "f-e737", "t-alseom"],
+      "threatLevel": 4,
+      "actionClass": "SIGINT"
+    },
+    {
+      "id": "b12",
+      "time": "D+1 06:00",
+      "timestamp": 5500,
+      "title": "OSINT 교차검증 — 노동신문 KN-23 보도",
+      "description": "다음 날 아침 노동신문·조선중앙통신(KCNA) 보도로 발사 주체(부대명), 무기체계 명칭(KN-23), 김정은 참관, 발사 의도 최종 확인. 아군 탐지 원점(전방)·궤적(알섬)과 비교 검증 완료.",
+      "type": "bda",
+      "relatedAssets": ["t-tel-front"],
+      "threatLevel": 3,
+      "actionClass": "OSINT",
+      "osintData": {
+        "osint_id": "OSINT-KCNA-B01",
+        "published_time": "2026-08-16T06:00:00Z",
+        "processed_time": "2026-08-16T06:30:00Z",
+        "source_media": "노동신문/조선중앙통신(KCNA)",
+        "media_type": "Photo",
+        "original_title": "전술유도무기 시험발사 보도",
+        "key_entities": ["KN-23", "전술유도무기", "김정은 참관", "알섬"],
+        "dia_analytical_summary": "KCNA가 전술유도무기(KN-23) 시험발사 및 김정은 참관을 공개. 아군 탐지 원점(전방)·궤적(알섬)과 일치. Rule#4 고체 SRBM 판단 최종 검증됨.",
+        "strategic_intent": "전술핵 운반수단 능력 과시 및 대남 압박",
+        "related_launch_seq": "2026-08"
+      }
     }
   ],
   "phases": [
     {
       "id": 1,
-      "name": "위협 식별",
+      "name": "사전개발",
       "startTime": 0,
-      "endTime": 600,
-      "description": "SIGINT+IMINT: 적 방공망 가동 및 진지 좌표 확인",
-      "cameraTarget": { "lat": 38.9, "lng": 125.8, "range": 600000 }
+      "endTime": 1000,
+      "description": "Pre-Phase: 함흥 고체모터 연소 시험",
+      "cameraTarget": { "lat": 39.9, "lng": 127.6, "range": 300000 }
     },
     {
       "id": 2,
-      "name": "타격 계획",
-      "startTime": 600,
-      "endTime": 1200,
-      "description": "AI 킬체인 최적화 + 타격순서 도출",
-      "cameraTarget": { "lat": 38.5, "lng": 126.5, "range": 400000 }
+      "name": "고체생산",
+      "startTime": 1000,
+      "endTime": 2000,
+      "description": "Phase 1 (D-14~D-7) 30%: 함흥 17/11호 고체 배합·동체 조립",
+      "cameraTarget": { "lat": 39.6, "lng": 127.0, "range": 400000 }
     },
     {
       "id": 3,
-      "name": "SEAD 타격",
-      "startTime": 1200,
-      "endTime": 1800,
-      "description": "HARM→현무→SLAM-ER 순차 타격",
-      "cameraTarget": { "lat": 39.0, "lng": 126.5, "range": 200000 }
+      "name": "TEL기동·알섬",
+      "startTime": 2000,
+      "endTime": 3000,
+      "description": "Phase 2 (D-7~D-3) 50%: TEL 단독 기동·알섬 관측(신포 없음)",
+      "cameraTarget": { "lat": 39.3, "lng": 127.5, "range": 600000 }
     },
     {
       "id": 4,
-      "name": "BDA 북상",
-      "startTime": 1800,
-      "endTime": 2400,
-      "description": "MQ-9 내륙 진입, FLIR BDA 실시",
-      "cameraTarget": { "lat": 38.9, "lng": 125.8, "range": 100000 }
+      "name": "VIP·방공",
+      "startTime": 3000,
+      "endTime": 4000,
+      "description": "Phase 3 (D-2~D-1) 70%: 전용열차 소실·방공망 가동",
+      "cameraTarget": { "lat": 39.1, "lng": 126.5, "range": 400000 }
+    },
+    {
+      "id": 5,
+      "name": "발사임박",
+      "startTime": 4000,
+      "endTime": 5000,
+      "description": "Phase 4 (H-4~H-0) 95%: TEL 직립·통신 폭증·발사",
+      "cameraTarget": { "lat": 38.8, "lng": 126.6, "range": 120000 }
+    },
+    {
+      "id": 6,
+      "name": "추적·검증",
+      "startTime": 5000,
+      "endTime": 6000,
+      "description": "Phase 5/6: 그린파인 탐지·알섬 탄착·D+1 OSINT",
+      "cameraTarget": { "lat": 39.5, "lng": 128.5, "range": 700000 }
     }
   ]
 }
