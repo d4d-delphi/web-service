@@ -449,3 +449,68 @@ export interface DoctrineContext {
   readyAssets: DoctrineFriendlyAsset[];
   note: string;               // illustrative disclaimer
 }
+
+// ============================================
+// 아군(Blue) 전투서열/작전 자산 — Layer 2+ (Session 2)
+// 공수 양면(Offense+Defense) 고려: KAMD(탐지) / LAMD(요격) / KMPR(타격) / 해상 / ISR.
+// 공개 제원만(비밀 X). supabase friendly_units 가 source of truth,
+// friendly-units.json 미러(export_friendly_mirror.py)를 서버 fs 로 읽는다.
+// ============================================
+
+export type FriendlyAssetType =
+  | 'KAMD_DETECT'      // 한국형미사일방어 - 탐지/추적
+  | 'KAMD_INTERCEPT'   // 요격(LAMD)
+  | 'KMPR_STRIKE'      // 대량응징보복 - 타격
+  | 'AIR'              // 공군 전투기/타격
+  | 'NAVAL'            // 해상(이지스/잠수함)
+  | 'ISR'              // 정찰(ISR/AWACS/UAV)
+  | 'C2'               // 지휘통제
+  | 'GROUND';          // 지상(일반)
+
+export interface FriendlyUnit {
+  canonicalName: string;
+  slug: string;
+  designation: string;
+  assetType: FriendlyAssetType;
+  branch: string;             // army/air/naval/strategic
+  role?: string | null;
+  capability?: string | null; // 제원 요약(사거리/탐지거리 등 공개 수치)
+  rangeKm?: number | string | null;
+  detectionRangeKm?: number | string | null;
+  readiness?: string | null;  // ready/standby/maintenance/unknown
+  baseName?: string | null;
+  hqLat?: number | null;
+  hqLng?: number | null;
+  sourceRef?: string | null;
+  sourceUrl?: string | null;
+  description?: string | null;
+  doctrineOption?: string | null; // response_options.option_id 연결
+  aliases?: string[];
+  matchedAlias?: string;          // resolve 결과(어느 별칭에 매칭됐는지)
+}
+
+// 현재 킬체인 단계/교리 축 기반으로 "지금 우리가 할 수 있는 것" — 아군 가용 대응 전력.
+export interface BlueResponseAsset {
+  canonicalName: string;
+  assetType: FriendlyAssetType;
+  branch: string;
+  role?: string | null;
+  capability?: string | null;
+  rangeKm?: number | string | null;
+  detectionRangeKm?: number | string | null;
+  readiness?: string | null;
+  baseName?: string | null;
+  doctrineOption?: string | null;
+  pillar: 'kamd' | 'lamd' | 'kmpr' | 'isr' | 'other'; // 정규화된 축
+}
+
+// api/brief 응답에 포함되는 아군(Blue) 컨텍스트 (공수 양면)
+export interface BlueContext {
+  // 현재 킬체인 단계에서 가용한 탐지/요격/타격 전력 요약
+  availableAssets: BlueResponseAsset[];
+  // 축별 카운트(요약용)
+  byPillar: { kamd: number; lamd: number; kmpr: number; isr: number; other: number };
+  // 정규 엔티티 해석(징후 텍스트에 아군 자산이 언급된 경우)
+  resolvedUnits: FriendlyUnit[];
+  note: string; // illustrative disclaimer
+}
