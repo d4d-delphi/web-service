@@ -44,5 +44,5 @@ backend/
 
 ## 참고 문서
 
-- 데이터 사전: `../docs/data_dict/NL-COP 데이터 사전.md`
+- 데이터 사전(앱 데이터 모델 부록): `../docs/DATASET-SCHEMA.md`
 - DB 스키마(마이그레이션): `../web-ui/supabase/migrations/20260704071600_init_nl_cop_schema.sql`
