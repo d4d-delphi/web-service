@@ -1,0 +1,688 @@
+# DELPHI Layer 1 스키마 & 데이터 모델 — 시각화 가이드
+
+> 원본: `docs/DATASET-SCHEMA.md` | 본 문서는 동일 내용을 다이어그램·표·흐름도 중심으로 재구성한 것이다.
+
+---
+
+## 전체 데이터 파이프라인 흐름도
+
+```
+┌─────────────────────────────────────────────��──────────────────────────────��┐
+│                        DELPHI 5-Layer Pipeline                               │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  ┌────────────────────────────��──────────────────────┐                      │
+│  │  Layer 1: 원천 수집 (observation)                   │  ◀── 본 문서 §1~§8 │
+│  │  "인간 판독관 1인 × 감시자산 1개 × 액션 1건"          │                      │
+│  └──────────────────────┬────────────────────────────┘                      │
+│                         │                                                   │
+│                         ▼                                                   │
+│  ┌───────────────────────────────────────────────────┐                      │
+│  │  Layer 2: 정형화 (ActionClass + SPUQ)              │                      │
+│  │  소형 LLM N회 샘플링 → 클래스 분류 + 불확실성 정량화   │                      │
+│  └──────────────────────┬────────────────────────────┘                      │
+│                         │                                                   │
+│                         ▼                                                   │
+│  ┌───────────────────────────────────────────────────┐                      │
+│  │  Layer 3: 추론 (Bayesian Inference)                │                      │
+│  │  P(H|E) ∝ P(H) × ∏ P(Eᵢ|H) × w(cᵢ)              │                      │
+│  └──────────────────────┬────────────────────────────┘                      │
+│                         │                                                   │
+│                         ▼                                                   │
+│  ┌───────────────────────────────────────────────────┐                      │
+│  │  Layer 4: 보고 (LLM + RAG → 자연어 브리핑)          │                      │
+│  └──────────────────────┬────────────────────────────┘                      │
+│                         │                                                   │
+│                         ▼                                                   │
+│  ┌───────────────────────────────────────────────────┐                      │
+│  │  Layer 5: 시각화 (Cesium Map + Timeline + Panel)    │                      │
+│  └───────────────────────────────────────────────────┘                      │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 1. Layer 1 정의 — 3가지 경계
+
+```
+┌────────────────────────────────────────────���┐
+│              Layer 1 경계 조건                │
+├─────────────────────────────────────────────┤
+│                                             │
+│  ① 단일 자산 · 단일 관측                      │
+│     한 위성영상 / 한 UAV 세션 / 한 신호 식별    │
+│                                             │
+│  ② 확인되는 사실만                            │
+│     "무엇이 몇 개, 어떤 형태·치수·상태"         │
+│     ✗ 판단·추론·의도 제외                     │
+│                                             │
+│  ③ 원천 그대로                               │
+│     액션 클래스 분류, 단계 태깅 등 = Layer 2+   │
+│                                             │
+└─────────────────────────────────────────────┘
+```
+
+---
+
+## 2. `observation` 테이블 구조 (ERD 스타일)
+
+```
+┌─────────────────────��────────────────────────────────────���──────┐
+│                        observation                               │
+├──────────────────┬──────────────┬───────────────────────────────┤
+│  Column          │  Type        │  Description                  │
+├──────────────────┼──────────────┼───────────────────────────────┤
+│  🔑 obs_id       │  uuid PK     │  자동생성                      │
+├──────────────────┼──────────────┼───────────────────────────────┤
+│  asset_type      │  text (enum) │  SATELLITE_IMINT │ AERIAL_    │
+│                  │              │  IMINT │ SIGINT │ UAV_FLIR │  │
+│                  │              │  OSINT                        │
+│  polarity        │  text (enum) │  PRESENT │ ABSENT             │
+│  collected_at    │  timestamptz │  촬영/포착/보도 일시 (정본)     │
+├──────────────────┼──────────────┼───────────────────────────────┤
+│  mgrs            │  text?       │  군사좌표                      │
+│  location_name   │  text?       │  시설/지역명 (자유텍스트)       │
+├──────────────────┼──────────────┼───────────────────────────────┤
+│  observed_objects│  jsonb       │  [{type, count}]              │
+│  activity_desc   │  text        │  관측 사실 서술                │
+│  unusual_flag    │  boolean     │  routine vs unusual           │
+├──────────────────┼──────────────┼───────────────────────────────┤
+│  platform        │  text        │  자산명                        │
+│  analyst_id      │  text?       │  판독관 ID                    │
+│  analyst_unit    │  text?       │  소속 부대                     │
+│  reliability     │  smallint    │  신뢰등급 1~5                  │
+├──────────────────┼──────────────┼───────────────────────────────┤
+│  asset_detail    │  jsonb       │  자산별 원천 필드 (§4)          │
+│  source_ref      │  text?       │  원본 URL/파일                 │
+│  image_urls      │  jsonb       │  [{url, caption, license}]    │
+│  created_at      │  timestamptz │  레코드 생성 시각              │
+└──────────────────┴──────────────┴───────────────────────────────┘
+
+📇 Indexes: collected_at, asset_type
+```
+
+---
+
+## 3. 두 직교 축: `polarity` × `unusual_flag`
+
+```
+                        polarity
+                 PRESENT          ABSENT
+            ┌──────────────┬──────────────────────┐
+unusual     │              │                      │
+= false     │  일상적 활동  │  일상적 부재           │
+(routine)   │  관측         │  (평소에도 없음)       │
+            ├──────────────┼──────────────────────┤
+unusual     │              │                      │
+= true      │  ⚠️ 특이 활동 │  🔴 예상됐는데 부재    │
+(unusual)   │  관측         │  (진단적 negative     │
+            │              │   evidence)           │
+            └──────────────┴──────────────────────┘
+```
+
+---
+
+## 4. `asset_detail` jsonb 규약 (자산별)
+
+### SATELLITE_IMINT / AERIAL_IMINT
+
+| 필드 | 타입 | 값 예시 |
+|------|------|---------|
+| `sensor_type` | Enum | `EO` / `SAR` / `IR` |
+| `look_angle_deg` | Number | `23` |
+| `cloud_cover_pct` | Number | `10` |
+
+### SIGINT
+
+| 필드 | 타입 | 값 예시 |
+|------|------|---------|
+| `is_raw` | Boolean | `true` = 기계 원신호 (analyst 없음) |
+| `frequency_band` | Enum | `UHF` / `HF` / `VHF` / `X-Band` / `S-Band` / `L-Band` |
+| `signal_params` | Object | `{PRI: 1050, PW: 2.5, Scan: "Circular"}` |
+| `emitter_guess` | Text | `"미상"` (미식별 시) |
+| `signal_strength` | Enum | `Weak` / `Moderate` / `High` |
+| `ew_status` | Enum | `Normal` / `Jammed` |
+
+### UAV_FLIR
+
+| 필드 | 타입 | 값 예시 |
+|------|------|---------|
+| `sensor_mode` | Enum | `FLIR_WhiteHot` / `FLIR_BlackHot` / `EO_DayTV` / `IR_MidWave` |
+| `platform_mgrs` | Text | `"52S CG 1200 1200"` (UAV 체공 위치) |
+| `slant_range_km` | Number | `42.5` |
+| `tracking_status` | Enum | `Searching` / `Lock-on` / `Lost` |
+
+### OSINT
+
+| 필드 | 타입 | 값 예시 |
+|------|------|---------|
+| `source_media` | Text | `"노동신문"` |
+| `media_type` | Enum | `Text` / `Photo` / `Video` |
+| `original_title` | Text | 매체 원문 제목 |
+| `key_entities` | Array | `["김정은", "원산"]` |
+
+---
+
+## 5. Layer 1 경계 — 제외 목록 (명확한 분리)
+
+```
+┌─────────────────────────┐          ┌─────────────────────────────┐
+│     Layer 1 (관측)       │          │     Layer 2+ (추론/융합)      │
+│     여기까지만!           │    ──▶   │     이후 계층이 부여           │
+├─────────────────────────┤          ├─────────────────────────────┤
+│ ✅ 형태·치수·수량·색상    │          │ ❌ 연료타입·발사체 계열 판별   │
+│ ✅ 시계열 변화 사실       │          │ ❌ 전략적 의도 추정           │
+│ ✅ 미상 표기             │          │ ❌ action_class, phase_no    │
+│ ✅ 부재 사실 (ABSENT)    │          │ ❌ emitter_identified (확정)  │
+│ ✅ emitter_guess (1차)   │          │ ❌ threat_level, probability │
+│                         │          │ ❌ scenario_id               │
+│                         │          │ ❌ likelihood_map, prior     │
+└─────────────────────────┘          └─────────────────────────────┘
+```
+
+---
+
+## 6. 판독관 보고 원칙 (Do / Don't)
+
+| | ✅ 써도 되는 것 (관측 사실) | ❌ 쓰면 안 되는 것 (판단·추론) |
+|---|---|---|
+| **객체** | "3m 연료통", "7m 유개트럭 8대" | "액체연료 발사체", "추진제 저장동" |
+| **활동** | "4일·6일 미관측, 금일 출현" | "~하기 위해 이동", "주입 준비 정황" |
+| **식별** | "미상", "방출원 미식별" | "SA-2 Fan Song 확정" |
+| **부재** | "타이어 자국·그을림 미관측" | "ICBM 배제", "negative evidence" |
+
+> **핵심**: 판별은 삭제가 아니라 **추론 엔진(Layer 2+)으로 이관**. 이 분리가 시스템의 핵심 가치.
+
+---
+
+## 7. 샘플 레코드 요약
+
+| # | asset_type | polarity | unusual | 핵심 내용 |
+|---|-----------|----------|---------|-----------|
+| 1 | SATELLITE_IMINT | PRESENT | true | 동창리 발사대 건물·차량 활동 |
+| 2 | SATELLITE_IMINT | ABSENT | true | 잠진 시험대 — 그을림 미관측 (negative evidence) |
+| 3 | SIGINT | PRESENT | true | 은하화학공장 VHF 통신 급증, 방출원 미식별 |
+| 4 | OSINT | PRESENT | true | NOTAM 발행 — 낙탄구역 480km/2500km |
+
+---
+
+## 8. 설계 결정 요약
+
+| # | 결정 | 근거 |
+|---|------|------|
+| 1 | 단일 테이블 + jsonb | LLM 소비 주체, 자산별 분리 시 "중구난방" 위험 |
+| 2 | SIGINT 기계원신호 흡수 | `is_raw` 플래그로 충분 |
+| 3 | `collected_at` 정본 | 추론 시간축 = 사건 발생 시각 |
+| 4 | 신뢰도 1축 (`reliability`) | Layer 1은 판독 품질만. 2축 분리는 Layer 2 |
+| 5 | `observed_objects.type` 자유텍스트 | 원천 보존, 용도 판별 금지 |
+| 6 | `polarity` enum | negative evidence도 판독관 보고 |
+| 7 | `scenario_id` 드랍 | 사건 소속은 파이프라인이 추론 |
+| 8 | 판독관 = 사실만 | 군 장교 출신 팀원 피드백 반영 |
+
+---
+
+---
+
+# 부록: 앱 데이터 모델 (Layer 2+ · 프론트엔드)
+
+---
+
+## 부록 A. 계층별 스키마 맵
+
+```
+┌─────────────────────────────────────────���───────────────────────────────────────┐
+│                                                                                 │
+│   원천 수집          정형화           추론             보고           시각화       │
+│   (Source)         (Structure)     (Inference)     (Report)      (Visual)      │
+│                                                                                 │
+│  ┌──────────┐    ┌───────────┐   ┌────────────┐  ┌──────────┐  ┌──────────┐   │
+│  │IMINTReport│    │ActionClass│   │ Hypothesis │  │Briefing  │  │ Scenario │   │
+│  │SIGINTRaw │───▶│SPUQResult │──▶│Hypothesis  │─▶│Result    │─▶│ Phase    │   │
+│  │SIGINTPro │    │           │   │  Node      │  │Evidence  │  │ Timeline │   │
+│  │UAVTelem  │    └───────────┘   │Inference   │  │  Trace   │  │  Event   │   │
+│  │OSINTRpt  │                    │  Result    │  └──────────┘  └──────────┘   │
+│  │Provoc.   │                    └────────────┘                               │
+│  │Friendly  │                                                                  │
+│  │Historical│                                                                  │
+│  └──────────┘                                                                  │
+│                                                                                 │
+│  구현위치:           구현위치:        구현위치:         구현위치:       구현위치:    │
+│  types/index.ts    lib/spuq.ts    lib/bayesian.ts  lib/claude.ts  data/*.json  │
+│  data/*.json       api/infer      data/hypotheses  api/brief      components/  │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 부록 B. 원천 데이터 스키마
+
+### IMINTReport (영상자산)
+
+| 필드 | 타입 | 설명 |
+|------|------|------|
+| `timestamp_captured` | ISO 8601 | 촬영 일시 |
+| `timestamp_analyzed` | ISO 8601 | 판독 완료 일시 |
+| `sensor_type` | `EO`/`SAR`/`IR` | 센서 종류 |
+| `source_platform` | Text | 수집 플랫폼 (425위성, Arirang 등) |
+| `MGRS_coordinate` | Text | 군사좌표 |
+| `location_name` | Text | 대상 지역/시설 명칭 |
+| `detected_objects` | `[{type, count}]` | 탐지 객체 및 수량 |
+| `unusual_activity_flag` | Boolean | 특이 동향 여부 |
+| `semantic_analysis` | Text | 판독관 분석 |
+| `confidence_level` | 1~5 | 판독 신뢰도 |
+| `analyst_name` / `analyst_unit` | Text | 판독관 정보 |
+
+### SIGINTRaw (신호자산 — 기계 원신호)
+
+| 필드 | 타입 | 설명 |
+|------|------|------|
+| `timestamp` | ISO 8601 | 포착 순간 (TOI) |
+| `receiving_system` | Text | 수집 체계 (`RF-16`, `777사`) |
+| `estimated_MGRS` | Text | 추정 좌표 |
+| `frequency_band` | Enum | `UHF`/`HF`/`VHF`/`X-Band`/`S-Band`/`L-Band` |
+| `signal_characteristics` | `{PRI?, PW?, Scan?}` | 신호 특성 |
+| `raw_emitter_guess` | Text | 체계 1차 추정 방출원 |
+| `signal_strength` | Enum | `Weak`/`Moderate`/`High` |
+
+### SIGINTProcessed (신호자산 — 분석 결과)
+
+| 필드 | 타입 | 설명 |
+|------|------|------|
+| `time_start` / `time_end` | ISO 8601 | 가동 시간 범위 |
+| `facility_name` | Text | 신호 발생 기지/지역명 |
+| `emitter_identified` | Text | 확정 식별 장비명 |
+| `integrated_sources` | Array | 융합 사용 출처 |
+| `human_summary` | Text | 병사 작성 요약 |
+| `ew_environment` | `Normal`/`Jammed` | 전자전 환경 |
+
+### UAVTelemetry (추적자산)
+
+| 필드 | 타입 | 설명 |
+|------|------|------|
+| `timestamp` | ISO 8601 | 수신 시간 |
+| `task_id` | Text | 임무 번호 |
+| `asset_name` | Text | 플랫폼 (`Heron`, `MQ-9`) |
+| `sensor_mode` | Enum | 센서 모드 |
+| `platform_MGRS` | Text | 아군(UAV) 위치 |
+| `crosshair_MGRS` | Text | 표적(에임) 위치 |
+| `slant_range_km` | Number | 경사 거리 |
+| `tracking_status` | `Searching`/`Lock-on`/`Lost` | 추적 상태 |
+| `linked_target_id` | Text | 추적 표적 ID → `ThreatAsset.id` |
+
+### OSINTReport (공개첩보)
+
+| 필드 | 타입 | 설명 |
+|------|------|------|
+| `osint_id` | Text PK | 보고서 번호 |
+| `published_time` | ISO 8601 | 매체 보도 시각 |
+| `processed_time` | ISO 8601 | 분석 완료 시각 |
+| `source_media` | Text | 출처 매체 |
+| `media_type` | Enum | `Text`/`Photo`/`Video` |
+| `original_title` | Text | 매체 원문 제목 |
+| `key_entities` | Array | 주요 인물/장비/장소 |
+| `dia_analytical_summary` | Text | 정보사 팩트 요약 |
+| `strategic_intent` | Text | 전략적 의도 분석 |
+| `related_launch_seq` | Text FK | 매칭 도발 순번 |
+
+---
+
+## 부록 C. 과거사례 관계도
+
+```
+┌────────────────────┐       ┌────────────────────────┐
+│  ProvocationCase   │       │  FriendlyActionCase    │
+│                    │       │                        │
+│  yearly_launch_seq │◀─────▶│  related_launch_seq    │
+│  launch_time       │  1:1  │  targeting_process     │
+│  launch_count      │       │  response_action       │
+│  weapon_class      │       │  bda_result            │
+│  kn_designation    │       └────────────────────────┘
+│  visual_indicators │
+│  signal_indicators │       ┌────────────────────────┐
+│                    │◀─────▶│  OSINTReport           │
+└────────────────────┘  1:N  │  related_launch_seq    │
+                             └────────────────────────┘
+         │
+         │  포함
+         ▼
+┌──────────────────────────────┐
+│  HistoricalCase (RAG 호환)    │
+│                              │
+│  id, date, title             │
+│  missileType, indicators     │
+│  outcome, description        │
+│  similarity (런타임 계산)      │
+│  provocation (중첩)           │
+│  friendlyAction (중첩)        │
+└──────────────────────────────┘
+
+┌──────────────────────────────┐
+│  launch_cases (Supabase 303건)│
+│                              │
+│  case_id / case_no           │
+│  launch_date, missile_name   │
+│  weapon_class, facility_id   │──▶ launch_facilities
+│  bearing_deg, apogee_km      │
+│  landing_region, outcome     │
+│  indicators[], embedding     │ (pgvector RAG)
+└──────────────────────────────┘
+```
+
+---
+
+## 부록 D. 표적/아군 자산
+
+```
+┌────────────────────────���──────┐     ┌───────────────────────────────┐
+│        ThreatAsset (적)        │     │       FriendlyAsset (아군)     │
+├──────────────────────────────���┤     ├───────────────────────────────┤
+│ id        : "t-sam-kaesong"   │     │ id        : "f-f15k-1"       │
+│ name      : "개성 SA-2 기지"   │     │ name      : "F-15K 편대"      │
+│ type      : SAM│TEL│RADAR│    │     │ type      : MISSILE│FIGHTER│  │
+│             MISSILE_BASE│CMD  │     │             ISR│SHIP│CMD│UAV │
+│ position  : {lat, lng, alt?}  │     │ position  : {lat, lng, alt?}  │
+│ status    : active│destroyed│ │     │ status    : ready│engaged│    │
+│             relocating│unknown│     │             returning│standby │
+│ threatRadius : km (Optional)  │     │ capability: 무장/능력          │
+│ details   : 상세설명           │     │ details   : 상세설명           │
+└───────────────────���───────────┘     └───────────────────────────────┘
+         ▲                                        ▲
+         │  UAVTelemetry.linked_target_id         │  시나리오 friendlies[]
+         │  TimelineEvent.relatedAssets           │  TimelineEvent.relatedAssets
+```
+
+---
+
+## 부록 E. 정형화 계층
+
+### ActionClass → SPUQResult 흐름
+
+```
+  원본 보고 텍스트
+       │
+       ▼
+┌──────────────────┐     N회 샘플링
+│  structureReport │ ──────────────────┐
+│  (lib/spuq.ts)   │                   │
+└──────────────────┘                   ▼
+                              ┌──────────────────┐
+                              │   SPUQResult     │
+                              │                  │
+                              │  classDistribution: {IMINT: 0.7, SIGINT: 0.2, ...}
+                              │  selectedClass:    IMINT
+                              │  classConfidence:  0.7
+                              │  fieldResults:     {object: {value, uncertainty}}
+                              │  numSamples:       10
+                              └────────┬─────────┘
+                                       │
+                                       ▼
+                              ┌──────────────────┐
+                              │   ActionClass    │
+                              │                  │
+                              │  classType: IMINT│HUMINT│SIGINT│GEOINT│
+                              │            OSINT│MASINT│CYBINT│WXINT│UAV
+                              │  confidence: 0.7
+                              │  fieldUncertainty: {object: 0.1, ...}
+                              │  fields: {object: "TEL", activity: "연료주입"}
+                              │  sourceData: 원본 레코드 참조
+                              └────────┬─────────┘
+                                       │
+                                       ▼
+                                  추론 계층으로
+```
+
+---
+
+## 부록 F. 추론 계층
+
+### Hypothesis → InferenceResult 흐름
+
+```
+┌────────────────────────���────────────────┐
+│  hypotheses.json (정적 사전지식)          │
+│                                         │
+│  id: "h-liquid-long"                    │
+│  name: "액체연료 장거리 미사일 발사"       │
+│  priorProbability: 0.15                 │
+│  likelihoodMap: {                       │
+│    "object:TEL": 0.9,                   │
+│    "activity:연료주입": 0.95,            │
+│    ...                                  │
+│  }                                      │
+│  subHypotheses: [...]                   │
+└────────────────┬────────────────────────┘
+                 │
+                 │  + ActionClass[] (증거)
+                 ▼
+┌─────────────────────────────────────────┐
+│  runInference (lib/bayesian.ts)          │
+│                                         │
+│  각 가설별:                              │
+│  posterior = prior × ∏ likelihood(eᵢ)    │
+│             × weight(confidence_i)       │
+│  → 정규화                                │
+└────────────────┬────────────────────────┘
+                 │
+                 ▼
+┌──────────────────────────────────���──────┐
+│  InferenceResult                         │
+│                                         │
+│  hypotheses: [HypothesisNode, ...]       │
+│    ├─ id, name, prior, posterior         │
+│    ├─ uncertainty                        │
+│    ├─ evidenceChain: ["증거1", "증거2"]   │
+│    └─ children: [하위 가설 노드...]       │
+│  topHypothesis: 최고 사후확률 가설         │
+│  overallConfidence: 0.82                 │
+│  evidenceCount: 5                        │
+└─────────────────────────────────────────┘
+```
+
+---
+
+## 부록 G. 보고 계층
+
+| 필드 | 타입 | 설명 |
+|------|------|------|
+| **BriefingResult** | | |
+| `summary` | Text | 브리핑 핵심 요약 |
+| `threatAssessment` | Text | 위협 평가 문구 |
+| `confidence` | 0~100 | 브리핑 신뢰도 (%) |
+| `recommendations` | Array | 지휘 결심 건의 목록 |
+| `historicalCases` | Array | RAG 유사 사례 |
+| `launchProbability` | 0~100 | 발사 확률 (%) |
+| `inferenceResult` | Object | 추론 결과 원본 |
+| `evidenceTrace` | Array | 아래 참조 |
+| **EvidenceTrace** | | |
+| `actionId` | Text FK | ActionClass 참조 |
+| `actionClass` | Enum | 출처 클래스 |
+| `contribution` | Text | 기여 내용 서술 |
+| `weight` | Number | 기여 가중치 |
+
+---
+
+## 부록 H. 시나리오·시각화 계층 관계도
+
+```
+┌─────────────────────────────���─────────────────────────────┐
+│                      Scenario                             │
+│  id: "scenario-a"                                        │
+│  name: "탄도미사일 발사 징후 포착"                          │
+│  duration: 600 (초)                                       │
+│  cameraPosition: {lat, lng, alt, heading, pitch, range}   │
+│                                                           │
+│  ┌─────────────────────────────────────────────────────┐  │
+│  │  phases: ScenarioPhase[]                            │  │
+│  │  ┌───────┬───────┬───────┬───────┬───────┬───────┐ │  │
+│  │  │Phase 1│Phase 2│Phase 3│Phase 4│Phase 5│Phase 6│ │  │
+│  │  │발사준비│이동  │NOTAM │임박   │발사   │검증   │ │  │
+│  │  └───────┴───────┴───────┴───────┴───────┴───────┘ │  │
+│  │  각 Phase: startTime, endTime, cameraTarget,        │  │
+│  │           threatUpdates[], friendlyUpdates[]         │  │
+│  └─────────────────────────────────────────────────────┘  │
+│                                                           │
+│  ┌─────────────────────────────────────────────────────┐  │
+│  │  timeline: TimelineEvent[]                          │  │
+│  │                                                     │  │
+│  │  각 Event:                                          │  │
+│  │    id, time, timestamp (경과초)                      │  │
+│  │    title, description                               │  │
+│  │    type: intel│movement│launch│strike│bda│alert     │  │
+│  │    relatedAssets[], threatLevel                      │  │
+│  │    actionClass, actionId                            │  │
+│  │    ┌──────────────────────��─────────────────┐       │  │
+│  │    │ 내장 원천 데이터 (Optional)              │       │  │
+│  │    │  imintData:  IMINTReport               │       │  │
+│  │    │  sigintData: SIGINTProcessed           │       │  │
+│  │    │  sigintRaw:  SIGINTRaw[]               │       │  │
+│  │    │  uavData:    UAVTelemetry              │       │  │
+│  │    │  osintData:  OSINTReport               │       │  │
+│  │    └────────────────────────────────────────┘       │  │
+│  └─────────────────────────────────────────────────────┘  │
+│                                                           │
+│  threats: ThreatAsset[]                                   │
+│  friendlies: FriendlyAsset[]                              │
+└───────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 부록 I. 아군 교리 연동
+
+### 교리 테이블 관계도
+
+```
+                    추론 결과 (posterior, category, evidenceCount)
+                                    │
+                                    ▼
+                         ┌─────────────────────┐
+                         │  mapDoctrineContext()│
+                         │  (lib/doctrine.ts)   │
+                         └──────────┬──────────┘
+                                    │
+              ┌─────────────────────┼─────────────────────┐
+              │                     │                     │
+              ▼                     ▼                     ▼
+┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐
+│ watchcon_levels  │  │ killchain_phases │  │ response_options │
+│                  │  │                  │  │                  │
+│ 5: 단순경계      │  │ detect (탐지)    │  │ KAMD: 탐지축     │
+│ 4: 경계          │  │ assess (판단)    │  │  피스아이, 그린파인│
+│ 3: 비상          │  │ decide (결심)    │  │ KMPR: 타격축     │
+│ 2: 심각          │  │ act    (실행)    │  │  현무, F-35A     │
+│ 1: 전시          │  │                  │  │ LAMD: 요격축     │
+└──────────────────┘  └──────────────────┘  │  L-SAM, M-SAM   │
+                                            │  PAC-3           │
+              ┌─────────────────────┐       └──────────────────┘
+              │   c2_authority      │
+              │                     │       ┌──────────────────┐
+              │ T1: 대통령          │       │ roe_categories   │
+              │ T2: 합참의장        │       │                  │
+              │ T3: 작전사령관      │       │ 단계별 허용행동    │
+              │ T4: 군사령관/기능사  │       └──────────────────┘
+              └─────────────────────┘
+```
+
+### WATCHCON 결정 매핑
+
+| 조건 | WATCHCON |
+|------|----------|
+| 발사 탐지 | **2** (심각) |
+| 사후확률 ≥ 0.7 | **2** (심각) |
+| 사후확률 ≥ 0.5 | **3** (비상) |
+| 사후확률 ≥ 0.25 | **4** (경계) |
+| 그 외 | **5** (단순경계) |
+
+### 킬체인 단계 결정
+
+| 조건 | 킬체인 단계 |
+|------|-----------|
+| 발사 탐지 | **act** (실행) |
+| 사후확률 ≥ 0.65 | **decide** (결심) |
+| 증거 ≥ 2건 | **assess** (판단) |
+| 그 외 | **detect** (탐지) |
+
+---
+
+## 부록 J. Rule-Base — 발사 원점 ↔ 궤적 매칭
+
+| Rule | 발사 원점 | 통보 | 궤적 | 부가 징후 | 판정 |
+|------|----------|------|------|----------|------|
+| **#1** | 동창리 (서해) | 일본 통보 | 필리핀 방향 | 바지선 밀착 | 액체 우주발사체 (정찰위성) |
+| **#2** | 순안 (평양) | 통보 없음 | 동해 고각 | 신포 차량 집결 | 액체 ICBM/IRBM |
+| **#3** | 평양 인근 | 통보 없음 | 동해 고각 | 함흥 17호/11호 사전 가동 | 고체 IRBM/ICBM |
+| **#4** | 평양/전방 | — | 알섬 타격 | TEL 단독 기동 | 고체 SRBM (KN-23/24/25) |
+
+---
+
+## 부록 K. 공통 Enum 일람
+
+### 원천 데이터 Enum
+
+| Enum | 값 |
+|------|------|
+| `asset_type` | `SATELLITE_IMINT` · `AERIAL_IMINT` · `SIGINT` · `UAV_FLIR` · `OSINT` |
+| `sensor_type` | `EO` · `SAR` · `IR` |
+| `frequency_band` | `UHF` · `HF` · `VHF` · `X-Band` · `S-Band` · `L-Band` |
+| `signal_strength` | `Weak` · `Moderate` · `High` |
+| `ew_environment` | `Normal` · `Jammed` |
+| `weapon_class` | `SRBM` · `MRBM` · `IRBM` · `ICBM` · `SLBM` · `CM` · `HGV` |
+| `sensor_mode` | `FLIR_WhiteHot` · `FLIR_BlackHot` · `EO_DayTV` · `IR_MidWave` |
+| `tracking_status` | `Searching` · `Lock-on` · `Lost` |
+| `media_type` | `Text` · `Photo` · `Video` |
+
+### 자산/시각화 Enum
+
+| Enum | 값 |
+|------|------|
+| `ThreatAsset.type` | `SAM` · `TEL` · `RADAR` · `MISSILE_BASE` · `COMMAND` |
+| `ThreatAsset.status` | `active` · `destroyed` · `relocating` · `unknown` |
+| `FriendlyAsset.type` | `MISSILE` · `FIGHTER` · `ISR` · `SHIP` · `COMMAND` · `UAV` |
+| `FriendlyAsset.status` | `ready` · `engaged` · `returning` · `standby` |
+| `TimelineEvent.type` | `intel` · `movement` · `launch` · `strike` · `bda` · `alert` |
+| `ActionClassType` | `IMINT` · `HUMINT` · `SIGINT` · `GEOINT` · `OSINT` · `MASINT` · `CYBINT` · `WXINT` · `UAV` |
+
+---
+
+## 부록 L. 구현 우선순위 매트릭스
+
+### 현재 구현됨 (유지/보강)
+
+| 순위 | 스키마 | 역할 |
+|:----:|--------|------|
+| 1 | `IMINT` · `SIGINTRaw` · `SIGINTProcessed` · `UAVTelemetry` | 실시간 융합 탐지 원천 |
+| 2 | `ActionClass` · `SPUQResult` | 비정형→정형 변환 연결고리 |
+| 3 | `Hypothesis` · `InferenceResult` | 베이지안 추론 산출 |
+| 4 | `ProvocationCase` · `HistoricalCase` | RAG 과거사례 매칭 |
+| 5 | `OSINTReport` | 올소스 인텔리전스 교차검증 |
+| 6 | `BriefingResult` · `EvidenceTrace` | 지휘관 브리핑 출력 |
+
+### 목표 설계 (데모 이후)
+
+| 순위 | 스키마 | 역할 |
+|:----:|--------|------|
+| 1 | `facilities` · `launch_indicator_events` | Phase별 확률 추정 데이터화 |
+| 2 | `launch_classification_rules` | Rule-Base 판정 보조 |
+| 3 | `observation` 실연결 | Layer 1 → 앱 직접 조회 |
+
+### 프로덕션 전환 (미래)
+
+| 항목 | 내용 |
+|------|------|
+| Supabase 실연동 | observation 조회, pgvector 임베딩 검색 |
+| 대량 스트리밍 | SIGINT raw / UAV 파티셔닝·보존 정책 |
+| 감사/재현성 | inference_runs 영속화 |
+| 시설 마스터 자동갱신 | OSINT/영상 갱신 파이프라인 |
+
+---
+
+## 부록 M. 상태 구분 범례
+
+| 상태 | 의미 |
+|------|------|
+| 🟢 구현됨 | `types/index.ts`에 정의 + `data/*.json` 또는 `lib/`, `api/`에서 사용 중 |
+| 🟡 설계 문서만 존재 | 기획 문서에는 있으나 코드/데이터 미반영 |
+| 🟠 목표 설계 | 프로덕션 전환에 필요, 미리 정리 |
+| ⚪ 미래 확장 | 데모 범위 밖, 후속 확장 |
