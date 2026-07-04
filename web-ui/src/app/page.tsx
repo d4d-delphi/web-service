@@ -66,18 +66,19 @@ export default function Home() {
       timestamp: Math.round((n > 1 ? i / (n - 1) : 0) * span),
     }));
 
-    // 각 단계 구간 [startTime, endTime) 에 속한 실제 이벤트 위치의 평균으로
-    // cameraTarget 을 갱신. 구간에 관측이 없으면 기존(mock) 목표점을 유지한다.
+    // 각 단계 구간 [startTime, endTime) 의 '첫' 실제 관측 위치로 cameraTarget 을
+    // 갱신한다. (평균 중심점을 쓰면 여러 관측이 흩어진 구간에서 카메라가 어느
+    // 노란 점에도 얹히지 않고 그 사이 허공을 비추므로, 구간 진입 시 활성화되는
+    // 첫 관측 지점에 맞춘다.) 구간에 관측이 없으면 기존(mock) 목표점을 유지한다.
     const phases: ScenarioPhase[] = scenarioBase.phases.map((phase) => {
       const inWindow = timeline.filter(
         (e) => e.position && e.timestamp >= phase.startTime && e.timestamp < phase.endTime,
       );
       if (inWindow.length === 0) return phase;
-      const lat = inWindow.reduce((s, e) => s + e.position!.lat, 0) / inWindow.length;
-      const lng = inWindow.reduce((s, e) => s + e.position!.lng, 0) / inWindow.length;
+      const first = inWindow[0].position!;
       return {
         ...phase,
-        cameraTarget: { lat, lng, range: phase.cameraTarget?.range ?? 400000 },
+        cameraTarget: { lat: first.lat, lng: first.lng, range: phase.cameraTarget?.range ?? 400000 },
       };
     });
 
