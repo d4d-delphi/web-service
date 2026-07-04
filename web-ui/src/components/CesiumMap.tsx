@@ -69,6 +69,8 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets }: Ce
           infoBox: false,
           selectionIndicator: false,
           baseLayer: new Cesium.ImageryLayer(imageryProvider),
+          // Flat 2D map (still CesiumJS) instead of the 3D globe.
+          sceneMode: Cesium.SceneMode.SCENE2D,
         });
 
         // Dark theme
