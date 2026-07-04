@@ -1,5 +1,6 @@
 'use client';
 
+import { useRef, useEffect } from 'react';
 import { TimelineEvent, ScenarioPhase, InferenceResult } from '@/types';
 
 interface EnemyPanelProps {
@@ -181,6 +182,18 @@ function ScenarioBlock({ hypothesisId, posterior, scenario, events, currentTime 
 
   const launchReached = stages.some((s: any) => s.isLaunch && s.reached);
 
+  // 시나리오 전환/Phase 진행 시 현재 Phase를 중심으로 타임라인을 펼친다.
+  // 활성 Phase가 바뀔 때만 가장 가까운 방향으로 스크롤(사용자 수동 스크롤 최소 간섭).
+  const activeRowRef = useRef<HTMLDivElement | null>(null);
+  const activeStageIdRef = useRef<number | null>(null);
+  useEffect(() => {
+    const active = stages.find((s: any) => s.active);
+    if (active && active.phase.id !== activeStageIdRef.current) {
+      activeStageIdRef.current = active.phase.id;
+      activeRowRef.current?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }
+  }, [stages]);
+
   const gaugeText = (pct: number) => {
     if (pct >= 90) return 'text-red-500';
     if (pct >= 60) return 'text-orange-500';
@@ -234,7 +247,7 @@ function ScenarioBlock({ hypothesisId, posterior, scenario, events, currentTime 
             const isLast = i === stages.length - 1;
             const hasEvents = s.inWindow.length > 0;
             return (
-              <div key={s.phase.id} className="flex gap-2.5">
+              <div key={s.phase.id} className="flex gap-2.5" ref={s.active ? activeRowRef : undefined}>
                 {/* Rail */}
                 <div className="flex flex-col items-center w-3 shrink-0">
                   <div

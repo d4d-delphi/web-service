@@ -22,6 +22,14 @@ import phasesLiquidShort from '@/data/phases-liquid-short.json';
 
 const CesiumMap = dynamic(() => import('@/components/CesiumMap'), { ssr: false });
 
+// 징후 기반 페이싱: 각 Phase의 핵심 징후(대표 이벤트)에 도달하면 관측자가
+// 충분히 인지할 때까지 해당 시점을 유지한다. "재생 속도"가 아니라
+// "핵심 징후 도달 + 최소 체류"가 다음 Phase 진행 조건.
+//  - SIGNATURE_DWELL_MS: 일반 징후 관측 체류(모달 3s + 여유)
+//  - LAUNCH_DWELL_MS   : 발사/타격 징후 강조 체류
+const SIGNATURE_DWELL_MS = 5000;
+const LAUNCH_DWELL_MS = 7000;
+
 export default function Home() {
   const [activeScenario, setActiveScenario] = useState<ScenarioId>('scenario-a');
   const [currentTime, setCurrentTime] = useState(0);
@@ -32,6 +40,8 @@ export default function Home() {
   const [destroyedAssets, setDestroyedAssets] = useState<string[]>([]);
   const [inferenceResult, setInferenceResult] = useState<InferenceResult | null>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  // 현재 Phase의 핵심 징후(gate) 도달 시점 추적. dwell 체류 판정에 사용.
+  const holdRef = useRef<{ phaseId: number; reachedAt: number } | null>(null);
 
   // 각 이벤트가 "발생"하는 순간(재생 시각이 timestamp를 넘을 때) 상단에 모달을 띄우고
   // 3초 후 자동으로 감춘다.
@@ -103,12 +113,56 @@ export default function Home() {
     return { ...scenarioBase, timeline, phases };
   }, [supabaseEvents, scenarioBase]);
 
-  // Playback logic
+  // 징후 기반 페이싱을 위한 Phase별 핵심 징후(gate) 식별.
+  // 각 Phase 구간 [startTime, endTime) 내에서 가장 의미있는 관측 1건을 대표 징후로
+  // 삼는다. 우선순위: 발사/타격 > 위협등급(threatLevel) > 가장 늦은 시각.
+  // 관측이 없는 Phase(예: Supabase 미연동 시 scenario-a)는 구간 종료 직전 시점을
+  // gate로 삼아 최소 체류만 보장한다.
+  const phaseGate = useMemo(() => {
+    const map = new Map<number, { ts: number; eventId?: string; isLaunch: boolean }>();
+    for (const phase of scenario.phases) {
+      const inWindow = scenario.timeline.filter(
+        (e) => e.timestamp >= phase.startTime && e.timestamp < phase.endTime,
+      );
+      const score = (e: TimelineEvent) =>
+        e.type === 'launch' || e.type === 'strike' ? 1000 : e.threatLevel ?? 0;
+      let sig: TimelineEvent | undefined;
+      if (inWindow.length > 0) {
+        sig = inWindow.reduce((best, e) => {
+          if (score(e) !== score(best)) return score(e) > score(best) ? e : best;
+          return e.timestamp >= best.timestamp ? e : best;
+        });
+      }
+      const isLaunch = sig?.type === 'launch' || sig?.type === 'strike';
+      const ts = sig ? sig.timestamp : Math.max(phase.endTime - 1, phase.startTime);
+      map.set(phase.id, { ts, eventId: sig?.id, isLaunch });
+    }
+    return map;
+  }, [scenario]);
+
+  // Playback logic — 징후 기반 페이싱
+  // 시간은 계속 흐르지만, 현재 Phase의 핵심 징후(gate) 시점에 도달하면
+  // 관측자가 인지할 수 있도록 최소 체류(dwell) 시간 동안 해당 시점에 머문다.
+  // 체류가 끝나야 다음 Phase로 넘어간다 = "단순 시간 경과가 아닌 징후 도달 기반 진행".
   useEffect(() => {
     if (isPlaying) {
       intervalRef.current = setInterval(() => {
         setCurrentTime((prev) => {
-          const next = prev + 10 * speed; // 기본 배속 × (빨리감기 시 5)
+          let next = prev + 10 * speed; // 기본 배속 × (빨리감기 시 5)
+          const phase = scenario.phases.find((p) => prev >= p.startTime && prev < p.endTime);
+          if (phase) {
+            const gate = phaseGate.get(phase.id);
+            if (gate && next > gate.ts) {
+              if (!holdRef.current || holdRef.current.phaseId !== phase.id) {
+                holdRef.current = { phaseId: phase.id, reachedAt: Date.now() };
+              }
+              const dwell = gate.isLaunch ? LAUNCH_DWELL_MS : SIGNATURE_DWELL_MS;
+              if (Date.now() - holdRef.current.reachedAt < dwell) {
+                // 핵심 징후 관측 시점에서 대기. 다음 Phase 진행은 dwell 완료 후.
+                next = gate.ts;
+              }
+            }
+          }
           if (next >= scenario.duration) {
             setIsPlaying(false);
             return scenario.duration;
@@ -125,7 +179,7 @@ export default function Home() {
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [isPlaying, scenario.duration, speed]);
+  }, [isPlaying, scenario.duration, scenario.phases, phaseGate, speed]);
 
   // Run inference — DELPHI 백엔드 우선, fallback: 프론트 Bayesian
   const lastVisibleEventIdsRef = useRef<string>('');
@@ -204,10 +258,16 @@ export default function Home() {
     shownEventIdsRef.current.clear();
     setModalEvent(null);
     if (modalTimeoutRef.current) clearTimeout(modalTimeoutRef.current);
+    // 시나리오 전환 시 타임라인(EnemyPanel) 자동 표시.
+    setEnemyOpen(true);
+    // 페이싱 게이트 상태 초기화 (이전 시나리오의 dwell 잔류 방지).
+    holdRef.current = null;
   };
 
   const handlePhaseClick = (phase: ScenarioPhase) => {
     setCurrentTime(phase.startTime);
+    // 수동 Phase 이동 시 페이싱 게이트 재평가.
+    holdRef.current = null;
   };
 
   // 빨리감기: 1x ↔ 5x 토글. 켜면 곧바로 재생을 시작한다.
