@@ -280,9 +280,9 @@ export default function Home() {
     holdRef.current = null;
   };
 
-  // 빨리감기: 1x ↔ 5x 토글. 켜면 곧바로 재생을 시작한다.
+  // 빨리감기: 1x → 5x → 20x → 1x 순환. 켜면 곧바로 재생을 시작한다.
   const handleFastForward = () => {
-    setSpeed((s) => (s === 5 ? 1 : 5));
+    setSpeed((s) => (s === 1 ? 5 : s === 5 ? 20 : 1));
     setIsPlaying(true);
   };
 
@@ -457,7 +457,7 @@ export default function Home() {
                 className="min-h-0 transition-all duration-300"
                 style={{ flex: chatActive ? 4 : 2 }}
               >
-                <ChatPanel context={chatContext} onActiveChange={setChatActive} />
+                <ChatPanel context={chatContext} onActiveChange={setChatActive} onCollapse={() => setChatActive(false)} />
               </div>
             </div>
           ) : (

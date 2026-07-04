@@ -118,9 +118,11 @@ interface ChatPanelProps {
   context?: string;
   /** 채팅 활성(메시지 존재/로딩) 상태 변화 통지 — 상위에서 패널 높이를 조정할 때 사용. */
   onActiveChange?: (active: boolean) => void;
+  /** 축소 버튼 콜백 — 클릭 시 상위에서 chatActive=false 로 패널을 원래 크기로. */
+  onCollapse?: () => void;
 }
 
-export default function ChatPanel({ context, onActiveChange }: ChatPanelProps) {
+export default function ChatPanel({ context, onActiveChange, onCollapse }: ChatPanelProps) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -206,11 +208,21 @@ export default function ChatPanel({ context, onActiveChange }: ChatPanelProps) {
   return (
     <div className="h-full flex flex-col layer-1 border-l border-t border-blue-900/30">
       {/* Header */}
-      <div className="shrink-0 p-3 border-b border-blue-900/30 bg-blue-950/20">
+      <div className="shrink-0 p-3 border-b border-blue-900/30 bg-blue-950/20 flex items-center justify-between">
         <h2 className="text-sm font-bold text-cyan-400 flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-cyan-500 animate-pulse"></span>
           AI Copilot
         </h2>
+        {onCollapse && (
+          <button
+            type="button"
+            onClick={onCollapse}
+            className="text-gray-500 hover:text-gray-200 text-xs px-1.5 py-0.5 rounded border border-gray-700/50 hover:border-gray-500/50 transition-colors"
+            title="패널 축소"
+          >
+            ▾
+          </button>
+        )}
       </div>
 
       {/* Messages */}
