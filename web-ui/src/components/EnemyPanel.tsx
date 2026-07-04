@@ -131,6 +131,7 @@ export default function EnemyPanel({ events, currentTime, inferenceResult, scena
                   key={h.id}
                   hypothesisId={h.id}
                   posterior={h.posterior}
+                  pLaunch={inferenceResult?.overallConfidence}
                   scenario={scenario}
                   events={events}
                   currentTime={currentTime}
@@ -169,8 +170,11 @@ export default function EnemyPanel({ events, currentTime, inferenceResult, scena
   );
 }
 
-function ScenarioBlock({ hypothesisId, posterior, scenario, events, currentTime }: any) {
+function ScenarioBlock({ hypothesisId, posterior, pLaunch, scenario, events, currentTime }: any) {
   const probPct = Math.round(posterior * 100);
+  // 게이지에는 백엔드 발사 임박도(p_launch)를 우선 표시한다. 백엔드 미연동 시
+  // overallConfidence(프론트 폴백)가 넘어오며, 그마저 없으면 가설 posterior로 폴백.
+  const launchPct = Math.round((typeof pLaunch === 'number' ? pLaunch : posterior) * 100);
 
   // Hooks must run unconditionally, before any early return, to satisfy
   // React's rules-of-hooks. Guard the derived data against a null scenario.
@@ -247,18 +251,18 @@ function ScenarioBlock({ hypothesisId, posterior, scenario, events, currentTime 
       {/* Compact live gauge */}
       <div className="px-3 pt-3 shrink-0">
         <div className="flex items-baseline justify-between mb-1">
-          <span className="text-[11px] text-gray-500 uppercase tracking-wider">위험도 (신뢰도)</span>
+          <span className="text-[11px] text-gray-500 uppercase tracking-wider">발사 임박도 (p_launch)</span>
         </div>
         <div className="flex items-end gap-2">
-          <span className={`text-3xl font-bold leading-none ${gaugeText(probPct)}`}>
-            {probPct}
+          <span className={`text-3xl font-bold leading-none ${gaugeText(launchPct)}`}>
+            {launchPct}
             <span className="text-base">%</span>
           </span>
           <div className="flex-1 mb-1">
             <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
               <div
-                className={`h-full rounded-full transition-all duration-700 ${gaugeBar(probPct)}`}
-                style={{ width: `${probPct}%` }}
+                className={`h-full rounded-full transition-all duration-700 ${gaugeBar(launchPct)}`}
+                style={{ width: `${launchPct}%` }}
               />
             </div>
           </div>
