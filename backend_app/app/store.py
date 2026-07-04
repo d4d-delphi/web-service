@@ -5,6 +5,7 @@ import json, os
 from collections import defaultdict
 from app.contrib import ContribEngine
 from app import settings as S
+from app import cache_redis
 
 SOURCE_FIELDS = ["obs_id", "collected_at", "asset_type", "location_name",
                  "activity_desc", "reliability", "platform", "analyst_unit"]
@@ -20,6 +21,17 @@ class Store:
         self.ledger = defaultdict(list)
         self.observations = {}
         self.meta = {}
+        # Redis 백엔드(env-gated) — 설정 시 로컬 파일 대신 Redis에서 로드, 미설정/비어있으면 파일 fallback.
+        if cache_redis.enabled():
+            data = cache_redis.load_cache()
+            if data:
+                self.snaps = defaultdict(list, {k: list(v) for k, v in data["snaps"].items()})
+                self.ledger = defaultdict(list, {k: list(v) for k, v in data["ledger"].items()})
+                self.observations = data["observations"]
+                self.meta = data["meta"]
+                for c in self.snaps:
+                    self.snaps[c].sort(key=lambda s: s["ts"])
+                return self
         if os.path.exists(S.SNAPSHOTS):
             for l in open(S.SNAPSHOTS, encoding="utf-8"):
                 s = json.loads(l); self.snaps[s["campaign_id"]].append(s)

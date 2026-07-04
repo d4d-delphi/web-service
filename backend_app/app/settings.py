@@ -22,3 +22,10 @@ DEV_DATA_DIR = os.environ.get("DELPHI_DEV_DATA",
                               os.path.join(os.path.dirname(ROOT), "backend_dev", "data"))
 
 API_PREFIX = "/api/v1"
+
+# --- Redis cache backend (optional; default = local file cache under CACHE_DIR) ---
+# recache 가 빌드한 cache/ 를 Redis에 올리고 store 가 Redis에서 읽게 한다(stateless serving).
+# cache_redis.py 가 직접 읽는 환경변수:
+#   UPSTASH_REDIS_REST_URL + UPSTASH_REDIS_REST_TOKEN  (Upstash REST, serverless — requests 만 필요)
+#   REDIS_URL=redis://...                              (표준 Redis — redis-py 필요)
+# 둘 중 하나만 설정. 미설정 시 기존 로컬 파일 캐시로 동작.

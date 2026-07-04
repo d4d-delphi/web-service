@@ -17,6 +17,7 @@ from datetime import datetime, timezone
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 from app import settings as S           # noqa: E402
+from app import cache_redis             # noqa: E402
 from pipeline import stage2             # noqa: E402
 
 
@@ -65,6 +66,9 @@ def main():
     meta["mode"] = "reuse-abox" if args.reuse_abox is not None else "full"
     json.dump(meta, open(S.META, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
     print(f"[recache] DONE ({meta['mode']}) at {meta['recached_at']} -> {S.CACHE_DIR}")
+    # Redis 백엔드(env-gated) — 설정 시 빌드된 cache/ 를 Redis에도 올림(stateless serving).
+    if cache_redis.enabled():
+        cache_redis.publish_cache(S.CACHE_DIR)
 
 
 if __name__ == "__main__":
