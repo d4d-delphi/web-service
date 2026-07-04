@@ -9,6 +9,89 @@ interface CesiumMapProps {
   destroyedAssets: string[];
 }
 
+// Asset-type → marker symbol
+const THREAT_SYMBOL: Record<string, string> = {
+  SAM: 'diamond',
+  TEL: 'triangle',
+  RADAR: 'radar',
+  MISSILE_BASE: 'square',
+  COMMAND: 'star',
+};
+const FRIENDLY_SYMBOL: Record<string, string> = {
+  MISSILE: 'triangle',
+  FIGHTER: 'chevron',
+  ISR: 'circle',
+  SHIP: 'ship',
+  COMMAND: 'star',
+  UAV: 'chevron',
+};
+
+// Draw a small military-style marker glyph onto a canvas for use as a
+// Cesium billboard image (no external assets — CSP-safe, works offline).
+function markerCanvas(symbol: string, fill: string, outline: string): HTMLCanvasElement {
+  const size = 30;
+  const c = document.createElement('canvas');
+  c.width = size;
+  c.height = size;
+  const ctx = c.getContext('2d')!;
+  ctx.translate(size / 2, size / 2);
+  ctx.lineWidth = 2.5;
+  ctx.lineJoin = 'round';
+  ctx.strokeStyle = outline;
+  ctx.fillStyle = fill;
+  ctx.shadowColor = fill;
+  ctx.shadowBlur = 6;
+  const r = 9;
+
+  ctx.beginPath();
+  switch (symbol) {
+    case 'triangle':
+      ctx.moveTo(0, -r); ctx.lineTo(r * 0.9, r * 0.8); ctx.lineTo(-r * 0.9, r * 0.8); ctx.closePath();
+      break;
+    case 'diamond':
+      ctx.moveTo(0, -r); ctx.lineTo(r, 0); ctx.lineTo(0, r); ctx.lineTo(-r, 0); ctx.closePath();
+      break;
+    case 'square':
+      ctx.rect(-r * 0.8, -r * 0.8, r * 1.6, r * 1.6);
+      break;
+    case 'chevron':
+      ctx.moveTo(0, -r); ctx.lineTo(r, r * 0.9); ctx.lineTo(0, r * 0.3); ctx.lineTo(-r, r * 0.9); ctx.closePath();
+      break;
+    case 'ship':
+      ctx.moveTo(-r, -r * 0.3); ctx.lineTo(r, -r * 0.3); ctx.lineTo(r * 0.6, r * 0.7); ctx.lineTo(-r * 0.6, r * 0.7); ctx.closePath();
+      break;
+    case 'star': {
+      const spikes = 5, outer = r, inner = r * 0.45;
+      for (let i = 0; i < spikes * 2; i++) {
+        const rad = i % 2 ? inner : outer;
+        const a = (Math.PI / spikes) * i - Math.PI / 2;
+        const fn = i ? 'lineTo' : 'moveTo';
+        ctx[fn](Math.cos(a) * rad, Math.sin(a) * rad);
+      }
+      ctx.closePath();
+      break;
+    }
+    case 'radar':
+      ctx.arc(0, 0, r * 0.85, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+      ctx.beginPath();
+      ctx.moveTo(0, 0); ctx.lineTo(0, -r * 0.85);
+      ctx.moveTo(0, 0); ctx.lineTo(r * 0.7, -r * 0.5);
+      ctx.stroke();
+      return c;
+    case 'circle':
+    default:
+      ctx.arc(0, 0, r * 0.82, 0, Math.PI * 2);
+      break;
+  }
+  ctx.fill();
+  ctx.shadowBlur = 0;
+  ctx.stroke();
+  return c;
+}
+
 function loadCesiumScript(): Promise<any> {
   return new Promise((resolve, reject) => {
     // Already loaded
@@ -39,6 +122,7 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets }: Ce
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const prevPhaseRef = useRef<number | null>(null);
+  const lastPulseKeyRef = useRef<string | null>(null);
 
   useEffect(() => {
     if (!containerRef.current || viewerRef.current) return;
@@ -134,11 +218,14 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets }: Ce
       viewer.entities.add({
         id: threat.id,
         position: Cesium.Cartesian3.fromDegrees(threat.position.lng, threat.position.lat, 0),
-        point: {
-          pixelSize: isDestroyed ? 8 : 12,
-          color: isDestroyed ? Cesium.Color.GRAY.withAlpha(0.5) : Cesium.Color.RED.withAlpha(0.9),
-          outlineColor: isDestroyed ? Cesium.Color.GRAY : Cesium.Color.DARKRED,
-          outlineWidth: 2,
+        billboard: {
+          image: markerCanvas(
+            THREAT_SYMBOL[threat.type] || 'circle',
+            isDestroyed ? '#6b7280' : '#ef4444',
+            isDestroyed ? '#374151' : '#7f1d1d',
+          ),
+          scale: isDestroyed ? 0.8 : 1,
+          verticalOrigin: Cesium.VerticalOrigin.CENTER,
         },
         label: {
           text: threat.name,
@@ -176,11 +263,10 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets }: Ce
       viewer.entities.add({
         id: friendly.id,
         position: Cesium.Cartesian3.fromDegrees(friendly.position.lng, friendly.position.lat, 0),
-        point: {
-          pixelSize: 10,
-          color: Cesium.Color.DODGERBLUE,
-          outlineColor: Cesium.Color.CYAN,
-          outlineWidth: 2,
+        billboard: {
+          image: markerCanvas(FRIENDLY_SYMBOL[friendly.type] || 'circle', '#3b82f6', '#22d3ee'),
+          scale: 1,
+          verticalOrigin: Cesium.VerticalOrigin.CENTER,
         },
         label: {
           text: friendly.name,
@@ -196,6 +282,81 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets }: Ce
       });
     });
   }, [scenario, loaded, destroyedAssets]);
+
+  // Pulsing marker on the currently-active timeline event's location
+  useEffect(() => {
+    if (!viewerRef.current || !scenario || !loaded || !cesiumRef.current) return;
+
+    const Cesium = cesiumRef.current;
+    const viewer = viewerRef.current;
+
+    // Most recent event at/before currentTime
+    const past = scenario.timeline.filter((e) => e.timestamp <= currentTime);
+    const active = past.length ? past[past.length - 1] : null;
+
+    // Resolve a position from the event's related assets
+    let pos: { lat: number; lng: number } | null = null;
+    if (active) {
+      for (const id of active.relatedAssets || []) {
+        const asset =
+          scenario.threats.find((x) => x.id === id) ||
+          scenario.friendlies.find((x) => x.id === id);
+        if (asset) {
+          pos = asset.position;
+          break;
+        }
+      }
+    }
+
+    const existing = viewer.entities.getById('active-event-pulse');
+    if (!active || !pos) {
+      if (existing) viewer.entities.remove(existing);
+      lastPulseKeyRef.current = null;
+      return;
+    }
+
+    // Rebuild only when the active event changes (not every frame)
+    if (existing && lastPulseKeyRef.current === active.id) return;
+    if (existing) viewer.entities.remove(existing);
+
+    const period = 1600;
+    const amber = '#f59e0b';
+    const phase = () => (performance.now() % period) / period; // 0..1
+
+    viewer.entities.add({
+      id: 'active-event-pulse',
+      position: Cesium.Cartesian3.fromDegrees(pos.lng, pos.lat, 0),
+      ellipse: {
+        semiMajorAxis: new Cesium.CallbackProperty(() => 4000 + phase() * 32000, false),
+        semiMinorAxis: new Cesium.CallbackProperty(() => 4000 + phase() * 32000, false),
+        material: new Cesium.ColorMaterialProperty(
+          new Cesium.CallbackProperty(
+            () => Cesium.Color.fromCssColorString(amber).withAlpha(0.35 * (1 - phase())),
+            false,
+          ),
+        ),
+        height: 0,
+      },
+      point: {
+        pixelSize: 11,
+        color: Cesium.Color.fromCssColorString(amber),
+        outlineColor: Cesium.Color.WHITE,
+        outlineWidth: 2,
+      },
+      label: {
+        text: `▶ ${active.title}`,
+        font: 'bold 12px sans-serif',
+        scale: 0.6,
+        fillColor: Cesium.Color.fromCssColorString('#fde68a'),
+        outlineColor: Cesium.Color.BLACK,
+        outlineWidth: 3,
+        style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+        verticalOrigin: Cesium.VerticalOrigin.TOP,
+        pixelOffset: new Cesium.Cartesian2(0, 16),
+      },
+    });
+    lastPulseKeyRef.current = active.id;
+  }, [scenario, currentTime, loaded]);
 
   // Camera fly on phase change
   useEffect(() => {
