@@ -60,6 +60,10 @@ type GraphData = {
   outputs: { name: string; value: number; expr: string }[];
   hypotheses: { label: string; prob: number }[];
   obs: GraphObs[];
+  types: { name: string; db: number }[];
+  obs_type_edges: { obs_id: string; type: string; db: number }[];
+  type_stage_edges: { type: string; stage: string; residual_db: number }[];
+  type_axis_edges: { type: string; axis: string; db: number }[];
   stage_edges: { obs_id: string; stage: string; residual_db: number }[];
   axis_edges: { obs_id: string; axis: string; db: number }[];
 };
@@ -113,6 +117,38 @@ const HYP_COLOR: Record<string, string> = {
 const POS_EDGE = '#34d399'; // +dB (probability pushed up)
 const NEG_EDGE = '#f87171'; // −dB (probability pushed down)
 const STRUCT_EDGE = '#4b5563'; // structural wiring (stage→output, axis→hypothesis)
+
+// Intermediate layer: A-Box evidence types (the mechanism — likelihood_db is keyed by these),
+// grouped by ontology class per the taxonomy: 이동물체 / 활동 / 신호방출. Color encodes the group.
+const TYPE_GROUPS = ['이동물체', '활동', '신호방출'] as const;
+const GROUP_COLOR = ['#f59e0b', '#38bdf8', '#a78bfa'];
+const TYPE_META: Record<string, { label: string; group: number }> = {
+  // 2.2 MobileObject (이동물체)
+  Transporter: { label: '수송·발사대', group: 0 },
+  TEL: { label: 'TEL', group: 0 },
+  Trailer: { label: '트레일러', group: 0 },
+  RailCar: { label: '특수 열차', group: 0 },
+  PropellantVehicle: { label: '추진제 차량', group: 0 },
+  OxidizerVehicle: { label: '산화제 차량', group: 0 },
+  SecurityVehicle: { label: '보안 차량', group: 0 },
+  SupportVehicle: { label: '지원 차량', group: 0 },
+  // 2.3 Activity (활동)
+  VehicleMassing: { label: '차량 집결', group: 1 },
+  ObjectMovement: { label: '물체 이동', group: 1 },
+  StructureWork: { label: '구조물 작업', group: 1 },
+  CommunicationSurge: { label: '통신 급증', group: 1 },
+  AreaClosure: { label: '구역 폐쇄', group: 1 },
+  PersonnelActivity: { label: '인원 활동', group: 1 },
+  SignalActivation: { label: '신호 활성화', group: 1 },
+  // 2.4 Emission (신호방출)
+  CommsEmission: { label: '통신 방출', group: 2 },
+  RadarEmission: { label: '레이더 방출', group: 2 },
+  TelemetryEmission: { label: '텔레메트리', group: 2 },
+};
+function typeMeta(name: string) {
+  const m = TYPE_META[name];
+  return m ? { label: m.label, group: m.group, color: GROUP_COLOR[m.group] } : { label: name, group: 3, color: '#9ca3af' };
+}
 
 const ENDPOINTS = [
   { method: 'GET', path: '/health', desc: '캐시 상태 · 신선도' },
@@ -480,7 +516,7 @@ export default function ServerPage() {
           <p className="text-[10px] text-gray-600 px-5 pb-2">
             {view === 'graph' ? (
               <>
-                영향 그래프: 관측 → s1/s2/s3·연료/사거리 → P(발사)·가설(PH) · 간선 굵기 ∝ |dB|, 색 = 부호 ·
+                영향 그래프: 증거유형(A-Box) → s1/s2/s3·연료/사거리 → P(발사)·가설(PH) · 간선 굵기 ∝ |dB|, 색 = 부호 ·
                 선택 시점 <code className="text-gray-500">GET /api/v1/inference</code> 의{' '}
                 <code className="text-gray-500">graph</code> 필드
               </>
@@ -925,13 +961,15 @@ function TimelineChart({
 }
 
 // ---- Influence flow graph (Sankey-ish) ------------------------------------
-// Renders the `graph` payload from GET /api/v1/inference at the scrubbed time as a
-// left→right flow: observations → {s1/s2/s3 stages · fuel/range axes} → {P outputs · PH}.
-//   • obs→stage / obs→axis edges are *live* contributions (thickness ∝ |dB|, color = sign).
+// Renders the `graph` payload from GET /api/v1/inference at the scrubbed time as a left→right
+// flow: 증거유형(A-Box) → {s1/s2/s3 stages · fuel/range axes} → {P outputs · PH}.
+//   • the A-Box evidence type is the mechanism — likelihood_db is keyed by it. Type nodes are
+//     grouped by ontology class (이동물체/활동/신호방출); their dB is aggregated over the shown obs.
+//   • type→stage / type→axis edges are *live* contributions (thickness ∝ |dB|, color = sign).
 //   • stage→output and axis→hypothesis edges are structural wiring (muted grey).
 type GNode = {
   id: string;
-  kind: 'obs' | 'stage' | 'axis' | 'output' | 'hyp';
+  kind: 'obs' | 'type' | 'stage' | 'axis' | 'output' | 'hyp';
   x: number;
   y: number;
   w: number;
@@ -957,9 +995,6 @@ type GEdge = {
   title: string;
 };
 
-function truncate(s: string, n: number) {
-  return s.length > n ? `${s.slice(0, n - 1)}…` : s;
-}
 function signed(n: number) {
   return `${n >= 0 ? '+' : ''}${n}`;
 }
@@ -978,18 +1013,24 @@ function columnY(groups: number[], top: number, avail: number) {
   return { ys, slot };
 }
 
-function buildLayout(graph: GraphData, W: number, H: number): { nodes: GNode[]; edges: GEdge[] } {
-  if (W < 40 || H < 40) return { nodes: [], edges: [] };
+type GLabel = { x: number; y: number; text: string; color: string };
+function buildLayout(
+  graph: GraphData,
+  W: number,
+  H: number,
+): { nodes: GNode[]; edges: GEdge[]; headers: [number, string][]; groupLabels: GLabel[] } {
+  if (W < 40 || H < 40) return { nodes: [], edges: [], headers: [], groupLabels: [] };
   const top = 34;
   const bottom = 26;
   const availH = H - top - bottom;
 
-  const obsW = Math.min(200, Math.max(130, W * 0.28));
-  const obsX = 6;
-  const outW = Math.min(190, Math.max(130, W * 0.28));
+  // 3 columns: 증거유형(A-Box) → s1/s2/s3·축 → 출력·PH
+  const typeW = Math.min(180, Math.max(120, W * 0.24));
+  const typeX = 6;
+  const outW = Math.min(190, Math.max(130, W * 0.26));
   const outX = W - 6 - outW;
   const latW = 108;
-  const latX = (obsX + obsW + outX) / 2 - latW / 2;
+  const latX = (typeX + typeW + outX) / 2 - latW / 2;
 
   const nodes: GNode[] = [];
   const byId = new Map<string, GNode>();
@@ -1000,25 +1041,36 @@ function buildLayout(graph: GraphData, W: number, H: number): { nodes: GNode[]; 
 
   const nh = (slot: number) => Math.max(20, Math.min(40, slot * 0.72));
 
-  // Column 1 — observations
-  const obsY = columnY(graph.obs.map(() => 0), top, availH);
-  const obsH = nh(obsY.slot);
-  graph.obs.forEach((o, i) => {
-    const name = o.source?.location_name || o.obs_id.slice(0, 8);
+  // Column 1 — A-Box evidence types, ordered + grouped by ontology class (이동물체/활동/신호방출).
+  const groupLabels: GLabel[] = [];
+  const typeItems = graph.types
+    .map((t) => ({ t, meta: typeMeta(t.name) }))
+    .sort((a, b) => a.meta.group - b.meta.group || Math.abs(b.t.db) - Math.abs(a.t.db));
+  const typeY = columnY(typeItems.map((it) => it.meta.group), top, availH);
+  const typeH = nh(typeY.slot);
+  const seenGroup = new Set<number>();
+  typeItems.forEach((it, i) => {
     push({
-      id: `obs:${o.obs_id}`,
-      kind: 'obs',
-      x: obsX,
-      y: obsY.ys[i],
-      w: obsW,
-      h: obsH,
-      color: '#94a3b8',
-      label: truncate(name, 20),
-      sub: `발사 ${signed(o.launch_db)} · 축 ${signed(o.axis_db)} dB`,
-      title: `${name}\n${o.source?.collected_at?.slice(0, 16) || ''} · ${o.source?.asset_type || ''}\n발사경로 ${signed(
-        o.launch_db,
-      )} dB · 가설축 ${signed(o.axis_db)} dB`,
+      id: `type:${it.t.name}`,
+      kind: 'type',
+      x: typeX,
+      y: typeY.ys[i],
+      w: typeW,
+      h: typeH,
+      color: it.meta.color,
+      label: it.meta.label,
+      sub: `${signed(it.t.db)} dB`,
+      title: `${it.meta.label} (${it.t.name}) · ${TYPE_GROUPS[it.meta.group] ?? '기타'}\n순 기여 ${signed(it.t.db)} dB`,
     });
+    if (!seenGroup.has(it.meta.group)) {
+      seenGroup.add(it.meta.group);
+      groupLabels.push({
+        x: typeX,
+        y: typeY.ys[i] - typeH / 2 - 4,
+        text: TYPE_GROUPS[it.meta.group] ?? '기타',
+        color: it.meta.color,
+      });
+    }
   });
 
   // Column 2 — latents: stages then axes
@@ -1107,11 +1159,12 @@ function buildLayout(graph: GraphData, W: number, H: number): { nodes: GNode[]; 
   const anchor = (from: GNode, to: GNode) => ({ ax: from.x + from.w, ay: from.y, bx: to.x, by: to.y });
   const maxFlow = Math.max(
     1,
-    ...graph.stage_edges.map((e) => Math.abs(e.residual_db)),
-    ...graph.axis_edges.map((e) => Math.abs(e.db)),
+    ...graph.type_stage_edges.map((e) => Math.abs(e.residual_db)),
+    ...graph.type_axis_edges.map((e) => Math.abs(e.db)),
   );
   const flowW = (v: number) => 1.5 + 7.5 * Math.min(1, Math.abs(v) / maxFlow);
   const structW = (p: number) => 0.6 + 3.9 * Math.max(0, Math.min(1, p));
+  const sign = (v: number) => (v >= 0 ? POS_EDGE : NEG_EDGE);
   const addEdge = (fromId: string, toId: string, width: number, color: string, struct: boolean, title: string) => {
     const from = byId.get(fromId);
     const to = byId.get(toId);
@@ -1119,15 +1172,14 @@ function buildLayout(graph: GraphData, W: number, H: number): { nodes: GNode[]; 
     edges.push({ id: `${fromId}->${toId}`, from: fromId, to: toId, ...anchor(from, to), width, color, struct, title });
   };
 
-  graph.stage_edges.forEach((e) => {
-    const meta = STAGE_META[e.stage];
-    addEdge(`obs:${e.obs_id}`, `stage:${e.stage}`, flowW(e.residual_db), e.residual_db >= 0 ? POS_EDGE : NEG_EDGE, false,
-      `→ ${meta?.label || e.stage}: ${signed(e.residual_db)} dB (leaky residual)`);
+  // evidence type → stage (leaky residual) and → axis (static)
+  graph.type_stage_edges.forEach((e) => {
+    addEdge(`type:${e.type}`, `stage:${e.stage}`, flowW(e.residual_db), sign(e.residual_db), false,
+      `${typeMeta(e.type).label} → ${STAGE_META[e.stage]?.label || e.stage}: ${signed(e.residual_db)} dB (leaky residual)`);
   });
-  graph.axis_edges.forEach((e) => {
-    const meta = AXIS_META[e.axis];
-    addEdge(`obs:${e.obs_id}`, `axis:${e.axis}`, flowW(e.db), e.db >= 0 ? POS_EDGE : NEG_EDGE, false,
-      `→ ${meta?.label || e.axis}: ${signed(e.db)} dB (static)`);
+  graph.type_axis_edges.forEach((e) => {
+    addEdge(`type:${e.type}`, `axis:${e.axis}`, flowW(e.db), sign(e.db), false,
+      `${typeMeta(e.type).label} → ${AXIS_META[e.axis]?.label || e.axis}: ${signed(e.db)} dB (static)`);
   });
   // structural: stage → output (stage name present in the output expression)
   graph.outputs.forEach((o) => {
@@ -1146,7 +1198,13 @@ function buildLayout(graph: GraphData, W: number, H: number): { nodes: GNode[]; 
     });
   });
 
-  return { nodes, edges };
+  const headers: [number, string][] = [
+    [typeX + typeW / 2, '증거유형 (A-Box)'],
+    [latX + latW / 2, 's1/s2/s3 · 연료/사거리축'],
+    [outX + outW / 2, 'P(발사·활동) · 가설 PH'],
+  ];
+
+  return { nodes, edges, headers, groupLabels };
 }
 
 function edgePath(e: GEdge) {
@@ -1169,7 +1227,10 @@ function InfluenceGraph({ graph, at }: { graph: GraphData; at: string | null }) 
     return () => ro.disconnect();
   }, []);
 
-  const { nodes, edges } = useMemo(() => buildLayout(graph, dim.w, dim.h), [graph, dim.w, dim.h]);
+  const { nodes, edges, headers, groupLabels } = useMemo(
+    () => buildLayout(graph, dim.w, dim.h),
+    [graph, dim.w, dim.h],
+  );
 
   // hover connectivity
   const neighbors = useMemo(() => {
@@ -1182,15 +1243,6 @@ function InfluenceGraph({ graph, at }: { graph: GraphData; at: string | null }) 
     return set;
   }, [hoverId, edges]);
 
-  const headers: [number, string][] =
-    dim.w > 40
-      ? [
-          [6 + Math.min(200, Math.max(130, dim.w * 0.28)) / 2, '관측 (Observation)'],
-          [dim.w / 2, 's1/s2/s3 · 연료/사거리축'],
-          [dim.w - 6 - Math.min(190, Math.max(130, dim.w * 0.28)) / 2, 'P(발사·활동) · 가설 PH'],
-        ]
-      : [];
-
   return (
     <div
       ref={wrapRef}
@@ -1202,6 +1254,12 @@ function InfluenceGraph({ graph, at }: { graph: GraphData; at: string | null }) 
           {headers.map(([x, label]) => (
             <text key={label} x={x} y={16} textAnchor="middle" className="fill-gray-500" fontSize={11} fontWeight={600}>
               {label}
+            </text>
+          ))}
+          {/* ontology-class labels within the evidence-type column */}
+          {groupLabels.map((g) => (
+            <text key={g.text} x={g.x + 1} y={g.y} fontSize={9.5} fontWeight={600} fill={g.color} opacity={0.85}>
+              {g.text}
             </text>
           ))}
 
