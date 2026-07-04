@@ -1,0 +1,17 @@
+# Render Blueprint — DELPHI inference backend (free tier, CPU-only, no GPU/LLM).
+# The read-only API serves from cache/, which is rebuilt at deploy time from the
+# committed backend_dev/ A-Box via recache --reuse-abox (Stage 2 only, no Supabase).
+# Deploy: push this file, then New + > Blueprint on https://dashboard.render.com
+services:
+  - type: web
+    name: delphi-api
+    runtime: python
+    plan: free
+    rootDir: backend_app
+    buildCommand: pip install -r requirements.txt && python scripts/recache.py --reuse-abox
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.0"
