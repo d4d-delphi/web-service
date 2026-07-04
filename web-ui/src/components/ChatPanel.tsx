@@ -116,14 +116,22 @@ function normalizeMarkdown(src: string): string {
 interface ChatPanelProps {
   /** 현재 시나리오/추론 상황 요약. 매 질의 시 시스템 컨텍스트로 전달된다. */
   context?: string;
+  /** 채팅 활성(메시지 존재/로딩) 상태 변화 통지 — 상위에서 패널 높이를 조정할 때 사용. */
+  onActiveChange?: (active: boolean) => void;
 }
 
-export default function ChatPanel({ context }: ChatPanelProps) {
+export default function ChatPanel({ context, onActiveChange }: ChatPanelProps) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  // 대화가 시작되면(메시지 존재 또는 로딩) 상위에 알려 패널이 위로 확장되게 한다.
+  const chatActive = messages.length > 0 || loading;
+  useEffect(() => {
+    onActiveChange?.(chatActive);
+  }, [chatActive, onActiveChange]);
 
   // 새 메시지가 쌓이면 항상 하단으로 스크롤.
   useEffect(() => {
@@ -201,7 +209,7 @@ export default function ChatPanel({ context }: ChatPanelProps) {
       <div className="shrink-0 p-3 border-b border-blue-900/30 bg-blue-950/20">
         <h2 className="text-sm font-bold text-cyan-400 flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-cyan-500 animate-pulse"></span>
-          지휘 참모 AI
+          AI Copilot
         </h2>
       </div>
 

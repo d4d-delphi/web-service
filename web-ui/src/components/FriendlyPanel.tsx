@@ -12,7 +12,7 @@ import doctrineMirror from '@/data/doctrine-ontology.json';
 import blueUnits from '@/data/friendly-units.json';
 
 // ============================================================
-// 지휘관 상황판 (SitRep) — 우측 패널
+// 우측 패널 SitRep (타이틀 라인 제거됨)
 // 4개 섹션: 위협 게이지 / 가용 자산 / 최근 탐지 징후 / 대응 옵션
 //
 // "안 뜨던 UI" 원인: 과거 우측 패널은 FriendlyPanel(가용자산만) + ChatPanel 이
@@ -150,14 +150,6 @@ function watchconColor(level: number): { bar: string; text: string; ring: string
   if (level === 3) return { bar: 'bg-amber-500', text: 'text-amber-400', ring: 'ring-amber-500/40' };
   if (level === 4) return { bar: 'bg-yellow-500', text: 'text-yellow-400', ring: 'ring-yellow-500/40' };
   return { bar: 'bg-green-500', text: 'text-green-400', ring: 'ring-green-500/40' };
-}
-
-// 발사확률 게이지 색
-function probColor(pct: number): string {
-  if (pct >= 70) return 'text-red-400';
-  if (pct >= 50) return 'text-amber-400';
-  if (pct >= 25) return 'text-yellow-400';
-  return 'text-green-400';
 }
 
 // 재생 시각(currentTime, 초) → 미션 클럭 표기 (MM:SS)
@@ -319,7 +311,6 @@ function SectionTitle({ children, accent }: { children: React.ReactNode; accent:
 
 function ThreatGauge({ doctrine }: { doctrine: DerivedDoctrine }) {
   const wc = watchconColor(doctrine.watchconLevel);
-  const pct = doctrine.launchProbPct;
   return (
     <div className="rounded-md border border-gray-700/50 bg-black/30 px-2.5 py-2">
       <div className="flex items-center justify-between mb-1.5">
@@ -327,20 +318,6 @@ function ThreatGauge({ doctrine }: { doctrine: DerivedDoctrine }) {
         <span className={`text-[10px] font-mono ${wc.text} tabular-nums`}>
           WATCHCON {doctrine.watchconLevel}
         </span>
-      </div>
-
-      {/* 발사확률 게이지 */}
-      <div className="mb-1.5">
-        <div className="flex items-baseline justify-between">
-          <span className="text-[10px] text-gray-500">발사확률 (p_launch)</span>
-          <span className={`text-base font-bold tabular-nums ${probColor(pct)}`}>{pct}%</span>
-        </div>
-        <div className="h-1.5 mt-1 rounded-full bg-gray-800 overflow-hidden">
-          <div
-            className={`h-full ${wc.bar} transition-all duration-500`}
-            style={{ width: `${Math.min(100, pct)}%` }}
-          />
-        </div>
       </div>
 
       {/* WATCHCON + 킬체인 */}
@@ -589,13 +566,9 @@ export default function FriendlyPanel({
 
   return (
     <div className="h-full flex flex-col layer-1 border-l border-blue-900/30">
-      {/* Header — 지휘관 상황판 + 미션 클럭 */}
+      {/* Header — 미션 클럭 (타이틀 라인 제거됨) */}
       <div className="shrink-0 p-2.5 border-b border-blue-900/30 bg-blue-950/20">
-        <div className="flex items-center justify-between">
-          <h2 className="text-[13px] font-bold text-blue-300 flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
-            지휘관 상황판
-          </h2>
+        <div className="flex items-center justify-end">
           <span className="text-[11px] font-mono text-amber-400/80 tabular-nums">
             {missionClock(currentTime)}
           </span>

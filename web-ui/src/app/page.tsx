@@ -27,8 +27,11 @@ const CesiumMap = dynamic(() => import('@/components/CesiumMap'), { ssr: false }
 // "핵심 징후 도달 + 최소 체류"가 다음 Phase 진행 조건.
 //  - SIGNATURE_DWELL_MS: 일반 징후 관측 체류(모달 3s + 여유)
 //  - LAUNCH_DWELL_MS   : 발사/타격 징후 강조 체류
-const SIGNATURE_DWELL_MS = 5000;
-const LAUNCH_DWELL_MS = 7000;
+// 페이싱이 너무 빠르다는 피드백 반영 — 체류 시간 대폭 확대, 틱당 진행 보폭 축소.
+const SIGNATURE_DWELL_MS = 9000;
+const LAUNCH_DWELL_MS = 14000;
+// 재생 틱당 관측 시각 진행 보폭(기본 배속 기준). 작을수록 전반적 재생이 느려짐.
+const PLAYBACK_STEP_BASE = 7;
 
 export default function Home() {
   const [activeScenario, setActiveScenario] = useState<ScenarioId>('scenario-a');
@@ -36,6 +39,11 @@ export default function Home() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [enemyOpen, setEnemyOpen] = useState(true);
   const [friendlyOpen, setFriendlyOpen] = useState(true);
+  // 좌측 패널 모드: 'enemy' (적 정보 분석) | 'timeline' (이벤트 타임라인).
+  // 시나리오 전환 시 자동으로 'timeline' 로 전환되며, 사용자가 탭으로 되돌릴 수 있다.
+  const [leftPanelMode, setLeftPanelMode] = useState<'enemy' | 'timeline'>('enemy');
+  // 채팅 활성 여부 — ChatPanel 이 메시지/로딩 시 상위로 알림. 활성 시 채팅 패널이 위로 확장.
+  const [chatActive, setChatActive] = useState(false);
   const [speed, setSpeed] = useState(1); // 재생 배속 (1x 기본 / 5x 빨리감기)
   const [destroyedAssets, setDestroyedAssets] = useState<string[]>([]);
   const [inferenceResult, setInferenceResult] = useState<InferenceResult | null>(null);
@@ -148,7 +156,7 @@ export default function Home() {
     if (isPlaying) {
       intervalRef.current = setInterval(() => {
         setCurrentTime((prev) => {
-          let next = prev + 10 * speed; // 기본 배속 × (빨리감기 시 5)
+          let next = prev + PLAYBACK_STEP_BASE * speed; // 기본 배속 × (빨리감기 시 5)
           const phase = scenario.phases.find((p) => prev >= p.startTime && prev < p.endTime);
           if (phase) {
             const gate = phaseGate.get(phase.id);
@@ -260,6 +268,8 @@ export default function Home() {
     if (modalTimeoutRef.current) clearTimeout(modalTimeoutRef.current);
     // 시나리오 전환 시 타임라인(EnemyPanel) 자동 표시.
     setEnemyOpen(true);
+    // 시나리오가 바뀌면 좌측 패널을 이벤트 타임라인으로 전환.
+    setLeftPanelMode('timeline');
     // 페이싱 게이트 상태 초기화 (이전 시나리오의 dwell 잔류 방지).
     holdRef.current = null;
   };
@@ -276,7 +286,7 @@ export default function Home() {
     setIsPlaying(true);
   };
 
-  // 지휘 참모 AI에 넘길 현재 상황 요약. 추론 결과·시나리오·경과 시간을 압축한다.
+  // AI Copilot에 넘길 현재 상황 요약. 추론 결과·시나리오·경과 시간을 압축한다.
   const chatContext = useMemo(() => {
     const scenarioLabel =
       activeScenario === 'scenario-a'
@@ -352,18 +362,44 @@ export default function Home() {
             {enemyOpen ? '‹' : '›'}
           </button>
           {enemyOpen ? (
-            <div className="flex-1 min-h-0">
-              <EnemyPanel
-                events={scenario.timeline}
-                currentTime={currentTime}
-                inferenceResult={inferenceResult}
-                scenarios={[
-                  { id: 'h-solid-short',  name: '고체 단거리 (SRBM)',       phases: scenarioBData.phases as any },
-                  { id: 'h-solid-long',   name: '고체 장거리 (IRBM/ICBM)', phases: phasesSolidLong as any },
-                  { id: 'h-liquid-long',  name: '액체 장거리 (ICBM/IRBM)', phases: phasesLiquidLong as any },
-                  { id: 'h-liquid-short', name: '액체 단거리 (SCUD/노동)',  phases: phasesLiquidShort as any },
-                ]}
-              />
+            <div className="flex-1 min-h-0 flex flex-col">
+              {/* 좌측 패널 모드 전환 탭: 적 정보 / 타임라인 */}
+              <div className="shrink-0 flex bg-gray-900/60 border-b border-gray-800">
+                <button
+                  onClick={() => setLeftPanelMode('enemy')}
+                  className={`flex-1 h-8 text-[11px] font-bold tracking-wide transition-colors ${
+                    leftPanelMode === 'enemy'
+                      ? 'bg-gray-800 text-amber-400 border-b-2 border-amber-500'
+                      : 'text-gray-500 hover:text-gray-300 border-b-2 border-transparent'
+                  }`}
+                >
+                  적 정보
+                </button>
+                <button
+                  onClick={() => setLeftPanelMode('timeline')}
+                  className={`flex-1 h-8 text-[11px] font-bold tracking-wide transition-colors ${
+                    leftPanelMode === 'timeline'
+                      ? 'bg-gray-800 text-cyan-400 border-b-2 border-cyan-500'
+                      : 'text-gray-500 hover:text-gray-300 border-b-2 border-transparent'
+                  }`}
+                >
+                  타임라인
+                </button>
+              </div>
+              <div className="flex-1 min-h-0">
+                <EnemyPanel
+                  events={scenario.timeline}
+                  currentTime={currentTime}
+                  inferenceResult={inferenceResult}
+                  viewMode={leftPanelMode}
+                  scenarios={[
+                    { id: 'h-solid-short',  name: '고체 단거리 (SRBM)',       phases: scenarioBData.phases as any },
+                    { id: 'h-solid-long',   name: '고체 장거리 (IRBM/ICBM)', phases: phasesSolidLong as any },
+                    { id: 'h-liquid-long',  name: '액체 장거리 (ICBM/IRBM)', phases: phasesLiquidLong as any },
+                    { id: 'h-liquid-short', name: '액체 단거리 (SCUD/노동)',  phases: phasesLiquidShort as any },
+                  ]}
+                />
+              </div>
             </div>
           ) : (
             <div className="flex-1 flex items-center justify-center bg-[#0d1117] border-r border-gray-800/50">
@@ -403,8 +439,12 @@ export default function Home() {
           </button>
           {friendlyOpen ? (
             <div className="flex-1 min-h-0 flex flex-col">
-              {/* 상단: 지휘관 상황판 (SitRep) — 위협게이지/가용자산/최근징후/대응옵션 스크롤 */}
-              <div className="flex-[3] min-h-0 overflow-hidden">
+              {/* 상단: 우측 패널 SitRep — 위협게이지/가용자산/최근징후/대응옵션 스크롤 */}
+              {/* 채팅 활성 시 FriendlyPanel 비중 축소 — ChatPanel 이 위로 확장 */}
+              <div
+                className="min-h-0 overflow-hidden transition-all duration-300"
+                style={{ flex: chatActive ? 2 : 3 }}
+              >
                 <FriendlyPanel
                   friendlies={scenario.friendlies}
                   events={scenario.timeline}
@@ -412,9 +452,12 @@ export default function Home() {
                   inferenceResult={inferenceResult}
                 />
               </div>
-              {/* 하단: 지휘 참모 AI 채팅 */}
-              <div className="flex-[2] min-h-0">
-                <ChatPanel context={chatContext} />
+              {/* 하단: AI Copilot 채팅 — 대화 시 위로 확장(flex 증가) */}
+              <div
+                className="min-h-0 transition-all duration-300"
+                style={{ flex: chatActive ? 4 : 2 }}
+              >
+                <ChatPanel context={chatContext} onActiveChange={setChatActive} />
               </div>
             </div>
           ) : (

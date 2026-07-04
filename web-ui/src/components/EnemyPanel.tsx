@@ -8,6 +8,12 @@ interface EnemyPanelProps {
   currentTime: number;
   inferenceResult: InferenceResult | null;
   scenarios?: { id: string; name: string; phases: ScenarioPhase[] }[];
+  /**
+   * 좌측 패널 표시 모드.
+   *  - 'enemy'    : 평시/시나리오 분석 뷰(기존). inferenceResult 로 자동 전환.
+   *  - 'timeline' : 이벤트 타임라인 뷰. 시나리오 전환 시 상위(page.tsx)에서 전환함.
+   */
+  viewMode?: 'enemy' | 'timeline';
 }
 
 type Risk = { dot: string; ring: string; line: string; name: string; badge: string; prob: string; };
@@ -80,13 +86,30 @@ const PEACETIME_REPORTS: { category: string; color: string; dot: string; time: s
   },
 ];
 
-export default function EnemyPanel({ events, currentTime, inferenceResult, scenarios = [] }: EnemyPanelProps) {
+export default function EnemyPanel({ events, currentTime, inferenceResult, scenarios = [], viewMode = 'enemy' }: EnemyPanelProps) {
   // 30% 이상인 시나리오들 필터링 및 확률 높은 순 정렬
   const confirmedHypotheses = (inferenceResult?.hypotheses || [])
     .filter(h => h.posterior >= 0.3)
     .sort((a, b) => b.posterior - a.posterior);
 
   const isScenarioActive = confirmedHypotheses.length > 0;
+
+  // 타임라인 모드: 이벤트를 시각순 세로 타임라인으로 표시. 시나리오 전환 시
+  // 좌측 패널이 EnemyPanel(발사 시퀀스)에서 이 뷰로 전환된다.
+  if (viewMode === 'timeline') {
+    return (
+      <div className="h-full flex flex-col layer-1 border-r border-gray-800/50">
+        <div className="p-3 border-b border-gray-800 bg-gray-900/40 shrink-0">
+          <h2 className="text-sm font-bold text-cyan-400 flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-cyan-500 animate-pulse"></span>
+            이벤트 타임라인
+          </h2>
+          <p className="text-[10px] text-gray-500 mt-0.5">관측 징후 시각순 · 현재 시각 이전은 강조</p>
+        </div>
+        <EventTimeline events={events} currentTime={currentTime} />
+      </div>
+    );
+  }
 
   return (
     <div className="h-full flex flex-col layer-1 border-r border-gray-800/50">
@@ -336,5 +359,71 @@ function gaugeBar(pct: number) {
   if (pct >= 50) return 'bg-orange-500';
   if (pct >= 25) return 'bg-yellow-500';
   return 'bg-gray-500';
+}
+
+// 이벤트 타임라인 뷰(viewMode === 'timeline')용 시각 포맷.
+function formatEventTs(t: number): string {
+  const m = Math.floor(t / 60);
+  const s = Math.floor(t % 60);
+  return `T+${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+}
+
+// 세로 이벤트 타임라인. 과거(currentTime 이전) 징후는 강조, 미래는 흐림.
+// 발사/타격 이벤트는 레일 점을 붉게 강조한다.
+function EventTimeline({ events, currentTime }: { events: TimelineEvent[]; currentTime: number }) {
+  const sorted = [...events].sort((a, b) => a.timestamp - b.timestamp);
+  if (sorted.length === 0) {
+    return (
+      <div className="flex-1 flex items-center justify-center p-4">
+        <p className="text-[11px] text-gray-600 text-center">관측 이벤트 없음 — 재생을 시작하면 징후가 표시됩니다.</p>
+      </div>
+    );
+  }
+  return (
+    <div className="flex-1 overflow-y-auto px-3 py-2">
+      <div className="flex flex-col">
+        {sorted.map((e, i) => {
+          const seen = e.timestamp <= currentTime;
+          const isLaunch = e.type === 'launch' || e.type === 'strike';
+          const isLast = i === sorted.length - 1;
+          const dotCls = isLaunch && seen
+            ? 'bg-red-500 border-red-400 shadow-[0_0_10px_rgba(239,68,68,0.6)]'
+            : seen
+              ? 'bg-cyan-400 border-cyan-300'
+              : 'bg-transparent border-gray-600';
+          const lineCls = seen ? (isLaunch ? 'bg-red-500/40' : 'bg-cyan-500/30') : 'bg-gray-800';
+          return (
+            <div key={e.id} className="flex gap-2.5">
+              <div className="flex flex-col items-center w-3 shrink-0">
+                <div className={`mt-1 rounded-full border-2 w-2.5 h-2.5 ${dotCls} ${seen && !isLaunch ? 'animate-pulse' : ''}`} />
+                {!isLast && <div className={`w-0.5 flex-1 my-1 rounded-full ${lineCls}`} />}
+              </div>
+              <div className="flex-1 pb-3 min-w-0">
+                <div className="flex items-center justify-between gap-2">
+                  <span className={`text-[12px] font-medium leading-tight truncate ${seen ? 'text-gray-200' : 'text-gray-500'}`}>
+                    {e.title}
+                  </span>
+                  <span className="text-[9px] font-mono text-gray-500 shrink-0 tabular-nums">{formatEventTs(e.timestamp)}</span>
+                </div>
+                {e.description && (
+                  <p className={`text-[10px] leading-snug mt-0.5 break-keep ${seen ? 'text-gray-400' : 'text-gray-600'}`}>
+                    {e.description}
+                  </p>
+                )}
+                <div className="flex items-center gap-1.5 mt-0.5">
+                  {e.actionClass && (
+                    <span className="text-[9px] px-1 rounded bg-cyan-950/40 text-cyan-300/80 border border-cyan-900/40">{e.actionClass}</span>
+                  )}
+                  {isLaunch && seen && (
+                    <span className="text-[9px] px-1 rounded bg-red-950/50 text-red-300 border border-red-900/50 font-bold">LAUNCH</span>
+                  )}
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
 }
 
