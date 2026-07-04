@@ -1,5 +1,6 @@
 -- NL-COP core schema
--- docs/data_dict/NL-COP 데이터 사전.md 기준으로 원천 수집 -> 정형화 -> 추론 -> 보고 -> 시각화 전 계층을 정의한다.
+-- 원래 docs/data_dict/NL-COP 데이터 사전.md 기준으로 정의됨(현재는 docs/DATASET-SCHEMA.md 부록으로 이관).
+-- 참고: 이 테이블들은 이후 20260704084259_layer1_observation_schema.sql에서 Layer 1 설계로 대체되어 drop됨.
 
 create extension if not exists pgcrypto;
 create extension if not exists vector;
