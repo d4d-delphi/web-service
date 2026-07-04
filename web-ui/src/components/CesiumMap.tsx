@@ -360,6 +360,9 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets, cust
   // 커스터디 카메라: 최초 진입 시 극적 스웝(flyTo) 후 프레임마다 추종(setView).
   const custodyEngagedAtRef = useRef<number | null>(null);
   const lastPulseKeyRef = useRef<string | null>(null);
+  // hover 중인 라벨 ID를 declutter 패스와 공유 — declutter가 show=false로
+  // 덮어써 hover 라벨이 숨겨지는 충돌을 막기 위함.
+  const hoveredLabelRef = useRef<string | null>(null);
   // Latest currentTime, read by the entity-build effect (which isn't keyed on it)
   // to set the initial visibility of time-gated observation markers.
   const currentTimeRef = useRef(currentTime);
@@ -457,6 +460,8 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets, cust
             }
           }
           const labelId = baseId ? `${baseId}-label` : null;
+          // declutter 패스가 읽도록 현재 hover 라벨을 기록.
+          hoveredLabelRef.current = labelId;
           if (labelId !== lastLabelId) {
             if (lastLabelId) {
               const e = viewer.entities.getById(lastLabelId);
@@ -544,9 +549,8 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets, cust
       }
     });
 
-    // Friendly assets. 항공기/함정(ISR·FIGHTER·UAV·SHIP)은 청색 마커로 활성 자산을 강조하고,
-    // COMMAND(지상 지휘·센서 기지 — 777사령부 SIGINT, 그린파인 레이더 등)와 MISSILE은
-    // 무채색(회색)으로 처리하여 파란색 과도 도드라짐을 방지. 적·아군 구분은 심볼 모양/위치.
+    // Friendly assets. 모든 아군 마커를 무채색(회색)으로 통일 — 청색이 지도에서
+    // 과도하게 도드라지는 것을 방지. 적·아군 구분은 심볼 모양과 위치로.
     scenario.friendlies.forEach((friendly: FriendlyAsset, i: number) => {
       const profile: 'air' | 'sea' | null =
         friendly.type === 'SHIP'
@@ -559,9 +563,8 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets, cust
         ? motion.position
         : Cesium.Cartesian3.fromDegrees(friendly.position.lng, friendly.position.lat, 0);
 
-      const isGroundSite = friendly.type === 'COMMAND' || friendly.type === 'MISSILE';
-      const fFill = isGroundSite ? '#555555' : '#3b82f6';
-      const fOutline = isGroundSite ? '#334155' : '#22d3ee';
+      const fFill = '#9ca3af';
+      const fOutline = '#4b5563';
 
       viewer.entities.add({
         id: friendly.id,
@@ -579,7 +582,7 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets, cust
         friendly.id,
         position,
         friendly.name,
-        '#22d3ee',
+        '#9ca3af',
         'rgba(10,14,26,0.72)',
       );
     });
@@ -593,10 +596,9 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets, cust
           const id = `orbat-${slug}`;
           if (viewer.entities.getById(id)) return;
           const pos = Cesium.Cartesian3.fromDegrees(u.hqLng as number, u.hqLat as number, 0);
-          // SA-2/SA-5(air_defense)만 채색(빨강), 나머지 적 부대는 무채색(회색)으로 통일.
-          const isSam = u.unitType === 'air_defense';
-          const fill = isSam ? '#7f1d1d' : '#6b7280';
-          const outline = isSam ? '#450a0a' : '#374151';
+          // 모든 적 ORBAT 마커를 무채색(회색)으로 통일 — SA-2/SA-5 방공도 동일.
+          const fill = '#6b7280';
+          const outline = '#374151';
           viewer.entities.add({
             id,
             position: pos,
@@ -626,9 +628,7 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets, cust
         });
     });
 
-    // 아군(ROK/USFK) 전투서열 부대 마커 — 무채색(회색) 톤. 정밀 좌표 비공개 → 행정구역 수준.
-    // SIGINT(777사령부 등)를 포함한 아군 지상 부대는 청색 대신 무채색으로 처리하여
-    // 파란색이 지도에서 과도하게 도드라지는 것을 방지. 적·아군 구분은 심볼 모양과 위치로.
+    // 아군(ROK/USFK) 전투서열 부대 마커 — 무채색(회색) 통일. 정밀 좌표 비공개 → 행정구역 수준.
     loadFriendlyFormations().then((units) => {
       units
         .filter((u) => u.hqLat != null && u.hqLng != null)
@@ -637,12 +637,11 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets, cust
           const id = `blue-${slug}`;
           if (viewer.entities.getById(id)) return;
           const pos = Cesium.Cartesian3.fromDegrees(u.hqLng as number, u.hqLat as number, 0);
-          const outline = u.side === 'usfk' ? '#1e293b' : '#334155';
           viewer.entities.add({
             id,
             position: pos,
             billboard: {
-              image: markerCanvas(FORMATION_SYMBOL[u.formationType] || 'circle', '#555555', outline),
+              image: markerCanvas(FORMATION_SYMBOL[u.formationType] || 'circle', '#9ca3af', '#4b5563'),
               scale: 0.9,
               verticalOrigin: Cesium.VerticalOrigin.CENTER,
             },
@@ -673,6 +672,79 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets, cust
         },
       });
       addLabelEntity(Cesium, viewer, s.id, Cesium.Cartesian3.fromDegrees(s.lng, s.lat, 0), s.name, '#9ca3af', 'rgba(10,14,26,0.72)');
+    });
+
+    // 러시아 블라디보스토크 → 원산 적 항공기 1기 (빨간색 마커 + 빨간 trail).
+    // 출발 시점부터 현재 위치까지 빨간 궤적 선이 그려진다. performance.now() 기반
+    // CallbackProperty로 매 프레임 갱신 — Cesium clock 의존성 없음.
+    const enemyAc = {
+      dep: { lat: 43.12, lng: 131.88 }, // 블라디보스토크
+      arr: { lat: 39.15, lng: 127.45 }, // 원산
+      duration: 120000,                 // 120초 만에 도착 (데모용 가속)
+    };
+    const acStart = performance.now();
+    const acProgress = () => {
+      const elapsed = performance.now() - acStart;
+      return Math.max(0, Math.min(1, elapsed / enemyAc.duration));
+    };
+    const acPos = (t: number) => {
+      const lat = enemyAc.dep.lat + (enemyAc.arr.lat - enemyAc.dep.lat) * t;
+      const lng = enemyAc.dep.lng + (enemyAc.arr.lng - enemyAc.dep.lng) * t;
+      return { lat, lng };
+    };
+    // 진행 방향 bearing(billboard 회전용). 0=북, 시계방향.
+    const acBearing = Math.atan2(
+      (enemyAc.arr.lng - enemyAc.dep.lng) * Math.cos((enemyAc.dep.lat * Math.PI) / 180),
+      enemyAc.arr.lat - enemyAc.dep.lat,
+    );
+    const acPosition = new Cesium.CallbackProperty(() => {
+      const p = acPos(acProgress());
+      return Cesium.Cartesian3.fromDegrees(p.lng, p.lat, 0);
+    }, false);
+    viewer.entities.add({
+      id: 'enemy-ac-vostok',
+      position: acPosition,
+      billboard: {
+        image: markerCanvas('aircraft', '#dc2626', '#7f1d1d'),
+        scale: 1.1,
+        rotation: -acBearing, // Cesium billboard 회전은 CCW 양수
+        verticalOrigin: Cesium.VerticalOrigin.CENTER,
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+      },
+    });
+    addLabelEntity(
+      Cesium,
+      viewer,
+      'enemy-ac-vostok',
+      acPosition,
+      '적 전투기 (블라디보스토크→원산)',
+      '#fca5a5',
+      'rgba(10,14,26,0.78)',
+    );
+    // 빨간 trail — 출발점부터 현재 위치까지 Polyline. CallbackProperty가 매 프레임
+    // 출발~현재 구간을 샘플링하여 빨간 선을 그린다(똥꼬 선).
+    viewer.entities.add({
+      id: 'enemy-ac-vostok-trail',
+      polyline: {
+        positions: new Cesium.CallbackProperty(() => {
+          const p = acProgress();
+          if (p <= 0) {
+            return Cesium.Cartesian3.fromDegreesArray([enemyAc.dep.lng, enemyAc.dep.lat]);
+          }
+          const samples = Math.max(2, Math.ceil(p * 30));
+          const pts: number[] = [];
+          for (let i = 0; i <= samples; i++) {
+            const t = (i / samples) * p;
+            const q = acPos(t);
+            pts.push(q.lng, q.lat);
+          }
+          return Cesium.Cartesian3.fromDegreesArray(pts);
+        }, false),
+        width: 2,
+        material: new Cesium.ColorMaterialProperty(
+          Cesium.Color.fromCssColorString('#dc2626'),
+        ),
+      },
     });
 
     // Observation markers (amber dots)
@@ -859,6 +931,7 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets, cust
       const placed: { l: number; r: number; t: number; b: number }[] = [];
       const cw = scene.canvas.clientWidth;
       const ch = scene.canvas.clientHeight;
+      const hovered = hoveredLabelRef.current;
       for (const it of items) {
         const w = it.w;
         const h = 20;
@@ -874,7 +947,8 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets, cust
             }
           }
         }
-        const show = false; // hover-only: declutter가 라벨 표시를 덮어쓰지 않도록 항상 false
+        // hover-only: 기본 숨김. 단, 현재 hover 중인 라벨은 declutter가 덮어쓰지 않는다.
+        const show = (it.e.id as string) === hovered;
         if (it.e.billboard.show !== show) it.e.billboard.show = show;
         if (show) placed.push(box);
       }
