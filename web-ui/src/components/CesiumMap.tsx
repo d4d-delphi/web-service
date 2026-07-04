@@ -385,15 +385,16 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets, cust
 
         Cesium.Ion.defaultAccessToken = '';
 
-        // CartoDB "dark matter" tiles — dark, low-color, and crisp at every
-        // zoom. @2x (retina) endpoint at 512px for extra sharpness.
+        // CartoDB "dark matter" tiles — dark, low-color. @1x (256px) endpoint
+        // for faster first paint: ~4x fewer tile bytes than the @2x/512px
+        // retina endpoint, at the cost of slightly softer basemap on hi-DPI.
         // Note: requires internet at runtime.
         const baseLayer = new Cesium.ImageryLayer(
           new Cesium.UrlTemplateImageryProvider({
-            url: 'https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}@2x.png',
+            url: 'https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}.png',
             subdomains: 'abcd',
-            tileWidth: 512,
-            tileHeight: 512,
+            tileWidth: 256,
+            tileHeight: 256,
             maximumLevel: 20,
             credit: '© OpenStreetMap contributors © CARTO',
           }),
