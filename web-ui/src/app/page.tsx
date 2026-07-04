@@ -10,6 +10,7 @@ import EventModal from '@/components/EventModal';
 import LaunchSpecModal from '@/components/LaunchSpecModal';
 import { Scenario, ScenarioId, ScenarioPhase, InferenceResult, TimelineEvent } from '@/types';
 import { runInference } from '@/lib/bayesian';
+import { runBackendInference, scenarioToCampaign, latestObservationAt } from '@/lib/inference_client';
 import { custodyState } from '@/lib/custody';
 import { structureReport } from '@/lib/spuq';
 import hypothesesData from '@/data/hypotheses.json';
@@ -161,10 +162,14 @@ export default function Home() {
       return action;
     });
 
-    // 베이지안 추론 실행
-    const result = runInference(actions, hypothesesData as any);
-    setInferenceResult(result);
-  }, [currentTime, scenario.timeline]);
+    // 추론: 백엔드(deciban 엔진) 우선 → bayesian 데모 폴백
+    (async () => {
+      const campaignId = scenarioToCampaign(activeScenario);
+      const atISO = latestObservationAt(scenario.timeline, currentTime);
+      const backend = campaignId && atISO ? await runBackendInference(campaignId, atISO) : null;
+      setInferenceResult(backend ?? runInference(actions, hypothesesData as any));
+    })();
+  }, [currentTime, scenario.timeline, activeScenario]);
 
   // 재생 중, 새로 발생한(방금 timestamp를 넘긴) 이벤트를 모달로 알림.
   // 한 틱에 여러 개가 넘어가면 가장 최근 것을 보여주고 나머지도 '표시됨'으로 처리한다.
