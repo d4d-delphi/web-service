@@ -48,11 +48,29 @@ interface ChatMessage {
   content: string;
 }
 
+// 강조(`**`/`*`)가 닫히지 않는 CommonMark 플랭킹 엣지케이스를 교정한다.
+// 한국어는 조사가 붙어 `**...)**로`, `**20%**입니다`처럼 닫는 구분자가 "구두점 뒤 +
+// 곧바로 글자"인 경우가 잦은데, 이때 닫는 `**`가 right-flanking 조건을 못 채워 강조가
+// 통째로 평문으로 남는다. 구두점과 닫는 구분자 사이에 폭 없는 공백(U+200B)을 끼워
+// 넣어 정상적으로 닫히게 한다(화면상 변화 없음). 별표(`*`)·역따옴표는 대상에서 제외하고,
+// 인라인 코드(`...`)는 건드리지 않는다.
+function fixEmphasisFlanking(line: string): string {
+  return line
+    .split(/(`+[^`]*`+)/)
+    .map((seg, i) =>
+      i % 2 === 1
+        ? seg
+        : seg.replace(/([^\s\p{L}\p{N}*`])(\*{1,2})(?=[\p{L}\p{N}])/gu, '$1​$2'),
+    )
+    .join('');
+}
+
 // LLM 출력에서 흔한 마크다운 엣지케이스를 렌더 직전에 교정한다.
 //  (1) `굵은 제목\n---` 은 CommonMark 상 setext 제목(밑줄)로 해석돼 `---` 구분선이
 //      사라지고 앞 줄이 <h2>로 병합된다. → 구분선 앞에 빈 줄을 넣어 수평선으로 강제.
 //  (2) 선행 공백 4칸 이상인 줄은 들여쓰기 코드블록이 되어 `**굵게**` 등이 그대로
 //      노출된다. → 목록 맥락이 아닌 줄의 과도한 선행 공백을 제거.
+//  (3) 조사가 붙어 닫히지 않는 강조 구분자 교정(fixEmphasisFlanking).
 // 코드펜스(``` / ~~~) 내부는 원문 그대로 보존한다.
 function normalizeMarkdown(src: string): string {
   const lines = src.split('\n');
@@ -88,6 +106,8 @@ function normalizeMarkdown(src: string): string {
     if (!listContext && /^ {4,}\S/.test(line) && !listRe.test(line)) {
       line = line.replace(/^ +/, '');
     }
+    // (3) 조사·구두점 때문에 닫히지 않는 강조 교정.
+    line = fixEmphasisFlanking(line);
     out.push(line);
   }
   return out.join('\n');
