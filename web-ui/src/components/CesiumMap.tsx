@@ -23,11 +23,11 @@ const THREAT_SYMBOL: Record<string, string> = {
 };
 const FRIENDLY_SYMBOL: Record<string, string> = {
   MISSILE: 'triangle',
-  FIGHTER: 'chevron',
-  ISR: 'circle',
+  FIGHTER: 'aircraft',
+  ISR: 'aircraft',
   SHIP: 'ship',
   COMMAND: 'star',
-  UAV: 'chevron',
+  UAV: 'aircraft',
 };
 const ORBAT_SYMBOL: Record<string, string> = {
   corps: 'star', division: 'square', brigade: 'square', regiment: 'square',
@@ -81,6 +81,39 @@ function markerCanvas(symbol: string, fill: string, outline: string): HTMLCanvas
     case 'ship':
       ctx.moveTo(-r, -r * 0.3); ctx.lineTo(r, -r * 0.3); ctx.lineTo(r * 0.6, r * 0.7); ctx.lineTo(-r * 0.6, r * 0.7); ctx.closePath();
       break;
+    case 'aircraft': {
+      // 작은 점 + 중심에서 위로 뻗는 방향 실선 (회전 = 진행 방향)
+      ctx.arc(0, 0, 3.5, 0, Math.PI * 2);
+      ctx.fill(); ctx.stroke();
+      ctx.shadowBlur = 0;
+      ctx.beginPath();
+      ctx.moveTo(0, 0); ctx.lineTo(0, -r);
+      ctx.lineWidth = 2.5; ctx.stroke();
+      markerCanvasCache.set(cacheKey, c);
+      return c;
+    }
+    case 'warship': {
+      // 선체 + 상부 구조물(건물) — 경비함/군함
+      ctx.moveTo(-r, -r * 0.15); ctx.lineTo(r, -r * 0.15); ctx.lineTo(r * 0.6, r * 0.7); ctx.lineTo(-r * 0.6, r * 0.7); ctx.closePath();
+      ctx.fill(); ctx.stroke();
+      ctx.shadowBlur = 0;
+      ctx.beginPath();
+      ctx.rect(-r * 0.32, -r * 0.85, r * 0.64, r * 0.7);
+      ctx.fill(); ctx.stroke();
+      markerCanvasCache.set(cacheKey, c);
+      return c;
+    }
+    case 'fishing': {
+      // 종이배 모양 (작은 선체 + 삼각 돛) — 어선
+      ctx.moveTo(-r * 0.55, r * 0.1); ctx.lineTo(r * 0.55, r * 0.1); ctx.lineTo(r * 0.3, r * 0.6); ctx.lineTo(-r * 0.3, r * 0.6); ctx.closePath();
+      ctx.fill(); ctx.stroke();
+      ctx.shadowBlur = 0;
+      ctx.beginPath();
+      ctx.moveTo(0, r * 0.1); ctx.lineTo(0, -r * 0.75); ctx.lineTo(r * 0.45, -r * 0.1); ctx.closePath();
+      ctx.fill(); ctx.stroke();
+      markerCanvasCache.set(cacheKey, c);
+      return c;
+    }
     case 'star': {
       const spikes = 5, outer = r, inner = r * 0.45;
       for (let i = 0; i < spikes * 2; i++) {
@@ -590,6 +623,27 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets, cust
 
     // 대한민국 방공/해상 경계선(KADIZ·NLL·해상경계) — 흰색 폴리라인
     drawBoundaries(Cesium, viewer);
+
+    // 서해 접적해역 적 함정/어선 (경비함=warship, 어선=fishing)
+    const westSeaShips = [
+      { id: 'es-patrol-1', lat: 37.78, lng: 125.30, sym: 'warship', name: 'NKR 경비함', fill: '#6b7280' },
+      { id: 'es-patrol-2', lat: 37.70, lng: 124.75, sym: 'warship', name: 'NKR 경비정', fill: '#6b7280' },
+      { id: 'es-fish-1', lat: 37.58, lng: 125.05, sym: 'fishing', name: '중국 어선', fill: '#8b7d6b' },
+      { id: 'es-fish-2', lat: 37.48, lng: 124.65, sym: 'fishing', name: '북한 어선', fill: '#8b7d6b' },
+      { id: 'es-fish-3', lat: 37.40, lng: 124.90, sym: 'fishing', name: '중국 어선단', fill: '#8b7d6b' },
+    ];
+    westSeaShips.forEach((s) => {
+      viewer.entities.add({
+        id: s.id,
+        position: Cesium.Cartesian3.fromDegrees(s.lng, s.lat, 0),
+        billboard: {
+          image: markerCanvas(s.sym, s.fill, '#374151'),
+          scale: 0.9,
+          verticalOrigin: Cesium.VerticalOrigin.CENTER,
+        },
+      });
+      addLabelEntity(Cesium, viewer, s.id, Cesium.Cartesian3.fromDegrees(s.lng, s.lat, 0), s.name, '#9ca3af', 'rgba(10,14,26,0.72)');
+    });
 
     // Observation markers (amber dots)
     scenario.timeline.forEach((event) => {
