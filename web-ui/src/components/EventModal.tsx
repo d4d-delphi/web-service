@@ -17,16 +17,14 @@ const TYPE_LABEL: Record<string, string> = {
 };
 
 // Popped on top of the page the moment playback reaches an event; the caller
-// clears `event` after 3s (a draining bar visualizes that countdown). Rendered
-// with `pointer-events-none` on the overlay so it never blocks the map/timeline —
-// only the card itself (close button) is interactive.
+// clears `event` after 3s. Rendered with `pointer-events-none` on the overlay so
+// it never blocks the map/timeline — only the card itself (close button) is
+// interactive.
 export default function EventModal({ event, onClose }: EventModalProps) {
   if (!event) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 pointer-events-none">
-      {/* Scrim: 시각적 집중 유도, 인터랙션 차단하지 않음 */}
-      <div className="absolute inset-0 bg-black/25" />
       {/* 모달 카드 */}
       <div
         // key via parent remount drives the entrance animation per event
@@ -69,11 +67,6 @@ export default function EventModal({ event, onClose }: EventModalProps) {
           <p className="mt-1 text-xs text-gray-400 leading-relaxed line-clamp-4">
             {event.description}
           </p>
-        </div>
-
-        {/* 3s auto-dismiss countdown */}
-        <div className="h-0.5 bg-gray-800">
-          <div className="h-full bg-amber-400 animate-modal-countdown" />
         </div>
       </div>
     </div>

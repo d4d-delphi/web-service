@@ -19,7 +19,7 @@ export default function LaunchSpecModal({
 
   return (
     <div className="pointer-events-none absolute inset-0 z-40 flex items-end justify-center pb-8">
-      <div className="animate-modal-in pointer-events-auto w-[min(88%,380px)] rounded-xl border border-amber-500/40 bg-[#0d1117]/95 backdrop-blur-sm shadow-[0_0_36px_rgba(245,158,11,0.28)] overflow-hidden">
+      <div className="animate-modal-in pointer-events-auto w-[min(88%,380px)] rounded-xl border border-amber-500/40 bg-[#0d1117]/95 backdrop-blur-sm overflow-hidden">
         {/* Header */}
         <div className="flex items-center gap-2 px-4 pt-3 pb-2 border-b border-amber-900/30">
           <span className="relative flex h-2 w-2">
