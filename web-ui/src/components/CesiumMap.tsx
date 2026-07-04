@@ -790,7 +790,7 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets, cust
             }
           }
         }
-        const show = !off && !collide;
+        const show = false; // hover-only: declutter가 라벨 표시를 덮어쓰지 않도록 항상 false
         if (it.e.billboard.show !== show) it.e.billboard.show = show;
         if (show) placed.push(box);
       }
