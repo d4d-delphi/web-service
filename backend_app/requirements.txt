@@ -5,6 +5,10 @@ pyyaml>=6.0
 rdflib>=7.0
 requests>=2.31
 
+# --- optional: Redis cache backend ---
+# Upstash REST(supabase와 짝)는 `requests` 만 필요(위 포함). 표준 Redis 쓸 때만 아래 해제:
+# redis>=5.0
+
 # --- recache FULL mode only (Stage-1 LLM, needs GPU) — not required to serve ---
 # torch==2.9.1+cu130
 # transformers>=5.12
