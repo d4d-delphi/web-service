@@ -108,24 +108,40 @@ export default function Home() {
     };
   }, [isPlaying, scenario.duration, speed]);
 
-  // Run Bayesian inference as events appear
+  // Run Bayesian inference as events appear (optimized)
+  const lastVisibleEventIdsRef = useRef<string>('');
+  const structuredActionsCacheRef = useRef<Map<string, any>>(new Map());
+
   useEffect(() => {
     const visibleEvents = scenario.timeline.filter((e) => e.timestamp <= currentTime);
     if (visibleEvents.length === 0) {
       setInferenceResult(null);
+      lastVisibleEventIdsRef.current = '';
       return;
     }
 
-    // 이벤트를 액션 클래스로 정형화
-    const actions = visibleEvents.map((event, i) =>
-      structureReport(
+    const currentEventIds = visibleEvents.map((e) => e.id).join(',');
+    if (currentEventIds === lastVisibleEventIdsRef.current) {
+      return; // No new events, skip heavy SPUQ & Bayesian calculations
+    }
+    lastVisibleEventIdsRef.current = currentEventIds;
+
+    // 이벤트를 액션 클래스로 정형화 (캐시 활용하여 연산량 최소화)
+    const actions = visibleEvents.map((event, i) => {
+      const cacheId = event.id || `event-${i}`;
+      if (structuredActionsCacheRef.current.has(cacheId)) {
+        return structuredActionsCacheRef.current.get(cacheId);
+      }
+      const action = structureReport(
         `${event.title}: ${event.description}`,
-        event.id || `event-${i}`,
+        cacheId,
         event.actionClass || 'IMINT',
         0.8,
         event.time
-      )
-    );
+      );
+      structuredActionsCacheRef.current.set(cacheId, action);
+      return action;
+    });
 
     // 베이지안 추론 실행
     const result = runInference(actions, hypothesesData as any);

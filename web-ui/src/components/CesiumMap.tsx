@@ -28,7 +28,14 @@ const FRIENDLY_SYMBOL: Record<string, string> = {
 
 // Draw a small military-style marker glyph onto a canvas for use as a
 // Cesium billboard image (no external assets — CSP-safe, works offline).
+const markerCanvasCache = new Map<string, HTMLCanvasElement>();
+
 function markerCanvas(symbol: string, fill: string, outline: string): HTMLCanvasElement {
+  const cacheKey = `${symbol}_${fill}_${outline}`;
+  if (markerCanvasCache.has(cacheKey)) {
+    return markerCanvasCache.get(cacheKey)!;
+  }
+
   const size = 30;
   const c = document.createElement('canvas');
   c.width = size;
@@ -80,6 +87,7 @@ function markerCanvas(symbol: string, fill: string, outline: string): HTMLCanvas
       ctx.moveTo(0, 0); ctx.lineTo(0, -r * 0.85);
       ctx.moveTo(0, 0); ctx.lineTo(r * 0.7, -r * 0.5);
       ctx.stroke();
+      markerCanvasCache.set(cacheKey, c);
       return c;
     case 'circle':
     default:
@@ -89,6 +97,7 @@ function markerCanvas(symbol: string, fill: string, outline: string): HTMLCanvas
   ctx.fill();
   ctx.shadowBlur = 0;
   ctx.stroke();
+  markerCanvasCache.set(cacheKey, c);
   return c;
 }
 
@@ -120,9 +129,16 @@ function roundRectPath(ctx: CanvasRenderingContext2D, x: number, y: number, w: n
   ctx.closePath();
 }
 
+const labelCanvasCache = new Map<string, { image: HTMLCanvasElement; width: number; height: number }>();
+
 // Returns a canvas + its CSS (unscaled) width/height so callers can size the
 // billboard and the declutter step can reason about the on-screen box.
 function labelCanvas(text: string, fill: string, bg: string): { image: HTMLCanvasElement; width: number; height: number } {
+  const cacheKey = `${text}_${fill}_${bg}`;
+  if (labelCanvasCache.has(cacheKey)) {
+    return labelCanvasCache.get(cacheKey)!;
+  }
+
   const tw = measureLabel(text);
   const cssW = tw + LABEL_PAD_X * 2;
   const cssH = LABEL_LINE_H + LABEL_PAD_Y * 2;
@@ -142,7 +158,9 @@ function labelCanvas(text: string, fill: string, bg: string): { image: HTMLCanva
   ctx.fillStyle = fill;
   ctx.fillText(text, LABEL_PAD_X, cssH / 2 + 0.5);
 
-  return { image: c, width: cssW, height: cssH };
+  const result = { image: c, width: cssW, height: cssH };
+  labelCanvasCache.set(cacheKey, result);
+  return result;
 }
 
 // Add a text label as a separate billboard entity (id `${baseId}-label`) so the
@@ -341,29 +359,33 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets }: Ce
     };
   }, []);
 
-  // Update entities when scenario or destroyed assets change
+  // Update entities when scenario changes (full rebuild only on scenario swap)
+  const prevScenarioIdRef = useRef<string | null>(null);
+
   useEffect(() => {
     if (!viewerRef.current || !scenario || !loaded || !cesiumRef.current) return;
 
     const Cesium = cesiumRef.current;
     const viewer = viewerRef.current;
 
+    // Only rebuild all entities if the scenario itself has changed (e.g. ID changed)
+    if (prevScenarioIdRef.current === scenario.id) return;
+    prevScenarioIdRef.current = scenario.id;
+
     viewer.entities.removeAll();
 
-    // Threat assets (red)
+    // Threat assets (red) - initialized as non-destroyed. Destruction is managed incrementally by another effect.
     scenario.threats.forEach((threat: ThreatAsset) => {
-      const isDestroyed = destroyedAssets.includes(threat.id);
-
       viewer.entities.add({
         id: threat.id,
         position: Cesium.Cartesian3.fromDegrees(threat.position.lng, threat.position.lat, 0),
         billboard: {
           image: markerCanvas(
             THREAT_SYMBOL[threat.type] || 'circle',
-            isDestroyed ? '#6b7280' : '#ef4444',
-            isDestroyed ? '#374151' : '#7f1d1d',
+            '#ef4444',
+            '#7f1d1d',
           ),
-          scale: isDestroyed ? 0.8 : 1,
+          scale: 1,
           verticalOrigin: Cesium.VerticalOrigin.CENTER,
         },
       });
@@ -378,7 +400,7 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets }: Ce
       );
 
       // Threat radius
-      if (threat.threatRadius && threat.threatRadius > 0 && !isDestroyed) {
+      if (threat.threatRadius && threat.threatRadius > 0) {
         viewer.entities.add({
           id: `${threat.id}-radius`,
           position: Cesium.Cartesian3.fromDegrees(threat.position.lng, threat.position.lat, 0),
@@ -395,8 +417,7 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets }: Ce
       }
     });
 
-    // Friendly assets (blue). Recon aircraft (ISR/UAV = 정찰기) and recon ships
-    // (SHIP = 정찰선) patrol continuously; command posts / missiles stay put.
+    // Friendly assets (blue)
     scenario.friendlies.forEach((friendly: FriendlyAsset, i: number) => {
       const profile: 'air' | 'sea' | null =
         friendly.type === 'SHIP'
@@ -430,8 +451,7 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets }: Ce
       );
     });
 
-    // Observation markers (amber dots) — one per Supabase event whose MGRS parsed
-    // to a position. Gated by time: shown once currentTime reaches the event.
+    // Observation markers (amber dots)
     scenario.timeline.forEach((event) => {
       if (!event.position) return;
       viewer.entities.add({
@@ -445,6 +465,34 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets }: Ce
           outlineWidth: 1.5,
         },
       });
+    });
+  }, [scenario, loaded]);
+
+  // Handle destroyed assets incrementally (Flicker-free asset update)
+  useEffect(() => {
+    if (!viewerRef.current || !scenario || !loaded || !cesiumRef.current) return;
+
+    const viewer = viewerRef.current;
+
+    scenario.threats.forEach((threat: ThreatAsset) => {
+      const isDestroyed = destroyedAssets.includes(threat.id);
+      const threatEntity = viewer.entities.getById(threat.id);
+      
+      if (threatEntity && threatEntity.billboard) {
+        // Update marker image and scale without destroying the entity
+        threatEntity.billboard.image = markerCanvas(
+          THREAT_SYMBOL[threat.type] || 'circle',
+          isDestroyed ? '#6b7280' : '#ef4444',
+          isDestroyed ? '#374151' : '#7f1d1d',
+        ) as any;
+        threatEntity.billboard.scale = (isDestroyed ? 0.8 : 1) as any;
+      }
+
+      // Hide or show the threat radius circle depending on whether it is destroyed
+      const radiusEntity = viewer.entities.getById(`${threat.id}-radius`);
+      if (radiusEntity) {
+        radiusEntity.show = !isDestroyed;
+      }
     });
   }, [scenario, loaded, destroyedAssets]);
 
