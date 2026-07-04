@@ -1,7 +1,7 @@
 """In-memory cache store for the API. Loads Stage-2 artifacts (snapshots, ledger, observations) and
 answers queries via ContribEngine — no GPU/LLM, just read + join + sort. Hot-reloadable after recache.
 """
-import json, os
+import json, os, glob
 from collections import defaultdict
 from app.contrib import ContribEngine
 from app import settings as S
@@ -9,6 +9,7 @@ from app import cache_redis
 
 SOURCE_FIELDS = ["obs_id", "collected_at", "asset_type", "location_name",
                  "activity_desc", "reliability", "platform", "analyst_unit"]
+ABOX_FIELDS = ["observed_objects", "observed_signals", "observed_activities", "novelty"]
 
 
 class Store:
@@ -20,6 +21,7 @@ class Store:
         self.snaps = defaultdict(list)
         self.ledger = defaultdict(list)
         self.observations = {}
+        self.abox = {}
         self.meta = {}
         # Redis 백엔드(env-gated) — 설정 시 로컬 파일 대신 Redis에서 로드, 미설정/비어있으면 파일 fallback.
         if cache_redis.enabled():
@@ -43,6 +45,8 @@ class Store:
         if os.path.exists(S.OBSERVATIONS):
             for l in open(S.OBSERVATIONS, encoding="utf-8"):
                 o = json.loads(l); self.observations[o["obs_id"]] = o
+        for p in glob.glob(os.path.join(S.ABOX_DIR, "*.json")):
+            d = json.load(open(p, encoding="utf-8")); self.abox[d["obs_id"]] = d
         if os.path.exists(S.META):
             self.meta = json.load(open(S.META, encoding="utf-8"))
         return self
@@ -67,16 +71,29 @@ class Store:
             return row
         return {k: row.get(k) for k in SOURCE_FIELDS}
 
-    def inference(self, campaign_id, at, top_n=8, include_source=True):
+    def _abox(self, obs_id):
+        """Ontology (A-Box) classification for this obs — the observed types that produced the deciban."""
+        a = self.abox.get(obs_id)
+        if a is None:
+            return None
+        return {k: a.get(k, []) for k in ABOX_FIELDS}
+
+    def inference(self, campaign_id, at, top_n=8, include_source=True, include_abox=True):
         r = self.engine.query(self.snaps[campaign_id], self.ledger[campaign_id], at, topn=top_n)
         if r is None:
             return None
-        if include_source:
-            for lst in r["hypothesis_contributions"].values():
-                for it in lst:
-                    it["source"] = self._source(it["obs_id"])
-            for it in r["launch_contributions"]:
+
+        def enrich(it):
+            if include_abox:
+                it["abox"] = self._abox(it["obs_id"])
+            if include_source:
                 it["source"] = self._source(it["obs_id"])
+
+        for lst in r["hypothesis_contributions"].values():
+            for it in lst:
+                enrich(it)
+        for it in r["launch_contributions"]:
+            enrich(it)
         return {"campaign_id": campaign_id, **r}
 
     def series(self, campaign_id, frm=None, to=None, fields=None):

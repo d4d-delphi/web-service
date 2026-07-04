@@ -105,9 +105,13 @@ async function drill(d){
   const el=document.getElementById('drill');el.innerHTML='<h3>드릴다운</h3><div class="c">불러오는 중…</div>';
   const j=await (await fetch(`${API}/inference?campaign_id=${CAMP}&at=${encodeURIComponent(d.timestamp)}&top_n=6`)).json();
   const top=Object.entries(j.hypotheses).sort((a,b)=>b[1]-a[1])[0];
+  const onto=a=>{if(!a)return'';const o=(a.observed_objects||[]).map(x=>x.type);
+    const g=(a.observed_signals||[]).map(x=>x.type);const c=(a.observed_activities||[]).map(x=>x.type);
+    return [...o.map(t=>'◆'+t),...g.map(t=>'∿'+t),...c.map(t=>'▸'+t)].join(' ');};
   const lc=j.launch_contributions.map(it=>{
     const s=it.source||{};const cls=it.residual_db>=0?'pos':'neg';
     return `<div class="contrib"><div class="hd"><span>${(s.location_name||it.obs_id).slice(0,24)}</span><span class="db ${cls}">${it.residual_db>=0?'+':''}${it.residual_db} dB</span></div>
+      <div class="src" style="color:var(--s3)">${onto(it.abox)||'(온톨로지 객체 없음)'}</div>
       <div class="src">${(s.collected_at||'').slice(0,16)} · ${s.asset_type||''} · ${it.stages.join('+')}</div>
       <div class="src">${(s.activity_desc||'').slice(0,90)}</div></div>`;}).join('');
   el.innerHTML=`<h3>${d.timestamp.slice(0,10)} ${d.timestamp.slice(11,16)}</h3>
