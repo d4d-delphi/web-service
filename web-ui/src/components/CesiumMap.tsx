@@ -665,40 +665,16 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets, cust
     return () => remove();
   }, [scenario, loaded]);
 
-  // Camera fly on phase change
+  // Camera: 발사(H-0) 전까지는 초기 줌아웃 한반도 뷰를 그대로 유지한다.
+  // 단계전환마다 목표점으로 날아가던 flyTo는 비활성화하고, 카메라 이동은
+  // 발사 후 커스터디(비행 추적) 효과에서만 일어난다.
   useEffect(() => {
-    if (!viewerRef.current || !scenario || !loaded || !cesiumRef.current) return;
-
-    const Cesium = cesiumRef.current;
-    const viewer = viewerRef.current;
-
+    if (!viewerRef.current || !scenario || !loaded) return;
     const currentPhase = scenario.phases.find(
       (p) => currentTime >= p.startTime && currentTime < p.endTime
     );
-
-    // 발사(추적) 단계에 진입하면 카메라는 커스터디 효과가 미사일을 추종하므로,
-    // 단계전환 flyTo는 건너뛴다(두 카메라 명령이 충돌하지 않도록).
-    if (currentPhase && scenario.launch && currentPhase.id === scenario.launch.phaseId) {
-      prevPhaseRef.current = currentPhase.id;
-      return;
-    }
-
-    if (currentPhase && currentPhase.id !== prevPhaseRef.current && currentPhase.cameraTarget) {
-      prevPhaseRef.current = currentPhase.id;
-      viewer.camera.flyTo({
-        destination: Cesium.Cartesian3.fromDegrees(
-          currentPhase.cameraTarget.lng,
-          currentPhase.cameraTarget.lat,
-          currentPhase.cameraTarget.range || 500000
-        ),
-        orientation: {
-          heading: 0,
-          pitch: Cesium.Math.toRadians(-45),
-          roll: 0,
-        },
-        duration: 2,
-      });
-    }
+    // 단계 추적만 유지(커스터디 종료 후 되감기 등에서 상태 정합성용). 카메라는 움직이지 않는다.
+    if (currentPhase) prevPhaseRef.current = currentPhase.id;
   }, [scenario, currentTime, loaded]);
 
   // 커스터디(비행 추적) 오버레이 — 발사 후 미사일 궤적/마커를 그리고 카메라가 추종.
@@ -718,6 +694,14 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets, cust
 
     if (!custody) {
       clear();
+      // 발사 추적 중이었다면(카메라가 미사일을 따라 이동한 상태) H-0 이전으로
+      // 되감긴 것이므로 초기 줌아웃 한반도 뷰로 복귀시킨다.
+      if (custodyEngagedAtRef.current != null) {
+        viewer.camera.flyTo({
+          destination: Cesium.Cartesian3.fromDegrees(127.5, 38.0, 1500000),
+          duration: 1.2,
+        });
+      }
       custodyEngagedAtRef.current = null;
       return;
     }

@@ -5,8 +5,8 @@ import dynamic from 'next/dynamic';
 import EnemyPanel from '@/components/EnemyPanel';
 import FriendlyPanel from '@/components/FriendlyPanel';
 import Timeline from '@/components/Timeline';
-import CustodyHUD from '@/components/CustodyHUD';
 import EventModal from '@/components/EventModal';
+import LaunchSpecModal from '@/components/LaunchSpecModal';
 import { Scenario, ScenarioId, ScenarioPhase, InferenceResult, TimelineEvent } from '@/types';
 import { runInference } from '@/lib/bayesian';
 import { custodyState } from '@/lib/custody';
@@ -36,6 +36,10 @@ export default function Home() {
   const [showLaunchBanner, setShowLaunchBanner] = useState(false);
   const launchFiredRef = useRef(false);
   const bannerTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // 발사(H-0) 확인 시 지도 위에 발사체 제원을 모달로 노출. 닫기 전까지 유지되며
+  // H-0 이전으로 되감거나 시나리오를 바꾸면 해제된다.
+  const [showSpecModal, setShowSpecModal] = useState(false);
 
   // 원천 첩보(events)를 Supabase `observation`에서 Next.js API 경유로 로드.
   // 실패/미설정 시 정적 mock 타임라인으로 폴백한다.
@@ -212,11 +216,13 @@ export default function Home() {
     if (inCustody && !launchFiredRef.current) {
       launchFiredRef.current = true;
       setShowLaunchBanner(true);
+      setShowSpecModal(true);
       if (bannerTimeoutRef.current) clearTimeout(bannerTimeoutRef.current);
       bannerTimeoutRef.current = setTimeout(() => setShowLaunchBanner(false), 2600);
     } else if (!inCustody && launchFiredRef.current) {
       launchFiredRef.current = false;
       setShowLaunchBanner(false);
+      setShowSpecModal(false);
     }
   }, [inCustody]);
 
@@ -224,6 +230,7 @@ export default function Home() {
   useEffect(() => {
     launchFiredRef.current = false;
     setShowLaunchBanner(false);
+    setShowSpecModal(false);
     if (bannerTimeoutRef.current) clearTimeout(bannerTimeoutRef.current);
   }, [activeScenario]);
 
@@ -269,13 +276,17 @@ export default function Home() {
         </div>
 
         {/* Center - Map */}
-        <div className="flex-1">
+        <div className="flex-1 relative">
           <CesiumMap
             scenario={scenario}
             currentTime={currentTime}
             destroyedAssets={destroyedAssets}
             custody={inCustody && scenario.launch ? { launch: scenario.launch, progress: custody!.progress } : null}
           />
+          {/* 발사 확인 시 지도 위에 발사체 제원 모달 (하단바는 변경 없음) */}
+          {showSpecModal && scenario.launch && (
+            <LaunchSpecModal launch={scenario.launch} onClose={() => setShowSpecModal(false)} />
+          )}
         </div>
 
         {/* Right Panel - Friendly Info */}
@@ -284,29 +295,20 @@ export default function Home() {
         </div>
       </div>
 
-      {/* 하단 스트립: 발사 전에는 타임라인, 발사(H-0) 후에는 커스터디 텔레메트리 HUD */}
-      {inCustody && scenario.launch ? (
-        <CustodyHUD
-          launch={scenario.launch}
-          progress={custody!.progress}
-          speed={speed}
-          isPlaying={isPlaying}
-        />
-      ) : (
-        <Timeline
-          phases={scenario.phases}
-          currentTime={currentTime}
-          duration={scenario.duration}
-          isPlaying={isPlaying}
-          speed={speed}
-          onPlay={() => setIsPlaying(true)}
-          onPause={() => setIsPlaying(false)}
-          onFastForward={handleFastForward}
-          onPhaseClick={handlePhaseClick}
-          onScenarioChange={handleScenarioChange}
-          activeScenario={activeScenario}
-        />
-      )}
+      {/* 하단 스트립: 발사 여부와 무관하게 타임라인을 유지한다 (발사 시 하단바 변경 없음) */}
+      <Timeline
+        phases={scenario.phases}
+        currentTime={currentTime}
+        duration={scenario.duration}
+        isPlaying={isPlaying}
+        speed={speed}
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
+        onFastForward={handleFastForward}
+        onPhaseClick={handlePhaseClick}
+        onScenarioChange={handleScenarioChange}
+        activeScenario={activeScenario}
+      />
 
       {/* 발사 확인 화면전환 배너 (2.6초) */}
       {showLaunchBanner && (
