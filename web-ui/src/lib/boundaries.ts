@@ -39,21 +39,8 @@ const BOUNDARIES: { id: string; name: string; loop?: boolean; coords: [number, n
   },
   // ── NLL 동해 (MDL 동해안 접점 ~ 동쪽 위도선, 38°36'N) ──
   { id: 'nll-east', name: 'NLL(동해)', coords: [[38.60, 128.40], [38.60, 132.50]] },
-  // ── 한·중 중간선 (서해, 해군 감시 기준) ──
-  //    양국 해안선 중간. 서해 폭 ~400km, 중간선 ~한반도 서안에서 200km 서쪽.
-  { id: 'rok-prc-median', name: '한·중 중간선', coords: [[38.0, 123.5], [36.0, 123.7], [34.0, 124.5]] },
-  // ── 한·중 어업협정선 ── (잠정조치수역 동측 경계)
-  { id: 'rok-prc-fishery', name: '한·중 어업협정선', coords: [[37.5, 124.5], [35.5, 124.8], [33.5, 125.3]] },
-  // ── 중국 잠정조치수역 외곽선 (동경 124도) ──
-  { id: 'prc-124e', name: '중국 124°E선', coords: [[39.5, 124.0], [36.0, 124.0]] },
-  // ── 대한해협 중간선 (부산 ~ 대마도) ──
-  { id: 'ks-strait-median', name: '대한해협 중간선', coords: [[35.15, 129.05], [34.45, 129.40]] },
-  // ── 한·일 EEZ 경계 (독도 서방) ──
-  { id: 'rok-jpn-eez', name: '한·일 EEZ(독도)', coords: [[36.8, 131.2], [37.6, 131.2]] },
-  // ── 조·러 해상 국경선 (두만강 하구 ~ 동남) ──
-  { id: 'dprk-rus-border', name: '조·러 해상국경', coords: [[42.17, 130.67], [41.2, 131.4], [40.0, 132.5]] },
-  // ── 동해 북방 대잠 초계선 (울릉·독도 북방 공해상) ──
-  { id: 'eastsea-asw', name: '동해 북방작전선', coords: [[37.8, 130.0], [37.8, 132.0]] },
+  // ── 일본 EEZ 경계 (독도 서방) ──
+  { id: 'jpn-eez', name: 'Japan EEZ', coords: [[36.8, 131.2], [37.6, 131.2]] },
 ];
 
 export function drawBoundaries(Cesium: any, viewer: any) {
