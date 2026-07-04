@@ -507,12 +507,12 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets, cust
             id,
             position: pos,
             billboard: {
-              image: markerCanvas(ORBAT_SYMBOL[u.unitType] || 'circle', '#dc2626', '#7f1d1d'),
+              image: markerCanvas(ORBAT_SYMBOL[u.unitType] || 'circle', '#7f1d1d', '#450a0a'),
               scale: 0.9,
               verticalOrigin: Cesium.VerticalOrigin.CENTER,
             },
           });
-          addLabelEntity(Cesium, viewer, id, pos, u.designation, '#fecaca', 'rgba(10,14,26,0.72)');
+          addLabelEntity(Cesium, viewer, id, pos, u.designation, '#9ca3af', 'rgba(10,14,26,0.72)');
         });
     });
 
@@ -525,17 +525,17 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets, cust
           const id = `blue-${slug}`;
           if (viewer.entities.getById(id)) return;
           const pos = Cesium.Cartesian3.fromDegrees(u.hqLng as number, u.hqLat as number, 0);
-          const outline = u.side === 'usfk' ? '#1e3a8a' : '#1d4ed8';
+          const outline = u.side === 'usfk' ? '#1e293b' : '#334155';
           viewer.entities.add({
             id,
             position: pos,
             billboard: {
-              image: markerCanvas(FORMATION_SYMBOL[u.formationType] || 'circle', '#3b82f6', outline),
+              image: markerCanvas(FORMATION_SYMBOL[u.formationType] || 'circle', '#475569', outline),
               scale: 0.9,
               verticalOrigin: Cesium.VerticalOrigin.CENTER,
             },
           });
-          addLabelEntity(Cesium, viewer, id, pos, u.designation, '#bfdbfe', 'rgba(10,14,26,0.72)');
+          addLabelEntity(Cesium, viewer, id, pos, u.designation, '#9ca3af', 'rgba(10,14,26,0.72)');
         });
     });
 
