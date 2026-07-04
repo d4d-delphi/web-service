@@ -41,32 +41,33 @@ function loadLaunchCases(): LaunchCase[] {
   }
 }
 
-// 의미론적 검색(pgvector) — OPENAI_API_KEY + Supabase 키가 있고 launch_cases.embedding 이
-// 백필된 경우에만 동작. 하나라도 없으면 null → 키워드 union 으로 폴백.
-// openai 팩키지는 동적 require 로, 미설치/미설정 시 조용히 스킵.
-function tryRequire(mod: string): any {
-  try { return (require as any)(mod); } catch { return null; }
-}
-
+// 의미론적 검색(pgvector, bge-m3 1024차원) — DGX 로컬 임베딩 엔드포인트(TEI/FastAPI) +
+// Supabase 키가 있고 launch_cases.embedding 이 백필된 경우에만 동작.
+// 하나라도 없으면 null → 키워드 union 으로 폴백. 외부 API(OpenAI) 미사용(폐쇄망/망분리).
 async function vectorSearch(indicators: string[], topK: number): Promise<AnyCase[] | null> {
-  const openaiKey = process.env.OPENAI_API_KEY;
+  const embedEp = process.env.EMBEDDING_ENDPOINT;          // 예: http://<dgx>:8080/embed
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!openaiKey || !supabaseUrl || !supabaseKey) return null;
-  const OpenAI = tryRequire('openai')?.OpenAI;
-  if (!OpenAI) return null;
+  if (!embedEp || !supabaseUrl || !supabaseKey) return null;
   try {
-    const client = new OpenAI({ apiKey: openaiKey });
-    const emb = await client.embeddings.create({
-      model: 'text-embedding-3-small', input: indicators.join(' '),
+    const er = await fetch(embedEp, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ inputs: indicators.join(' ') }),
     });
+    if (!er.ok) return null;
+    const ejson = await er.json();
+    // TEI/HF 표준: [[...1024...]]; 단일 벡터 추출
+    const vec: number[] | null = Array.isArray(ejson?.[0]) ? ejson[0] : (Array.isArray(ejson) ? ejson : null);
+    if (!vec) return null;
+
     const resp = await fetch(`${supabaseUrl}/rest/v1/rpc/match_launch_cases`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         apikey: supabaseKey, Authorization: `Bearer ${supabaseKey}`,
       },
-      body: JSON.stringify({ query_embedding: emb.data[0].embedding, match_count: topK }),
+      body: JSON.stringify({ query_embedding: vec, match_count: topK }),
     });
     if (!resp.ok) return null;
     const rows = (await resp.json()) as any[];
