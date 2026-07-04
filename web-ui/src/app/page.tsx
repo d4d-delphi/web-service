@@ -239,29 +239,7 @@ export default function Home() {
       {/* 이벤트 발생 알림 모달 (3초 후 자동 종료). key로 이벤트마다 재진입 애니메이션 */}
       <EventModal key={modalEvent?.id} event={modalEvent} onClose={() => setModalEvent(null)} />
 
-      {/* Top Bar */}
-      <header className="relative h-10 bg-[#0d1117] border-b border-gray-800 flex items-center px-4 justify-between shrink-0">
-        <div className="flex items-center gap-3">
-          <h1 className="text-sm font-bold text-gray-200 tracking-wide">
-            <span className="text-amber-400">NL</span>-COP
-          </h1>
-          <span className="text-[10px] text-gray-500 border border-gray-700 rounded px-1.5 py-0.5">
-            다중출처 융합 지휘통제
-          </span>
-        </div>
 
-        {/* Center - Simulation Clock (재생 시각에 동기화된 관측 일자) */}
-        <div className="absolute left-1/2 -translate-x-1/2">
-          <SimClock timeline={scenario.timeline} currentTime={currentTime} speed={speed} isPlaying={isPlaying} />
-        </div>
-
-        <div className="flex items-center gap-3 text-xs text-gray-500">
-          <span className="flex items-center gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-green-500"></span>
-            SYSTEM ONLINE
-          </span>
-        </div>
-      </header>
 
       {/* Main Content: 3 panels */}
       <div className="flex-1 flex overflow-hidden">
@@ -277,6 +255,9 @@ export default function Home() {
 
         {/* Center - Map */}
         <div className="flex-1 relative">
+          <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10 shadow-[0_0_15px_rgba(0,0,0,0.5)]">
+            <SimClock timeline={scenario.timeline} currentTime={currentTime} speed={speed} isPlaying={isPlaying} />
+          </div>
           <CesiumMap
             scenario={scenario}
             currentTime={currentTime}

@@ -140,7 +140,7 @@ export default function EnemyPanel({ events, phases, currentTime, inferenceResul
       <div className="p-3 border-b border-amber-900/30 bg-amber-950/20 shrink-0">
         <h2 className="text-sm font-bold text-amber-400 flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
-          발사 준비 단계 (LAUNCH SEQUENCE)
+          발사 준비 단계
         </h2>
       </div>
 
@@ -207,9 +207,7 @@ export default function EnemyPanel({ events, phases, currentTime, inferenceResul
                     )}
                   </div>
 
-                  <p className={`mt-0.5 text-[10px] leading-snug ${s.reached ? 'text-gray-400' : 'text-gray-600'}`}>
-                    {s.detail}
-                  </p>
+
 
                   <div className="mt-1 flex items-center gap-2 text-[9px]">
                     {s.prob != null && (

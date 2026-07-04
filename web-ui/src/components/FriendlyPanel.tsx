@@ -49,7 +49,7 @@ export default function FriendlyPanel({ friendlies }: FriendlyPanelProps) {
       <div className="p-3 border-b border-blue-900/30 bg-blue-950/20">
         <h2 className="text-sm font-bold text-blue-400 flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-blue-500"></span>
-          아군 정보 (FRIENDLY)
+          아군 정보
         </h2>
       </div>
 
@@ -69,9 +69,7 @@ export default function FriendlyPanel({ friendlies }: FriendlyPanelProps) {
                 </span>
                 <AssetStatusBadge status={asset.status} />
               </div>
-              {asset.capability && (
-                <p className="text-blue-400/60 text-[10px] mt-0.5 ml-6">{asset.capability}</p>
-              )}
+
             </div>
           ))}
         </div>
