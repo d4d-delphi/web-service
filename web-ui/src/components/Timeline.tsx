@@ -57,12 +57,12 @@ export default function Timeline({
           )}
         </button>
 
-        {/* Fast-forward (5x) */}
+        {/* Fast-forward: 1x → 5x → 20x → 1x 순환 */}
         <button
           onClick={onFastForward}
-          title="빨리감기 5배속"
+          title={`빨리감기 (현재 ${speed}x · 클릭: ${speed === 1 ? 5 : speed === 5 ? 20 : 1}x)`}
           className={`h-7 px-1.5 flex items-center gap-1 rounded border transition-all ${
-            speed === 5
+            speed > 1
               ? 'bg-amber-500/20 border-amber-500/50 text-amber-400'
               : 'bg-gray-800 border-gray-700 text-gray-300 hover:border-gray-500'
           }`}
@@ -71,7 +71,7 @@ export default function Timeline({
             <polygon points="3,4 11,12 3,20" />
             <polygon points="12,4 20,12 12,20" />
           </svg>
-          <span className="text-[10px] font-mono font-bold">5×</span>
+          <span className="text-[10px] font-mono font-bold">{speed > 1 ? `${speed}×` : '1×'}</span>
         </button>
 
         {/* Progress Bar */}
