@@ -5,6 +5,7 @@ import { resolveFacility, resolveMissile, formatEntitiesForPrompt } from '@/lib/
 import { mapDoctrineContext, formatDoctrineForPrompt } from '@/lib/doctrine';
 import { resolveFriendly, buildBlueContext, formatBlueForPrompt } from '@/lib/blue';
 import { runInference } from '@/lib/bayesian';
+import { runBackendInference, scenarioToCampaign, latestObservationAt } from '@/lib/inference_client';
 import { structureReport } from '@/lib/spuq';
 import { TimelineEvent, ThreatAsset, ActionClass, Hypothesis } from '@/types';
 import hypothesesData from '@/data/hypotheses.json';
@@ -30,9 +31,13 @@ export async function POST(request: NextRequest) {
       );
     });
 
-    // === 추론 계층: 베이지안 추론 실행 ===
+    // === 추론 계층: 백엔드(deciban 엔진) 우선 → bayesian 데모 폴백 ===
     const hypotheses = hypothesesData as unknown as Hypothesis[];
-    const inferenceResult = runInference(actions, hypotheses);
+    const campaignId = scenarioToCampaign(scenarioId);
+    const atISO = latestObservationAt(visibleEvents, currentTime);
+    const backendInference =
+      campaignId && atISO ? await runBackendInference(campaignId, atISO) : null;
+    const inferenceResult = backendInference ?? runInference(actions, hypotheses);
     const topH = inferenceResult.topHypothesis;
 
     // === RAG: 과거 사례 검색 ===
