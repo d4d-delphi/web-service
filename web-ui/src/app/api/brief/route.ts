@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { generateBriefing } from '@/lib/claude';
 import { searchSimilarCases, formatCasesForPrompt } from '@/lib/rag';
 import { resolveFacility, resolveMissile, formatEntitiesForPrompt } from '@/lib/ontology';
+import { mapDoctrineContext, formatDoctrineForPrompt } from '@/lib/doctrine';
 import { runInference } from '@/lib/bayesian';
 import { structureReport } from '@/lib/spuq';
 import { TimelineEvent, ThreatAsset, ActionClass, Hypothesis } from '@/types';
@@ -31,6 +32,7 @@ export async function POST(request: NextRequest) {
     // === 추론 계층: 베이지안 추론 실행 ===
     const hypotheses = hypothesesData as unknown as Hypothesis[];
     const inferenceResult = runInference(actions, hypotheses);
+    const topH = inferenceResult.topHypothesis;
 
     // === RAG: 과거 사례 검색 ===
     const similarCases = await searchSimilarCases(indicators);
@@ -46,6 +48,22 @@ export async function POST(request: NextRequest) {
       facilities: resolvedFacilities,
       missiles: resolvedMissiles,
     });
+
+    // === 교리 연동 (Track B): 추론 결과 → WATCHCON/킬체인/대응옵션/C2/ROE 매핑 ===
+    // 발사 탐지 여부: 타임라인에 launch/strike 이벤트가 보이거나 극단적 고확률이면 true.
+    const launchDetected =
+      visibleEvents.some((e) => e.type === 'launch' || e.type === 'strike') ||
+      (topH != null && topH.category === 'missile_launch' && topH.posterior >= 0.9);
+    const doctrineContext = mapDoctrineContext({
+      topPosterior: topH?.posterior ?? 0,
+      topCategory: topH?.category,
+      uncertainty: topH?.uncertainty,
+      evidenceCount: inferenceResult.evidenceCount,
+      launchDetected,
+      scenarioId,
+      phaseId,
+    });
+    const doctrineContextText = doctrineContext ? formatDoctrineForPrompt(doctrineContext) : '';
 
     // === 보고 계층: 대형 LLM으로 종합 보고서 생성 ===
     const currentSituation = `
@@ -63,6 +81,8 @@ ${inferenceResult.hypotheses.slice(0, 3).map((h) => `- ${h.name}: ${(h.posterior
 
 [온톨로지 정규 엔티티 해석]
 ${entityContext || '(탐지된 정규 시설/미사일 체계 없음)'}
+
+${doctrineContextText}
 `;
 
     // Try Claude API, then phase snapshot fallback, then inference-based fallback
@@ -79,7 +99,6 @@ ${entityContext || '(탐지된 정규 시설/미사일 체계 없음)'}
     const snapshotKey = phaseId != null ? `${scenarioId}-phase-${phaseId}` : null;
     const snapshot = snapshotKey ? (briefingSnapshots as Record<string, unknown>)[snapshotKey] as typeof parsed : null;
 
-    const topH = inferenceResult.topHypothesis;
     const fallback = snapshot || null;
     const result = {
       summary: parsed?.summary || fallback?.summary || `베이지안 추론 결과: ${topH?.name || '분석 중'} 가설이 ${((topH?.posterior || 0) * 100).toFixed(0)}% 확률로 가장 유력합니다.`,
@@ -93,6 +112,7 @@ ${entityContext || '(탐지된 정규 시설/미사일 체계 없음)'}
         facilities: resolvedFacilities.map((f) => ({ canonicalName: f.canonicalName, facilityType: f.facilityType, matchedAlias: f.matchedAlias, lat: f.lat, lng: f.lng })),
         missiles: resolvedMissiles.map((m) => ({ canonicalName: m.canonicalName, kn: m.kn, weaponClass: m.weaponClass, matchedAlias: m.matchedAlias, rangeKm: m.rangeKm })),
       },
+      doctrineContext,
     };
 
     return NextResponse.json(result);
