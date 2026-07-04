@@ -75,24 +75,20 @@ type Inference = {
   graph?: GraphData;
 };
 
-// The series fields we chart, grouped into 3 stacked panels.
+// The series fields we chart, grouped into 2 stacked panels.
 const SERIES = [
   { key: 'p_launch', label: 'P(발사)', color: '#ef4444', panel: 0 },
-  { key: 'p_activity', label: 'P(활동)', color: '#3b82f6', panel: 0 },
-  { key: 's1_early', label: 's1 초기', color: '#f59e0b', panel: 1 },
-  { key: 's2_pad', label: 's2 발사장', color: '#f97316', panel: 1 },
-  { key: 's3_imminent', label: 's3 임박', color: '#ec4899', panel: 1 },
 ] as const;
-// Panel 3 is a 100%-stacked area of the 4 hypotheses (they sum to 1.0). Fixed
-// bottom→top stacking order + distinct colors (amber is reserved for the marker).
+// Panel 2 draws the 4 hypotheses as separate line (꺾은선) graphs. Distinct colors
+// (amber is reserved for the marker).
 const HYPS = [
   { key: '액체·장거리', color: '#a3e635' },
   { key: '액체·단거리', color: '#38bdf8' },
   { key: '고체·장거리', color: '#fb7185' },
   { key: '고체·단거리', color: '#c084fc' },
 ] as const;
-const PANEL_TITLES = ['Outputs · 발사 / 활동', 'Stages · s1 / s2 / s3', 'Hypothesis mix · 가설구성 Σ=1'];
-const SERIES_FIELDS = 'p_launch,p_activity,s1_early,s2_pad,s3_imminent,hypotheses';
+const PANEL_TITLES = ['Outputs · P(발사)', 'Hypothesis · 가설 4종 (꺾은선)'];
+const SERIES_FIELDS = 'p_launch,hypotheses';
 
 // ---- Influence-graph node styling (labels + colors, keyed by backend node name) ----
 const STAGE_META: Record<string, { label: string; color: string }> = {
@@ -710,7 +706,7 @@ function TimelineChart({
     if (!cv || !wrap || !rows.length) return;
     const DPR = window.devicePixelRatio || 1;
     const W = wrap.clientWidth;
-    const np = 3;
+    const np = 2;
     const ph = Math.max(120, (wrap.clientHeight - 60) / np);
     const gap = 18;
     const top = 12;
@@ -750,7 +746,7 @@ function TimelineChart({
         ctx.globalAlpha = 0.6;
         ctx.beginPath();
         ctx.moveTo(x, top);
-        ctx.lineTo(x, panels[2].y1);
+        ctx.lineTo(x, panels[np - 1].y1);
         ctx.stroke();
       }
     });
@@ -775,32 +771,20 @@ function TimelineChart({
 
       const labs: { y: number; label: string; color: string; v: number }[] = [];
 
-      if (p === 2) {
-        // 100%-stacked area of the 4 hypotheses, revealed up to revealIdx.
-        const cum = new Array(revealIdx + 1).fill(0);
+      if (p === 1) {
+        // the 4 hypotheses, each as its own line (꺾은선) graph, revealed up to revealIdx.
         HYPS.forEach((h) => {
-          ctx.fillStyle = h.color;
-          ctx.globalAlpha = 0.85;
+          ctx.strokeStyle = h.color;
+          ctx.lineWidth = 2;
           ctx.beginPath();
           for (let i = 0; i <= revealIdx; i++) {
-            const v = cum[i] + Number(rows[i].hypotheses?.[h.key] ?? 0);
             const x = X(times[i]);
-            const y = Y(p, v);
+            const y = Y(p, Number(rows[i].hypotheses?.[h.key] ?? 0));
             i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
           }
-          for (let i = revealIdx; i >= 0; i--) ctx.lineTo(X(times[i]), Y(p, cum[i]));
-          ctx.closePath();
-          ctx.fill();
-          ctx.globalAlpha = 1;
-          for (let i = 0; i <= revealIdx; i++) cum[i] += Number(rows[i].hypotheses?.[h.key] ?? 0);
-        });
-        // legend: band center at the leading (revealed) edge
-        const lead = rows[revealIdx];
-        let acc = 0;
-        HYPS.forEach((h) => {
-          const prob = Number(lead.hypotheses?.[h.key] ?? 0);
-          labs.push({ y: Y(p, acc + prob / 2), label: h.key, color: h.color, v: prob });
-          acc += prob;
+          ctx.stroke();
+          const v = Number(rows[revealIdx].hypotheses?.[h.key] ?? 0);
+          labs.push({ y: Y(p, v), label: h.key, color: h.color, v });
         });
       } else {
         SERIES.filter((s) => s.panel === p).forEach((s) => {
@@ -839,7 +823,7 @@ function TimelineChart({
     ctx.fillStyle = '#6b7280';
     ctx.font = '10px system-ui';
     ctx.textAlign = 'center';
-    const ay = panels[2].y1 + 14;
+    const ay = panels[np - 1].y1 + 14;
     const seen: Record<string, 1> = {};
     rows.forEach((d, i) => {
       const m = d.timestamp.slice(0, 7);
@@ -862,7 +846,7 @@ function TimelineChart({
       ctx.lineWidth = 2;
       ctx.beginPath();
       ctx.moveTo(x, top);
-      ctx.lineTo(x, panels[2].y1);
+      ctx.lineTo(x, panels[np - 1].y1);
       ctx.stroke();
       SERIES.forEach((s) => {
         const y = Y(s.panel, Number(rows[pickedIdx][s.key] ?? 0));
@@ -894,7 +878,7 @@ function TimelineChart({
       ctx.setLineDash([4, 3]);
       ctx.beginPath();
       ctx.moveTo(x, top);
-      ctx.lineTo(x, panels[2].y1);
+      ctx.lineTo(x, panels[np - 1].y1);
       ctx.stroke();
       ctx.setLineDash([]);
     }
