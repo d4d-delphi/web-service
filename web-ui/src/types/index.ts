@@ -357,3 +357,21 @@ export interface LaunchCase {
 }
 
 export type ScenarioId = 'scenario-a' | 'scenario-b';
+
+// Layer 2+ 적 전투서열(ORBAT) 정규 부대 (OSINT 기반). supabase military_units 가 source of truth,
+// orbat-units.json 미러(export_orbat_mirror.py)를 서버 fs 로 읽는다.
+export interface MilitaryUnit {
+  designation: string;
+  unitType: string;          // corps/division/brigade/.../missile/air/naval/air_defense/artillery/command
+  branch: string;            // army/air/naval/strategic/sf
+  parentDesignation?: string | null;
+  garrisonFacility?: string | null;   // facilities.canonical_name
+  operatesMissile?: string | null;    // missiles.slug
+  hqLat?: number | null;
+  hqLng?: number | null;
+  strengthEst?: string | null;
+  readiness?: string | null;
+  role?: string | null;
+  sourceRef?: string | null;
+  aliases?: string[];
+}
