@@ -53,6 +53,9 @@ COLLOQUIAL = {
     'nodong': ['노동', 'Scud-D'],
     'pukguksong-1': ['북극성-1', 'Polaris-1'],
     'pukguksong-3': ['북극성-3'],
+    # 천리마-1형: 2023.11 만리경-1호 정찰위성 궤도진입 성공(동창리). 만리경-1호는 탑재위성이나
+    # 해당 발사사건 RAG 검색 회수율을 높이기 위해 발사체 별칭으로 등록.
+    'chollima-1': ['천리마-1형', '만리경-1호'],
 }
 
 KR_PREFIX = {'Hwasong': '화성', 'Scud': '스커드', 'Pukguksong': '북극성', 'Nodong': '노동',
