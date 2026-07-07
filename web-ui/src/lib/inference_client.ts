@@ -20,7 +20,9 @@ const LABEL_TO_ID: Record<string, string> = {
   '고체·단거리': 'h-solid-short',
 };
 
-// 시나리오 → 백엔드 캠페인. (백엔드 캠페인: unha3=동창리/은하-3, sinpo, punggye)
+// 시나리오 → 백엔드 캠페인. scenario-a는 천리마-1형(만리경-1호) 기반이나 백엔드 campaign_id는
+// 변경 불가 → 동창리 액체연료 SLV 발사 관측 데이터가 동일하므로 unha3 캠페인을 그대로 사용.
+// (백엔드 캠페인: unha3=동창리 발사 관측, sinpo, punggye)
 const SCENARIO_CAMPAIGN: Record<string, string> = {
   'scenario-a': 'unha3',
 };
