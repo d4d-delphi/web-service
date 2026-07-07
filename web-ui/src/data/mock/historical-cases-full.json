@@ -131,17 +131,17 @@
   {
     "id": "case-2012-12",
     "date": "2012-12-12",
-    "title": "은하-3 (광명성-3 위성) 발사 성공",
-    "missileType": "SLV (은하-3)",
+    "title": "천리마-1 (만리경-1호 위성) 발사 성공",
+    "missileType": "SLV (천리마-1)",
     "indicators": ["동창리 발사대 조립 완료", "국제항행경보", "바지선 접안", "연료주입 IR 포착", "방송 준비"],
-    "outcome": "발사 성공. 광명성-3 위성 궤도 진입. 북한 최초 궤도 위성 발사 성공.",
-    "description": "2012년 4월 발사 실패 후 재시도. 12월 12일 성공. 광명성-3 2호기 위성 궤도 진입 확인. ICBM 기술 확보 입증.",
+    "outcome": "발사 성공. 만리경-1호 위성 궤도 진입. 북한 최초 궤도 위성 발사 성공.",
+    "description": "2012년 4월 발사 실패 후 재시도. 12월 12일 성공. 만리경-1호 2호기 위성 궤도 진입 확인. ICBM 기술 확보 입증.",
     "provocation": {
       "yearly_launch_seq": "2012-02",
       "launch_time": "2012-12-12 09:49",
       "launch_count": 1,
       "weapon_class": "IRBM",
-      "kn_designation": "은하-3",
+      "kn_designation": "천리마-1",
       "visual_indicators": [
         {"date": "2012-12-03", "time": "10:00", "location": "동창리", "activity": "발사체 조립 완료, 직립 이동 시작"},
         {"date": "2012-12-08", "time": "14:00", "location": "동창리", "activity": "바지선 접안, 산화제 공급"},

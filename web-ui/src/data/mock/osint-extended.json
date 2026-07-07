@@ -209,9 +209,9 @@
     "processed_time": "2012-12-13T08:00:00Z",
     "source_media": "조선중앙통신 (KCNA)",
     "media_type": "Text",
-    "original_title": "광명성-3호 위성 궤도 진입 성공",
-    "key_entities": ["광명성-3", "위성", "은하-3", "궤도진입"],
-    "dia_analytical_summary": "광명성-3 위성 궤도 진입 성공 공식 발표. NORAD 추적번호 부여. 탑재 위성 질량 약 100kg. 은하-3 3단 추진체 궤도 진입은 ICBM 3단 분리 기술 확보 의미. 미 CJCS 즉각 브리핑.",
+    "original_title": "만리경-1호 위성 궤도 진입 성공",
+    "key_entities": ["만리경-1호", "위성", "천리마-1", "궤도진입"],
+    "dia_analytical_summary": "만리경-1호 위성 궤도 진입 성공 공식 발표. NORAD 추적번호 부여. 탑재 위성 질량 약 100kg. 천리마-1 3단 추진체 궤도 진입은 ICBM 3단 분리 기술 확보 의미. 미 CJCS 즉각 브리핑.",
     "strategic_intent": "ICBM 핵심 기술(3단 분리, 재진입) 입증 및 위성 발사 명분 확보",
     "related_launch_seq": "2012-02"
   },
