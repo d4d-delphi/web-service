@@ -583,3 +583,63 @@ export interface SigintEmitterInterpretation {
   implication: 'launch_indicator' | 'air_defense' | 'comms' | 'background' | 'unknown';
   unidentified: boolean;
 }
+
+// ============================================
+// 기상 Go/No-Go (WXINT) — AMWS 편입 (lib/weather.ts, lib/wxint.ts)
+// ============================================
+
+// 기종별 작전 한계치 (공개 OSINT). 원천: src/data/aircraft-specs.json
+export interface AircraftSpec {
+  aircraft_id: string;
+  name: string;
+  role: string;
+  max_crosswind_kts: number;
+  min_visibility_m: number;
+  min_ceiling_ft: number;
+  precip_restricted: boolean;
+  notes?: string;
+}
+
+// 군 비행장 정적 정보 (활주로 자방위 포함 — 측풍 계산용)
+export interface Airbase {
+  base_id: string;        // K-site 코드 (예: K-2)
+  base_name: string;
+  lat: number;
+  lon: number;
+  runway_heading: number; // 활주로 진입 자방위(deg)
+}
+
+// 기상 관측값 (METAR-like). facts-only observation 의 원천이 되는 측정값
+export interface WeatherObservation {
+  base_id: string;
+  obs_time: string;       // ISO
+  wind_dir: number;       // 풍향(deg)
+  wind_spd_kts: number;   // 풍속(knots)
+  visibility_m: number;   // 시정(m)
+  ceiling_ft: number;     // 운고(ft AGL)
+  weather_desc: string;   // 항공기상 약어(METAR): RA/SN/TS/FG/SKC ...
+}
+
+// 기종별 Go/No-Go 판정 결과
+export interface GoNoGoResult {
+  aircraft_id: string;
+  result: 'GO' | 'NO-GO' | 'MARGINAL';
+  crosswind_kts: number;
+  reasons: string[];
+}
+
+// 기지별 기상 판정 매트릭스
+export interface WeatherMatrixEntry {
+  base_id: string;
+  base_name: string;
+  runway_heading: number;
+  obs_time: string;
+  weather: WeatherObservation;
+  per_aircraft: GoNoGoResult[];
+}
+
+// /api/weather GET 응답
+export interface WeatherResult {
+  generated_at: string;
+  bases: WeatherMatrixEntry[];
+}
