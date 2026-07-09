@@ -1,0 +1,90 @@
+[
+  {
+    "id": "h-air-surge",
+    "name": "적 항공기 기습 영공 접근",
+    "category": "air_threat",
+    "priorProbability": 0.08,
+    "description": "북한 전방 비행장 활동 급증 + 이단선 궤적 + GCI 교신 = 기습 출격 징후",
+    "likelihoodMap": {
+      "IMINT": 0.5,
+      "SIGINT": 0.55,
+      "AERIAL_IMINT": 0.7,
+      "UAV": 0.4,
+      "OSINT": 0.3,
+      "object:항공기": 0.5,
+      "object:전투기": 0.65,
+      "activity:활주로배치": 0.8,
+      "activity:무장탑재": 0.85,
+      "activity:이단궤적": 0.9,
+      "activity:편대비행": 0.7,
+      "activity:야간출격": 0.75,
+      "signal:GCI교신": 0.65,
+      "signal:관제통신": 0.5,
+      "signal:전투기통신": 0.7,
+      "SIGINT:pattern:증가": 0.6,
+      "IMINT:activity:이동": 0.55,
+      "activity:긴급출격": 0.85
+    }
+  },
+  {
+    "id": "h-drone-intrusion",
+    "name": "소형 드론/An-2 회색지대 침투",
+    "category": "air_threat",
+    "priorProbability": 0.04,
+    "description": "소형 무인기 또는 An-2 침투기 야간 저고도 비행으로 영공 접근",
+    "likelihoodMap": {
+      "object:소형드론": 0.85,
+      "object:An-2": 0.6,
+      "activity:야간비행": 0.7,
+      "activity:저고도": 0.8,
+      "signal:드론데이터링크": 0.9,
+      "signal:RF방출": 0.6,
+      "IMINT:activity:이동": 0.4,
+      "object:무인기": 0.8
+    }
+  },
+  {
+    "id": "h-recon-mission",
+    "name": "적 정찰기 정찰 임무",
+    "category": "air_threat",
+    "priorProbability": 0.06,
+    "description": "MiG-21 정찰형 또는 고공 정찰기의 KADIZ 인접 정찰 비행",
+    "likelihoodMap": {
+      "object:정찰기": 0.85,
+      "object:MiG-21": 0.5,
+      "activity:고공비행": 0.6,
+      "activity:KADIZ접근": 0.7,
+      "activity:정찰궤적": 0.8,
+      "signal:정찰센서": 0.7
+    }
+  },
+  {
+    "id": "h-training-exercise",
+    "name": "적 항공기 훈련/기동 (위협 아님)",
+    "category": "air_threat",
+    "priorProbability": 0.25,
+    "description": "전방 비행장 항공기 활동이 정기 훈련 또는 기동 훈련에 해당 (기습 아님)",
+    "likelihoodMap": {
+      "IMINT": 0.3,
+      "SIGINT": 0.35,
+      "activity:훈련": 0.8,
+      "activity:정기출격": 0.75,
+      "signal:훈련교신": 0.6,
+      "OSINT:훈련": 0.5,
+      "activity:활주로배치": 0.3
+    }
+  },
+  {
+    "id": "h-airspace-normal",
+    "name": "정상 영공 상황",
+    "category": "air_threat",
+    "priorProbability": 0.55,
+    "description": "특이 징후 없는 정상 항공 활동",
+    "likelihoodMap": {
+      "IMINT": 0.2,
+      "SIGINT": 0.25,
+      "activity:정상": 0.7,
+      "signal:정상": 0.5
+    }
+  }
+]
