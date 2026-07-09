@@ -1,0 +1,1547 @@
+[
+  {
+    "obs_id": "sb-3f668d899e78",
+    "asset_type": "SATELLITE_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-01T06:00:00Z",
+    "mgrs": "51S XD 46261 91410",
+    "location_name": "서해안 SA-5 진지",
+    "observed_objects": [
+      {
+        "type": "radar",
+        "count": 1
+      }
+    ],
+    "activity_desc": "서해안 SA-5 진지 위성: 15m 원형 구조물(Square Pair 레이더) 회전. 발사대 6기 세로 배치. 위장막 제거.",
+    "unusual_flag": true,
+    "platform": "DigitalGlobe",
+    "analyst_id": "Analyst_IMINT_1",
+    "analyst_unit": "국방정보본부 영상판독대",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_type": "EO",
+      "look_angle_deg": 25,
+      "cloud_cover_pct": 5
+    },
+    "source_ref": "OSINT: 위성분석",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-b099654ffaf5",
+    "asset_type": "SIGINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-01T08:00:00Z",
+    "mgrs": "52T CK 12345 67890",
+    "location_name": "원산 SA-5 진지",
+    "observed_objects": [],
+    "activity_desc": "원산 SA-5 진지 S-Band 추적레이더 방출 지속. 교신 활발.",
+    "unusual_flag": true,
+    "platform": "777사령부",
+    "analyst_id": "SIGINT_Analyst_2",
+    "analyst_unit": "777사령부",
+    "reliability": 4,
+    "asset_detail": {
+      "is_raw": false,
+      "frequency_band": "S-Band",
+      "signal_strength": "High"
+    },
+    "source_ref": "OSINT: 신호감시",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-64dd90d43dc4",
+    "asset_type": "UAV_FLIR",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-01T10:00:00Z",
+    "mgrs": "52T BL 72762 59866",
+    "location_name": "평양 외곽 SA-5 진지",
+    "observed_objects": [
+      {
+        "type": "vehicle",
+        "count": 4
+      }
+    ],
+    "activity_desc": "평양 외곽 SA-5 진지 헤론 FLIR: 발사대 인근 차량 2-3기 활동. 인원 다수.",
+    "unusual_flag": true,
+    "platform": "헤론",
+    "analyst_id": "UAV_Analyst_D",
+    "analyst_unit": "공군 정찰통제단",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_mode": "FLIR_WhiteHot",
+      "slant_range_km": 35,
+      "tracking_status": "Lock-on"
+    },
+    "source_ref": "OSINT: UAV 정찰",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-18dce06ef776",
+    "asset_type": "SATELLITE_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-01T12:00:00Z",
+    "mgrs": "51S YD 45000 18900",
+    "location_name": "영변 SA-5 진지",
+    "observed_objects": [
+      {
+        "type": "radar",
+        "count": 1
+      }
+    ],
+    "activity_desc": "영변 SA-5 진지 위성: 15m 원형 구조물(Square Pair 레이더) 회전. 발사대 6기 세로 배치. 위장막 제거.",
+    "unusual_flag": true,
+    "platform": "DigitalGlobe",
+    "analyst_id": "Analyst_IMINT_1",
+    "analyst_unit": "국방정보본부 영상판독대",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_type": "EO",
+      "look_angle_deg": 25,
+      "cloud_cover_pct": 5
+    },
+    "source_ref": "OSINT: 위성분석",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-2081d44c63ce",
+    "asset_type": "SIGINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-01T14:00:00Z",
+    "mgrs": "51S YD 27785 42393",
+    "location_name": "안악 SA-2 진지",
+    "observed_objects": [],
+    "activity_desc": "안악 SA-2 진지 S-Band 추적레이더 방출 지속. 교신 활발.",
+    "unusual_flag": true,
+    "platform": "777사령부",
+    "analyst_id": "SIGINT_Analyst_2",
+    "analyst_unit": "777사령부",
+    "reliability": 4,
+    "asset_detail": {
+      "is_raw": false,
+      "frequency_band": "S-Band",
+      "signal_strength": "High"
+    },
+    "source_ref": "OSINT: 신호감시",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-d624ff468b6e",
+    "asset_type": "UAV_FLIR",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-01T16:00:00Z",
+    "mgrs": "51S XD 46261 91410",
+    "location_name": "서해안 SA-5 진지",
+    "observed_objects": [
+      {
+        "type": "vehicle",
+        "count": 4
+      }
+    ],
+    "activity_desc": "서해안 SA-5 진지 헤론 FLIR: 발사대 인근 차량 2-3기 활동. 인원 다수.",
+    "unusual_flag": true,
+    "platform": "헤론",
+    "analyst_id": "UAV_Analyst_D",
+    "analyst_unit": "공군 정찰통제단",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_mode": "FLIR_WhiteHot",
+      "slant_range_km": 35,
+      "tracking_status": "Lock-on"
+    },
+    "source_ref": "OSINT: UAV 정찰",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-4671209f0eea",
+    "asset_type": "SATELLITE_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-01T18:00:00Z",
+    "mgrs": "52T CK 12345 67890",
+    "location_name": "원산 SA-5 진지",
+    "observed_objects": [
+      {
+        "type": "radar",
+        "count": 1
+      }
+    ],
+    "activity_desc": "원산 SA-5 진지 위성: 15m 원형 구조물(Square Pair 레이더) 회전. 발사대 6기 세로 배치. 위장막 제거.",
+    "unusual_flag": true,
+    "platform": "DigitalGlobe",
+    "analyst_id": "Analyst_IMINT_1",
+    "analyst_unit": "국방정보본부 영상판독대",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_type": "EO",
+      "look_angle_deg": 25,
+      "cloud_cover_pct": 5
+    },
+    "source_ref": "OSINT: 위성분석",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-59781cb56a2e",
+    "asset_type": "SIGINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-01T20:00:00Z",
+    "mgrs": "52T BL 72762 59866",
+    "location_name": "평양 외곽 SA-5 진지",
+    "observed_objects": [],
+    "activity_desc": "평양 외곽 SA-5 진지 S-Band 추적레이더 방출 지속. 교신 활발.",
+    "unusual_flag": true,
+    "platform": "777사령부",
+    "analyst_id": "SIGINT_Analyst_2",
+    "analyst_unit": "777사령부",
+    "reliability": 4,
+    "asset_detail": {
+      "is_raw": false,
+      "frequency_band": "S-Band",
+      "signal_strength": "High"
+    },
+    "source_ref": "OSINT: 신호감시",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-496b1fde1051",
+    "asset_type": "UAV_FLIR",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-01T22:00:00Z",
+    "mgrs": "51S YD 45000 18900",
+    "location_name": "영변 SA-5 진지",
+    "observed_objects": [
+      {
+        "type": "vehicle",
+        "count": 4
+      }
+    ],
+    "activity_desc": "영변 SA-5 진지 헤론 FLIR: 발사대 인근 차량 2-3기 활동. 인원 다수.",
+    "unusual_flag": true,
+    "platform": "헤론",
+    "analyst_id": "UAV_Analyst_D",
+    "analyst_unit": "공군 정찰통제단",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_mode": "FLIR_WhiteHot",
+      "slant_range_km": 35,
+      "tracking_status": "Lock-on"
+    },
+    "source_ref": "OSINT: UAV 정찰",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-eba87fea25ff",
+    "asset_type": "SATELLITE_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-02T00:00:00Z",
+    "mgrs": "51S YD 27785 42393",
+    "location_name": "안악 SA-2 진지",
+    "observed_objects": [
+      {
+        "type": "radar",
+        "count": 1
+      }
+    ],
+    "activity_desc": "안악 SA-2 진지 위성: 15m 원형 구조물(Square Pair 레이더) 회전. 발사대 6기 세로 배치. 위장막 제거.",
+    "unusual_flag": true,
+    "platform": "DigitalGlobe",
+    "analyst_id": "Analyst_IMINT_1",
+    "analyst_unit": "국방정보본부 영상판독대",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_type": "EO",
+      "look_angle_deg": 25,
+      "cloud_cover_pct": 5
+    },
+    "source_ref": "OSINT: 위성분석",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-3ae33e0b589c",
+    "asset_type": "SIGINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-02T02:00:00Z",
+    "mgrs": "51S XD 46261 91410",
+    "location_name": "서해안 SA-5 진지",
+    "observed_objects": [],
+    "activity_desc": "서해안 SA-5 진지 S-Band 추적레이더 방출 지속. 교신 활발.",
+    "unusual_flag": true,
+    "platform": "777사령부",
+    "analyst_id": "SIGINT_Analyst_2",
+    "analyst_unit": "777사령부",
+    "reliability": 4,
+    "asset_detail": {
+      "is_raw": false,
+      "frequency_band": "S-Band",
+      "signal_strength": "High"
+    },
+    "source_ref": "OSINT: 신호감시",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-0042425b449e",
+    "asset_type": "UAV_FLIR",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-02T04:00:00Z",
+    "mgrs": "52T CK 12345 67890",
+    "location_name": "원산 SA-5 진지",
+    "observed_objects": [
+      {
+        "type": "vehicle",
+        "count": 4
+      }
+    ],
+    "activity_desc": "원산 SA-5 진지 헤론 FLIR: 발사대 인근 차량 2-3기 활동. 인원 다수.",
+    "unusual_flag": true,
+    "platform": "헤론",
+    "analyst_id": "UAV_Analyst_D",
+    "analyst_unit": "공군 정찰통제단",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_mode": "FLIR_WhiteHot",
+      "slant_range_km": 35,
+      "tracking_status": "Lock-on"
+    },
+    "source_ref": "OSINT: UAV 정찰",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-6626e8fa0d35",
+    "asset_type": "SATELLITE_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-02T06:00:00Z",
+    "mgrs": "52T BL 72762 59866",
+    "location_name": "평양 외곽 SA-5 진지",
+    "observed_objects": [
+      {
+        "type": "radar",
+        "count": 1
+      }
+    ],
+    "activity_desc": "평양 외곽 SA-5 진지 위성: 15m 원형 구조물(Square Pair 레이더) 회전. 발사대 6기 세로 배치. 위장막 제거.",
+    "unusual_flag": true,
+    "platform": "DigitalGlobe",
+    "analyst_id": "Analyst_IMINT_1",
+    "analyst_unit": "국방정보본부 영상판독대",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_type": "EO",
+      "look_angle_deg": 25,
+      "cloud_cover_pct": 5
+    },
+    "source_ref": "OSINT: 위성분석",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-500a70b96fad",
+    "asset_type": "SIGINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-02T08:00:00Z",
+    "mgrs": "51S YD 45000 18900",
+    "location_name": "영변 SA-5 진지",
+    "observed_objects": [],
+    "activity_desc": "영변 SA-5 진지 S-Band 추적레이더 방출 지속. 교신 활발.",
+    "unusual_flag": true,
+    "platform": "777사령부",
+    "analyst_id": "SIGINT_Analyst_2",
+    "analyst_unit": "777사령부",
+    "reliability": 4,
+    "asset_detail": {
+      "is_raw": false,
+      "frequency_band": "S-Band",
+      "signal_strength": "High"
+    },
+    "source_ref": "OSINT: 신호감시",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-ee949f75695a",
+    "asset_type": "UAV_FLIR",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-02T10:00:00Z",
+    "mgrs": "51S YD 27785 42393",
+    "location_name": "안악 SA-2 진지",
+    "observed_objects": [
+      {
+        "type": "vehicle",
+        "count": 4
+      }
+    ],
+    "activity_desc": "안악 SA-2 진지 헤론 FLIR: 발사대 인근 차량 2-3기 활동. 인원 다수.",
+    "unusual_flag": true,
+    "platform": "헤론",
+    "analyst_id": "UAV_Analyst_D",
+    "analyst_unit": "공군 정찰통제단",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_mode": "FLIR_WhiteHot",
+      "slant_range_km": 35,
+      "tracking_status": "Lock-on"
+    },
+    "source_ref": "OSINT: UAV 정찰",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-c869f659a84a",
+    "asset_type": "SATELLITE_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-02T12:00:00Z",
+    "mgrs": "51S XD 46261 91410",
+    "location_name": "서해안 SA-5 진지",
+    "observed_objects": [
+      {
+        "type": "radar",
+        "count": 1
+      }
+    ],
+    "activity_desc": "서해안 SA-5 진지 위성: 15m 원형 구조물(Square Pair 레이더) 회전. 발사대 6기 세로 배치. 위장막 제거.",
+    "unusual_flag": true,
+    "platform": "DigitalGlobe",
+    "analyst_id": "Analyst_IMINT_1",
+    "analyst_unit": "국방정보본부 영상판독대",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_type": "EO",
+      "look_angle_deg": 25,
+      "cloud_cover_pct": 5
+    },
+    "source_ref": "OSINT: 위성분석",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-afa4a08a7d1e",
+    "asset_type": "SIGINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-02T14:00:00Z",
+    "mgrs": "52T CK 12345 67890",
+    "location_name": "원산 SA-5 진지",
+    "observed_objects": [],
+    "activity_desc": "원산 SA-5 진지 S-Band 추적레이더 방출 지속. 교신 활발.",
+    "unusual_flag": true,
+    "platform": "777사령부",
+    "analyst_id": "SIGINT_Analyst_2",
+    "analyst_unit": "777사령부",
+    "reliability": 4,
+    "asset_detail": {
+      "is_raw": false,
+      "frequency_band": "S-Band",
+      "signal_strength": "High"
+    },
+    "source_ref": "OSINT: 신호감시",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-faaf447d4d50",
+    "asset_type": "UAV_FLIR",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-02T16:00:00Z",
+    "mgrs": "52T BL 72762 59866",
+    "location_name": "평양 외곽 SA-5 진지",
+    "observed_objects": [
+      {
+        "type": "vehicle",
+        "count": 4
+      }
+    ],
+    "activity_desc": "평양 외곽 SA-5 진지 헤론 FLIR: 발사대 인근 차량 2-3기 활동. 인원 다수.",
+    "unusual_flag": true,
+    "platform": "헤론",
+    "analyst_id": "UAV_Analyst_D",
+    "analyst_unit": "공군 정찰통제단",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_mode": "FLIR_WhiteHot",
+      "slant_range_km": 35,
+      "tracking_status": "Lock-on"
+    },
+    "source_ref": "OSINT: UAV 정찰",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-e938e1e12a73",
+    "asset_type": "SATELLITE_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-02T18:00:00Z",
+    "mgrs": "51S YD 45000 18900",
+    "location_name": "영변 SA-5 진지",
+    "observed_objects": [
+      {
+        "type": "radar",
+        "count": 1
+      }
+    ],
+    "activity_desc": "영변 SA-5 진지 위성: 15m 원형 구조물(Square Pair 레이더) 회전. 발사대 6기 세로 배치. 위장막 제거.",
+    "unusual_flag": true,
+    "platform": "DigitalGlobe",
+    "analyst_id": "Analyst_IMINT_1",
+    "analyst_unit": "국방정보본부 영상판독대",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_type": "EO",
+      "look_angle_deg": 25,
+      "cloud_cover_pct": 5
+    },
+    "source_ref": "OSINT: 위성분석",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-12c222dafbe1",
+    "asset_type": "SIGINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-02T20:00:00Z",
+    "mgrs": "51S YD 27785 42393",
+    "location_name": "안악 SA-2 진지",
+    "observed_objects": [],
+    "activity_desc": "안악 SA-2 진지 S-Band 추적레이더 방출 지속. 교신 활발.",
+    "unusual_flag": true,
+    "platform": "777사령부",
+    "analyst_id": "SIGINT_Analyst_2",
+    "analyst_unit": "777사령부",
+    "reliability": 4,
+    "asset_detail": {
+      "is_raw": false,
+      "frequency_band": "S-Band",
+      "signal_strength": "High"
+    },
+    "source_ref": "OSINT: 신호감시",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-72a5aa63b737",
+    "asset_type": "UAV_FLIR",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-02T22:00:00Z",
+    "mgrs": "51S XD 46261 91410",
+    "location_name": "서해안 SA-5 진지",
+    "observed_objects": [
+      {
+        "type": "vehicle",
+        "count": 4
+      }
+    ],
+    "activity_desc": "서해안 SA-5 진지 헤론 FLIR: 발사대 인근 차량 2-3기 활동. 인원 다수.",
+    "unusual_flag": true,
+    "platform": "헤론",
+    "analyst_id": "UAV_Analyst_D",
+    "analyst_unit": "공군 정찰통제단",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_mode": "FLIR_WhiteHot",
+      "slant_range_km": 35,
+      "tracking_status": "Lock-on"
+    },
+    "source_ref": "OSINT: UAV 정찰",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-612fc0931612",
+    "asset_type": "SATELLITE_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-03T00:00:00Z",
+    "mgrs": "52T CK 12345 67890",
+    "location_name": "원산 SA-5 진지",
+    "observed_objects": [
+      {
+        "type": "radar",
+        "count": 1
+      }
+    ],
+    "activity_desc": "원산 SA-5 진지 위성: 15m 원형 구조물(Square Pair 레이더) 회전. 발사대 6기 세로 배치. 위장막 제거.",
+    "unusual_flag": true,
+    "platform": "DigitalGlobe",
+    "analyst_id": "Analyst_IMINT_1",
+    "analyst_unit": "국방정보본부 영상판독대",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_type": "EO",
+      "look_angle_deg": 25,
+      "cloud_cover_pct": 5
+    },
+    "source_ref": "OSINT: 위성분석",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-704cf1e1f3ce",
+    "asset_type": "SIGINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-03T02:00:00Z",
+    "mgrs": "52T BL 72762 59866",
+    "location_name": "평양 외곽 SA-5 진지",
+    "observed_objects": [],
+    "activity_desc": "평양 외곽 SA-5 진지 S-Band 추적레이더 방출 지속. 교신 활발.",
+    "unusual_flag": true,
+    "platform": "777사령부",
+    "analyst_id": "SIGINT_Analyst_2",
+    "analyst_unit": "777사령부",
+    "reliability": 4,
+    "asset_detail": {
+      "is_raw": false,
+      "frequency_band": "S-Band",
+      "signal_strength": "High"
+    },
+    "source_ref": "OSINT: 신호감시",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-f401186188da",
+    "asset_type": "UAV_FLIR",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-03T04:00:00Z",
+    "mgrs": "51S YD 45000 18900",
+    "location_name": "영변 SA-5 진지",
+    "observed_objects": [
+      {
+        "type": "vehicle",
+        "count": 4
+      }
+    ],
+    "activity_desc": "영변 SA-5 진지 헤론 FLIR: 발사대 인근 차량 2-3기 활동. 인원 다수.",
+    "unusual_flag": true,
+    "platform": "헤론",
+    "analyst_id": "UAV_Analyst_D",
+    "analyst_unit": "공군 정찰통제단",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_mode": "FLIR_WhiteHot",
+      "slant_range_km": 35,
+      "tracking_status": "Lock-on"
+    },
+    "source_ref": "OSINT: UAV 정찰",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-a59347fab557",
+    "asset_type": "SATELLITE_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-03T06:00:00Z",
+    "mgrs": "51S YD 27785 42393",
+    "location_name": "안악 SA-2 진지",
+    "observed_objects": [
+      {
+        "type": "radar",
+        "count": 1
+      }
+    ],
+    "activity_desc": "안악 SA-2 진지 위성: 15m 원형 구조물(Square Pair 레이더) 회전. 발사대 6기 세로 배치. 위장막 제거.",
+    "unusual_flag": true,
+    "platform": "DigitalGlobe",
+    "analyst_id": "Analyst_IMINT_1",
+    "analyst_unit": "국방정보본부 영상판독대",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_type": "EO",
+      "look_angle_deg": 25,
+      "cloud_cover_pct": 5
+    },
+    "source_ref": "OSINT: 위성분석",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-f95c65b1e338",
+    "asset_type": "SIGINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-03T08:00:00Z",
+    "mgrs": "51S XD 46261 91410",
+    "location_name": "서해안 SA-5 진지",
+    "observed_objects": [],
+    "activity_desc": "서해안 SA-5 진지 S-Band 추적레이더 방출 지속. 교신 활발.",
+    "unusual_flag": true,
+    "platform": "777사령부",
+    "analyst_id": "SIGINT_Analyst_2",
+    "analyst_unit": "777사령부",
+    "reliability": 4,
+    "asset_detail": {
+      "is_raw": false,
+      "frequency_band": "S-Band",
+      "signal_strength": "High"
+    },
+    "source_ref": "OSINT: 신호감시",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-1e4e2be31536",
+    "asset_type": "UAV_FLIR",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-03T10:00:00Z",
+    "mgrs": "52T CK 12345 67890",
+    "location_name": "원산 SA-5 진지",
+    "observed_objects": [
+      {
+        "type": "vehicle",
+        "count": 4
+      }
+    ],
+    "activity_desc": "원산 SA-5 진지 헤론 FLIR: 발사대 인근 차량 2-3기 활동. 인원 다수.",
+    "unusual_flag": true,
+    "platform": "헤론",
+    "analyst_id": "UAV_Analyst_D",
+    "analyst_unit": "공군 정찰통제단",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_mode": "FLIR_WhiteHot",
+      "slant_range_km": 35,
+      "tracking_status": "Lock-on"
+    },
+    "source_ref": "OSINT: UAV 정찰",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-bfd1f9eed79e",
+    "asset_type": "SATELLITE_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-03T12:00:00Z",
+    "mgrs": "52T BL 72762 59866",
+    "location_name": "평양 외곽 SA-5 진지",
+    "observed_objects": [
+      {
+        "type": "radar",
+        "count": 1
+      }
+    ],
+    "activity_desc": "평양 외곽 SA-5 진지 위성: 15m 원형 구조물(Square Pair 레이더) 회전. 발사대 6기 세로 배치. 위장막 제거.",
+    "unusual_flag": true,
+    "platform": "DigitalGlobe",
+    "analyst_id": "Analyst_IMINT_1",
+    "analyst_unit": "국방정보본부 영상판독대",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_type": "EO",
+      "look_angle_deg": 25,
+      "cloud_cover_pct": 5
+    },
+    "source_ref": "OSINT: 위성분석",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-eed987b37a2b",
+    "asset_type": "SIGINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-03T14:00:00Z",
+    "mgrs": "51S YD 45000 18900",
+    "location_name": "영변 SA-5 진지",
+    "observed_objects": [],
+    "activity_desc": "영변 SA-5 진지 S-Band 추적레이더 방출 지속. 교신 활발.",
+    "unusual_flag": true,
+    "platform": "777사령부",
+    "analyst_id": "SIGINT_Analyst_2",
+    "analyst_unit": "777사령부",
+    "reliability": 4,
+    "asset_detail": {
+      "is_raw": false,
+      "frequency_band": "S-Band",
+      "signal_strength": "High"
+    },
+    "source_ref": "OSINT: 신호감시",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-48943215b488",
+    "asset_type": "UAV_FLIR",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-03T16:00:00Z",
+    "mgrs": "51S YD 27785 42393",
+    "location_name": "안악 SA-2 진지",
+    "observed_objects": [
+      {
+        "type": "vehicle",
+        "count": 4
+      }
+    ],
+    "activity_desc": "안악 SA-2 진지 헤론 FLIR: 발사대 인근 차량 2-3기 활동. 인원 다수.",
+    "unusual_flag": true,
+    "platform": "헤론",
+    "analyst_id": "UAV_Analyst_D",
+    "analyst_unit": "공군 정찰통제단",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_mode": "FLIR_WhiteHot",
+      "slant_range_km": 35,
+      "tracking_status": "Lock-on"
+    },
+    "source_ref": "OSINT: UAV 정찰",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-98895f5ae0f4",
+    "asset_type": "SATELLITE_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-06T06:00:00Z",
+    "mgrs": "51S XD 46261 91410",
+    "location_name": "서해안 SA-5 진지",
+    "observed_objects": [
+      {
+        "type": "debris",
+        "count": 3
+      }
+    ],
+    "activity_desc": "서해안 SA-5 진지 위성: 발사대 6기 중 5기 누워있음. 폭발 흔적(크레이터 3개). 구조물 일부 붕괴.",
+    "unusual_flag": true,
+    "platform": "DigitalGlobe",
+    "analyst_id": "Analyst_IMINT_1",
+    "analyst_unit": "국방정보본부 영상판독대",
+    "reliability": 5,
+    "asset_detail": {
+      "sensor_type": "EO",
+      "look_angle_deg": 18,
+      "cloud_cover_pct": 0
+    },
+    "source_ref": "OSINT: 위성 BDA",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-fd9f5ae6b7b7",
+    "asset_type": "SIGINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-06T08:00:00Z",
+    "mgrs": "52T CK 12345 67890",
+    "location_name": "원산 SA-5 진지",
+    "observed_objects": [],
+    "activity_desc": "원산 SA-5 진지 S-Band 방출 소실. 교신 중단.",
+    "unusual_flag": true,
+    "platform": "777사령부",
+    "analyst_id": "SIGINT_Analyst_2",
+    "analyst_unit": "777사령부",
+    "reliability": 4,
+    "asset_detail": {
+      "is_raw": false,
+      "frequency_band": "S-Band",
+      "signal_strength": "Weak"
+    },
+    "source_ref": "OSINT: 신호 BDA",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-ee2fb8a668e3",
+    "asset_type": "UAV_FLIR",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-06T10:00:00Z",
+    "mgrs": "52T BL 72762 59866",
+    "location_name": "평양 외곽 SA-5 진지",
+    "observed_objects": [
+      {
+        "type": "crater",
+        "count": 2
+      }
+    ],
+    "activity_desc": "평양 외곽 SA-5 진지 UAV FLIR: 잔여 발사대 1기 미활동. 인원 없음.",
+    "unusual_flag": true,
+    "platform": "MQ-9",
+    "analyst_id": "UAV_Analyst_D",
+    "analyst_unit": "공군 정찰통제단",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_mode": "FLIR_WhiteHot",
+      "slant_range_km": 12,
+      "tracking_status": "Lost"
+    },
+    "source_ref": "OSINT: UAV BDA",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-159a75d89cf3",
+    "asset_type": "SATELLITE_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-06T12:00:00Z",
+    "mgrs": "51S YD 45000 18900",
+    "location_name": "영변 SA-5 진지",
+    "observed_objects": [
+      {
+        "type": "debris",
+        "count": 3
+      }
+    ],
+    "activity_desc": "영변 SA-5 진지 위성: 발사대 6기 중 5기 누워있음. 폭발 흔적(크레이터 3개). 구조물 일부 붕괴.",
+    "unusual_flag": true,
+    "platform": "DigitalGlobe",
+    "analyst_id": "Analyst_IMINT_1",
+    "analyst_unit": "국방정보본부 영상판독대",
+    "reliability": 5,
+    "asset_detail": {
+      "sensor_type": "EO",
+      "look_angle_deg": 18,
+      "cloud_cover_pct": 0
+    },
+    "source_ref": "OSINT: 위성 BDA",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-be40d3a0766b",
+    "asset_type": "SIGINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-06T14:00:00Z",
+    "mgrs": "51S YD 27785 42393",
+    "location_name": "안악 SA-2 진지",
+    "observed_objects": [],
+    "activity_desc": "안악 SA-2 진지 S-Band 방출 소실. 교신 중단.",
+    "unusual_flag": true,
+    "platform": "777사령부",
+    "analyst_id": "SIGINT_Analyst_2",
+    "analyst_unit": "777사령부",
+    "reliability": 4,
+    "asset_detail": {
+      "is_raw": false,
+      "frequency_band": "S-Band",
+      "signal_strength": "Weak"
+    },
+    "source_ref": "OSINT: 신호 BDA",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-b9e45ac246ec",
+    "asset_type": "UAV_FLIR",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-06T16:00:00Z",
+    "mgrs": "51S XD 46261 91410",
+    "location_name": "서해안 SA-5 진지",
+    "observed_objects": [
+      {
+        "type": "crater",
+        "count": 2
+      }
+    ],
+    "activity_desc": "서해안 SA-5 진지 UAV FLIR: 잔여 발사대 1기 미활동. 인원 없음.",
+    "unusual_flag": true,
+    "platform": "MQ-9",
+    "analyst_id": "UAV_Analyst_D",
+    "analyst_unit": "공군 정찰통제단",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_mode": "FLIR_WhiteHot",
+      "slant_range_km": 12,
+      "tracking_status": "Lost"
+    },
+    "source_ref": "OSINT: UAV BDA",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-cf85219dc8a3",
+    "asset_type": "SATELLITE_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-06T18:00:00Z",
+    "mgrs": "52T CK 12345 67890",
+    "location_name": "원산 SA-5 진지",
+    "observed_objects": [
+      {
+        "type": "debris",
+        "count": 3
+      }
+    ],
+    "activity_desc": "원산 SA-5 진지 위성: 발사대 6기 중 5기 누워있음. 폭발 흔적(크레이터 3개). 구조물 일부 붕괴.",
+    "unusual_flag": true,
+    "platform": "DigitalGlobe",
+    "analyst_id": "Analyst_IMINT_1",
+    "analyst_unit": "국방정보본부 영상판독대",
+    "reliability": 5,
+    "asset_detail": {
+      "sensor_type": "EO",
+      "look_angle_deg": 18,
+      "cloud_cover_pct": 0
+    },
+    "source_ref": "OSINT: 위성 BDA",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-f6305c34ea6b",
+    "asset_type": "SIGINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-06T20:00:00Z",
+    "mgrs": "52T BL 72762 59866",
+    "location_name": "평양 외곽 SA-5 진지",
+    "observed_objects": [],
+    "activity_desc": "평양 외곽 SA-5 진지 S-Band 방출 소실. 교신 중단.",
+    "unusual_flag": true,
+    "platform": "777사령부",
+    "analyst_id": "SIGINT_Analyst_2",
+    "analyst_unit": "777사령부",
+    "reliability": 4,
+    "asset_detail": {
+      "is_raw": false,
+      "frequency_band": "S-Band",
+      "signal_strength": "Weak"
+    },
+    "source_ref": "OSINT: 신호 BDA",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-a9402391c036",
+    "asset_type": "UAV_FLIR",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-06T22:00:00Z",
+    "mgrs": "51S YD 45000 18900",
+    "location_name": "영변 SA-5 진지",
+    "observed_objects": [
+      {
+        "type": "crater",
+        "count": 2
+      }
+    ],
+    "activity_desc": "영변 SA-5 진지 UAV FLIR: 잔여 발사대 1기 미활동. 인원 없음.",
+    "unusual_flag": true,
+    "platform": "MQ-9",
+    "analyst_id": "UAV_Analyst_D",
+    "analyst_unit": "공군 정찰통제단",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_mode": "FLIR_WhiteHot",
+      "slant_range_km": 12,
+      "tracking_status": "Lost"
+    },
+    "source_ref": "OSINT: UAV BDA",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-a9729e87bf02",
+    "asset_type": "SATELLITE_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-07T00:00:00Z",
+    "mgrs": "51S YD 27785 42393",
+    "location_name": "안악 SA-2 진지",
+    "observed_objects": [
+      {
+        "type": "debris",
+        "count": 3
+      }
+    ],
+    "activity_desc": "안악 SA-2 진지 위성: 발사대 6기 중 5기 누워있음. 폭발 흔적(크레이터 3개). 구조물 일부 붕괴.",
+    "unusual_flag": true,
+    "platform": "DigitalGlobe",
+    "analyst_id": "Analyst_IMINT_1",
+    "analyst_unit": "국방정보본부 영상판독대",
+    "reliability": 5,
+    "asset_detail": {
+      "sensor_type": "EO",
+      "look_angle_deg": 18,
+      "cloud_cover_pct": 0
+    },
+    "source_ref": "OSINT: 위성 BDA",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-db902a81854e",
+    "asset_type": "SIGINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-07T02:00:00Z",
+    "mgrs": "51S XD 46261 91410",
+    "location_name": "서해안 SA-5 진지",
+    "observed_objects": [],
+    "activity_desc": "서해안 SA-5 진지 S-Band 방출 소실. 교신 중단.",
+    "unusual_flag": true,
+    "platform": "777사령부",
+    "analyst_id": "SIGINT_Analyst_2",
+    "analyst_unit": "777사령부",
+    "reliability": 4,
+    "asset_detail": {
+      "is_raw": false,
+      "frequency_band": "S-Band",
+      "signal_strength": "Weak"
+    },
+    "source_ref": "OSINT: 신호 BDA",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-3388230c6fa7",
+    "asset_type": "UAV_FLIR",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-07T04:00:00Z",
+    "mgrs": "52T CK 12345 67890",
+    "location_name": "원산 SA-5 진지",
+    "observed_objects": [
+      {
+        "type": "crater",
+        "count": 2
+      }
+    ],
+    "activity_desc": "원산 SA-5 진지 UAV FLIR: 잔여 발사대 1기 미활동. 인원 없음.",
+    "unusual_flag": true,
+    "platform": "MQ-9",
+    "analyst_id": "UAV_Analyst_D",
+    "analyst_unit": "공군 정찰통제단",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_mode": "FLIR_WhiteHot",
+      "slant_range_km": 12,
+      "tracking_status": "Lost"
+    },
+    "source_ref": "OSINT: UAV BDA",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-b08098b1db73",
+    "asset_type": "SATELLITE_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-07T06:00:00Z",
+    "mgrs": "52T BL 72762 59866",
+    "location_name": "평양 외곽 SA-5 진지",
+    "observed_objects": [
+      {
+        "type": "debris",
+        "count": 3
+      }
+    ],
+    "activity_desc": "평양 외곽 SA-5 진지 위성: 발사대 6기 중 5기 누워있음. 폭발 흔적(크레이터 3개). 구조물 일부 붕괴.",
+    "unusual_flag": true,
+    "platform": "DigitalGlobe",
+    "analyst_id": "Analyst_IMINT_1",
+    "analyst_unit": "국방정보본부 영상판독대",
+    "reliability": 5,
+    "asset_detail": {
+      "sensor_type": "EO",
+      "look_angle_deg": 18,
+      "cloud_cover_pct": 0
+    },
+    "source_ref": "OSINT: 위성 BDA",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-fa52839bb189",
+    "asset_type": "SIGINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-07T08:00:00Z",
+    "mgrs": "51S YD 45000 18900",
+    "location_name": "영변 SA-5 진지",
+    "observed_objects": [],
+    "activity_desc": "영변 SA-5 진지 S-Band 방출 소실. 교신 중단.",
+    "unusual_flag": true,
+    "platform": "777사령부",
+    "analyst_id": "SIGINT_Analyst_2",
+    "analyst_unit": "777사령부",
+    "reliability": 4,
+    "asset_detail": {
+      "is_raw": false,
+      "frequency_band": "S-Band",
+      "signal_strength": "Weak"
+    },
+    "source_ref": "OSINT: 신호 BDA",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-6a11dd91dc76",
+    "asset_type": "UAV_FLIR",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-07T10:00:00Z",
+    "mgrs": "51S YD 27785 42393",
+    "location_name": "안악 SA-2 진지",
+    "observed_objects": [
+      {
+        "type": "crater",
+        "count": 2
+      }
+    ],
+    "activity_desc": "안악 SA-2 진지 UAV FLIR: 잔여 발사대 1기 미활동. 인원 없음.",
+    "unusual_flag": true,
+    "platform": "MQ-9",
+    "analyst_id": "UAV_Analyst_D",
+    "analyst_unit": "공군 정찰통제단",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_mode": "FLIR_WhiteHot",
+      "slant_range_km": 12,
+      "tracking_status": "Lost"
+    },
+    "source_ref": "OSINT: UAV BDA",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-1721450d6ad3",
+    "asset_type": "SATELLITE_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-07T12:00:00Z",
+    "mgrs": "51S XD 46261 91410",
+    "location_name": "서해안 SA-5 진지",
+    "observed_objects": [
+      {
+        "type": "debris",
+        "count": 3
+      }
+    ],
+    "activity_desc": "서해안 SA-5 진지 위성: 발사대 6기 중 5기 누워있음. 폭발 흔적(크레이터 3개). 구조물 일부 붕괴.",
+    "unusual_flag": true,
+    "platform": "DigitalGlobe",
+    "analyst_id": "Analyst_IMINT_1",
+    "analyst_unit": "국방정보본부 영상판독대",
+    "reliability": 5,
+    "asset_detail": {
+      "sensor_type": "EO",
+      "look_angle_deg": 18,
+      "cloud_cover_pct": 0
+    },
+    "source_ref": "OSINT: 위성 BDA",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-050ada32b38e",
+    "asset_type": "SIGINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-07T14:00:00Z",
+    "mgrs": "52T CK 12345 67890",
+    "location_name": "원산 SA-5 진지",
+    "observed_objects": [],
+    "activity_desc": "원산 SA-5 진지 S-Band 방출 소실. 교신 중단.",
+    "unusual_flag": true,
+    "platform": "777사령부",
+    "analyst_id": "SIGINT_Analyst_2",
+    "analyst_unit": "777사령부",
+    "reliability": 4,
+    "asset_detail": {
+      "is_raw": false,
+      "frequency_band": "S-Band",
+      "signal_strength": "Weak"
+    },
+    "source_ref": "OSINT: 신호 BDA",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-ec65eb8701ce",
+    "asset_type": "UAV_FLIR",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-07T16:00:00Z",
+    "mgrs": "52T BL 72762 59866",
+    "location_name": "평양 외곽 SA-5 진지",
+    "observed_objects": [
+      {
+        "type": "crater",
+        "count": 2
+      }
+    ],
+    "activity_desc": "평양 외곽 SA-5 진지 UAV FLIR: 잔여 발사대 1기 미활동. 인원 없음.",
+    "unusual_flag": true,
+    "platform": "MQ-9",
+    "analyst_id": "UAV_Analyst_D",
+    "analyst_unit": "공군 정찰통제단",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_mode": "FLIR_WhiteHot",
+      "slant_range_km": 12,
+      "tracking_status": "Lost"
+    },
+    "source_ref": "OSINT: UAV BDA",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-0396f952d126",
+    "asset_type": "SATELLITE_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-07T18:00:00Z",
+    "mgrs": "51S YD 45000 18900",
+    "location_name": "영변 SA-5 진지",
+    "observed_objects": [
+      {
+        "type": "debris",
+        "count": 3
+      }
+    ],
+    "activity_desc": "영변 SA-5 진지 위성: 발사대 6기 중 5기 누워있음. 폭발 흔적(크레이터 3개). 구조물 일부 붕괴.",
+    "unusual_flag": true,
+    "platform": "DigitalGlobe",
+    "analyst_id": "Analyst_IMINT_1",
+    "analyst_unit": "국방정보본부 영상판독대",
+    "reliability": 5,
+    "asset_detail": {
+      "sensor_type": "EO",
+      "look_angle_deg": 18,
+      "cloud_cover_pct": 0
+    },
+    "source_ref": "OSINT: 위성 BDA",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-85e8a3f1ef3b",
+    "asset_type": "SIGINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-08-07T20:00:00Z",
+    "mgrs": "51S YD 27785 42393",
+    "location_name": "안악 SA-2 진지",
+    "observed_objects": [],
+    "activity_desc": "안악 SA-2 진지 S-Band 방출 소실. 교신 중단.",
+    "unusual_flag": true,
+    "platform": "777사령부",
+    "analyst_id": "SIGINT_Analyst_2",
+    "analyst_unit": "777사령부",
+    "reliability": 4,
+    "asset_detail": {
+      "is_raw": false,
+      "frequency_band": "S-Band",
+      "signal_strength": "Weak"
+    },
+    "source_ref": "OSINT: 신호 BDA",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-f2ceda9a65e8",
+    "asset_type": "UAV_FLIR",
+    "polarity": "ABSENT",
+    "collected_at": "2026-08-07T22:00:00Z",
+    "mgrs": "51S XD 46261 91410",
+    "location_name": "서해안 SA-5 진지",
+    "observed_objects": [],
+    "activity_desc": "서해안 SA-5 진지 S-Band 방출 재개. 제한적 교신. 잔여 발사대 활동.",
+    "unusual_flag": true,
+    "platform": "MQ-9",
+    "analyst_id": "UAV_Analyst_D",
+    "analyst_unit": "공군 정찰통제단",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_mode": "FLIR_WhiteHot",
+      "slant_range_km": 12,
+      "tracking_status": "Lost"
+    },
+    "source_ref": "OSINT: UAV BDA",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-b1f1dfe1f713",
+    "asset_type": "SATELLITE_IMINT",
+    "polarity": "ABSENT",
+    "collected_at": "2026-08-08T00:00:00Z",
+    "mgrs": "52T CK 12345 67890",
+    "location_name": "원산 SA-5 진지",
+    "observed_objects": [],
+    "activity_desc": "원산 SA-5 진지 S-Band 방출 재개. 제한적 교신. 잔여 발사대 활동.",
+    "unusual_flag": true,
+    "platform": "DigitalGlobe",
+    "analyst_id": "Analyst_IMINT_1",
+    "analyst_unit": "국방정보본부 영상판독대",
+    "reliability": 5,
+    "asset_detail": {
+      "sensor_type": "EO",
+      "look_angle_deg": 18,
+      "cloud_cover_pct": 0
+    },
+    "source_ref": "OSINT: 위성 BDA",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-4424da363671",
+    "asset_type": "SIGINT",
+    "polarity": "ABSENT",
+    "collected_at": "2026-08-08T02:00:00Z",
+    "mgrs": "52T BL 72762 59866",
+    "location_name": "평양 외곽 SA-5 진지",
+    "observed_objects": [],
+    "activity_desc": "평양 외곽 SA-5 진지 S-Band 방출 재개. 제한적 교신. 잔여 발사대 활동.",
+    "unusual_flag": true,
+    "platform": "777사령부",
+    "analyst_id": "SIGINT_Analyst_2",
+    "analyst_unit": "777사령부",
+    "reliability": 4,
+    "asset_detail": {
+      "is_raw": false,
+      "frequency_band": "S-Band",
+      "signal_strength": "Weak"
+    },
+    "source_ref": "OSINT: 신호 BDA",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-9c4d924364ee",
+    "asset_type": "UAV_FLIR",
+    "polarity": "ABSENT",
+    "collected_at": "2026-08-08T04:00:00Z",
+    "mgrs": "51S YD 45000 18900",
+    "location_name": "영변 SA-5 진지",
+    "observed_objects": [],
+    "activity_desc": "영변 SA-5 진지 S-Band 방출 재개. 제한적 교신. 잔여 발사대 활동.",
+    "unusual_flag": true,
+    "platform": "MQ-9",
+    "analyst_id": "UAV_Analyst_D",
+    "analyst_unit": "공군 정찰통제단",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_mode": "FLIR_WhiteHot",
+      "slant_range_km": 12,
+      "tracking_status": "Lost"
+    },
+    "source_ref": "OSINT: UAV BDA",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-5060634476e2",
+    "asset_type": "SATELLITE_IMINT",
+    "polarity": "ABSENT",
+    "collected_at": "2026-08-08T06:00:00Z",
+    "mgrs": "51S YD 27785 42393",
+    "location_name": "안악 SA-2 진지",
+    "observed_objects": [],
+    "activity_desc": "안악 SA-2 진지 S-Band 방출 재개. 제한적 교신. 잔여 발사대 활동.",
+    "unusual_flag": true,
+    "platform": "DigitalGlobe",
+    "analyst_id": "Analyst_IMINT_1",
+    "analyst_unit": "국방정보본부 영상판독대",
+    "reliability": 5,
+    "asset_detail": {
+      "sensor_type": "EO",
+      "look_angle_deg": 18,
+      "cloud_cover_pct": 0
+    },
+    "source_ref": "OSINT: 위성 BDA",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-ee5f940887cf",
+    "asset_type": "SIGINT",
+    "polarity": "ABSENT",
+    "collected_at": "2026-08-08T08:00:00Z",
+    "mgrs": "51S XD 46261 91410",
+    "location_name": "서해안 SA-5 진지",
+    "observed_objects": [],
+    "activity_desc": "서해안 SA-5 진지 S-Band 방출 재개. 제한적 교신. 잔여 발사대 활동.",
+    "unusual_flag": true,
+    "platform": "777사령부",
+    "analyst_id": "SIGINT_Analyst_2",
+    "analyst_unit": "777사령부",
+    "reliability": 4,
+    "asset_detail": {
+      "is_raw": false,
+      "frequency_band": "S-Band",
+      "signal_strength": "Weak"
+    },
+    "source_ref": "OSINT: 신호 BDA",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-13ba72ce3764",
+    "asset_type": "UAV_FLIR",
+    "polarity": "ABSENT",
+    "collected_at": "2026-08-08T10:00:00Z",
+    "mgrs": "52T CK 12345 67890",
+    "location_name": "원산 SA-5 진지",
+    "observed_objects": [],
+    "activity_desc": "원산 SA-5 진지 S-Band 방출 재개. 제한적 교신. 잔여 발사대 활동.",
+    "unusual_flag": true,
+    "platform": "MQ-9",
+    "analyst_id": "UAV_Analyst_D",
+    "analyst_unit": "공군 정찰통제단",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_mode": "FLIR_WhiteHot",
+      "slant_range_km": 12,
+      "tracking_status": "Lost"
+    },
+    "source_ref": "OSINT: UAV BDA",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-3dabeb89ce90",
+    "asset_type": "SATELLITE_IMINT",
+    "polarity": "ABSENT",
+    "collected_at": "2026-08-08T12:00:00Z",
+    "mgrs": "52T BL 72762 59866",
+    "location_name": "평양 외곽 SA-5 진지",
+    "observed_objects": [],
+    "activity_desc": "평양 외곽 SA-5 진지 S-Band 방출 재개. 제한적 교신. 잔여 발사대 활동.",
+    "unusual_flag": true,
+    "platform": "DigitalGlobe",
+    "analyst_id": "Analyst_IMINT_1",
+    "analyst_unit": "국방정보본부 영상판독대",
+    "reliability": 5,
+    "asset_detail": {
+      "sensor_type": "EO",
+      "look_angle_deg": 18,
+      "cloud_cover_pct": 0
+    },
+    "source_ref": "OSINT: 위성 BDA",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-fa3af3880a53",
+    "asset_type": "SIGINT",
+    "polarity": "ABSENT",
+    "collected_at": "2026-08-08T14:00:00Z",
+    "mgrs": "51S YD 45000 18900",
+    "location_name": "영변 SA-5 진지",
+    "observed_objects": [],
+    "activity_desc": "영변 SA-5 진지 S-Band 방출 재개. 제한적 교신. 잔여 발사대 활동.",
+    "unusual_flag": true,
+    "platform": "777사령부",
+    "analyst_id": "SIGINT_Analyst_2",
+    "analyst_unit": "777사령부",
+    "reliability": 4,
+    "asset_detail": {
+      "is_raw": false,
+      "frequency_band": "S-Band",
+      "signal_strength": "Weak"
+    },
+    "source_ref": "OSINT: 신호 BDA",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "sb-b14daede2186",
+    "asset_type": "UAV_FLIR",
+    "polarity": "ABSENT",
+    "collected_at": "2026-08-08T16:00:00Z",
+    "mgrs": "51S YD 27785 42393",
+    "location_name": "안악 SA-2 진지",
+    "observed_objects": [],
+    "activity_desc": "안악 SA-2 진지 S-Band 방출 재개. 제한적 교신. 잔여 발사대 활동.",
+    "unusual_flag": true,
+    "platform": "MQ-9",
+    "analyst_id": "UAV_Analyst_D",
+    "analyst_unit": "공군 정찰통제단",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_mode": "FLIR_WhiteHot",
+      "slant_range_km": 12,
+      "tracking_status": "Lost"
+    },
+    "source_ref": "OSINT: UAV BDA",
+    "source_url": "",
+    "image_urls": []
+  }
+]
