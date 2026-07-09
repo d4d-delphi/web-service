@@ -355,18 +355,6 @@ function ScenarioBlock({ hypothesisId, posterior, pLaunch, scenario, events, cur
   );
 }
 
-function gaugeText(pct: number) {
-  if (pct >= 75) return 'text-red-400';
-  if (pct >= 50) return 'text-orange-400';
-  if (pct >= 25) return 'text-yellow-400';
-  return 'text-gray-300';
-}
-function gaugeBar(pct: number) {
-  if (pct >= 75) return 'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.5)]';
-  if (pct >= 50) return 'bg-orange-500';
-  if (pct >= 25) return 'bg-yellow-500';
-  return 'bg-gray-500';
-}
 
 // 이벤트 타임라인 뷰(viewMode === 'timeline')용 시각 포맷.
 function formatEventTs(t: number): string {

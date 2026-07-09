@@ -25,9 +25,6 @@ export default function Timeline({
   onPlay,
   onPause,
   onFastForward,
-  onPhaseClick,
-  onScenarioChange,
-  activeScenario,
 }: TimelineProps) {
   const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
 

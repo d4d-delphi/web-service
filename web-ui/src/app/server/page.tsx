@@ -873,7 +873,7 @@ function TimelineChart({
         for (let i = 0; i <= revealIdx; i++) {
           const x = X(times[i]);
           const y = Y(p, Number(rows[i].hypotheses?.[h.key] ?? 0));
-          i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+          if (i === 0) { ctx.moveTo(x, y); } else { ctx.lineTo(x, y); }
         }
         ctx.stroke();
         const v = Number(rows[revealIdx].hypotheses?.[h.key] ?? 0);
@@ -887,7 +887,7 @@ function TimelineChart({
         for (let i = 0; i <= revealIdx; i++) {
           const x = X(times[i]);
           const y = Y(p, Number(rows[i][s.key] ?? 0));
-          i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+          if (i === 0) { ctx.moveTo(x, y); } else { ctx.lineTo(x, y); }
         }
         ctx.stroke();
         const lead = rows[revealIdx];
