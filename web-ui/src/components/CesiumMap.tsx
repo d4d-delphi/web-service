@@ -938,15 +938,7 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets, cust
         const anchorY = it.win.y - 14; // label sits above the marker point
         const box = { l: it.win.x - w / 2, r: it.win.x + w / 2, t: anchorY - h, b: anchorY };
         const off = it.win.x < 0 || it.win.y < 0 || it.win.x > cw || it.win.y > ch;
-        let collide = false;
-        if (!off) {
-          for (const p of placed) {
-            if (box.l < p.r && box.r > p.l && box.t < p.b && box.b > p.t) {
-              collide = true;
-              break;
-            }
-          }
-        }
+        void off; // off-screen check retained for future use; current hover-only mode doesn't need collision
         // hover-only: 기본 숨김. 단, 현재 hover 중인 라벨은 declutter가 덮어쓰지 않는다.
         const show = (it.e.id as string) === hovered;
         if (it.e.billboard.show !== show) it.e.billboard.show = show;
