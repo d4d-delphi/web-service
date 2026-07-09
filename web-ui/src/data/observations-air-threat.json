@@ -1,0 +1,1447 @@
+[
+  {
+    "obs_id": "at-1a441625c4e0",
+    "asset_type": "SATELLITE_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-10T08:00:00Z",
+    "mgrs": "51S NE 27785 18895",
+    "location_name": "순안 비행장",
+    "observed_objects": [
+      {
+        "type": "aircraft",
+        "count": 2
+      }
+    ],
+    "activity_desc": "순안 비행장 활주로 인근 2기 항공기 배치. 정기 훈련 활동.",
+    "unusual_flag": false,
+    "platform": "DigitalGlobe",
+    "analyst_id": "Analyst_IMINT_1",
+    "analyst_unit": "국방정보본부 영상판독대",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_type": "EO",
+      "look_angle_deg": 20,
+      "cloud_cover_pct": 10
+    },
+    "source_ref": "OSINT: 위성분석 #1",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-5893c88b66fa",
+    "asset_type": "SATELLITE_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-10T14:00:00Z",
+    "mgrs": "51S YE 40998 05333",
+    "location_name": "온천 비행장",
+    "observed_objects": [
+      {
+        "type": "aircraft",
+        "count": 3
+      }
+    ],
+    "activity_desc": "온천 비행장 활주로 인근 3기 항공기 배치. 정기 훈련 활동.",
+    "unusual_flag": false,
+    "platform": "DigitalGlobe",
+    "analyst_id": "Analyst_IMINT_1",
+    "analyst_unit": "국방정보본부 영상판독대",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_type": "EO",
+      "look_angle_deg": 22,
+      "cloud_cover_pct": 13
+    },
+    "source_ref": "OSINT: 위성분석 #2",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-91358147c565",
+    "asset_type": "SIGINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-10T20:00:00Z",
+    "mgrs": "51S NE 14632 26548",
+    "location_name": "북창 비행장",
+    "observed_objects": [],
+    "activity_desc": "북창 비행장 일대 VHF 대역 항공 관제 통신. 통상적 관제 통신.",
+    "unusual_flag": false,
+    "platform": "777사령부",
+    "analyst_id": "SIGINT_Analyst_2",
+    "analyst_unit": "777사령부",
+    "reliability": 3,
+    "asset_detail": {
+      "is_raw": false,
+      "frequency_band": "VHF",
+      "signal_strength": "Moderate"
+    },
+    "source_ref": "OSINT: 신호감시",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-9f633f9cc622",
+    "asset_type": "SATELLITE_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-11T02:00:00Z",
+    "mgrs": "51S YE 08973 53750",
+    "location_name": "곡산 비행장",
+    "observed_objects": [
+      {
+        "type": "aircraft",
+        "count": 2
+      }
+    ],
+    "activity_desc": "곡산 비행장 활주로 인근 2기 항공기 배치. 정기 훈련 활동.",
+    "unusual_flag": false,
+    "platform": "DigitalGlobe",
+    "analyst_id": "Analyst_IMINT_1",
+    "analyst_unit": "국방정보본부 영상판독대",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_type": "EO",
+      "look_angle_deg": 26,
+      "cloud_cover_pct": 19
+    },
+    "source_ref": "OSINT: 위성분석 #4",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-9aaf5b1541a6",
+    "asset_type": "SATELLITE_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-11T08:00:00Z",
+    "mgrs": "51S YE 30845 42393",
+    "location_name": "태탄 비행장",
+    "observed_objects": [
+      {
+        "type": "aircraft",
+        "count": 3
+      }
+    ],
+    "activity_desc": "태탄 비행장 활주로 인근 3기 항공기 배치. 정기 훈련 활동.",
+    "unusual_flag": false,
+    "platform": "DigitalGlobe",
+    "analyst_id": "Analyst_IMINT_1",
+    "analyst_unit": "국방정보본부 영상판독대",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_type": "EO",
+      "look_angle_deg": 28,
+      "cloud_cover_pct": 22
+    },
+    "source_ref": "OSINT: 위성분석 #5",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-93894d1b6a8c",
+    "asset_type": "SIGINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-11T14:00:00Z",
+    "mgrs": "51S NE 27785 18895",
+    "location_name": "순안 비행장",
+    "observed_objects": [],
+    "activity_desc": "순안 비행장 일대 VHF 대역 항공 관제 통신. 통상적 관제 통신.",
+    "unusual_flag": false,
+    "platform": "777사령부",
+    "analyst_id": "SIGINT_Analyst_2",
+    "analyst_unit": "777사령부",
+    "reliability": 3,
+    "asset_detail": {
+      "is_raw": false,
+      "frequency_band": "VHF",
+      "signal_strength": "Moderate"
+    },
+    "source_ref": "OSINT: 신호감시",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-7b45cabe7822",
+    "asset_type": "SATELLITE_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-11T20:00:00Z",
+    "mgrs": "51S YE 40998 05333",
+    "location_name": "온천 비행장",
+    "observed_objects": [
+      {
+        "type": "aircraft",
+        "count": 2
+      }
+    ],
+    "activity_desc": "온천 비행장 활주로 인근 2기 항공기 배치. 정기 훈련 활동.",
+    "unusual_flag": false,
+    "platform": "DigitalGlobe",
+    "analyst_id": "Analyst_IMINT_1",
+    "analyst_unit": "국방정보본부 영상판독대",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_type": "EO",
+      "look_angle_deg": 32,
+      "cloud_cover_pct": 28
+    },
+    "source_ref": "OSINT: 위성분석 #7",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-8b325661362d",
+    "asset_type": "SATELLITE_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-12T02:00:00Z",
+    "mgrs": "51S NE 14632 26548",
+    "location_name": "북창 비행장",
+    "observed_objects": [
+      {
+        "type": "aircraft",
+        "count": 3
+      }
+    ],
+    "activity_desc": "북창 비행장 활주로 인근 3기 항공기 배치. 정기 훈련 활동.",
+    "unusual_flag": false,
+    "platform": "DigitalGlobe",
+    "analyst_id": "Analyst_IMINT_1",
+    "analyst_unit": "국방정보본부 영상판독대",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_type": "EO",
+      "look_angle_deg": 34,
+      "cloud_cover_pct": 31
+    },
+    "source_ref": "OSINT: 위성분석 #8",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-8d0c007bbe3f",
+    "asset_type": "SIGINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-12T08:00:00Z",
+    "mgrs": "51S YE 08973 53750",
+    "location_name": "곡산 비행장",
+    "observed_objects": [],
+    "activity_desc": "곡산 비행장 일대 VHF 대역 항공 관제 통신. 통신 빈도 급증, 다수 기체 동시 교신.",
+    "unusual_flag": true,
+    "platform": "777사령부",
+    "analyst_id": "SIGINT_Analyst_2",
+    "analyst_unit": "777사령부",
+    "reliability": 3,
+    "asset_detail": {
+      "is_raw": false,
+      "frequency_band": "VHF",
+      "signal_strength": "High"
+    },
+    "source_ref": "OSINT: 신호감시",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-1ec6d806af6a",
+    "asset_type": "SATELLITE_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-12T14:00:00Z",
+    "mgrs": "51S YE 30845 42393",
+    "location_name": "태탄 비행장",
+    "observed_objects": [
+      {
+        "type": "aircraft",
+        "count": 2
+      }
+    ],
+    "activity_desc": "태탄 비행장 활주로 인근 2기 항공기 배치. 활주로 활동 빈도 증가, 격납고 외부 기체 다수.",
+    "unusual_flag": true,
+    "platform": "DigitalGlobe",
+    "analyst_id": "Analyst_IMINT_1",
+    "analyst_unit": "국방정보본부 영상판독대",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_type": "EO",
+      "look_angle_deg": 38,
+      "cloud_cover_pct": 37
+    },
+    "source_ref": "OSINT: 위성분석 #10",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-c3c2fa9bbb1e",
+    "asset_type": "SATELLITE_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-12T20:00:00Z",
+    "mgrs": "51S NE 27785 18895",
+    "location_name": "순안 비행장",
+    "observed_objects": [
+      {
+        "type": "aircraft",
+        "count": 3
+      }
+    ],
+    "activity_desc": "순안 비행장 활주로 인근 3기 항공기 배치. 활주로 활동 빈도 증가, 격납고 외부 기체 다수.",
+    "unusual_flag": true,
+    "platform": "DigitalGlobe",
+    "analyst_id": "Analyst_IMINT_1",
+    "analyst_unit": "국방정보본부 영상판독대",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_type": "EO",
+      "look_angle_deg": 40,
+      "cloud_cover_pct": 40
+    },
+    "source_ref": "OSINT: 위성분석 #11",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-d83fccf2b9b1",
+    "asset_type": "SIGINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-13T02:00:00Z",
+    "mgrs": "51S YE 40998 05333",
+    "location_name": "온천 비행장",
+    "observed_objects": [],
+    "activity_desc": "온천 비행장 일대 VHF 대역 항공 관제 통신. 통신 빈도 급증, 다수 기체 동시 교신.",
+    "unusual_flag": true,
+    "platform": "777사령부",
+    "analyst_id": "SIGINT_Analyst_2",
+    "analyst_unit": "777사령부",
+    "reliability": 3,
+    "asset_detail": {
+      "is_raw": false,
+      "frequency_band": "VHF",
+      "signal_strength": "High"
+    },
+    "source_ref": "OSINT: 신호감시",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-3b5d1aa0056b",
+    "asset_type": "SATELLITE_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-13T08:00:00Z",
+    "mgrs": "51S NE 14632 26548",
+    "location_name": "북창 비행장",
+    "observed_objects": [
+      {
+        "type": "aircraft",
+        "count": 2
+      }
+    ],
+    "activity_desc": "북창 비행장 활주로 인근 2기 항공기 배치. 활주로 활동 빈도 증가, 격납고 외부 기체 다수.",
+    "unusual_flag": true,
+    "platform": "DigitalGlobe",
+    "analyst_id": "Analyst_IMINT_1",
+    "analyst_unit": "국방정보본부 영상판독대",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_type": "EO",
+      "look_angle_deg": 44,
+      "cloud_cover_pct": 46
+    },
+    "source_ref": "OSINT: 위성분석 #13",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-d78ce7471977",
+    "asset_type": "SATELLITE_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-13T14:00:00Z",
+    "mgrs": "51S YE 08973 53750",
+    "location_name": "곡산 비행장",
+    "observed_objects": [
+      {
+        "type": "aircraft",
+        "count": 3
+      }
+    ],
+    "activity_desc": "곡산 비행장 활주로 인근 3기 항공기 배치. 활주로 활동 빈도 증가, 격납고 외부 기체 다수.",
+    "unusual_flag": true,
+    "platform": "DigitalGlobe",
+    "analyst_id": "Analyst_IMINT_1",
+    "analyst_unit": "국방정보본부 영상판독대",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_type": "EO",
+      "look_angle_deg": 46,
+      "cloud_cover_pct": 49
+    },
+    "source_ref": "OSINT: 위성분석 #14",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-fae2e368243d",
+    "asset_type": "SIGINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-13T20:00:00Z",
+    "mgrs": "51S YE 30845 42393",
+    "location_name": "태탄 비행장",
+    "observed_objects": [],
+    "activity_desc": "태탄 비행장 일대 VHF 대역 항공 관제 통신. 통신 빈도 급증, 다수 기체 동시 교신.",
+    "unusual_flag": true,
+    "platform": "777사령부",
+    "analyst_id": "SIGINT_Analyst_2",
+    "analyst_unit": "777사령부",
+    "reliability": 3,
+    "asset_detail": {
+      "is_raw": false,
+      "frequency_band": "VHF",
+      "signal_strength": "High"
+    },
+    "source_ref": "OSINT: 신호감시",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-41cfe93bfc0f",
+    "asset_type": "SATELLITE_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-14T20:00:00Z",
+    "mgrs": "51S NE 27785 18895",
+    "location_name": "순안 비행장",
+    "observed_objects": [
+      {
+        "type": "aircraft",
+        "count": 6
+      }
+    ],
+    "activity_desc": "순안 비행장 활주로 15m급 항공기 4기 세로 배치. 동체 하부 외부 탑재물 식별.",
+    "unusual_flag": true,
+    "platform": "DigitalGlobe",
+    "analyst_id": "Analyst_IMINT_1",
+    "analyst_unit": "국방정보본부 영상판독대",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_type": "EO",
+      "look_angle_deg": 22,
+      "cloud_cover_pct": 5
+    },
+    "source_ref": "OSINT: 위성분석",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-5eac5681171d",
+    "asset_type": "AERIAL_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-15T00:00:00Z",
+    "mgrs": "51S YE 40998 05333",
+    "location_name": "온천 비행장",
+    "observed_objects": [
+      {
+        "type": "aircraft",
+        "count": 3
+      }
+    ],
+    "activity_desc": "레이더 항적: 온천 비행장 방향 3-4기 편대 비행. 속도 900km/h, 남남서.",
+    "unusual_flag": true,
+    "platform": "그린파인 GBR",
+    "analyst_id": "AERIAL_Analyst_3",
+    "analyst_unit": "공군 항공정보단",
+    "reliability": 4,
+    "asset_detail": {},
+    "source_ref": "OSINT: 레이더 감시",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-ef7f798590ff",
+    "asset_type": "SATELLITE_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-15T04:00:00Z",
+    "mgrs": "51S NE 14632 26548",
+    "location_name": "북창 비행장",
+    "observed_objects": [
+      {
+        "type": "aircraft",
+        "count": 4
+      }
+    ],
+    "activity_desc": "북창 비행장 활주로 15m급 항공기 4기 세로 배치. 동체 하부 외부 탑재물 식별.",
+    "unusual_flag": true,
+    "platform": "DigitalGlobe",
+    "analyst_id": "Analyst_IMINT_1",
+    "analyst_unit": "국방정보본부 영상판독대",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_type": "EO",
+      "look_angle_deg": 22,
+      "cloud_cover_pct": 5
+    },
+    "source_ref": "OSINT: 위성분석",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-e6c46a16fb11",
+    "asset_type": "AERIAL_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-15T08:00:00Z",
+    "mgrs": "51S YE 08973 53750",
+    "location_name": "곡산 비행장",
+    "observed_objects": [
+      {
+        "type": "aircraft",
+        "count": 5
+      }
+    ],
+    "activity_desc": "레이더 항적: 곡산 비행장 방향 3-4기 편대 비행. 속도 900km/h, 남남서.",
+    "unusual_flag": true,
+    "platform": "그린파인 GBR",
+    "analyst_id": "AERIAL_Analyst_3",
+    "analyst_unit": "공군 항공정보단",
+    "reliability": 4,
+    "asset_detail": {},
+    "source_ref": "OSINT: 레이더 감시",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-6338ca40d279",
+    "asset_type": "SATELLITE_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-15T12:00:00Z",
+    "mgrs": "51S YE 30845 42393",
+    "location_name": "태탄 비행장",
+    "observed_objects": [
+      {
+        "type": "aircraft",
+        "count": 6
+      }
+    ],
+    "activity_desc": "태탄 비행장 활주로 15m급 항공기 4기 세로 배치. 동체 하부 외부 탑재물 식별.",
+    "unusual_flag": true,
+    "platform": "DigitalGlobe",
+    "analyst_id": "Analyst_IMINT_1",
+    "analyst_unit": "국방정보본부 영상판독대",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_type": "EO",
+      "look_angle_deg": 22,
+      "cloud_cover_pct": 5
+    },
+    "source_ref": "OSINT: 위성분석",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-79e495fe0027",
+    "asset_type": "AERIAL_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-15T16:00:00Z",
+    "mgrs": "51S NE 27785 18895",
+    "location_name": "순안 비행장",
+    "observed_objects": [
+      {
+        "type": "aircraft",
+        "count": 3
+      }
+    ],
+    "activity_desc": "레이더 항적: 순안 비행장 방향 3-4기 편대 비행. 속도 900km/h, 남남서.",
+    "unusual_flag": true,
+    "platform": "그린파인 GBR",
+    "analyst_id": "AERIAL_Analyst_3",
+    "analyst_unit": "공군 항공정보단",
+    "reliability": 4,
+    "asset_detail": {},
+    "source_ref": "OSINT: 레이더 감시",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-a2714b0266b4",
+    "asset_type": "SATELLITE_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-15T20:00:00Z",
+    "mgrs": "51S YE 40998 05333",
+    "location_name": "온천 비행장",
+    "observed_objects": [
+      {
+        "type": "aircraft",
+        "count": 4
+      }
+    ],
+    "activity_desc": "온천 비행장 활주로 15m급 항공기 4기 세로 배치. 동체 하부 외부 탑재물 식별.",
+    "unusual_flag": true,
+    "platform": "DigitalGlobe",
+    "analyst_id": "Analyst_IMINT_1",
+    "analyst_unit": "국방정보본부 영상판독대",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_type": "EO",
+      "look_angle_deg": 22,
+      "cloud_cover_pct": 5
+    },
+    "source_ref": "OSINT: 위성분석",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-be8d81f58731",
+    "asset_type": "AERIAL_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-16T00:00:00Z",
+    "mgrs": "51S NE 14632 26548",
+    "location_name": "북창 비행장",
+    "observed_objects": [
+      {
+        "type": "aircraft",
+        "count": 5
+      }
+    ],
+    "activity_desc": "레이더 항적: 북창 비행장 방향 3-4기 편대 비행. 속도 900km/h, 남남서.",
+    "unusual_flag": true,
+    "platform": "그린파인 GBR",
+    "analyst_id": "AERIAL_Analyst_3",
+    "analyst_unit": "공군 항공정보단",
+    "reliability": 4,
+    "asset_detail": {},
+    "source_ref": "OSINT: 레이더 감시",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-09121bfe2324",
+    "asset_type": "SATELLITE_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-16T04:00:00Z",
+    "mgrs": "51S YE 08973 53750",
+    "location_name": "곡산 비행장",
+    "observed_objects": [
+      {
+        "type": "aircraft",
+        "count": 6
+      }
+    ],
+    "activity_desc": "곡산 비행장 활주로 15m급 항공기 4기 세로 배치. 동체 하부 외부 탑재물 식별.",
+    "unusual_flag": true,
+    "platform": "DigitalGlobe",
+    "analyst_id": "Analyst_IMINT_1",
+    "analyst_unit": "국방정보본부 영상판독대",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_type": "EO",
+      "look_angle_deg": 22,
+      "cloud_cover_pct": 5
+    },
+    "source_ref": "OSINT: 위성분석",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-048ada4a59fc",
+    "asset_type": "AERIAL_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-16T08:00:00Z",
+    "mgrs": "51S YE 30845 42393",
+    "location_name": "태탄 비행장",
+    "observed_objects": [
+      {
+        "type": "aircraft",
+        "count": 3
+      }
+    ],
+    "activity_desc": "레이더 항적: 태탄 비행장 방향 3-4기 편대 비행. 속도 900km/h, 남남서.",
+    "unusual_flag": true,
+    "platform": "그린파인 GBR",
+    "analyst_id": "AERIAL_Analyst_3",
+    "analyst_unit": "공군 항공정보단",
+    "reliability": 4,
+    "asset_detail": {},
+    "source_ref": "OSINT: 레이더 감시",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-85646fec927d",
+    "asset_type": "SATELLITE_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-16T12:00:00Z",
+    "mgrs": "51S NE 27785 18895",
+    "location_name": "순안 비행장",
+    "observed_objects": [
+      {
+        "type": "aircraft",
+        "count": 4
+      }
+    ],
+    "activity_desc": "순안 비행장 활주로 15m급 항공기 4기 세로 배치. 동체 하부 외부 탑재물 식별.",
+    "unusual_flag": true,
+    "platform": "DigitalGlobe",
+    "analyst_id": "Analyst_IMINT_1",
+    "analyst_unit": "국방정보본부 영상판독대",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_type": "EO",
+      "look_angle_deg": 22,
+      "cloud_cover_pct": 5
+    },
+    "source_ref": "OSINT: 위성분석",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-1ce3d03f0187",
+    "asset_type": "AERIAL_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-16T16:00:00Z",
+    "mgrs": "51S YE 40998 05333",
+    "location_name": "온천 비행장",
+    "observed_objects": [
+      {
+        "type": "aircraft",
+        "count": 5
+      }
+    ],
+    "activity_desc": "레이더 항적: 온천 비행장 방향 3-4기 편대 비행. 속도 900km/h, 남남서.",
+    "unusual_flag": true,
+    "platform": "그린파인 GBR",
+    "analyst_id": "AERIAL_Analyst_3",
+    "analyst_unit": "공군 항공정보단",
+    "reliability": 4,
+    "asset_detail": {},
+    "source_ref": "OSINT: 레이더 감시",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-75096d64f210",
+    "asset_type": "SATELLITE_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-16T20:00:00Z",
+    "mgrs": "51S NE 14632 26548",
+    "location_name": "북창 비행장",
+    "observed_objects": [
+      {
+        "type": "aircraft",
+        "count": 6
+      }
+    ],
+    "activity_desc": "북창 비행장 활주로 15m급 항공기 4기 세로 배치. 동체 하부 외부 탑재물 식별.",
+    "unusual_flag": true,
+    "platform": "DigitalGlobe",
+    "analyst_id": "Analyst_IMINT_1",
+    "analyst_unit": "국방정보본부 영상판독대",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_type": "EO",
+      "look_angle_deg": 22,
+      "cloud_cover_pct": 5
+    },
+    "source_ref": "OSINT: 위성분석",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-e56fea7e2ece",
+    "asset_type": "AERIAL_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-17T00:00:00Z",
+    "mgrs": "51S YE 08973 53750",
+    "location_name": "곡산 비행장",
+    "observed_objects": [
+      {
+        "type": "aircraft",
+        "count": 3
+      }
+    ],
+    "activity_desc": "레이더 항적: 곡산 비행장 방향 3-4기 편대 비행. 속도 900km/h, 남남서.",
+    "unusual_flag": true,
+    "platform": "그린파인 GBR",
+    "analyst_id": "AERIAL_Analyst_3",
+    "analyst_unit": "공군 항공정보단",
+    "reliability": 4,
+    "asset_detail": {},
+    "source_ref": "OSINT: 레이더 감시",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-e7d76ce2395f",
+    "asset_type": "SATELLITE_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-17T04:00:00Z",
+    "mgrs": "51S YE 30845 42393",
+    "location_name": "태탄 비행장",
+    "observed_objects": [
+      {
+        "type": "aircraft",
+        "count": 4
+      }
+    ],
+    "activity_desc": "태탄 비행장 활주로 15m급 항공기 4기 세로 배치. 동체 하부 외부 탑재물 식별.",
+    "unusual_flag": true,
+    "platform": "DigitalGlobe",
+    "analyst_id": "Analyst_IMINT_1",
+    "analyst_unit": "국방정보본부 영상판독대",
+    "reliability": 4,
+    "asset_detail": {
+      "sensor_type": "EO",
+      "look_angle_deg": 22,
+      "cloud_cover_pct": 5
+    },
+    "source_ref": "OSINT: 위성분석",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-626736cb08d2",
+    "asset_type": "SIGINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-19T02:00:00Z",
+    "mgrs": "51S NE 27785 18895",
+    "location_name": "순안 비행장",
+    "observed_objects": [],
+    "activity_desc": "순안 비행장 GCI 대역 교신 급증. 다수 기체 동시 관제. 비상 출격 징후.",
+    "unusual_flag": true,
+    "platform": "777사령부",
+    "analyst_id": "SIGINT_Analyst_2",
+    "analyst_unit": "777사령부",
+    "reliability": 4,
+    "asset_detail": {
+      "is_raw": false,
+      "frequency_band": "VHF",
+      "signal_strength": "High"
+    },
+    "source_ref": "OSINT: 신호감시",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-e86fbfc2c7aa",
+    "asset_type": "OSINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-19T05:00:00Z",
+    "mgrs": "51S YE 40998 05333",
+    "location_name": "서해 KADIZ 인접",
+    "observed_objects": [],
+    "activity_desc": "북한 매체 군사훈련 보도. 항공기 대규모 기동 언급.",
+    "unusual_flag": true,
+    "platform": "노동신문",
+    "analyst_id": "OSINT_Analyst_C",
+    "analyst_unit": "정보사 공개정보단",
+    "reliability": 3,
+    "asset_detail": {
+      "source_media": "노동신문",
+      "media_type": "Text"
+    },
+    "source_ref": "OSINT: 매체 모니터링",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-a8ce2e9ac380",
+    "asset_type": "SIGINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-19T08:00:00Z",
+    "mgrs": "51S NE 14632 26548",
+    "location_name": "북창 비행장",
+    "observed_objects": [],
+    "activity_desc": "북창 비행장 GCI 대역 교신 급증. 다수 기체 동시 관제. 비상 출격 징후.",
+    "unusual_flag": true,
+    "platform": "777사령부",
+    "analyst_id": "SIGINT_Analyst_2",
+    "analyst_unit": "777사령부",
+    "reliability": 4,
+    "asset_detail": {
+      "is_raw": false,
+      "frequency_band": "VHF",
+      "signal_strength": "High"
+    },
+    "source_ref": "OSINT: 신호감시",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-80519f264c2a",
+    "asset_type": "OSINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-19T11:00:00Z",
+    "mgrs": "51S YE 08973 53750",
+    "location_name": "서해 KADIZ 인접",
+    "observed_objects": [],
+    "activity_desc": "북한 매체 군사훈련 보도. 항공기 대규모 기동 언급.",
+    "unusual_flag": true,
+    "platform": "노동신문",
+    "analyst_id": "OSINT_Analyst_C",
+    "analyst_unit": "정보사 공개정보단",
+    "reliability": 3,
+    "asset_detail": {
+      "source_media": "노동신문",
+      "media_type": "Text"
+    },
+    "source_ref": "OSINT: 매체 모니터링",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-82375e9c7840",
+    "asset_type": "SIGINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-19T14:00:00Z",
+    "mgrs": "51S YE 30845 42393",
+    "location_name": "태탄 비행장",
+    "observed_objects": [],
+    "activity_desc": "태탄 비행장 GCI 대역 교신 급증. 다수 기체 동시 관제. 비상 출격 징후.",
+    "unusual_flag": true,
+    "platform": "777사령부",
+    "analyst_id": "SIGINT_Analyst_2",
+    "analyst_unit": "777사령부",
+    "reliability": 4,
+    "asset_detail": {
+      "is_raw": false,
+      "frequency_band": "VHF",
+      "signal_strength": "High"
+    },
+    "source_ref": "OSINT: 신호감시",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-9d8e957ad27c",
+    "asset_type": "OSINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-19T17:00:00Z",
+    "mgrs": "51S NE 27785 18895",
+    "location_name": "서해 KADIZ 인접",
+    "observed_objects": [],
+    "activity_desc": "북한 매체 군사훈련 보도. 항공기 대규모 기동 언급.",
+    "unusual_flag": true,
+    "platform": "노동신문",
+    "analyst_id": "OSINT_Analyst_C",
+    "analyst_unit": "정보사 공개정보단",
+    "reliability": 3,
+    "asset_detail": {
+      "source_media": "노동신문",
+      "media_type": "Text"
+    },
+    "source_ref": "OSINT: 매체 모니터링",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-43092200f0bb",
+    "asset_type": "SIGINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-19T20:00:00Z",
+    "mgrs": "51S YE 40998 05333",
+    "location_name": "온천 비행장",
+    "observed_objects": [],
+    "activity_desc": "온천 비행장 GCI 대역 교신 급증. 다수 기체 동시 관제. 비상 출격 징후.",
+    "unusual_flag": true,
+    "platform": "777사령부",
+    "analyst_id": "SIGINT_Analyst_2",
+    "analyst_unit": "777사령부",
+    "reliability": 4,
+    "asset_detail": {
+      "is_raw": false,
+      "frequency_band": "VHF",
+      "signal_strength": "High"
+    },
+    "source_ref": "OSINT: 신호감시",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-291b517c4c44",
+    "asset_type": "OSINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-19T23:00:00Z",
+    "mgrs": "51S NE 14632 26548",
+    "location_name": "서해 KADIZ 인접",
+    "observed_objects": [],
+    "activity_desc": "북한 매체 군사훈련 보도. 항공기 대규모 기동 언급.",
+    "unusual_flag": true,
+    "platform": "노동신문",
+    "analyst_id": "OSINT_Analyst_C",
+    "analyst_unit": "정보사 공개정보단",
+    "reliability": 3,
+    "asset_detail": {
+      "source_media": "노동신문",
+      "media_type": "Text"
+    },
+    "source_ref": "OSINT: 매체 모니터링",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-e75bf11c115c",
+    "asset_type": "SIGINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-20T02:00:00Z",
+    "mgrs": "51S YE 08973 53750",
+    "location_name": "곡산 비행장",
+    "observed_objects": [],
+    "activity_desc": "곡산 비행장 GCI 대역 교신 급증. 다수 기체 동시 관제. 비상 출격 징후.",
+    "unusual_flag": true,
+    "platform": "777사령부",
+    "analyst_id": "SIGINT_Analyst_2",
+    "analyst_unit": "777사령부",
+    "reliability": 4,
+    "asset_detail": {
+      "is_raw": false,
+      "frequency_band": "VHF",
+      "signal_strength": "High"
+    },
+    "source_ref": "OSINT: 신호감시",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-16e59999f0d2",
+    "asset_type": "OSINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-20T05:00:00Z",
+    "mgrs": "51S YE 30845 42393",
+    "location_name": "서해 KADIZ 인접",
+    "observed_objects": [],
+    "activity_desc": "북한 매체 군사훈련 보도. 항공기 대규모 기동 언급.",
+    "unusual_flag": true,
+    "platform": "노동신문",
+    "analyst_id": "OSINT_Analyst_C",
+    "analyst_unit": "정보사 공개정보단",
+    "reliability": 3,
+    "asset_detail": {
+      "source_media": "노동신문",
+      "media_type": "Text"
+    },
+    "source_ref": "OSINT: 매체 모니터링",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-23563302cc02",
+    "asset_type": "SIGINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-20T08:00:00Z",
+    "mgrs": "51S NE 27785 18895",
+    "location_name": "순안 비행장",
+    "observed_objects": [],
+    "activity_desc": "순안 비행장 GCI 대역 교신 급증. 다수 기체 동시 관제. 비상 출격 징후.",
+    "unusual_flag": true,
+    "platform": "777사령부",
+    "analyst_id": "SIGINT_Analyst_2",
+    "analyst_unit": "777사령부",
+    "reliability": 4,
+    "asset_detail": {
+      "is_raw": false,
+      "frequency_band": "VHF",
+      "signal_strength": "High"
+    },
+    "source_ref": "OSINT: 신호감시",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-b558dcb47f17",
+    "asset_type": "OSINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-20T11:00:00Z",
+    "mgrs": "51S YE 40998 05333",
+    "location_name": "서해 KADIZ 인접",
+    "observed_objects": [],
+    "activity_desc": "북한 매체 군사훈련 보도. 항공기 대규모 기동 언급.",
+    "unusual_flag": true,
+    "platform": "노동신문",
+    "analyst_id": "OSINT_Analyst_C",
+    "analyst_unit": "정보사 공개정보단",
+    "reliability": 3,
+    "asset_detail": {
+      "source_media": "노동신문",
+      "media_type": "Text"
+    },
+    "source_ref": "OSINT: 매체 모니터링",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-6765e85a779c",
+    "asset_type": "SIGINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-20T14:00:00Z",
+    "mgrs": "51S NE 14632 26548",
+    "location_name": "북창 비행장",
+    "observed_objects": [],
+    "activity_desc": "북창 비행장 GCI 대역 교신 급증. 다수 기체 동시 관제. 비상 출격 징후.",
+    "unusual_flag": true,
+    "platform": "777사령부",
+    "analyst_id": "SIGINT_Analyst_2",
+    "analyst_unit": "777사령부",
+    "reliability": 4,
+    "asset_detail": {
+      "is_raw": false,
+      "frequency_band": "VHF",
+      "signal_strength": "High"
+    },
+    "source_ref": "OSINT: 신호감시",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-b59e7a74928f",
+    "asset_type": "OSINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-20T17:00:00Z",
+    "mgrs": "51S YE 08973 53750",
+    "location_name": "서해 KADIZ 인접",
+    "observed_objects": [],
+    "activity_desc": "북한 매체 군사훈련 보도. 항공기 대규모 기동 언급.",
+    "unusual_flag": true,
+    "platform": "노동신문",
+    "analyst_id": "OSINT_Analyst_C",
+    "analyst_unit": "정보사 공개정보단",
+    "reliability": 3,
+    "asset_detail": {
+      "source_media": "노동신문",
+      "media_type": "Text"
+    },
+    "source_ref": "OSINT: 매체 모니터링",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-4e605136bf24",
+    "asset_type": "SIGINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-20T20:00:00Z",
+    "mgrs": "51S YE 30845 42393",
+    "location_name": "태탄 비행장",
+    "observed_objects": [],
+    "activity_desc": "태탄 비행장 GCI 대역 교신 급증. 다수 기체 동시 관제. 비상 출격 징후.",
+    "unusual_flag": true,
+    "platform": "777사령부",
+    "analyst_id": "SIGINT_Analyst_2",
+    "analyst_unit": "777사령부",
+    "reliability": 4,
+    "asset_detail": {
+      "is_raw": false,
+      "frequency_band": "VHF",
+      "signal_strength": "High"
+    },
+    "source_ref": "OSINT: 신호감시",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-93d1371e7e17",
+    "asset_type": "AERIAL_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-22T10:00:00Z",
+    "mgrs": "52S UU 15000 35000",
+    "location_name": "서해 KADIZ 인접",
+    "observed_objects": [
+      {
+        "type": "aircraft",
+        "count": 2
+      }
+    ],
+    "activity_desc": "레이더: KADIZ 인접 2기 남하. 속도 950km/h. 경계선 20km 북방.",
+    "unusual_flag": true,
+    "platform": "그린파인 GBR",
+    "analyst_id": "AERIAL_Analyst_3",
+    "analyst_unit": "공군 항공정보단",
+    "reliability": 5,
+    "asset_detail": {},
+    "source_ref": "OSINT: 레이더 감시",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-fb4bc109b344",
+    "asset_type": "AERIAL_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-22T12:00:00Z",
+    "mgrs": "52S UU 15000 35000",
+    "location_name": "서해 KADIZ 인접",
+    "observed_objects": [
+      {
+        "type": "aircraft",
+        "count": 3
+      }
+    ],
+    "activity_desc": "레이더: KADIZ 인접 3기 남하. 속도 950km/h. 경계선 20km 북방.",
+    "unusual_flag": true,
+    "platform": "그린파인 GBR",
+    "analyst_id": "AERIAL_Analyst_3",
+    "analyst_unit": "공군 항공정보단",
+    "reliability": 5,
+    "asset_detail": {},
+    "source_ref": "OSINT: 레이더 감시",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-2f180b067e8c",
+    "asset_type": "AERIAL_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-22T14:00:00Z",
+    "mgrs": "52S UU 15000 35000",
+    "location_name": "서해 KADIZ 인접",
+    "observed_objects": [
+      {
+        "type": "aircraft",
+        "count": 4
+      }
+    ],
+    "activity_desc": "레이더: KADIZ 인접 4기 남하. 속도 950km/h. 경계선 20km 북방.",
+    "unusual_flag": true,
+    "platform": "그린파인 GBR",
+    "analyst_id": "AERIAL_Analyst_3",
+    "analyst_unit": "공군 항공정보단",
+    "reliability": 5,
+    "asset_detail": {},
+    "source_ref": "OSINT: 레이더 감시",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-453e79f2804b",
+    "asset_type": "AERIAL_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-22T16:00:00Z",
+    "mgrs": "52S UU 15000 35000",
+    "location_name": "서해 KADIZ 인접",
+    "observed_objects": [
+      {
+        "type": "aircraft",
+        "count": 2
+      }
+    ],
+    "activity_desc": "레이더: KADIZ 인접 2기 남하. 속도 950km/h. 경계선 20km 북방.",
+    "unusual_flag": true,
+    "platform": "그린파인 GBR",
+    "analyst_id": "AERIAL_Analyst_3",
+    "analyst_unit": "공군 항공정보단",
+    "reliability": 5,
+    "asset_detail": {},
+    "source_ref": "OSINT: 레이더 감시",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-b43573cfe069",
+    "asset_type": "AERIAL_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-22T18:00:00Z",
+    "mgrs": "52S UU 15000 35000",
+    "location_name": "서해 KADIZ 인접",
+    "observed_objects": [
+      {
+        "type": "aircraft",
+        "count": 3
+      }
+    ],
+    "activity_desc": "레이더: KADIZ 인접 3기 남하. 속도 950km/h. 경계선 20km 북방.",
+    "unusual_flag": true,
+    "platform": "그린파인 GBR",
+    "analyst_id": "AERIAL_Analyst_3",
+    "analyst_unit": "공군 항공정보단",
+    "reliability": 5,
+    "asset_detail": {},
+    "source_ref": "OSINT: 레이더 감시",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-18df2a3abfc6",
+    "asset_type": "AERIAL_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-22T20:00:00Z",
+    "mgrs": "52S UU 15000 35000",
+    "location_name": "서해 KADIZ 인접",
+    "observed_objects": [
+      {
+        "type": "aircraft",
+        "count": 4
+      }
+    ],
+    "activity_desc": "레이더: KADIZ 인접 4기 남하. 속도 950km/h. 경계선 20km 북방.",
+    "unusual_flag": true,
+    "platform": "그린파인 GBR",
+    "analyst_id": "AERIAL_Analyst_3",
+    "analyst_unit": "공군 항공정보단",
+    "reliability": 5,
+    "asset_detail": {},
+    "source_ref": "OSINT: 레이더 감시",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-54d051d85f44",
+    "asset_type": "AERIAL_IMINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-22T22:00:00Z",
+    "mgrs": "52S UU 15000 35000",
+    "location_name": "서해 KADIZ 인접",
+    "observed_objects": [
+      {
+        "type": "aircraft",
+        "count": 2
+      }
+    ],
+    "activity_desc": "레이더: KADIZ 인접 2기 남하. 속도 950km/h. 경계선 20km 북방.",
+    "unusual_flag": true,
+    "platform": "그린파인 GBR",
+    "analyst_id": "AERIAL_Analyst_3",
+    "analyst_unit": "공군 항공정보단",
+    "reliability": 5,
+    "asset_detail": {},
+    "source_ref": "OSINT: 레이더 감시",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-7928412c1744",
+    "asset_type": "OSINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-23T00:00:00Z",
+    "mgrs": "52S UU 15000 35000",
+    "location_name": "서해 공해상",
+    "observed_objects": [],
+    "activity_desc": "적 항공기 KADIZ 이탈, 북상.",
+    "unusual_flag": true,
+    "platform": "JCS 공개",
+    "analyst_id": "OSINT_Analyst_C",
+    "analyst_unit": "정보사 공개정보단",
+    "reliability": 4,
+    "asset_detail": {},
+    "source_ref": "OSINT: JCS",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-18b05af52471",
+    "asset_type": "OSINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-23T02:00:00Z",
+    "mgrs": "52S UU 15000 35000",
+    "location_name": "서해 공해상",
+    "observed_objects": [],
+    "activity_desc": "적 항공기 KADIZ 이탈, 북상.",
+    "unusual_flag": true,
+    "platform": "JCS 공개",
+    "analyst_id": "OSINT_Analyst_C",
+    "analyst_unit": "정보사 공개정보단",
+    "reliability": 4,
+    "asset_detail": {},
+    "source_ref": "OSINT: JCS",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-fd87829e4baf",
+    "asset_type": "OSINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-23T04:00:00Z",
+    "mgrs": "52S UU 15000 35000",
+    "location_name": "서해 공해상",
+    "observed_objects": [],
+    "activity_desc": "적 항공기 KADIZ 이탈, 북상.",
+    "unusual_flag": true,
+    "platform": "JCS 공개",
+    "analyst_id": "OSINT_Analyst_C",
+    "analyst_unit": "정보사 공개정보단",
+    "reliability": 4,
+    "asset_detail": {},
+    "source_ref": "OSINT: JCS",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-ba29a3eea68d",
+    "asset_type": "OSINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-23T06:00:00Z",
+    "mgrs": "52S UU 15000 35000",
+    "location_name": "서해 공해상",
+    "observed_objects": [],
+    "activity_desc": "적 항공기 KADIZ 이탈, 북상.",
+    "unusual_flag": true,
+    "platform": "JCS 공개",
+    "analyst_id": "OSINT_Analyst_C",
+    "analyst_unit": "정보사 공개정보단",
+    "reliability": 4,
+    "asset_detail": {},
+    "source_ref": "OSINT: JCS",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-65bcd8a9b146",
+    "asset_type": "OSINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-23T08:00:00Z",
+    "mgrs": "52S UU 15000 35000",
+    "location_name": "서해 공해상",
+    "observed_objects": [],
+    "activity_desc": "상황 종료. 적 항공기 전 기체 회기 확인.",
+    "unusual_flag": false,
+    "platform": "JCS 공개",
+    "analyst_id": "OSINT_Analyst_C",
+    "analyst_unit": "정보사 공개정보단",
+    "reliability": 4,
+    "asset_detail": {},
+    "source_ref": "OSINT: JCS",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-8b31e99acd30",
+    "asset_type": "OSINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-23T10:00:00Z",
+    "mgrs": "52S UU 15000 35000",
+    "location_name": "서해 공해상",
+    "observed_objects": [],
+    "activity_desc": "상황 종료. 적 항공기 전 기체 회기 확인.",
+    "unusual_flag": false,
+    "platform": "JCS 공개",
+    "analyst_id": "OSINT_Analyst_C",
+    "analyst_unit": "정보사 공개정보단",
+    "reliability": 4,
+    "asset_detail": {},
+    "source_ref": "OSINT: JCS",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-f5633c52f908",
+    "asset_type": "OSINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-23T12:00:00Z",
+    "mgrs": "52S UU 15000 35000",
+    "location_name": "서해 공해상",
+    "observed_objects": [],
+    "activity_desc": "상황 종료. 적 항공기 전 기체 회기 확인.",
+    "unusual_flag": false,
+    "platform": "JCS 공개",
+    "analyst_id": "OSINT_Analyst_C",
+    "analyst_unit": "정보사 공개정보단",
+    "reliability": 4,
+    "asset_detail": {},
+    "source_ref": "OSINT: JCS",
+    "source_url": "",
+    "image_urls": []
+  },
+  {
+    "obs_id": "at-e227552b7ab8",
+    "asset_type": "OSINT",
+    "polarity": "PRESENT",
+    "collected_at": "2026-03-23T14:00:00Z",
+    "mgrs": "52S UU 15000 35000",
+    "location_name": "서해 공해상",
+    "observed_objects": [],
+    "activity_desc": "상황 종료. 적 항공기 전 기체 회기 확인.",
+    "unusual_flag": false,
+    "platform": "JCS 공개",
+    "analyst_id": "OSINT_Analyst_C",
+    "analyst_unit": "정보사 공개정보단",
+    "reliability": 4,
+    "asset_detail": {},
+    "source_ref": "OSINT: JCS",
+    "source_url": "",
+    "image_urls": []
+  }
+]
