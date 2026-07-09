@@ -1,0 +1,136 @@
+[
+  {
+    "id": "bda-1991-desert-storm",
+    "date": "1991-01-17",
+    "title": "걸프전 사막의 폭풍 — SA-2/SA-3 진지 선제 SEAD 타격",
+    "missileType": "TLAM + F-117 (SEAD)",
+    "indicators": ["SAM진지", "Fan Song", "레이더방출", "TLAM타격", "잔해식별", "방출소실"],
+    "outcome": "개전 첫날 고정식 SAM 진지 80% 무력화. F-117 스텔스로 SA-2/SA-3 레이더 파괴. BDA는 위성영상 크레이터+잔해 패턴으로 확인.",
+    "description": "걸프전 개전 시 미군이 TLAM 59발 + F-117으로 이라크 SAM 네트워크 선제 타격. SAM 레이더 방출 패턴(전투태세)과 사후 BDA 패턴(잔해+소실)의 교과서적 사례. DELPHI h-sam-active 및 h-sam-destroyed Rule의 원형."
+  },
+  {
+    "id": "bda-1999-kosovo",
+    "date": "1999-03-24",
+    "title": "코소보전 — 유고 SA-3/SA-6 부분 파괴의 교훈",
+    "missileType": "NATO 항공 (SEAD)",
+    "indicators": ["SA-3운용", "SA-6운용", "위장", "이동식", "재운용", "BDA과소평가"],
+    "outcome": "고정 진지는 파괴했으나 이동식 SAM이 생존. NATO BDA가 파괴를 과대평가(실제보다 높게 평가). 부분 파괴 상태 장기화.",
+    "description": "코소보전에서 NATO가 유고 SAM을 타격 후 '파괴 완료'로 평가했으나, 이동식 SA-6가 위장·이동하며 생존. BDA 과소평가의 위험을 보여준 사례. DELPHI h-sam-partial Rule의 핵심 근거. '방출재개+잔여발사대활동' = 부분 파괴 패턴."
+  },
+  {
+    "id": "bda-2003-iraq",
+    "date": "2003-03-20",
+    "title": "이라크전 — 개전 3일 내 SAM 방공망 붕괴",
+    "missileType": "SA-2/SA-3/SA-6 (이라크)",
+    "indicators": ["SAM운용", "방출소실", "체계붕괴", "위성BDA", "잔해"],
+    "outcome": "개전 3일 내 이라크 SAM 방공망 사실상 붕괴. BDA는 위성영상+SIGINT 소실로 '파괴 90%+' 평가. 잔여 이동식 SAM 일부 생존.",
+    "description": "이라크 자유 작전에서 미군 SEAD 후 SAM 방공망이 3일 내 붕괴. 고정식 진지 BDA는 위성 잔해+신호 소실로 신속 확인. 이 사례로 BDA 자동화 필요성 제기. DELPHI h-sam-destroyed(잔해+소실+미활동) 패턴."
+  },
+  {
+    "id": "bda-2022-ukraine-survival",
+    "date": "2022-02-24",
+    "title": "우크라이나 S-300 생존 — 대 SEAD 전략",
+    "missileType": "S-300PS / Buk-M1 (우크라이나)",
+    "indicators": ["SAM운용", "레이더회전", "위장", "이동", "방출통제", "재운용"],
+    "outcome": "러시아 개전 첫날 대규모 SEAD에도 우크라이나 S-300 생존. 이동식 운용 + 레이더 방출 통제(emit control) + 위장으로 대응. 러 BDA가 파괴를 과대평가.",
+    "description": "러-우라 전쟁에서 우크라이나 방공이 러 SEAD에 생존한 핵심 사례. SAM 부분 파괴 후 재운용 패턴의 실전 데이터. 방출 소실≠파괴 (위장/이동일 수 있음). DELPHI h-sam-partial 및 BDA 신중 평가의 근거."
+  },
+  {
+    "id": "bda-2017-syria-shayrat",
+    "date": "2017-04-07",
+    "title": "시리아 샤이라트 기지 TLAM 타격 — 위성 BDA",
+    "indicators": ["TLAM타격", "항공기파괴", "활주로크레이터", "격납고파괴", "방공시설파괴"],
+    "outcome": "59발 TLAM 타격 후 위성영상 BDA: 격납고 44개 중 20개 파괴(45%), 활주로 손상, 방공 시설 파괴. 러시아 발표(13발 미탄)와 미국 발표(59발) 상이 — BDA 신뢰성 문제.",
+    "description": "2017년 미군 시리아 샤이라트 공군기지 타격. 공개 위성영상(Planet Labs/DigitalGlobe)으로 크레이터/잔해 BDA. DELPHI observation의 facts-only 원칙(잔해 식별)과 추론(파괴 %) 분리의 사례."
+  },
+  {
+    "id": "bda-1965-vietnam-wildweasel",
+    "date": "1965-04",
+    "title": "베트남전 와일드 위즐 — SA-2 대 SEAD 전술 확립",
+    "missileType": "SA-2 (북베트남) vs F-100F/F-105F",
+    "indicators": ["SA-2운용", "Fan Song", "대레이더미사일", "AGM-45", "SEAD"],
+    "outcome": "SA-2 운용-파괴-재운용 사이클 처음 체계화. SAM 탐지 → AGM-45 발사 → BDA(신호 소실) → 재운용(신호 재개) 패턴 확립.",
+    "description": "베트남전에서 SA-2와 미군 와일드 위즐의 교전. SAM 운용-파괴-재운용 사이클이 처음 체계화. BDA가 신호 소실만으로는 파괴 확정이 안 된다는 교훈(위장/이동 가능). DELPHI h-sam-partial Rule의 역사적 근거."
+  },
+  {
+    "id": "bda-1982-beqaa",
+    "date": "1982-06-09",
+    "title": "모르만 올리브 작전 — 베카계곡 SAM 19개 진지 궤멸",
+    "missileType": "SA-2/SA-3/SA-6 (시리아) vs 이스라엘 공군",
+    "indicators": ["SAM19개진지", "전자전재밍", "AGM-45", "드론유인기", "BDA"],
+    "outcome": "이스라엘이 시리아 SAM 19개 진지를 2시간 내 궤멸. 사전 정찰(드론)→EW 재밍→AGM 타격→BDA(위성/정찰기). 무인기를 SEAD 정찰에 활용한 최초 사례.",
+    "description": "1982년 레바논 전쟁에서 이스라엘이 베카계곡 시리아 SAM 네트워크를 2시간에 궤멸. UAV/드론 정찰→EW 재밍→SEAD 타격→BDA의 완전한 사이클. DELPHI 3계층 에이전트(분석관 UAV→정보장교 평가→작전장교 타격 권고)의 전술적 원형."
+  },
+  {
+    "id": "bda-2014-isis-sead",
+    "date": "2014-09",
+    "title": "대 IS 연합 — 경량 SAM(ZU-23/Shilka) 무력화",
+    "missileType": "ZU-23 / Shilka (IS 경량 방공)",
+    "indicators": ["경량방공", "기관총", "저공위협", "UAV정찰"],
+    "outcome": "IS 경량 방공(기관총식)을 UAV 정찰 후 타격. 대공 미사일이 아닌 경량 방공의 BDA 패턴.",
+    "description": "대 IS 작전에서 경량 방공(기관총/Shilka)의 탐지-타격-BDA. 현대 비대칭 전장에서 SAM만이 아니라 경량 방공도 평가 대상."
+  },
+  {
+    "id": "bda-2023-ukraine-patriot-kinzhal",
+    "date": "2023-05-16",
+    "title": "우크라이나 패트리옷 PAC-3 킨잘 요격",
+    "missileType": "Patriot PAC-3 vs Kh-47 킨잘",
+    "indicators": ["방공요격", "탄도미사일", "극초음속", "BDA", "재운용평가"],
+    "outcome": "키이우 배치된 PAC-3가 러 킨잘 극초음속 미사일 요격 성공. 탄도미사일 방어(BMD) 효능 입증. PAC-3 발사대 미손상 확인(BDA).",
+    "description": "2023년 5월 키이우 PAC-3가 킨잘 요격. 방공 효능 평가와 BDA(아군 자산 무사 확인)의 공개 사례. DELPHI에서 아군 자산 방어 평가(h-sam-destroyed의 역관점) 참고."
+  },
+  {
+    "id": "bda-1998-desert-fox",
+    "date": "1998-12-16",
+    "title": "사막의 여우 작전 — 이라크 SAM 타격 BDA",
+    "missileType": "TLAM + F/A-18 (SEAD)",
+    "indicators": ["SAM운용", "TLAM타격", "위성BDA", "방출소실"],
+    "outcome": "이라크 SAM 진지 타격 후 위성 BDA로 일부 파괴 확인. 완전 무력화는 달성 못함.",
+    "description": "1998년 사막의 여우 작전에서 이라크 SAM 타격 후 BDA. 제한적 타격의 BDA 패턴 — 완전 파괴가 아닌 부분 파괴가 일반적."
+  },
+  {
+    "id": "bda-2018-syria-tomahawk",
+    "date": "2018-04-14",
+    "title": "시리아 화학시설 타격 — SAM 회피 후 BDA",
+    "missileType": "TLAM + 스칼프/스톰섀도우",
+    "indicators": ["화학시설타격", "SAM회피", "위성BDA", "크레이터"],
+    "outcome": "미영프 연합이 시리아 화학시설 타격. 시리아 SAM 발사했으나 요격 실패. 타격 후 위성 BDA로 시설 파괴 확인.",
+    "description": "2018년 시리아 화학무기 시설 타격. SEAD 없이 회피로 SAM 대응. 타격 후 위성영상 BDA(건물 붕괴/크레이터). DELPHI에서 적 SAM 회피 후 타격 BDA 평가의 사례."
+  },
+  {
+    "id": "bda-2020-nagorno",
+    "date": "2020-09-27",
+    "title": "나고르노-카라바흐 전쟁 — 드론 SEAD의 등장",
+    "missileType": "Bayraktar TB2 + Harop (아제르바이잔)",
+    "indicators": ["드론SEAD", "SAM파괴", "UAVBDA", "이동식SAM"],
+    "outcome": "아제르바이잔 드론으로 아르메니아 S-300/Osa 파괴. 드론 정찰→타격→BDA를 한 기종으로 수행하는 신개념.",
+    "description": "2020년 나고르노-카라바흐 전쟁에서 드론 기반 SEAD의 등장. UAV가 정찰(UAV_FLIR) + 타격 + BDA를 동시 수행. DELPHI UAV 에이전트의 역할 확장(정찰→BDA) 근거."
+  },
+  {
+    "id": "bda-2019-india-balakot",
+    "date": "2019-02-26",
+    "title": "인도 발라코트 공습 — BDA 논쟁 (과대평가)",
+    "missileType": "Spice 2000 (인도)",
+    "indicators": ["공습", "위성BDA", "과대평가논란", "크레이터미관측"],
+    "outcome": "인도 공군 발라코트 타격 후 '대규모 파괴' 주장. 위성영상 BDA에서는 건물 외부 손상 미미. BDA 과대평가 논쟁.",
+    "description": "2019년 인도 파키스탄 발라코트 공습. 인도는 '대규모 파괴' 주장했으나 공개 위성영상에서 손상 미미. BDA의 객관성(facts-only 원칙) 중요성. DELPHI 추론 엔진이 판독관 판별(잔해X)을 존중하는 이유."
+  },
+  {
+    "id": "bda-2023-sudan-evacuation",
+    "date": "2023-04-22",
+    "title": "수도 내전 — 외국인 철수 시 SAM 위협 평가",
+    "missileType": "SA-7/SA-14 (휴대식 SAM)",
+    "indicators": ["휴대식SAM", "MANPADS", "공항위협", "철수작전"],
+    "outcome": "수도 공항 인근 휴대식 SAM 위협으로 항공 철수 제약. BDA 대상이 고정식만이 아님.",
+    "description": "수도 내전에서 휴대식 SAM(MANPADS)이 항공 철수 작전을 위협. DELPHI emitter 온톨로지에 MANPADS급 소형 방공 추가 가능성(후속)."
+  },
+  {
+    "id": "bda-2024-red-sea",
+    "date": "2024-01-12",
+    "title": "홍해 후티 레이더 타격 — 해상 SEAD",
+    "missileType": "TLAM (미영)",
+    "indicators": ["해상레이더", "TLAM", "위성BDA", "방출소실"],
+    "outcome": "후티 대함미사일 레이더 타격 후 위성 BDA로 레이더 파괴 확인.",
+    "description": "2024년 홍해 후티 타격. SAM이 아닌 대함미사일 레이더 타격 BDA. DELPHI emitter 온톨로지를 해상 위협으로 확장 가능한 사례."
+  }
+]

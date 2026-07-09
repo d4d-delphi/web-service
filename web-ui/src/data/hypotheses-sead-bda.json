@@ -1,0 +1,84 @@
+[
+  {
+    "id": "h-sam-active",
+    "name": "SAM 진지 전투태세 (운용 중)",
+    "category": "sam_status",
+    "priorProbability": 0.15,
+    "description": "SAM 진지 레이더 회전 + 발사대 배치 + 교신 = 전투 태세",
+    "likelihoodMap": {
+      "SIGINT": 0.8,
+      "SATELLITE_IMINT": 0.6,
+      "UAV": 0.5,
+      "emitter:Square Pair": 0.9,
+      "emitter:Fan Song": 0.85,
+      "emitter:Big Bird": 0.85,
+      "emitter:Flap Lid": 0.8,
+      "emitter:Spoon Rest": 0.6,
+      "activity:레이더회전": 0.85,
+      "activity:발사대배치": 0.8,
+      "activity:발사대세로": 0.75,
+      "activity:차량활동": 0.5,
+      "activity:위장막제거": 0.7,
+      "signal:S-Band방출": 0.85,
+      "signal:교신활발": 0.6,
+      "signal:전투교신": 0.75,
+      "object:발사대": 0.7,
+      "object:레이더": 0.75,
+      "SIGINT:pattern:증가": 0.65
+    }
+  },
+  {
+    "id": "h-sam-destroyed",
+    "name": "SAM 진지 파괴 (BDA 완료)",
+    "category": "bda",
+    "priorProbability": 0.05,
+    "description": "타격 후 잔해 식별 + 신호 소실 + UAV 미활동 = 파괴 확인",
+    "likelihoodMap": {
+      "SATELLITE_IMINT": 0.75,
+      "SIGINT": 0.7,
+      "UAV": 0.65,
+      "activity:잔해식별": 0.95,
+      "activity:크레이터": 0.85,
+      "activity:발사대파손": 0.9,
+      "activity:구조물파괴": 0.85,
+      "activity:연기": 0.7,
+      "signal:방출소실": 0.9,
+      "signal:교신중단": 0.7,
+      "activity:미활동확인": 0.75,
+      "activity:인원철수": 0.6,
+      "signal:침묵": 0.8,
+      "AERIAL_IMINT": 0.6
+    }
+  },
+  {
+    "id": "h-sam-partial",
+    "name": "SAM 진지 부분 파괴 (잔여 위협)",
+    "category": "bda",
+    "priorProbability": 0.08,
+    "description": "일부 발사대 파괴되었으나 잔여 운용 능력 존재",
+    "likelihoodMap": {
+      "signal:방출재개": 0.8,
+      "activity:잔여발사대활동": 0.85,
+      "activity:일부파손": 0.7,
+      "signal:제한적교신": 0.6,
+      "activity:일부잔해": 0.5,
+      "activity:수리활동": 0.65,
+      "emitter:Spoon Rest": 0.5,
+      "signal:S-Band방출": 0.4
+    }
+  },
+  {
+    "id": "h-sam-dormant",
+    "name": "SAM 진지 비운용 (휴지/위장)",
+    "category": "sam_status",
+    "priorProbability": 0.2,
+    "description": "진지 존재하나 전투 태세 아님 — 위장막 덮임, 레이더 미회전, 인력 부재",
+    "likelihoodMap": {
+      "SATELLITE_IMINT": 0.3,
+      "activity:위장막설치": 0.7,
+      "activity:미활동": 0.6,
+      "signal:방출없음": 0.5,
+      "IMINT:activity:정상": 0.5
+    }
+  }
+]
