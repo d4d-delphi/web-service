@@ -1,0 +1,13 @@
+# Ruff config for the DELPHI inference backend (backend_app/).
+#
+# We lint with Pyflakes (F = real bugs: undefined names, unused imports/vars,
+# redefinitions) + E9 (syntax / runtime errors) only. The pycodestyle style
+# rules (E7xx one-liners/semicolons, E4xx import order, E741 short loop vars)
+# are intentionally NOT enforced — this codebase uses compact statements and
+# lazy imports (e.g. `requests` imported inside functions) by design, and
+# retrofitting style would churn working code for no correctness gain.
+[lint]
+select = ["F", "E9"]
+
+[lint.per-file-ignores]
+"tests/*" = []

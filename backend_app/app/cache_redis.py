@@ -89,7 +89,6 @@ def publish_cache(cache_dir=None):
     c = _client()
     if c is None:
         return False
-    cd = cache_dir or S.CACHE_DIR
     snaps, ledger, obs, campaigns = {}, {}, {}, set()
 
     if os.path.exists(S.SNAPSHOTS):
@@ -111,8 +110,6 @@ def publish_cache(cache_dir=None):
     for k in c.keys("delphi:*"):
         c.delete(k)
 
-    cmds = []
-    # Upstash pipeline expects [op, *args]; redis-py pipeline uses .set chaining — 추상 단순화 위해 배치
     def put(k, v):
         c.set(k, json.dumps(v, ensure_ascii=False))
     for cid, lst in snaps.items():
