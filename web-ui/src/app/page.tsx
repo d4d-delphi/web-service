@@ -52,7 +52,9 @@ const PLAYBACK_STEP_BASE = 7;
 const LAUNCH_CONFIRM_PLAUNCH = 0.9;
 
 export default function Home() {
-  const [activeScenario, setActiveScenario] = useState<ScenarioId>('scenario-a');
+  // 페이지 진입 시에는 어떤 시나리오도 자동 로드하지 않는다(랜딩 상태). 사용자가 상단
+  // 발사체 버튼을 눌러야만 'scenario-a' 가 활성화되어 지도/패널이 마운트된다.
+  const [activeScenario, setActiveScenario] = useState<ScenarioId | null>(null);
   const [currentTime, setCurrentTime] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [enemyOpen, setEnemyOpen] = useState(true);
@@ -99,7 +101,11 @@ export default function Home() {
     };
   }, []);
 
-  const scenarioBase: Scenario = (activeScenario === 'scenario-a' ? scenarioAData : scenarioBData) as Scenario;
+  // null-safety: 구 ternary(activeScenario === 'scenario-a' ? A : B)는 null 일 때 else 로
+  // 빠져 scenarioBData 가 잘못 선택되므로 가드한다. scenario-b 일 때만 scenarioBData,
+  // 그 외(null·'scenario-a')는 scenarioAData. 파생 훅(scenario useMemo 등)이 항상 유효한
+  // Scenario 를 받도록 보장 — 랜딩 상태에서는 이 데이터가 렌더링에 쓰이지 않는다.
+  const scenarioBase: Scenario = (activeScenario === 'scenario-b' ? scenarioBData : scenarioAData) as Scenario;
 
   // Supabase 이벤트가 있으면 mock 타임라인을 대체한다. 관측 시간축(0..1)을
   // 활성 시나리오 재생 duration에 매핑해 timestamp를 부여한다.
@@ -211,6 +217,13 @@ export default function Home() {
   const structuredActionsCacheRef = useRef<Map<string, any>>(new Map());
 
   useEffect(() => {
+    // 랜딩 상태(activeScenario === null)에서는 추론을 실행하지 않는다.
+    // 아래 scenarioToCampaign(activeScenario) 가 null 을 받지 않도록 가드.
+    if (activeScenario === null) {
+      setInferenceResult(null);
+      lastVisibleEventIdsRef.current = '';
+      return;
+    }
     const visibleEvents = scenario.timeline.filter((e) => e.timestamp <= currentTime);
     if (visibleEvents.length === 0) {
       setInferenceResult(null);
@@ -295,14 +308,18 @@ export default function Home() {
     holdRef.current = null;
   };
 
-  // 빨리감기: 1x → 5x → 20x → 1x 순환. 켜면 곧바로 재생을 시작한다.
-  const handleFastForward = () => {
-    setSpeed((s) => (s === 1 ? 5 : s === 5 ? 20 : 1));
-    setIsPlaying(true);
+  // 재생 배속 선택 (1×/3×/5×/10×). 구 빨리감기 토글(1→5→20→1 순환)을 대체하며,
+  // 배속만 변경하고 자동 재생은 시작하지 않는다.
+  const handleSpeedChange = (s: number) => {
+    setSpeed(s);
   };
 
   // AI Copilot에 넘길 현재 상황 요약. 추론 결과·시나리오·경과 시간을 압축한다.
   const chatContext = useMemo(() => {
+    // 랜딩 상태(activeScenario === null) — 시나리오 컨텍스트 대신 중립 프롬프트.
+    if (activeScenario === null) {
+      return '재생할 시나리오를 선택하세요.';
+    }
     const scenarioLabel =
       activeScenario === 'scenario-a'
         ? '우주발사체(정찰위성) 발사 징후 — 동창리'
@@ -368,8 +385,19 @@ export default function Home() {
       {/* 이벤트 발생 알림 모달 (3초 후 자동 종료). key로 이벤트마다 재진입 애니메이션 */}
       <EventModal key={modalEvent?.id} event={modalEvent} onClose={() => setModalEvent(null)} />
 
+      {/* 상단 시나리오 선택 바 — 랜딩/재생 상태 모두 항상 표시. 발사체만 구현(active). */}
+      <ScenarioTopBar activeScenario={activeScenario} onSelect={handleScenarioChange} />
 
-
+      {activeScenario === null ? (
+        /* 랜딩 상태: 시나리오 미선택. 지도·좌우 패널·하단 타임라인은 마운트하지 않는다. */
+        <div className="flex-1 flex flex-col items-center justify-center select-none">
+          <p className="text-gray-400 text-lg tracking-wide">재생할 시나리오를 선택하세요</p>
+          <p className="mt-1 text-gray-600 text-xs font-mono">
+            상단의 발사체 버튼을 눌러 시나리오를 시작합니다
+          </p>
+        </div>
+      ) : (
+        <>
       {/* Main Content: 3 panels */}
       <div className="flex-1 flex overflow-hidden">
         {/* Left Panel - Enemy Info */}
@@ -475,7 +503,7 @@ export default function Home() {
         speed={speed}
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
-        onFastForward={handleFastForward}
+        onSpeedChange={handleSpeedChange}
         onPhaseClick={handlePhaseClick}
         onScenarioChange={handleScenarioChange}
         activeScenario={activeScenario}
@@ -496,6 +524,49 @@ export default function Home() {
           </div>
         </div>
       )}
+        </>
+      )}
+    </div>
+  );
+}
+
+// 상단 시나리오 선택 바. 발사체(동창리)만 구현(active)되어 있고, 나머지 도메인은
+// 미구현 placeholder — 클릭해도 상태가 변하지 않는다.
+function ScenarioTopBar({
+  activeScenario,
+  onSelect,
+}: {
+  activeScenario: ScenarioId | null;
+  onSelect: (id: ScenarioId) => void;
+}) {
+  // SRBM / 전시 SEAD·BDA / 해상 / 공중 / 사이버 — 향후 확장용 미구현 항목.
+  const placeholders = ['SRBM', '전시 SEAD/BDA', '해상', '공중', '사이버'];
+  return (
+    <div className="shrink-0 flex items-center gap-2 px-4 py-1.5 bg-[#0d1117] border-b border-gray-800">
+      {/* 발사체(동창리) — 현재 유일하게 구현된 시나리오. 클릭 시 scenario-a 진입.
+          활성 시 기존 빨리감기 active 와 동일한 amber 액센트로 강조. */}
+      <button
+        onClick={() => onSelect('scenario-a')}
+        title="우주발사체(정찰위성) 발사 징후 — 동창리"
+        className={`h-7 px-3 flex items-center rounded border text-xs font-mono font-bold transition-all ${
+          activeScenario === 'scenario-a'
+            ? 'bg-amber-500/20 border-amber-500/50 text-amber-400'
+            : 'bg-gray-800 border-gray-700 text-gray-300 hover:border-gray-500'
+        }`}
+      >
+        발사체 (동창리)
+      </button>
+      {/* 미구현 시나리오 — 비활성 placeholder. 회색 + 클릭 차단. */}
+      {placeholders.map((label) => (
+        <button
+          key={label}
+          disabled
+          title="미구현"
+          className="h-7 px-3 flex items-center rounded border text-xs font-mono bg-gray-800/50 border-gray-800 text-gray-500 opacity-50 cursor-not-allowed"
+        >
+          {label}
+        </button>
+      ))}
     </div>
   );
 }

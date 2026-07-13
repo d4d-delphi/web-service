@@ -10,7 +10,7 @@ interface TimelineProps {
   speed: number;
   onPlay: () => void;
   onPause: () => void;
-  onFastForward: () => void;
+  onSpeedChange: (speed: number) => void;
   onPhaseClick: (phase: ScenarioPhase) => void;
   onScenarioChange: (id: ScenarioId) => void;
   activeScenario: ScenarioId;
@@ -24,7 +24,7 @@ export default function Timeline({
   speed,
   onPlay,
   onPause,
-  onFastForward,
+  onSpeedChange,
 }: TimelineProps) {
   const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
 
@@ -54,22 +54,18 @@ export default function Timeline({
           )}
         </button>
 
-        {/* Fast-forward: 1x → 5x → 20x → 1x 순환 */}
-        <button
-          onClick={onFastForward}
-          title={`빨리감기 (현재 ${speed}x · 클릭: ${speed === 1 ? 5 : speed === 5 ? 20 : 1}x)`}
-          className={`h-7 px-1.5 flex items-center gap-1 rounded border transition-all ${
-            speed > 1
-              ? 'bg-amber-500/20 border-amber-500/50 text-amber-400'
-              : 'bg-gray-800 border-gray-700 text-gray-300 hover:border-gray-500'
-          }`}
+        {/* 재생 배속 선택: 1× / 3× / 5× / 10× (구 빨리감기 토글 1→5→20→1 대체). */}
+        <select
+          value={speed}
+          onChange={(e) => onSpeedChange(Number(e.target.value))}
+          title={`재생 배속 (현재 ${speed}×)`}
+          className="h-7 px-1.5 flex items-center rounded border bg-gray-800 border-gray-700 text-gray-300 font-mono text-[11px] font-bold hover:border-gray-500 transition-all"
         >
-          <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
-            <polygon points="3,4 11,12 3,20" />
-            <polygon points="12,4 20,12 12,20" />
-          </svg>
-          <span className="text-[10px] font-mono font-bold">{speed > 1 ? `${speed}×` : '1×'}</span>
-        </button>
+          <option value={1}>1×</option>
+          <option value={3}>3×</option>
+          <option value={5}>5×</option>
+          <option value={10}>10×</option>
+        </select>
 
         {/* Progress Bar */}
         <div className="flex-1 relative">
