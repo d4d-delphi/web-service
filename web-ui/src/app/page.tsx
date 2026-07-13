@@ -20,7 +20,21 @@ import phasesSolidLong from '@/data/phases-solid-long.json';
 import phasesLiquidLong from '@/data/phases-liquid-long.json';
 import phasesLiquidShort from '@/data/phases-liquid-short.json';
 
-const CesiumMap = dynamic(() => import('@/components/CesiumMap'), { ssr: false });
+// Client-only + code-split: Cesium (and all of CesiumMap's entity/drawing code)
+// leaves the initial page bundle and is fetched as a separate chunk after
+// hydration. The `loading` fallback paints the map shell immediately instead of
+// a blank gap while that chunk + the Cesium engine stream in.
+const CesiumMap = dynamic(() => import('@/components/CesiumMap'), {
+  ssr: false,
+  loading: () => (
+    <div className="relative w-full h-full flex items-center justify-center bg-[#0a0e1a]">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500 mx-auto mb-2" />
+        <p className="text-gray-400 text-sm">지도 로딩 중...</p>
+      </div>
+    </div>
+  ),
+});
 
 // 징후 기반 페이싱: 각 Phase의 핵심 징후(대표 이벤트)에 도달하면 관측자가
 // 충분히 인지할 때까지 해당 시점을 유지한다. "재생 속도"가 아니라
