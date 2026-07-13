@@ -5,6 +5,9 @@ every response is query + join + sort over the pre-computed cache, so it runs on
 Spec: API_SPEC_stage3.md.  Base: /api/v1.
 """
 import os
+from dotenv import load_dotenv
+load_dotenv()  # .env 파일 로드
+
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles

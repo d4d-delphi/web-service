@@ -4,6 +4,7 @@ uvicorn[standard]>=0.27
 pyyaml>=6.0
 rdflib>=7.0
 requests>=2.31
+python-dotenv>=1.0
 
 # --- optional: Redis cache backend ---
 # Upstash REST(supabase와 짝)는 `requests` 만 필요(위 포함). 표준 Redis 쓸 때만 아래 해제:

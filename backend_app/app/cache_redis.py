@@ -34,9 +34,23 @@ def _upstash():
     hdr = {"Authorization": f"Bearer {tok}", "Content-Type": "application/json"}
 
     def cmd(*args):
-        # Upstash single-command endpoint
-        r = requests.post(f"{base}/{args[0]}", headers=hdr,
-                          json=[*args[1:]] if len(args) > 1 else None, timeout=30)
+        # Upstash REST API: POST /{command}/{key} with body = value
+        # For SET: POST /set/{key} with body = value
+        # For GET: POST /get/{key}
+        # For DEL: POST /del/{key}
+        # For KEYS: POST /keys/{pattern}
+        op = args[0].lower()
+        if op == "set" and len(args) == 3:
+            r = requests.post(f"{base}/set/{args[1]}", headers=hdr, data=args[2], timeout=30)
+        elif op == "get" and len(args) == 2:
+            r = requests.post(f"{base}/get/{args[1]}", headers=hdr, timeout=30)
+        elif op == "del" and len(args) >= 2:
+            r = requests.post(f"{base}/del/{args[1]}", headers=hdr, timeout=30)
+        elif op == "keys" and len(args) == 2:
+            r = requests.post(f"{base}/keys/{args[1]}", headers=hdr, timeout=30)
+        else:
+            r = requests.post(f"{base}/{args[0]}", headers=hdr,
+                              json=[*args[1:]] if len(args) > 1 else None, timeout=30)
         r.raise_for_status()
         return r.json().get("result")
 
