@@ -67,6 +67,9 @@ export default function Home() {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   // 현재 Phase의 핵심 징후(gate) 도달 시점 추적. dwell 체류 판정에 사용.
   const holdRef = useRef<{ phaseId: number; reachedAt: number } | null>(null);
+  // 전체 화면 캡처(📷): 앱 루트 요소 + Cesium 캡처 함수를 보관.
+  const rootRef = useRef<HTMLDivElement>(null);
+  const captureFnRef = useRef<(() => string | null) | null>(null);
 
   // 각 이벤트가 "발생"하는 순간(재생 시각이 timestamp를 넘을 때) 상단에 모달을 띄우고
   // 3초 후 자동으로 감춘다.
@@ -314,6 +317,115 @@ export default function Home() {
     setSpeed(s);
   };
 
+  // Phase description 에서 D-day 구간 라벨 추출 (Timeline.phaseDday 와 동일 정규식).
+  // 캡처 파일명에 단계별 D-day 를 포함하기 위해 사용.
+  function capturePhaseDday(description: string): string | null {
+    const m = description.match(/([DH][+\-]\d+(?:\s*~\s*[DH]?[+\-]?\d+)?)/);
+    return m ? m[1].replace(/\s+/g, '') : null;
+  }
+
+  // 전체 화면 캡처(📷): Cesium WebGL 지도 + DOM(패널/타임라인/범례) 을 합성한 PNG 다운로드.
+  //  (a) CesiumMap 이 노출한 캡처 함수로 WebGL → dataURL 획득
+  //  (b) html2canvas 로 DOM 렌더 (지도 영역은 빈 캔버스)
+  //  (c) 두 결과를 canvas 에 합성 — DOM 위에 지도를 map container 의 boundingRect 위치에 덮어쓰기
+  //  (d) PNG 다운로드 (파일명: delphi-<phase>-<D-day>.png)
+  // Fallback: html2canvas 실패 시 Cesium 캔버스만 + 캡션(단계/D-day/p_launch) 을 그려 저장.
+  const handleCapture = async () => {
+    if (!rootRef.current) return;
+    const root = rootRef.current;
+
+    const phase = scenario.phases.find(
+      (p) => currentTime >= p.startTime && currentTime < p.endTime,
+    );
+    const phaseLabel = phase?.name ?? 'phase';
+    const dday = capturePhaseDday(phase?.description ?? '');
+    const pLaunch = Math.round((inferenceResult?.overallConfidence ?? 0) * 100);
+
+    const safe = (s: string) => s.replace(/[·/\s~]/g, '-');
+    const filename = `delphi-${safe(phaseLabel)}${dday ? '-' + dday : ''}.png`;
+
+    // (a) Cesium WebGL 캔버스 → dataURL (preserveDrawingBuffer: true 필수)
+    const mapDataUrl = captureFnRef.current?.() ?? null;
+
+    let canvas: HTMLCanvasElement;
+
+    try {
+      const { default: html2canvas } = await import('html2canvas');
+
+      // (b) DOM → canvas. WebGL 캔버스(Cesium)는 빈 영역으로 렌더링됨.
+      const domCanvas = await html2canvas(root, {
+        backgroundColor: '#0a0e1a',
+        useCORS: true,
+        scale: window.devicePixelRatio || 1,
+      });
+
+      // (c) 합성 캔버스 생성
+      canvas = document.createElement('canvas');
+      canvas.width = domCanvas.width;
+      canvas.height = domCanvas.height;
+      const ctx = canvas.getContext('2d')!;
+      ctx.drawImage(domCanvas, 0, 0);
+
+      // 지도 컨테이너 위치에 Cesium 캔버스 픽셀을 덮어쓰기
+      const mapContainer = root.querySelector('[data-capture-map]') as HTMLElement | null;
+      if (mapDataUrl && mapContainer) {
+        const mapImg = new Image();
+        await new Promise<void>((resolve) => {
+          mapImg.onload = () => resolve();
+          mapImg.onerror = () => resolve();
+          mapImg.src = mapDataUrl;
+        });
+        if (mapImg.width > 0 && mapImg.height > 0) {
+          const rootRect = root.getBoundingClientRect();
+          const mapRect = mapContainer.getBoundingClientRect();
+          const dpr = window.devicePixelRatio || 1;
+          ctx.drawImage(
+            mapImg,
+            (mapRect.left - rootRect.left) * dpr,
+            (mapRect.top - rootRect.top) * dpr,
+            mapRect.width * dpr,
+            mapRect.height * dpr,
+          );
+        }
+      }
+    } catch (err) {
+      // Fallback: html2canvas 실패 시 Cesium 캔버스만 캡처 + 캡션.
+      console.warn('Capture composite failed — falling back to map-only:', err);
+      if (!mapDataUrl) return;
+      const img = new Image();
+      await new Promise<void>((resolve) => {
+        img.onload = () => resolve();
+        img.onerror = () => resolve();
+        img.src = mapDataUrl;
+      });
+      canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height + 60;
+      const ctx = canvas.getContext('2d')!;
+      ctx.fillStyle = '#0a0e1a';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0);
+      ctx.fillStyle = '#f59e0b';
+      ctx.font = 'bold 16px sans-serif';
+      ctx.fillText(
+        `DELPHI — ${phaseLabel} (${dday ?? '—'}) · p_launch ${pLaunch}%`,
+        12,
+        img.height + 36,
+      );
+    }
+
+    // (d) PNG 다운로드
+    canvas.toBlob((blob) => {
+      if (!blob) return;
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.download = filename;
+      link.href = url;
+      link.click();
+      URL.revokeObjectURL(url);
+    }, 'image/png');
+  };
+
   // AI Copilot에 넘길 현재 상황 요약. 추론 결과·시나리오·경과 시간을 압축한다.
   const chatContext = useMemo(() => {
     // 랜딩 상태(activeScenario === null) — 시나리오 컨텍스트 대신 중립 프롬프트.
@@ -381,7 +493,7 @@ export default function Home() {
   }, [activeScenario]);
 
   return (
-    <div className="relative h-screen w-screen flex flex-col bg-[#0a0e1a]">
+    <div ref={rootRef} className="relative h-screen w-screen flex flex-col bg-[#0a0e1a]">
       {/* 이벤트 발생 알림 모달 (3초 후 자동 종료). key로 이벤트마다 재진입 애니메이션 */}
       <EventModal key={modalEvent?.id} event={modalEvent} onClose={() => setModalEvent(null)} />
 
@@ -389,12 +501,76 @@ export default function Home() {
       <ScenarioTopBar activeScenario={activeScenario} onSelect={handleScenarioChange} />
 
       {activeScenario === null ? (
-        /* 랜딩 상태: 시나리오 미선택. 지도·좌우 패널·하단 타임라인은 마운트하지 않는다. */
-        <div className="flex-1 flex flex-col items-center justify-center select-none">
-          <p className="text-gray-400 text-lg tracking-wide">재생할 시나리오를 선택하세요</p>
-          <p className="mt-1 text-gray-600 text-xs font-mono">
-            상단의 발사체 버튼을 눌러 시나리오를 시작합니다
-          </p>
+        /* 랜딩 상태: 시나리오 미선택. NL-COP 워드마크 + 시나리오 선택 카드. */
+        <div className="flex-1 flex flex-col items-center justify-center select-none relative overflow-hidden">
+          {/* 미세 그리드 배경 (외부 이미지 없이 CSS) */}
+          <div
+            className="absolute inset-0 pointer-events-none opacity-60"
+            style={{
+              backgroundImage:
+                'linear-gradient(rgba(59,130,246,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.04) 1px, transparent 1px)',
+              backgroundSize: '48px 48px',
+            }}
+          />
+          {/* 중앙 어닝 비네팅 */}
+          <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(10,14,26,0.95)_80%)]" />
+
+          {/* 콘텐츠 */}
+          <div className="relative z-10 text-center px-6">
+            {/* NL-COP 워드마크 */}
+            <h1 className="text-6xl font-black tracking-[0.18em] text-gray-100 [text-shadow:0_0_32px_rgba(59,130,246,0.25)]">
+              NL-COP
+            </h1>
+            <div className="mt-1 text-amber-400/50 text-[10px] font-mono tracking-[0.32em] uppercase">
+              Natural Language Common Operating Picture
+            </div>
+            <p className="mt-4 text-gray-400 text-sm break-keep">
+              다출처 첩보 융합 · 자연어 보고 · 실시간 발사 징후 분석
+            </p>
+
+            {/* 시나리오 선택 카드 */}
+            <div className="mt-10 mx-auto max-w-lg">
+              <p className="text-[10px] text-gray-600 font-mono uppercase tracking-widest mb-3 text-left px-1">
+                시나리오 선택
+              </p>
+              <div className="rounded-lg border border-gray-700/50 bg-[#0d1117]/80 backdrop-blur-sm p-4 shadow-[0_8px_40px_rgba(0,0,0,0.6)]">
+                {/* 발사체 (동창리) — 유일하게 구현됨 */}
+                <button
+                  onClick={() => handleScenarioChange('scenario-a')}
+                  className="w-full p-3.5 rounded-md border border-amber-600/40 bg-amber-950/20 hover:bg-amber-900/30 hover:border-amber-500/60 transition-all text-left group"
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-2">
+                        <svg className="w-4 h-4 text-amber-400 shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 2L8 8h3v6h2V8h3l-4-6zm-7 14v6h14v-6c0-2-1-4-3-5l-2 2c1 1 2 2 2 3H7c0-1 1-2 2-3l-2-2c-2 1-3 3-3 5z" />
+                        </svg>
+                        <span className="text-amber-300 font-bold text-sm">발사체 (동창리)</span>
+                        <span className="text-[8px] text-amber-500/70 px-1 py-0.5 rounded border border-amber-700/40 font-mono">ACTIVE</span>
+                      </div>
+                      <p className="mt-1 text-[11px] text-gray-500 break-keep">
+                        천리마-1형 · 만리경-1호 정찰위성 발사 징후 — D-90 부터 D+1 까지
+                      </p>
+                    </div>
+                    <span className="text-amber-500 text-xs font-mono group-hover:translate-x-0.5 transition-transform shrink-0 ml-2">▶</span>
+                  </div>
+                </button>
+
+                {/* 미구현 placeholder 그리드 */}
+                <div className="mt-3 grid grid-cols-3 gap-2">
+                  {['SRBM', '전시 SEAD/BDA', '해상', '공중', '사이버', '사이버(2)'].slice(0, 5).map((label) => (
+                    <div
+                      key={label}
+                      className="p-2.5 rounded-md border border-gray-800/70 bg-gray-900/20 flex flex-col items-center gap-0.5"
+                    >
+                      <span className="text-[11px] text-gray-600 font-mono">{label}</span>
+                      <span className="text-[8px] text-gray-700 px-1 rounded border border-gray-800 font-mono">미구현</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       ) : (
         <>
@@ -444,6 +620,7 @@ export default function Home() {
             currentTime={currentTime}
             destroyedAssets={destroyedAssets}
             custody={null}
+            onCaptureReady={(fn) => { captureFnRef.current = fn; }}
           />
           {/* 발사 확인 시 지도 위에 발사체 제원 모달 (하단바는 변경 없음) */}
           {showSpecModal && scenario.launch && (
@@ -507,6 +684,7 @@ export default function Home() {
         onPhaseClick={handlePhaseClick}
         onScenarioChange={handleScenarioChange}
         activeScenario={activeScenario}
+        onCapture={handleCapture}
       />
 
       {/* 발사 확인 화면전환 배너 (2.6초) */}
@@ -543,28 +721,34 @@ function ScenarioTopBar({
   const placeholders = ['SRBM', '전시 SEAD/BDA', '해상', '공중', '사이버'];
   return (
     <div className="shrink-0 flex items-center gap-2 px-4 py-1.5 bg-[#0d1117] border-b border-gray-800">
-      {/* 발사체(동창리) — 현재 유일하게 구현된 시나리오. 클릭 시 scenario-a 진입.
-          활성 시 기존 빨리감기 active 와 동일한 amber 액센트로 강조. */}
+      {/* 발사체(동창리) — 현재 유일하게 구현된 시나리오. 활성 시 amber 액센트 +
+          펄스 도트로 현재 선택됨을 명확히 표시. */}
       <button
         onClick={() => onSelect('scenario-a')}
         title="우주발사체(정찰위성) 발사 징후 — 동창리"
-        className={`h-7 px-3 flex items-center rounded border text-xs font-mono font-bold transition-all ${
+        className={`h-7 px-3 flex items-center gap-1.5 rounded border text-xs font-mono font-bold transition-all ${
           activeScenario === 'scenario-a'
-            ? 'bg-amber-500/20 border-amber-500/50 text-amber-400'
+            ? 'bg-amber-500/20 border-amber-500/60 text-amber-300 shadow-[0_0_10px_rgba(251,191,36,0.2)]'
             : 'bg-gray-800 border-gray-700 text-gray-300 hover:border-gray-500'
         }`}
       >
+        {activeScenario === 'scenario-a' && (
+          <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse shrink-0" />
+        )}
         발사체 (동창리)
       </button>
-      {/* 미구현 시나리오 — 비활성 placeholder. 회색 + 클릭 차단. */}
+      {/* 미구현 시나리오 — 비활성 placeholder. "미구현" 배지로 disabled 상태 명시. */}
       {placeholders.map((label) => (
         <button
           key={label}
           disabled
           title="미구현"
-          className="h-7 px-3 flex items-center rounded border text-xs font-mono bg-gray-800/50 border-gray-800 text-gray-500 opacity-50 cursor-not-allowed"
+          className="h-7 px-2.5 flex items-center gap-1 rounded border text-xs font-mono bg-gray-800/40 border-gray-800 text-gray-600 cursor-not-allowed"
         >
           {label}
+          <span className="text-[7px] text-gray-700 px-0.5 py-px rounded border border-gray-800 font-mono leading-none">
+            미구현
+          </span>
         </button>
       ))}
     </div>
@@ -574,30 +758,30 @@ function ScenarioTopBar({
 function MapLegend() {
   return (
     <div className="absolute bottom-4 left-3 z-10 pointer-events-none">
-      <div className="bg-[#0a0e1a]/85 backdrop-blur-sm border border-gray-700/60 rounded-md px-3 py-2.5 min-w-[160px]">
-        <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">범례</p>
+      <div className="bg-[#0a0e1a]/85 backdrop-blur-sm border border-gray-700/60 rounded-md px-4 py-3.5 min-w-[185px]">
+        <p className="text-[11px] font-bold text-gray-500 uppercase tracking-widest mb-2.5">범례</p>
 
         {/* 마커 */}
-        <div className="flex flex-col gap-1.5">
+        <div className="flex flex-col gap-2">
           <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-red-500 shrink-0" />
-            <span className="text-[11px] text-gray-300">적 미사일 시설</span>
+            <span className="w-3 h-3 rounded-full bg-red-500 shrink-0" />
+            <span className="text-xs text-gray-300">적 미사일 시설</span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-orange-400 shrink-0" />
-            <span className="text-[11px] text-gray-300">이동식 발사대 (TEL)</span>
+            <span className="w-3 h-3 rounded-full bg-orange-400 shrink-0" />
+            <span className="text-xs text-gray-300">이동식 발사대 (TEL)</span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-yellow-400 shrink-0" />
-            <span className="text-[11px] text-gray-300">방공망 (SAM)</span>
+            <span className="w-3 h-3 rounded-full bg-yellow-400 shrink-0" />
+            <span className="text-xs text-gray-300">방공망 (SAM)</span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-blue-400 shrink-0" />
-            <span className="text-[11px] text-gray-300">아군 감시자산</span>
+            <span className="w-3 h-3 rounded-full bg-blue-400 shrink-0" />
+            <span className="text-xs text-gray-300">아군 감시자산</span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 shrink-0" />
-            <span className="text-[11px] text-gray-300">아군 지휘통제</span>
+            <span className="w-3 h-3 rounded-full bg-cyan-400 shrink-0" />
+            <span className="text-xs text-gray-300">아군 지휘통제</span>
           </div>
 
           {/* 구분선 */}
@@ -608,19 +792,19 @@ function MapLegend() {
             <svg width="20" height="8" className="shrink-0">
               <line x1="0" y1="4" x2="20" y2="4" stroke="#ef4444" strokeWidth="1.5" strokeDasharray="4 2" />
             </svg>
-            <span className="text-[11px] text-gray-300">발사 궤적</span>
+            <span className="text-xs text-gray-300">발사 궤적</span>
           </div>
           <div className="flex items-center gap-2">
             <svg width="20" height="8" className="shrink-0">
               <line x1="0" y1="4" x2="20" y2="4" stroke="#f59e0b" strokeWidth="1.5" strokeDasharray="4 2" />
             </svg>
-            <span className="text-[11px] text-gray-300">의심 이동경로</span>
+            <span className="text-xs text-gray-300">의심 이동경로</span>
           </div>
           <div className="flex items-center gap-2">
             <svg width="20" height="8" className="shrink-0">
               <line x1="0" y1="4" x2="20" y2="4" stroke="#3b82f6" strokeWidth="1.5" strokeDasharray="3 3" />
             </svg>
-            <span className="text-[11px] text-gray-300">아군 작전반경</span>
+            <span className="text-xs text-gray-300">아군 작전반경</span>
           </div>
 
           {/* 구분선 */}
@@ -628,7 +812,7 @@ function MapLegend() {
 
           <div className="flex items-center gap-2">
             <span className="text-red-400 text-xs leading-none shrink-0">▲</span>
-            <span className="text-[11px] text-gray-300">경계/위험 징후</span>
+            <span className="text-xs text-gray-300">경계/위험 징후</span>
           </div>
         </div>
       </div>

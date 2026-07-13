@@ -248,9 +248,9 @@ function ScenarioBlock({ hypothesisId, posterior, pLaunch, scenario, events, cur
         </h2>
       </div>
 
-      {/* Compact live gauge */}
-      <div className="px-3 pt-3 shrink-0">
-        <div className="flex items-baseline justify-between mb-1">
+      {/* Compact live gauge — 게이지와 단계 목록의 계층 분리 */}
+      <div className="px-3 pt-3 pb-3 shrink-0">
+        <div className="flex items-baseline justify-between mb-1.5">
           <span className="text-[11px] text-gray-500 uppercase tracking-wider">발사 임박도 (p_launch)</span>
         </div>
         <div className="flex items-end gap-2">
@@ -269,8 +269,9 @@ function ScenarioBlock({ hypothesisId, posterior, pLaunch, scenario, events, cur
         </div>
       </div>
 
-      {/* Vertical stage timeline */}
-      <div className="px-3 py-3">
+      {/* 단계별 징후 시퀀스 — 게이지와 구분되는 섹션 */}
+      <div className="px-3 py-3 border-t border-gray-800/40">
+        <p className="text-[9px] text-gray-600 font-mono uppercase tracking-widest mb-2.5">발사 시퀀스</p>
         <div className="flex flex-col">
           {stages.map((s: any, i: number) => {
             const style = s.reached ? riskFor(s.prob, s.isLaunch && s.reached) : FUTURE;
@@ -286,14 +287,14 @@ function ScenarioBlock({ hypothesisId, posterior, pLaunch, scenario, events, cur
                     }`}
                   />
                   {!isLast && (
-                    <div className={`w-0.5 flex-1 my-1 rounded-full ${s.completed ? style.line : 'bg-gray-800'}`} />
+                    <div className={`w-0.5 flex-1 my-1.5 rounded-full ${s.completed ? style.line : 'bg-gray-800'}`} />
                   )}
                 </div>
 
                 {/* Content */}
-                <div className="text-left flex-1 pb-3">
+                <div className="text-left flex-1 pb-4 min-w-0">
                   <div className="flex items-center justify-between gap-2">
-                    <span className={`text-sm font-bold leading-tight ${style.name} ${s.active ? 'tracking-wide' : ''}`}>
+                    <span className={`text-sm font-bold leading-tight break-keep ${style.name} ${s.active ? 'tracking-wide' : ''}`}>
                       {s.phase.name}
                       {s.active && <span className="ml-1.5 text-[9px] font-normal text-amber-400/80">◀ 현재</span>}
                       {s.isLaunch && s.reached && (
@@ -324,7 +325,7 @@ function ScenarioBlock({ hypothesisId, posterior, pLaunch, scenario, events, cur
 
                   {/* Expanded intel items (항상 노출) */}
                   {hasEvents && (
-                    <div className="mt-1.5 space-y-1 border-l border-gray-700/50 pl-2">
+                    <div className="mt-2 space-y-1.5 border-l border-gray-700/50 pl-2.5">
                       {s.inWindow.map((e: any) => {
                         const seen = e.timestamp <= currentTime;
                         return (

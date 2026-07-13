@@ -11,6 +11,10 @@ interface CesiumMapProps {
   destroyedAssets: string[];
   // 발사(H-0) 이후 커스터디 추적 상태. null이면 평시 지도.
   custody?: { launch: LaunchConfig; progress: number } | null;
+  // Cesium Viewer 가 준비되면 캡처 함수를 상위(page.tsx)로 노출.
+  // viewer.scene.render() + canvas.toDataURL('image/png') 로 WebGL 픽셀을 반환.
+  // preserveDrawingBuffer: true 가 필요 (아래 Viewer 생성 시 contextOptions).
+  onCaptureReady?: (capture: () => string | null) => void;
 }
 
 // Asset-type → marker symbol
@@ -350,7 +354,7 @@ async function loadFriendlyFormations(): Promise<FriendlyFormation[]> {
   return friendlyFormationsCache;
 }
 
-export default function CesiumMap({ scenario, currentTime, destroyedAssets, custody }: CesiumMapProps) {
+export default function CesiumMap({ scenario, currentTime, destroyedAssets, custody, onCaptureReady }: CesiumMapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const viewerRef = useRef<any>(null);
   const cesiumRef = useRef<any>(null);
@@ -363,6 +367,9 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets, cust
   // hover 중인 라벨 ID를 declutter 패스와 공유 — declutter가 show=false로
   // 덮어써 hover 라벨이 숨겨지는 충돌을 막기 위함.
   const hoveredLabelRef = useRef<string | null>(null);
+  // onCaptureReady prop 을 ref 로 보관 — init useEffect([]) 에서 안전하게 참조.
+  const onCaptureReadyRef = useRef(onCaptureReady);
+  onCaptureReadyRef.current = onCaptureReady;
   // Latest currentTime, read by the entity-build effect (which isn't keyed on it)
   // to set the initial visibility of time-gated observation markers.
   const currentTimeRef = useRef(currentTime);
@@ -415,6 +422,11 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets, cust
           baseLayer,
           // Flat 2D map (still CesiumJS) instead of the 3D globe.
           sceneMode: Cesium.SceneMode.SCENE2D,
+          // preserveDrawingBuffer: true — WebGL 캔버스 픽셀을 toDataURL() 로 읽을 수 있게
+          // 유지. 전체 화면 캡처(📷)에서 Cesium 지도를 PNG로 합성할 때 필수.
+          contextOptions: {
+            webgl: { preserveDrawingBuffer: true },
+          },
         });
 
         // Render at the device pixel ratio — Cesium defaults to CSS pixels,
@@ -447,6 +459,17 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets, cust
         }
         viewerRef.current = viewer;
         setLoaded(true);
+
+        // 전체 화면 캡처(📷)를 위해 Cesium WebGL 캔버스를 dataURL 로 반환하는 함수를
+        // 상위(page.tsx)로 노출. preserveDrawingBuffer: true 가 있어야 픽셀이 보존됨.
+        onCaptureReadyRef.current?.(() => {
+          try {
+            viewer.scene.render();
+            return viewer.canvas.toDataURL('image/png');
+          } catch {
+            return null;
+          }
+        });
 
         // 라벨 hover 토글: 기본 숨김, 마우스 오버한 엔티티의 -label 만 노출.
         const hoverHandler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
@@ -1065,7 +1088,7 @@ export default function CesiumMap({ scenario, currentTime, destroyedAssets, cust
 
   return (
     <div className="relative w-full h-full">
-      <div ref={containerRef} className="w-full h-full" />
+      <div ref={containerRef} className="w-full h-full" data-capture-map />
       {!loaded && (
         <div className="absolute inset-0 flex items-center justify-center bg-[#0a0e1a]">
           <div className="text-center">
